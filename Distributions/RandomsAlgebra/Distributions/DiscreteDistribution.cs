@@ -40,7 +40,7 @@ namespace RandomsAlgebra.Distributions
         /// </summary>
         /// <param name="continiousDistribution">Sampled <see cref="ContinuousDistribution"/></param>
         /// <param name="samples">Samples count</param>
-        public DiscreteDistribution(ContinuousDistribution continiousDistribution, int samples) : this(DiscretzeContinious(continiousDistribution, samples))
+        public DiscreteDistribution(ContinuousDistribution continiousDistribution, int samples) : this(DiscretizeContinious(continiousDistribution, samples))
         {
 
         }
@@ -129,7 +129,7 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Функции, используемые в конструкторах
+        #region Constructor functions
         private static double Normalize(double[] yCoordinates, double step)
         {
             int l = yCoordinates.Length;
@@ -155,6 +155,7 @@ namespace RandomsAlgebra.Distributions
 
             return scale;
         }
+
         private static void ReplaceInvalidValues(double[] arr)
         {
             int l = arr.Length;
@@ -189,10 +190,10 @@ namespace RandomsAlgebra.Distributions
             }
         }
 
-        private static PrivateCoordinates DiscretzeContinious(ContinuousDistribution continiousDistribution, int samples)
+        private static PrivateCoordinates DiscretizeContinious(ContinuousDistribution continiousDistribution, int samples)
         {
-            if (samples < 1)
-                throw new ArgumentException("Частота дискретизации должна быть положительным числом больше 1");
+            if (samples < 2)
+                throw new DistributionsArgumentException("Samples count must be greater then 2", "Число отсчётов должно быть больше 2");
 
             if (continiousDistribution == null)
                 throw new ArgumentNullException(nameof(continiousDistribution));
@@ -211,9 +212,9 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Координаты значений и их параметры
+        #region Coordinates
         /// <summary>
-        /// Аргументы функций распределения и плотности вероятности
+        /// Arguments of distribution function and probability density
         /// </summary>
         public ReadOnlyCollection<double> FunctionArguments
         {
@@ -227,7 +228,7 @@ namespace RandomsAlgebra.Distributions
             }
         }
         /// <summary>
-        /// Дискретные значения функции плоности вероятности по аргументам <see cref="FunctionArguments"/>
+        /// Sampled values of probability density by arguments <see cref="FunctionArguments"/>
         /// </summary>
         public ReadOnlyCollection<double> ProbabilityDensityValues
         {
@@ -242,7 +243,7 @@ namespace RandomsAlgebra.Distributions
         }
 
         /// <summary>
-        /// Дискретные значения функции распределения по аргументам <see cref="FunctionArguments"/>
+        /// Sampled values of distribution function by arguments <see cref="FunctionArguments"/>
         /// </summary>
         public ReadOnlyCollection<double> CumulativeDistributionValues
         {
@@ -303,7 +304,7 @@ namespace RandomsAlgebra.Distributions
 
         #endregion
 
-        #region Переопределение параметров распределения
+        #region Override settings
         internal override double InnerMinX
         {
             get
@@ -390,9 +391,7 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Переопределение функций распределения
-
-
+        #region Override functions
         internal override double InnerGetPDFYbyX(double x)
         {
             return GetYByX(x, YCoordinatesInternal);
@@ -470,7 +469,7 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Алгебра случайных величин
+        #region Randoms algebra
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
@@ -495,7 +494,7 @@ namespace RandomsAlgebra.Distributions
                         }
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -523,7 +522,7 @@ namespace RandomsAlgebra.Distributions
                         }
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -544,7 +543,7 @@ namespace RandomsAlgebra.Distributions
                         return DiscreteRandomsMath.Multiply(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -565,7 +564,7 @@ namespace RandomsAlgebra.Distributions
                         return DiscreteRandomsMath.Divide(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -587,7 +586,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 default:
                     {
-                        throw new InvalidOperationException();
+                        throw new DistributionsInvalidOperationException();
                     }
             }
         }
@@ -610,7 +609,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 default:
                     {
-                        throw new InvalidOperationException();
+                        throw new DistributionsInvalidOperationException();
                     }
             }
         }

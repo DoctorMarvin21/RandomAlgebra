@@ -347,7 +347,7 @@ namespace RandomsAlgebra.Distributions
                         return ContinuousRandomsMath.Add(this, (double)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -375,7 +375,7 @@ namespace RandomsAlgebra.Distributions
                         return ContinuousRandomsMath.Sub(this, (double)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -396,7 +396,7 @@ namespace RandomsAlgebra.Distributions
                         return ContinuousRandomsMath.Multiply(this, (double)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -417,7 +417,7 @@ namespace RandomsAlgebra.Distributions
                         return ContinuousRandomsMath.Divide(this, (double)value);
                     }
                 default:
-                    throw new InvalidOperationException();
+                    throw new DistributionsInvalidOperationException();
             }
         }
 
@@ -439,7 +439,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 default:
                     {
-                        throw new InvalidOperationException();
+                        throw new DistributionsInvalidOperationException();
                     }
             }
         }
@@ -462,7 +462,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 default:
                     {
-                        throw new InvalidOperationException();
+                        throw new DistributionsInvalidOperationException();
                     }
             }
         }
