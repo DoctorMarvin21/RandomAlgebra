@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributionsGTK", "DistributionsGTK\DistributionsGTK.csproj", "{8B8C1CD5-F429-4465-8025-79F574165090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomsAlgebra", "RandomsAlgebra\RandomsAlgebra.csproj", "{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B8C1CD5-F429-4465-8025-79F574165090}.Debug|x86.ActiveCfg = Debug|x86
+		{8B8C1CD5-F429-4465-8025-79F574165090}.Debug|x86.Build.0 = Debug|x86
+		{8B8C1CD5-F429-4465-8025-79F574165090}.Release|x86.ActiveCfg = Release|x86
+		{8B8C1CD5-F429-4465-8025-79F574165090}.Release|x86.Build.0 = Release|x86
+		{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}.Debug|x86.ActiveCfg = Debug|x86
+		{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}.Debug|x86.Build.0 = Debug|x86
+		{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}.Release|x86.ActiveCfg = Release|x86
+		{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F735FCF8-C902-46DC-8E7A-8BA0BC3CAE32}
+	EndGlobalSection
+EndGlobal

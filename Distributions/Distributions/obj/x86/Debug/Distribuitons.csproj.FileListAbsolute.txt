@@ -1,0 +1,367 @@
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Projects\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Google Диск\Its science\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Documents\Distribuitons\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Desktop\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.xml
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Distribuitons.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.pdb
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\RandomsAlgebra.dll.config
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ZedGraph.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Statistics.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\Accord.Math.Core.xml
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csprojAssemblyReference.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.OptimizationsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.CommonDistributionSettingsForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.DistributionForm.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.Properties.Resources.resources
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.GenerateResource.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CoreCompileInputs.cache
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.csproj.CopyComplete
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.exe
+C:\Users\Евгений Зайцев\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.pdb
+C:\Users\РТИ\Google Диск\Its science\DistribuitonsNow\Distribuitons\obj\x86\Debug\Distribuitons.MultivariateDistributionSettingsForm.resources

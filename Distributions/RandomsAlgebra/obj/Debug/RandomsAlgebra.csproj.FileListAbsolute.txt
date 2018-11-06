@@ -1,0 +1,48 @@
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll.config
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.xml
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CopyComplete
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\source\repos\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csprojAssemblyReference.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll.config
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.pdb
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.xml
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csprojAssemblyReference.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CoreCompileInputs.cache
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CopyComplete
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.dll
+C:\Users\Евгений Зайцев\Desktop\Its science\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csprojAssemblyReference.cache
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CoreCompileInputs.cache
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll.config
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\RandomsAlgebra.pdb
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.dll
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Math.Core.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\bin\Debug\Accord.Statistics.xml
+C:\Users\РТИ\Documents\Visual Studio 2017\Projects\Distribuitons\RandomsAlgebra\obj\Debug\RandomsAlgebra.csproj.CopyComplete
