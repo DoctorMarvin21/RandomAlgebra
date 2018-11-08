@@ -132,15 +132,40 @@ namespace RandomsAlgebra.Distributions
         public DistributionType DistributionType { get { return InnerDistributionType; } }
 
         /// <summary>
-        /// Two-sided quantile (confidence interval)
+        /// Upper quantile as (p+1)/2
         /// </summary>
         /// <param name="p">Probability in range [0, 1]</param>
-        /// <returns>Two-sided quantile</returns>
-        public double DoubleSidedQuantile(double p)
+        /// <returns>Upper quantile</returns>
+        public double QuantileUpper(double p)
         {
-            double pn = (p + 1) / 2d;
-            return Quantile(pn);
 
+            double pc = (p + 1) / 2d;
+            return Quantile(pc);
+        }
+
+        /// <summary>
+        /// Lower quantile as (1-p)/2
+        /// </summary>
+        /// <param name="p">Probability in range [0, 1]</param>
+        /// <returns>Lower quantile</returns>
+        public double QuantileLower(double p)
+        {
+
+            double pc = (1 - p) / 2d;
+            return Quantile(pc);
+        }
+
+        /// <summary>
+        /// Mean between upper and lower quantiles
+        /// </summary>
+        /// <param name="p">Probability in range [0, 1]</param>
+        /// <returns>Quantile range</returns>
+        public double QuantileRange(double p)
+        {
+            double pHigh = (p + 1) / 2d;
+            double pLow = (1 - p) / 2d;
+
+            return (Quantile(pHigh) - Quantile(pLow)) / 2d;
         }
 
         /// <summary>

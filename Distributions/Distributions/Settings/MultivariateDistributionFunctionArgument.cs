@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distribuitons
+namespace Distributions
 {
     public class MultivariateDistributionFunctionArgument
     {
@@ -38,7 +38,7 @@ namespace Distribuitons
         {
             get
             {
-                return Multilanguage.GetText(MultivariateDistributionSettings.GetType().Name);
+                return Languages.GetText(MultivariateDistributionSettings.GetType().Name);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Distribuitons
+﻿namespace Distributions
 {
     partial class CommonDistributionSettingsForm
     {
@@ -65,7 +65,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Отмена";
+            this.btnCancel.Text = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -75,7 +75,7 @@
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "OK";
+            this.btnOk.Text = "btnOk";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -117,7 +117,7 @@
             this.txtParameter0.Location = new System.Drawing.Point(8, 21);
             this.txtParameter0.Name = "txtParameter0";
             this.txtParameter0.Size = new System.Drawing.Size(187, 20);
-            this.txtParameter0.TabIndex = 1;
+            this.txtParameter0.TabIndex = 0;
             this.txtParameter0.Text = "0";
             this.txtParameter0.Visible = false;
             // 
@@ -127,7 +127,7 @@
             this.lbParameter1.Location = new System.Drawing.Point(8, 44);
             this.lbParameter1.Name = "lbParameter1";
             this.lbParameter1.Size = new System.Drawing.Size(64, 13);
-            this.lbParameter1.TabIndex = 2;
+            this.lbParameter1.TabIndex = 0;
             this.lbParameter1.Text = "Parameter 1";
             this.lbParameter1.Visible = false;
             // 
@@ -136,7 +136,7 @@
             this.txtParameter1.Location = new System.Drawing.Point(8, 60);
             this.txtParameter1.Name = "txtParameter1";
             this.txtParameter1.Size = new System.Drawing.Size(187, 20);
-            this.txtParameter1.TabIndex = 3;
+            this.txtParameter1.TabIndex = 1;
             this.txtParameter1.Text = "0";
             this.txtParameter1.Visible = false;
             // 
@@ -146,7 +146,7 @@
             this.lbParameter2.Location = new System.Drawing.Point(8, 83);
             this.lbParameter2.Name = "lbParameter2";
             this.lbParameter2.Size = new System.Drawing.Size(64, 13);
-            this.lbParameter2.TabIndex = 4;
+            this.lbParameter2.TabIndex = 0;
             this.lbParameter2.Text = "Parameter 2";
             this.lbParameter2.Visible = false;
             // 
@@ -155,7 +155,7 @@
             this.txtParameter2.Location = new System.Drawing.Point(8, 99);
             this.txtParameter2.Name = "txtParameter2";
             this.txtParameter2.Size = new System.Drawing.Size(187, 20);
-            this.txtParameter2.TabIndex = 5;
+            this.txtParameter2.TabIndex = 2;
             this.txtParameter2.Text = "0";
             this.txtParameter2.Visible = false;
             // 
@@ -165,7 +165,7 @@
             this.lbParameter3.Location = new System.Drawing.Point(8, 122);
             this.lbParameter3.Name = "lbParameter3";
             this.lbParameter3.Size = new System.Drawing.Size(64, 13);
-            this.lbParameter3.TabIndex = 6;
+            this.lbParameter3.TabIndex = 0;
             this.lbParameter3.Text = "Parameter 3";
             this.lbParameter3.Visible = false;
             // 
@@ -174,7 +174,7 @@
             this.txtParameter3.Location = new System.Drawing.Point(8, 138);
             this.txtParameter3.Name = "txtParameter3";
             this.txtParameter3.Size = new System.Drawing.Size(187, 20);
-            this.txtParameter3.TabIndex = 7;
+            this.txtParameter3.TabIndex = 3;
             this.txtParameter3.Text = "0";
             this.txtParameter3.Visible = false;
             // 
@@ -184,7 +184,7 @@
             this.lbParameter4.Location = new System.Drawing.Point(8, 161);
             this.lbParameter4.Name = "lbParameter4";
             this.lbParameter4.Size = new System.Drawing.Size(64, 13);
-            this.lbParameter4.TabIndex = 8;
+            this.lbParameter4.TabIndex = 0;
             this.lbParameter4.Text = "Parameter 4";
             this.lbParameter4.Visible = false;
             // 
@@ -193,7 +193,7 @@
             this.txtParameter4.Location = new System.Drawing.Point(8, 177);
             this.txtParameter4.Name = "txtParameter4";
             this.txtParameter4.Size = new System.Drawing.Size(187, 20);
-            this.txtParameter4.TabIndex = 9;
+            this.txtParameter4.TabIndex = 4;
             this.txtParameter4.Text = "0";
             this.txtParameter4.Visible = false;
             // 

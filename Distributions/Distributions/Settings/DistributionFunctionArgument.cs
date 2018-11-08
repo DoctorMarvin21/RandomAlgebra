@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Distribuitons
+namespace Distributions
 {
     public class DistributionFunctionArgument
     {
@@ -74,7 +74,7 @@ namespace Distribuitons
         public DisplayNameAndSettingType(Type settingType)
         {
             SettingsType = settingType;
-            Name = Multilanguage.GetText(settingType.Name);
+            Name = Languages.GetText(settingType.Name);
         }
 
         static DisplayNameAndSettingType()

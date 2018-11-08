@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Distribuitons.Properties {
+namespace Distributions.Properties {
     using System;
     
     

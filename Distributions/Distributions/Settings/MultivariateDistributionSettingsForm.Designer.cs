@@ -1,4 +1,4 @@
-﻿namespace Distribuitons
+﻿namespace Distributions
 {
     partial class MultivariateDistributionSettingsForm
     {
@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.groupMatrixParameters = new System.Windows.Forms.GroupBox();
-            this.checkCovariationMatrix = new System.Windows.Forms.CheckBox();
             this.btnBuildTables = new System.Windows.Forms.Button();
             this.numericDimensions = new System.Windows.Forms.NumericUpDown();
             this.lbDimentions = new System.Windows.Forms.Label();
             this.comboDistributionType = new System.Windows.Forms.ComboBox();
             this.lbDistributionType = new System.Windows.Forms.Label();
-            this.dataGridSamples = new System.Windows.Forms.DataGridView();
-            this.groupSamples = new System.Windows.Forms.GroupBox();
+            this.dataGridMatrix = new System.Windows.Forms.DataGridView();
+            this.groupMatrix = new System.Windows.Forms.GroupBox();
             this.groupArguments = new System.Windows.Forms.GroupBox();
             this.dataGridArguments = new System.Windows.Forms.DataGridView();
             this.groupDistributionParameters = new System.Windows.Forms.GroupBox();
@@ -53,8 +52,8 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.groupMatrixParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDimensions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridSamples)).BeginInit();
-            this.groupSamples.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridMatrix)).BeginInit();
+            this.groupMatrix.SuspendLayout();
             this.groupArguments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridArguments)).BeginInit();
             this.groupDistributionParameters.SuspendLayout();
@@ -70,50 +69,37 @@
             // 
             // groupMatrixParameters
             // 
-            this.groupMatrixParameters.Controls.Add(this.checkCovariationMatrix);
             this.groupMatrixParameters.Controls.Add(this.btnBuildTables);
             this.groupMatrixParameters.Controls.Add(this.numericDimensions);
             this.groupMatrixParameters.Controls.Add(this.lbDimentions);
             this.groupMatrixParameters.Location = new System.Drawing.Point(3, 3);
             this.groupMatrixParameters.Name = "groupMatrixParameters";
-            this.groupMatrixParameters.Size = new System.Drawing.Size(187, 102);
+            this.groupMatrixParameters.Size = new System.Drawing.Size(157, 102);
             this.groupMatrixParameters.TabIndex = 0;
             this.groupMatrixParameters.TabStop = false;
-            this.groupMatrixParameters.Text = "Параметры матрицы";
-            // 
-            // checkCovariationMatrix
-            // 
-            this.checkCovariationMatrix.AutoSize = true;
-            this.checkCovariationMatrix.Checked = true;
-            this.checkCovariationMatrix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkCovariationMatrix.Location = new System.Drawing.Point(6, 19);
-            this.checkCovariationMatrix.Name = "checkCovariationMatrix";
-            this.checkCovariationMatrix.Size = new System.Drawing.Size(157, 17);
-            this.checkCovariationMatrix.TabIndex = 0;
-            this.checkCovariationMatrix.Text = "Ковариационная матрица";
-            this.checkCovariationMatrix.UseVisualStyleBackColor = true;
+            this.groupMatrixParameters.Text = "groupMatrixParameters";
             // 
             // btnBuildTables
             // 
             this.btnBuildTables.Location = new System.Drawing.Point(6, 70);
             this.btnBuildTables.Name = "btnBuildTables";
-            this.btnBuildTables.Size = new System.Drawing.Size(171, 23);
-            this.btnBuildTables.TabIndex = 2;
+            this.btnBuildTables.Size = new System.Drawing.Size(143, 23);
+            this.btnBuildTables.TabIndex = 1;
             this.btnBuildTables.Text = "Сформировать";
             this.btnBuildTables.UseVisualStyleBackColor = true;
             this.btnBuildTables.Click += new System.EventHandler(this.btnBuildTables_Click);
             // 
             // numericDimensions
             // 
-            this.numericDimensions.Location = new System.Drawing.Point(77, 39);
+            this.numericDimensions.Location = new System.Drawing.Point(9, 32);
             this.numericDimensions.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numericDimensions.Name = "numericDimensions";
-            this.numericDimensions.Size = new System.Drawing.Size(100, 20);
-            this.numericDimensions.TabIndex = 1;
+            this.numericDimensions.Size = new System.Drawing.Size(140, 20);
+            this.numericDimensions.TabIndex = 0;
             this.numericDimensions.Value = new decimal(new int[] {
             2,
             0,
@@ -123,7 +109,7 @@
             // lbDimentions
             // 
             this.lbDimentions.AutoSize = true;
-            this.lbDimentions.Location = new System.Drawing.Point(6, 41);
+            this.lbDimentions.Location = new System.Drawing.Point(6, 16);
             this.lbDimentions.Name = "lbDimentions";
             this.lbDimentions.Size = new System.Drawing.Size(65, 13);
             this.lbDimentions.TabIndex = 0;
@@ -135,8 +121,8 @@
             this.comboDistributionType.FormattingEnabled = true;
             this.comboDistributionType.Location = new System.Drawing.Point(7, 33);
             this.comboDistributionType.Name = "comboDistributionType";
-            this.comboDistributionType.Size = new System.Drawing.Size(155, 21);
-            this.comboDistributionType.TabIndex = 1;
+            this.comboDistributionType.Size = new System.Drawing.Size(150, 21);
+            this.comboDistributionType.TabIndex = 0;
             this.comboDistributionType.SelectedIndexChanged += new System.EventHandler(this.comboDistributionType_SelectedIndexChanged);
             // 
             // lbDistributionType
@@ -148,26 +134,28 @@
             this.lbDistributionType.TabIndex = 0;
             this.lbDistributionType.Text = "Вид распределения";
             // 
-            // dataGridSamples
+            // dataGridMatrix
             // 
-            this.dataGridSamples.AllowUserToResizeRows = false;
-            this.dataGridSamples.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridSamples.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridSamples.Location = new System.Drawing.Point(3, 16);
-            this.dataGridSamples.Name = "dataGridSamples";
-            this.dataGridSamples.Size = new System.Drawing.Size(493, 112);
-            this.dataGridSamples.TabIndex = 1;
+            this.dataGridMatrix.AllowUserToAddRows = false;
+            this.dataGridMatrix.AllowUserToDeleteRows = false;
+            this.dataGridMatrix.AllowUserToResizeRows = false;
+            this.dataGridMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridMatrix.Location = new System.Drawing.Point(3, 16);
+            this.dataGridMatrix.Name = "dataGridMatrix";
+            this.dataGridMatrix.Size = new System.Drawing.Size(493, 112);
+            this.dataGridMatrix.TabIndex = 0;
             // 
-            // groupSamples
+            // groupMatrix
             // 
-            this.groupSamples.Controls.Add(this.dataGridSamples);
-            this.groupSamples.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupSamples.Location = new System.Drawing.Point(3, 271);
-            this.groupSamples.Name = "groupSamples";
-            this.groupSamples.Size = new System.Drawing.Size(499, 131);
-            this.groupSamples.TabIndex = 2;
-            this.groupSamples.TabStop = false;
-            this.groupSamples.Text = "Данные";
+            this.groupMatrix.Controls.Add(this.dataGridMatrix);
+            this.groupMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupMatrix.Location = new System.Drawing.Point(3, 271);
+            this.groupMatrix.Name = "groupMatrix";
+            this.groupMatrix.Size = new System.Drawing.Size(499, 131);
+            this.groupMatrix.TabIndex = 0;
+            this.groupMatrix.TabStop = false;
+            this.groupMatrix.Text = "Данные";
             // 
             // groupArguments
             // 
@@ -176,7 +164,7 @@
             this.groupArguments.Location = new System.Drawing.Point(3, 195);
             this.groupArguments.Name = "groupArguments";
             this.groupArguments.Size = new System.Drawing.Size(499, 70);
-            this.groupArguments.TabIndex = 3;
+            this.groupArguments.TabIndex = 0;
             this.groupArguments.TabStop = false;
             this.groupArguments.Text = "Аргументы";
             // 
@@ -190,7 +178,7 @@
             this.dataGridArguments.Location = new System.Drawing.Point(3, 16);
             this.dataGridArguments.Name = "dataGridArguments";
             this.dataGridArguments.Size = new System.Drawing.Size(493, 51);
-            this.dataGridArguments.TabIndex = 1;
+            this.dataGridArguments.TabIndex = 0;
             // 
             // groupDistributionParameters
             // 
@@ -198,12 +186,12 @@
             this.groupDistributionParameters.Controls.Add(this.lbDegreesOfFreedom);
             this.groupDistributionParameters.Controls.Add(this.lbDistributionType);
             this.groupDistributionParameters.Controls.Add(this.comboDistributionType);
-            this.groupDistributionParameters.Location = new System.Drawing.Point(196, 3);
+            this.groupDistributionParameters.Location = new System.Drawing.Point(166, 3);
             this.groupDistributionParameters.Name = "groupDistributionParameters";
-            this.groupDistributionParameters.Size = new System.Drawing.Size(168, 102);
-            this.groupDistributionParameters.TabIndex = 4;
+            this.groupDistributionParameters.Size = new System.Drawing.Size(166, 102);
+            this.groupDistributionParameters.TabIndex = 1;
             this.groupDistributionParameters.TabStop = false;
-            this.groupDistributionParameters.Text = "Параметры распределения";
+            this.groupDistributionParameters.Text = "groupDistributionParameters";
             // 
             // numericDegreesOfFreedom
             // 
@@ -221,10 +209,10 @@
             0,
             0});
             this.numericDegreesOfFreedom.Name = "numericDegreesOfFreedom";
-            this.numericDegreesOfFreedom.Size = new System.Drawing.Size(155, 20);
+            this.numericDegreesOfFreedom.Size = new System.Drawing.Size(150, 20);
             this.numericDegreesOfFreedom.TabIndex = 2;
             this.numericDegreesOfFreedom.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -245,7 +233,7 @@
             this.groupMeans.Location = new System.Drawing.Point(3, 408);
             this.groupMeans.Name = "groupMeans";
             this.groupMeans.Size = new System.Drawing.Size(499, 70);
-            this.groupMeans.TabIndex = 3;
+            this.groupMeans.TabIndex = 0;
             this.groupMeans.TabStop = false;
             this.groupMeans.Text = "Средние значения";
             // 
@@ -259,7 +247,7 @@
             this.dataGridMeans.Location = new System.Drawing.Point(3, 16);
             this.dataGridMeans.Name = "dataGridMeans";
             this.dataGridMeans.Size = new System.Drawing.Size(493, 51);
-            this.dataGridMeans.TabIndex = 1;
+            this.dataGridMeans.TabIndex = 0;
             // 
             // tableMain
             // 
@@ -269,7 +257,7 @@
             this.tableMain.Controls.Add(this.panelParameters, 0, 0);
             this.tableMain.Controls.Add(this.groupMeans, 0, 4);
             this.tableMain.Controls.Add(this.groupArguments, 0, 2);
-            this.tableMain.Controls.Add(this.groupSamples, 0, 3);
+            this.tableMain.Controls.Add(this.groupMatrix, 0, 3);
             this.tableMain.Controls.Add(this.PanelControl, 0, 5);
             this.tableMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableMain.Location = new System.Drawing.Point(0, 0);
@@ -282,7 +270,7 @@
             this.tableMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableMain.Size = new System.Drawing.Size(505, 516);
-            this.tableMain.TabIndex = 5;
+            this.tableMain.TabIndex = 0;
             // 
             // groupCoeff
             // 
@@ -291,7 +279,7 @@
             this.groupCoeff.Location = new System.Drawing.Point(3, 119);
             this.groupCoeff.Name = "groupCoeff";
             this.groupCoeff.Size = new System.Drawing.Size(499, 70);
-            this.groupCoeff.TabIndex = 4;
+            this.groupCoeff.TabIndex = 0;
             this.groupCoeff.TabStop = false;
             this.groupCoeff.Text = "Коэффициенты";
             // 
@@ -305,7 +293,7 @@
             this.dataGridCoeff.Location = new System.Drawing.Point(3, 16);
             this.dataGridCoeff.Name = "dataGridCoeff";
             this.dataGridCoeff.Size = new System.Drawing.Size(493, 51);
-            this.dataGridCoeff.TabIndex = 1;
+            this.dataGridCoeff.TabIndex = 0;
             // 
             // panelParameters
             // 
@@ -334,8 +322,8 @@
             this.btnCancel.Location = new System.Drawing.Point(421, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Отмена";
+            this.btnCancel.TabIndex = 1;
+            this.btnCancel.Text = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -344,27 +332,27 @@
             this.btnOk.Location = new System.Drawing.Point(340, 3);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 4;
-            this.btnOk.Text = "OK";
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "btnOk";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // MultivariateDistributionsForm
+            // MultivariateDistributionSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(505, 516);
             this.Controls.Add(this.tableMain);
-            this.Name = "MultivariateDistributionsForm";
+            this.Name = "MultivariateDistributionSettingsForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Параметры многомерного распределения";
+            this.Text = "MultivariateDistributionSettingsForm";
             this.groupMatrixParameters.ResumeLayout(false);
             this.groupMatrixParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDimensions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridSamples)).EndInit();
-            this.groupSamples.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridMatrix)).EndInit();
+            this.groupMatrix.ResumeLayout(false);
             this.groupArguments.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridArguments)).EndInit();
             this.groupDistributionParameters.ResumeLayout(false);
@@ -384,14 +372,13 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupMatrixParameters;
-        private System.Windows.Forms.CheckBox checkCovariationMatrix;
         private System.Windows.Forms.Button btnBuildTables;
         private System.Windows.Forms.NumericUpDown numericDimensions;
         private System.Windows.Forms.Label lbDimentions;
         private System.Windows.Forms.ComboBox comboDistributionType;
         private System.Windows.Forms.Label lbDistributionType;
-        private System.Windows.Forms.DataGridView dataGridSamples;
-        private System.Windows.Forms.GroupBox groupSamples;
+        private System.Windows.Forms.DataGridView dataGridMatrix;
+        private System.Windows.Forms.GroupBox groupMatrix;
         private System.Windows.Forms.GroupBox groupArguments;
         private System.Windows.Forms.DataGridView dataGridArguments;
         private System.Windows.Forms.GroupBox groupDistributionParameters;

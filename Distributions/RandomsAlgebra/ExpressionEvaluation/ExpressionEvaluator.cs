@@ -13,7 +13,7 @@ using System.Text;
 namespace RandomsAlgebra.DistributionsEvaluation
 {
     /// <summary>
-    /// Выполняет трансформацию распределений композиционным методом по заданной формуле модели
+    /// Propagation of distributions by the method of algebra of random variables that is a combination of analytical and numberical (include numerical integration) methods
     /// </summary>
     public class DistributionsEvaluator
     {
@@ -26,39 +26,28 @@ namespace RandomsAlgebra.DistributionsEvaluation
         const char _decimalSeparator = '.';
 
         /// <summary>
-        /// Создает экземпляр класса трансформации по формуле модели
+        /// Creates instance of distributions evaluatior
         /// </summary>
-        /// <param name="expression">Формула модели, например A+B*3+1, где A и B, это аргументы функции
-        public DistributionsEvaluator(string expression)
+        /// <param name="modelExpression">Model expression, e.g. "A+B*3+1", where A and B, are parameters of function
+        public DistributionsEvaluator(string modelExpression)
         {
-            if (string.IsNullOrWhiteSpace(expression))
-                throw new ArgumentException("Выражение не задано");
+            if (string.IsNullOrWhiteSpace(modelExpression))
+                throw new DistributionsArgumentException("Missing expression", "Выражение не задано");
 
-            ExpressionText = expression;
-            _parsed = Parse(expression);
+            ExpressionText = modelExpression;
+            _parsed = Parse(modelExpression);
 
             _compiled = Compile(_parsed.ToExpression());
 
             Parameters = _nodeParameters.Select(x => x.Parameter).ToArray();
         }
 
-        #region Вычисление
+        #region Calculations
         /// <summary>
-        /// Выполняет трансформацию законов распределения, переданных в качестве аргуметов
+        /// Performs propagation of distributions setted as arguments
         /// </summary>
-        /// <param name="arguments">Пары значений агрумента формулы модели и распределения</param>
-        /// <returns>Результат трансформации</returns>
-        public BaseDistribution EvaluateDistributions(params KeyValuePair<string, BaseDistribution>[] arguments)
-        {
-            var dictionary = arguments.ToDictionary(x => x.Key, kvp => kvp.Value);
-            return EvaluateDistributions(dictionary);
-        }
-
-        /// <summary>
-        /// Выполняет трансформацию законов распределения, переданных в качестве аргуметов
-        /// </summary>
-        /// <param name="arguments">Словарь пар значений агрумента формулы и распределения</param>
-        /// <returns>Результат трансформации</returns>
+        /// <param name="arguments">Dictionary of pairs of distributions and arguments</param>
+        /// <returns>Propagation result</returns>
         public BaseDistribution EvaluateDistributions(Dictionary<string, BaseDistribution> arguments)
         {
             arguments = arguments ?? new Dictionary<string, BaseDistribution>();
@@ -72,7 +61,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 string arg = parameter.Parameter;
 
                 if (parameter.Count > 1)
-                    throw new InvalidOperationException($"Невозможно выполнить рассчет композиционным методом, так как переменная \"{arg}\" встречается более одного раза");
+                    throw new DistributionsInvalidOperationException($"It is impossible to perform the propagation by the method of algebra of random variables, since the parameter \"{ arg }\" occurs more than once ", $"Невозможно выполнить транформацию методом алгебры случайных величин, так как параметр \"{arg}\" встречается более одного раза");
 
 				BaseDistribution value;
                 if (arguments.TryGetValue(arg, out value))
@@ -81,7 +70,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new ArgumentException($"Отсутствует значение переменной \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
 
             }
@@ -111,7 +100,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new ArgumentException($"Отсутствует значение переменной \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
 
             }
@@ -122,20 +111,20 @@ namespace RandomsAlgebra.DistributionsEvaluation
         internal double EvaluateCompiled(double[] arguments)
         {
             if (arguments.Length != _nodeParameters.Count)
-                throw new ArgumentException($"Число агрументов {arguments.Length} не соответствует числу параметров {_nodeParameters.Count}");
+                throw new DistributionsArgumentException($"The number of arguments {arguments.Length} does not match the number of parameters {_nodeParameters.Count}", $"Число аргументов {arguments.Length} не соответствует числу параметров {_nodeParameters.Count}");
 
             return _compiled(arguments);
         }
         #endregion
 
-        #region Свойства
+        #region Properties
         /// <summary>
-        /// Переменные, которые необходимо задать в агрументах
+        /// Parameters that must be setted as arguments
         /// </summary>
         public string[] Parameters { get; } = null;
 
         /// <summary>
-        /// Формула модели
+        /// Model expression
         /// </summary>
         public string ExpressionText { get; } = null;
 
@@ -148,42 +137,10 @@ namespace RandomsAlgebra.DistributionsEvaluation
         }
         #endregion
 
-        #region Компиляция
-        private Func<double[], double> Compile(Expression expression)
-        {
-            var lambda = Expression.Lambda<Func<double[], double>>(expression, _parameterExpression);
-            ;
-            var compiled = lambda.Compile();
-            return compiled;
-        }
-
-        private Func<double[], double> CompileToMethod(Expression expression)
-        {
-            var lambda = Expression.Lambda<Func<double[], double>>(expression, _parameterExpression);
-
-            string assemblyName = "ExpressionCompliler";
-            string className = "CompileExpression";
-            string methodName = "EvaluateExpression";
-
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(assemblyName), AssemblyBuilderAccess.Run);
-            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName);
-            TypeBuilder bindingsClass = moduleBuilder.DefineType(className, TypeAttributes.Class | TypeAttributes.Public);
-
-            var method = bindingsClass.DefineMethod(methodName, MethodAttributes.Public | MethodAttributes.Static, typeof(double), new Type[] { typeof(double[]) });
-            lambda.CompileToMethod(method);
-            bindingsClass.CreateType();
-
-            var mi = bindingsClass.GetMethod(methodName);
-            var func = Delegate.CreateDelegate(typeof(Func<double[], double>), mi);
-            return (Func<double[], double>)func;
-        }
-        #endregion
-
-        #region Парсинг выражения
-
+        #region Parsing expression
         private NodeOperation Parse(string expression)
         {
-            //просто необходимая вещь
+            //simply useful 
             expression = expression.Replace(',', _decimalSeparator).Replace(" ", string.Empty);
 
             if (string.IsNullOrWhiteSpace(expression))
@@ -253,7 +210,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                     }
 
 
-                    throw new ArgumentException($"Неизвестный символ \"{next}\" в выражении \"{expression}\"");
+                    throw new DistributionsArgumentException($"Unknown symbol \"{next}\" in expression \"{expression}\"", $"Неизвестный символ \"{next}\" в выражении \"{expression}\"");
                 }
             }
 
@@ -281,7 +238,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
             }
             catch
             {
-                throw new Exception("Операторы выражения несогласованы");
+                throw new DistributionsInvalidOperationException("Expression operators are inconsistent", "Операторы выражения несогласованы");
             }
         }
 
@@ -339,7 +296,6 @@ namespace RandomsAlgebra.DistributionsEvaluation
                     break;
                 }
             }
-            //Может, не делать проверку Parenthesis, также сделать проверку, куда уходят несогласованные параметры и что делать с прочей хуйней
             if (nextParenthesis && Operator.IsDefinedFunction(parameter))
             {
                 _operatorStack.Push((Operator)parameter);
@@ -361,7 +317,16 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 }
             }
         }
+        #endregion
 
+        #region Compiling
+        private Func<double[], double> Compile(Expression expression)
+        {
+            var lambda = Expression.Lambda<Func<double[], double>>(expression, _parameterExpression);
+            ;
+            var compiled = lambda.Compile();
+            return compiled;
+        }
         #endregion
     }
 }

@@ -108,13 +108,14 @@ namespace RandomsAlgebra.DistributionsEvaluation
             {
                 return Apply(expressions[0]);
             }
-
-            if (expressions.Length == 2)
+            else if (expressions.Length == 2)
             {
                 return Apply(expressions[0], expressions[1]);
             }
-
-            throw new NotImplementedException();
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
         public NodeOperationType OperationType
         {

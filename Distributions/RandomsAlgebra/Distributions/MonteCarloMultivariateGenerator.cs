@@ -24,7 +24,7 @@ namespace RandomsAlgebra.Distributions
             foreach (var arg in univariateDistributions.Keys)
             {
                 if (multivariateDistributions.Keys.Any(x => x.Contains(arg)))
-                    throw new ArgumentException($"Аргумент \"{arg}\" задан несколько раз");
+                    throw new DistributionsArgumentException($"\"{arg}\" argument specified several times", $"Аргумент \"{arg}\" задан несколько раз");
             }
 
             foreach (var args in multivariateDistributions.Keys)
@@ -32,11 +32,11 @@ namespace RandomsAlgebra.Distributions
                 foreach (string arg in args)
                 {
                     if (args.Count(x => x == arg) > 1)
-                        throw new ArgumentException($"Аргумент \"{arg}\" задан несколько раз");
+                        throw new DistributionsArgumentException($"\"{arg}\" argument specified several times", $"Аргумент \"{arg}\" задан несколько раз");
 
 
                     if (multivariateDistributions.Keys.Where(x => x != args).Any(x => x.Contains(arg)))
-                        throw new ArgumentException($"Аргумент \"{arg}\" задан несколько раз");
+                        throw new DistributionsArgumentException($"\"{arg}\" argument specified several times", $"Аргумент \"{arg}\" задан несколько раз");
                 }
             }
 
@@ -53,7 +53,7 @@ namespace RandomsAlgebra.Distributions
 
                 if (!(_indexesUnivariate.Contains(i) || _indexesMultivariate.Contains(i)))
                 {
-                    throw new Exception($"Значение аргумента \"{arg}\" не задано");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
             }
         }

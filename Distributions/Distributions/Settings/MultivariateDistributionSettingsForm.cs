@@ -9,12 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Distribuitons
+namespace Distributions
 {
     public partial class MultivariateDistributionSettingsForm : Form
     {
-        DataTable _samples = new DataTable();
-        BindingSource _samplesSource = new BindingSource();
+        DataTable _matrix = new DataTable();
+        BindingSource _matrixSource = new BindingSource();
         DataTable _arguments = new DataTable();
         BindingSource _argumentsSource = new BindingSource();
 
@@ -27,13 +27,21 @@ namespace Distribuitons
         public MultivariateDistributionSettingsForm(bool showCoeff, bool showDistributionParameters)
         {
             InitializeComponent();
+            
+            Text = Languages.GetText("MultivariateDistribution");
+            btnOk.Text = Languages.GetText("ButtonOk");
+            btnCancel.Text = Languages.GetText("ButtonCancel");
 
-            _samplesSource.DataSource = _samples;
+            groupMatrixParameters.Text = Languages.GetText("GroupMatrixParameters");
+            groupDistributionParameters.Text = Languages.GetText("GroupDistributionParameters");
+
+
+            _matrixSource.DataSource = _matrix;
             _argumentsSource.DataSource = _arguments;
             _meansSource.DataSource = _means;
             _coeffSource.DataSource = _coeff;
 
-            comboDistributionType.DataSource = new string[] { "Нормальное", "Стьюдента" };
+            comboDistributionType.DataSource = new string[] { Languages.GetText(nameof(MultivariateNormalDistributionSettings)), Languages.GetText(nameof(MultivariateTDistributionSettings)) };
 
 
             groupDistributionParameters.Visible = showDistributionParameters;
@@ -43,8 +51,6 @@ namespace Distribuitons
 
         public MultivariateDistributionSettingsForm(MultivariateDistributionFunctionArgument argument) : this(false, true)
         {
-            checkCovariationMatrix.Checked = true;
-
             int dimension = argument.MultivariateDistributionSettings.Dimension;
             numericDimensions.Value = dimension;
 
@@ -61,7 +67,7 @@ namespace Distribuitons
 
                 for (int j = 0; j < dimension; j++)
                 {
-                    _samples.Rows[j][i] = covMatrix[i, j];
+                    _matrix.Rows[j][i] = covMatrix[i, j];
                 }
             }
 
@@ -80,7 +86,6 @@ namespace Distribuitons
         {
             ChangeRowVisibility(2, false);
 
-            checkCovariationMatrix.Checked = true;
             comboDistributionType.SelectedIndex = 0;
 
             int dimension = argument.MultivariateNormalDistributionSettings.Dimension;
@@ -99,7 +104,7 @@ namespace Distribuitons
 
                 for (int j = 0; j < dimension; j++)
                 {
-                    _samples.Rows[j][i] = covMatrix[i, j];
+                    _matrix.Rows[j][i] = covMatrix[i, j];
                 }
             }
         }
@@ -111,12 +116,11 @@ namespace Distribuitons
 
         private void BuildTables()
         {
-            bool cov = checkCovariationMatrix.Checked;
             _arguments.Rows.Clear();
             _arguments.Columns.Clear();
 
-            _samples.Rows.Clear();
-            _samples.Columns.Clear();
+            _matrix.Rows.Clear();
+            _matrix.Columns.Clear();
 
             _means.Rows.Clear();
             _means.Columns.Clear();
@@ -128,10 +132,10 @@ namespace Distribuitons
 
             for (int i = 0; i < dimesion; i++)
             {
-                _samples.Columns.Add(new DataColumn($"Расп. {i + 1}", typeof(double)) { AllowDBNull = false });
-                _arguments.Columns.Add(new DataColumn($"Расп. {i + 1}", typeof(string)) { AllowDBNull = false });
-                _means.Columns.Add(new DataColumn($"Расп. {i + 1}", typeof(double)) { AllowDBNull = false });
-                _coeff.Columns.Add(new DataColumn($"Расп. {i + 1}", typeof(double)) { AllowDBNull = false });
+                _matrix.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
+                _arguments.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(string)) { AllowDBNull = false });
+                _means.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
+                _coeff.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
             }
 
             object[] args = new object[dimesion];
@@ -142,17 +146,14 @@ namespace Distribuitons
 
             _arguments.Rows.Add(args);
 
-            if (cov)
+            for (int i = 0; i < dimesion; i++)
             {
-                for (int i = 0; i < dimesion; i++)
+                object[] row = new object[dimesion];
+                for (int j = 0; j < dimesion; j++)
                 {
-                    object[] row = new object[dimesion];
-                    for (int j = 0; j < dimesion; j++)
-                    {
-                        row[j] = j == i ? 1d : 0d;
-                    }
-                    _samples.Rows.Add(row);
+                    row[j] = j == i ? 1d : 0d;
                 }
+                _matrix.Rows.Add(row);
             }
 
             object[] means = new object[dimesion];
@@ -170,19 +171,14 @@ namespace Distribuitons
             }
             _coeff.Rows.Add(coeff);
 
-            dataGridSamples.AllowUserToAddRows = !cov;
-            dataGridSamples.AllowUserToDeleteRows = !cov;
-
-            dataGridSamples.DataSource = _samplesSource;
+            dataGridMatrix.DataSource = _matrixSource;
             dataGridArguments.DataSource = _argumentsSource;
             dataGridMeans.DataSource = _meansSource;
             dataGridCoeff.DataSource = _coeffSource;
 
-            ChangeRowVisibility(4, cov);
-
             for (int i = 0; i < dimesion; i++)
             {
-                dataGridSamples.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                dataGridMatrix.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridArguments.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridMeans.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridCoeff.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -201,23 +197,23 @@ namespace Distribuitons
             }
             else
             {
-                throw new Exception("Аргументы не сгенерированы");
+                throw new Exception(Languages.GetText("ExceptionArgumentsMissing"));
             }
         }
 
         public MultivariateDistributionSettings GetSettings()
         {
-            if (_samples.Rows.Count > 0)
+            if (_matrix.Rows.Count > 0)
             {
                 double degrees = (double)numericDegreesOfFreedom.Value;
-                bool cov = checkCovariationMatrix.Checked;
-                double[,] input = new double[_samples.Columns.Count, _samples.Rows.Count];
 
-                for (int i = 0; i < _samples.Columns.Count; i++)
+                double[,] input = new double[_matrix.Columns.Count, _matrix.Rows.Count];
+
+                for (int i = 0; i < _matrix.Columns.Count; i++)
                 {
-                    for (int j = 0; j < _samples.Rows.Count; j++)
+                    for (int j = 0; j < _matrix.Rows.Count; j++)
                     {
-                        input[i, j] = (double)_samples.Rows[j][i];
+                        input[i, j] = (double)_matrix.Rows[j][i];
                     }
                 }
 
@@ -225,25 +221,11 @@ namespace Distribuitons
 
                 if (comboDistributionType.SelectedIndex == 0)
                 {
-                    if (cov)
-                    {
-                        return new MultivariateNormalDistributionSettings(means, input);
-                    }
-                    else
-                    {
-                        return new MultivariateNormalDistributionSettings(input);
-                    }
+                    return new MultivariateNormalDistributionSettings(means, input);
                 }
                 else if (comboDistributionType.SelectedIndex == 1)
                 {
-                    if (cov)
-                    {
-                        return new MultivariateTDistributionSettings(means, input, degrees);
-                    }
-                    else
-                    {
-                        return new MultivariateTDistributionSettings(input, degrees);
-                    }
+                    return new MultivariateTDistributionSettings(means, input, degrees);
                 }
                 else
                 {
@@ -252,7 +234,7 @@ namespace Distribuitons
             }
             else
             {
-                throw new Exception("Данные не заданы");
+                throw new Exception(Languages.GetText("ExceptionMaxtrixMissing"));
             }
         }
 
@@ -273,7 +255,7 @@ namespace Distribuitons
             }
             else
             {
-                throw new Exception("Коэфициенты не сгенерированы");
+                throw new Exception(Languages.GetText("ExceptionCoeffitientsMissing"));
             }
         }
 
@@ -300,7 +282,7 @@ namespace Distribuitons
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Languages.GetText("Exception"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }            
         }
 

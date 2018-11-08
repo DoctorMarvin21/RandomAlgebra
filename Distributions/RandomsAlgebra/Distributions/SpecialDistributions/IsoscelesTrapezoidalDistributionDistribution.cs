@@ -32,7 +32,6 @@ namespace RandomsAlgebra.Distributions
                 get
                 {
                     return (_a + _b) / 2d;
-                    //throw new NotImplementedException();
                 }
             }
 

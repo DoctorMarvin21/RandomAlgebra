@@ -5,19 +5,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distribuitons
+namespace Distributions
 {
-    public static class Multilanguage
+    public static class Languages
     {
         private static Dictionary<string, Translations> _dic = new Dictionary<string, Translations>
         {
-            { "FormDistributionsName", new Translations("Distributions", "Распределения") },
-            { "FormCommonDistributionSettingsName", new Translations("Distribution settings", "Настройки распределения") },
-            { "ButtonOkName", new Translations("OK", "OK") },
-            { "ButtonCancelName", new Translations("Cancel", "Отмена") },
-            { "FormOptimizationsName", new Translations("Optimizations", "Оптимизации") },
-            { "FormOptimizationsCheckContinuous", new Translations("Analytical convolution (if possible)", "Аналитическая свёртка (по возможности)") },
-            { "FormOptimizationsCheckFFT", new Translations("FFT convolution", "БПФ свёртка") },
+            { "GroupCommonParameters", new Translations("Common parameters", "Общие параметры") },
+            { "GroupResults", new Translations("Results", "Результаты") },
+            { "GroupDistributions", new Translations("Distributions", "Распределения") },
+            { "GroupMultivariate", new Translations("Multivariate distributions (Monte-Carlo)", "Многомерные распределения (Монте-Карло)") },
+            { "GroupMatrixParameters", new Translations("Matrix parameters", "Параметры матрицы") },
+            { "GroupDistributionParameters", new Translations("Distribution parameters", "Параметры распределения") },
+
+            { "TableCoeffitients", new Translations("Distribution parameters", "Параметры распределения") },
+            { "TableArguments", new Translations("Distribution parameters", "Параметры распределения") },
+            { "TableMatrix", new Translations("Covariance matrix", "Параметры распределения") },
+            { "TableMeans", new Translations("Mean values", "Средние значения") },
+
+            { "ButtonEvaluate", new Translations("Evaluate", "Расчёт") },
+            { "ButtonOk", new Translations("OK", "OK") },
+            { "ButtonCancel", new Translations("Cancel", "Отмена") },
+            { "ButtonAdd", new Translations("Add", "Добавить")  },
+            { "ButtonRemove", new Translations("Remove", "Удалить")  },
+            { "CheckContinuous", new Translations("Analytical convolution (if possible)", "Аналитическая свёртка (по возможности)") },
+            { "CheckFFT", new Translations("FFT convolution", "БПФ свёртка") },
+            { "LabelModel", new Translations("Model", "Модель") },
+            { "LabelSamplesCount", new Translations("Samples", "Число отсчётов") },
+            { "LabelExperimentsCount", new Translations("Experiments", "Экспериментов") },
+            { "LabelPocketsCount", new Translations("Pockets (for charts)", "Карманов (для графиков)") },
+            { "LabelProbablility", new Translations("Probability, p", "Вероятность, p") },
+            { "LabelChartPoints", new Translations("Chart points", "Точек графика") },
+
+            { "PDFTitle", new Translations("Density Function", "Плотность вероятности") },
+            { "CDFTitle", new Translations("Distribution Function", "Функция распределения") },
+
+            { "Distribution", new Translations("Distribution", "Распределениe") },
+            { "Distributions", new Translations("Distributions", "Распределения") },
+            { "MultivariateDistribution", new Translations("Multivariate distribution", "Многомерное распределение") },
+            { "DistributionSettings", new Translations("Distribution settings", "Настройки распределения") },
+            { "RandomsAlgebra", new Translations("Randoms algebra", "Алгебра сл. величин") },
+            { "MonteCarlo", new Translations("Monte-Carlo", "Монте-Карло") },
+            { "Optimizations", new Translations("Optimizations", "Оптимизации") },
+
+
+            { "ColumnArgument", new Translations("Argument", "Аргумент") },
+            { "ColumnArguments", new Translations("Arguments", "Аргументы") },
+            { "ColumnDistributionType", new Translations("Distribution type", "Вид распределения") },
+            { "ColumnDistributionSettings", new Translations("Parameters", "Параметры") },
+
+
+
+            { "ColumnParameterName", new Translations("Parameter", "Параметр") },
+            { "ColumnPersentRatio", new Translations("Ratio, %", "Соотношение, %") },
+
+            { "Exception", new Translations("Error", "Ошибка") },
+            { "ExceptionCoeffitientsMissing", new Translations("Coeffitients missing", "Коэффициенты не сгенерированы") },
+            { "ExceptionMaxtrixMissing", new Translations("Covariance matrix missing", "Матрица ковариации не сформирована") },
+            { "ExceptionArgumentsMissing", new Translations("Arguments missing", "Аргументы не сгенерированы") },
+
 
             { nameof(MultivariateNormalDistributionSettings), new Translations("Normal", "Нормальное")  },
             { nameof(MultivariateTDistributionSettings), new Translations("t-distribution", "Стьюдента")  },
@@ -65,8 +111,6 @@ namespace Distribuitons
                 return arg;
             }
         }
-
-
 
         private class Translations
         {

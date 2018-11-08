@@ -25,7 +25,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 case NodeOperationType.Log:
                     return Math.Log(left, right);
                 default:
-                    throw new InvalidOperationException();
+                    throw new NotImplementedException();
             }
         }
         public static double EvaluateDoubleUnary(double value, NodeOperationType operationType)
@@ -45,7 +45,7 @@ namespace RandomsAlgebra.DistributionsEvaluation
                 case NodeOperationType.Sin:
                     return Math.Sin(value);
                 default:
-                    throw new InvalidOperationException();
+                    throw new NotImplementedException();
             }
         }
 

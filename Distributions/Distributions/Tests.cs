@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distribuitons
+namespace Distributions
 {
     public static class Test
     {
@@ -40,17 +40,16 @@ namespace Distribuitons
 
 
                 DistributionsEvaluator evaluator = new DistributionsEvaluator(formula);
-
-                var resultMath = evaluator.EvaluateDistributions(
-                    new KeyValuePair<string, BaseDistribution>("A", pair[0].GetDistribution(samples)),
-                    new KeyValuePair<string, BaseDistribution>("B", pair[1].GetDistribution(samples))
-                    );
+                Dictionary<string, BaseDistribution> keyValuePairs = new Dictionary<string, BaseDistribution>();
+                keyValuePairs.Add("A", pair[0].GetDistribution(samples));
+                keyValuePairs.Add("B", pair[1].GetDistribution(samples));
+                BaseDistribution resultMath = evaluator.EvaluateDistributions(keyValuePairs);
 
                 List<double> monteCarloQ = new List<double>();
 
                 for (int j = 0; j < 10; j++)
                 {
-                    var resultMonteCarlo = new MonteCarloDistribution(evaluator, new Dictionary<string, DistributionSettings> { { "A", pair[0] }, { "B", pair[1] } }, randoms, 100);
+                    var resultMonteCarlo = new MonteCarloDistribution(formula, new Dictionary<string, DistributionSettings> { { "A", pair[0] }, { "B", pair[1] } }, randoms, 100);
                     monteCarloQ.Add(resultMonteCarlo.Variance);
                 }
                 

@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Distribuitons
+namespace Distributions
 {
     public partial class CommonDistributionSettingsForm : Form
     {
@@ -23,9 +23,9 @@ namespace Distribuitons
         {
             InitializeComponent();
 
-            Text = Multilanguage.GetText("FormCommonDistributionSettingsName");
-            btnOk.Text = Multilanguage.GetText("ButtonOkName");
-            btnCancel.Text = Multilanguage.GetText("ButtonCancelName");
+            Text = Languages.GetText("DistributionSettings");
+            btnOk.Text = Languages.GetText("ButtonOk");
+            btnCancel.Text = Languages.GetText("ButtonCancel");
 
             _labels = new Label[] { lbParameter0, lbParameter1, lbParameter2, lbParameter3, lbParameter4 };
             _textBoxes = new TextBox[] { txtParameter0, txtParameter1, txtParameter2, txtParameter3, txtParameter4 };
@@ -69,7 +69,7 @@ namespace Distribuitons
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Languages.GetText("Exception"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Distribuitons
         {
             public SettingsMembers(Label nameHolder, TextBox valueHolder, DistributionSettings owner, PropertyInfo info)
             {
-                var name = Multilanguage.GetText(info.Name);
+                var name = Languages.GetText(info.Name);
                 nameHolder.Text = name;
                 valueHolder.Text = info.GetValue(owner, null)?.ToString();
 

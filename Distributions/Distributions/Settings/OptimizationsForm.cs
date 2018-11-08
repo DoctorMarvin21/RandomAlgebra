@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Distribuitons
+namespace Distributions
 {
     public partial class OptimizationsForm : Form
     {
@@ -16,11 +16,11 @@ namespace Distribuitons
         {
             InitializeComponent();
 
-            Text = Multilanguage.GetText("FormOptimizationsName");
-            checkContiniousConvolution.Text = Multilanguage.GetText("FormOptimizationsCheckContinuous");
-            checkFFTConvolution.Text = Multilanguage.GetText("FormOptimizationsCheckFFT");
-            btnOk.Text = Multilanguage.GetText("ButtonOkName");
-            btnCancel.Text = Multilanguage.GetText("ButtonCancelName");
+            Text = Languages.GetText("Optimizations");
+            checkContiniousConvolution.Text = Languages.GetText("CheckContinuous");
+            checkFFTConvolution.Text = Languages.GetText("CheckFFT");
+            btnOk.Text = Languages.GetText("ButtonOk");
+            btnCancel.Text = Languages.GetText("ButtonCancel");
 
 
             checkContiniousConvolution.Checked = Optimizations.UseContiniousConvolution;

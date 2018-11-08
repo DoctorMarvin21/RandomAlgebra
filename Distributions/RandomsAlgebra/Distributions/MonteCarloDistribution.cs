@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace RandomsAlgebra.Distributions
 {
     /// <summary>
-    /// Класс трансформации распределений методом Монте-Карло
+    /// Propagation of distributions using Monte-Carlo method
     /// </summary>
     public sealed class MonteCarloDistribution : DiscreteDistribution
     {
@@ -23,25 +23,25 @@ namespace RandomsAlgebra.Distributions
         double? _skewness = null;
 
         /// <summary>
-        /// Создает экземпляр класса для транформации распределений методом Монте-Карло
+        /// Creates instance of Monte-Calrlo distribution
         /// </summary>
-        /// <param name="evaluator">Калькулятор</param>
-        /// <param name="univariateDistributions">Словарь одномерных случайных величин</param>
-        /// <param name="multivariateDistributions">Словарь многомерных случайных величин</param>
-        /// <param name="samples">Число генерируемых случайных величин, минимальное значение: 3</param>
-        /// <param name="pockets">Количество отсчетов в дискретных координатах функции распределения и плотности вероятности, минимальное значение: 3</param>
-        public MonteCarloDistribution(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets) : this(GenerateBasicData(evaluator, univariateDistributions, multivariateDistributions, samples, pockets))
+        /// <param name="model">Model of propagation</param>
+        /// <param name="univariateDistributions">Dictionary of univariate distribution settings and arguments</param>
+        /// <param name="multivariateDistributions">Dictionary of multivariate distribution settings and arguments</param>
+        /// <param name="samples">Number of experiments</param>
+        /// <param name="pockets">Number of pockets for generating coodinates of PDF and CDF</param>
+        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets) : this(GenerateBasicData(new DistributionsEvaluator(model), univariateDistributions, multivariateDistributions, samples, pockets))
         {
         }
 
         /// <summary>
-        /// Создает экземпляр класса для транформации распределений методом Монте-Карло
+        /// Creates instance of Monte-Calrlo distribution
         /// </summary>
-        /// <param name="evaluator">Калькулятор</param>
-        /// <param name="randomSource">Словарь случайных величин</param>
-        /// <param name="samples">Число генерируемых случайных величин, минимальное значение: 3</param>
-        /// <param name="pockets">Количество отсчетов в дискретных координатах функции распределения и плотности вероятности, минимальное значение: 3</param>
-        public MonteCarloDistribution(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> randomSource, int samples, int pockets) : this(GenerateBasicData(evaluator, randomSource, null, samples, pockets))
+        /// <param name="model">Model of propagation</param>
+        /// <param name="randomSource">Dictionary of distribution settings and arguments</param>
+        /// <param name="samples">Number of experiments</param>
+        /// <param name="pockets">Number of pockets for generating coodinates of PDF and CDF</param>
+        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> randomSource, int samples, int pockets) : this(GenerateBasicData(new DistributionsEvaluator(model), randomSource, null, samples, pockets))
         {
         }
 
@@ -50,23 +50,20 @@ namespace RandomsAlgebra.Distributions
             _randomsSorted = basicData.RandomsSorted;
         }
 
-        #region Генерация случайных величин и построение графиков
+        #region Generate and build coordinates
         private static BasicDistributionData GenerateBasicData(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets)
         {
             if (evaluator == null)
-                throw new ArgumentException("Не задан калькулятор");
+                throw new ArgumentNullException(nameof(evaluator));
 
             if (univariateDistributions == null)
-                throw new ArgumentNullException("Словарь случайных величин не задан");
+                throw new ArgumentNullException(nameof(univariateDistributions));
 
             if (samples < 3)
-                throw new ArgumentException($"Число случайных величин {samples} меньше минимально допустимого значения 3");
+                throw new DistributionsArgumentException("Number of experiments must be greater then 2", "Число экспериментов должно быть больше 2");
 
             if (pockets < 3)
-                throw new ArgumentException($"Число карманов {pockets} меньше минимально допустимого значения 3");
-
-            if (pockets > samples)
-                throw new ArgumentException($"Число карманов {pockets} больше числа случайных величин {samples}");
+                throw new DistributionsArgumentException("Number of pockets must be greater then 2", "Число карманов должно быть больше 2");
 
             BasicDistributionData data = new BasicDistributionData();
 
@@ -117,7 +114,7 @@ namespace RandomsAlgebra.Distributions
                 }
                 else
                 {
-                    throw new ArgumentException($"Отсутствует значение переменной \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
             }
 
@@ -143,9 +140,8 @@ namespace RandomsAlgebra.Distributions
             var order = evaluator.Parameters;
 
             MultivariateGenerator generator = new MultivariateGenerator(order, univariateDistributions, multivariateDistributions);
-            //TODO: узнать, зачем я так сделал
-            for (int i = 0; i < samples; i++)
-            //Parallel.For(0, samples, i =>
+
+            Parallel.For(0, samples, i =>
             {
                 Random rnd = _rnd.Value;
 
@@ -153,7 +149,7 @@ namespace RandomsAlgebra.Distributions
 
                 randoms[i] = evaluator.EvaluateCompiled(args);
             }
-            //);
+            );
 
             return randoms;
         }
@@ -208,7 +204,7 @@ namespace RandomsAlgebra.Distributions
 
         #endregion
 
-        #region Переопределение параметров распределения
+        #region Overrides
         internal override double InnerMean
         {
             get
@@ -255,7 +251,7 @@ namespace RandomsAlgebra.Distributions
         internal override double InnerQuantile(double p)
         {
             double len = _randomsSorted.Length;
-            double c = len * p;
+            double c = (len - 1) * p;
             return _randomsSorted[(int)c];
         }
         #endregion

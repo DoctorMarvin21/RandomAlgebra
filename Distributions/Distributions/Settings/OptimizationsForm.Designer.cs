@@ -1,4 +1,4 @@
-﻿namespace Distribuitons
+﻿namespace Distributions
 {
     partial class OptimizationsForm
     {
@@ -70,7 +70,7 @@
             this.checkFFTConvolution.Location = new System.Drawing.Point(12, 35);
             this.checkFFTConvolution.Name = "checkFFTConvolution";
             this.checkFFTConvolution.Size = new System.Drawing.Size(131, 17);
-            this.checkFFTConvolution.TabIndex = 4;
+            this.checkFFTConvolution.TabIndex = 1;
             this.checkFFTConvolution.Text = "checkFFTConvolution";
             this.checkFFTConvolution.UseVisualStyleBackColor = true;
             // 
