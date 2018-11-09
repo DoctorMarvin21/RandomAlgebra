@@ -6,8 +6,8 @@
     <ProjectGuid>{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RandomsAlgebra</RootNamespace>
-    <AssemblyName>RandomsAlgebra</AssemblyName>
+    <RootNamespace>RandomAlgebra</RootNamespace>
+    <AssemblyName>RandomAlgebra</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -66,10 +66,10 @@
     <Compile Include="Distributions\DistributionSettings\MultivariateDistributionSettings.cs" />
     <Compile Include="Distributions\MonteCarloMultivariateGenerator.cs" />
     <Compile Include="Distributions\NumberDistribution.cs" />
-    <Compile Include="Distributions\RandomsMath\CommonRandomsMath.cs" />
-    <Compile Include="Distributions\RandomsMath\FFTConvolution.cs" />
+    <Compile Include="Distributions\RandomMath\CommonRandomMath.cs" />
+    <Compile Include="Distributions\RandomMath\FFTConvolution.cs" />
     <Compile Include="Distributions\DistributionSettings\DistributionSettings.cs" />
-    <Compile Include="Distributions\RandomsMath\ContiniousRandomsMath.cs" />
+    <Compile Include="Distributions\RandomMath\ContiniousRandomMath.cs" />
     <Compile Include="Distributions\SpecialDistributions\ChiDistribution.cs" />
     <Compile Include="Distributions\SpecialDistributions\ArcsineDisctribution.cs" />
     <Compile Include="Distributions\SpecialDistributions\IsoscelesTrapezoidalDistributionDistribution.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Distributions\SpecialDistributions\StudentGeneralizedDistribution.cs" />
     <Compile Include="Distributions\SpecialDistributions\StudentUniformDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Distributions\RandomsMath\DiscreteRandomsMath.cs" />
+    <Compile Include="Distributions\RandomMath\DiscreteRandomMath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

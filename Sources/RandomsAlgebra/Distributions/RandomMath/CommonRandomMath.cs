@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
-    internal static class CommonRandomsMath
+    internal static class CommonRandomMath
     {
         private enum DistributionsOperation
         {

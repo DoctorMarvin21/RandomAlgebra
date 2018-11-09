@@ -71,6 +71,7 @@
             this.btnAddMultivariateDistribution = new System.Windows.Forms.Button();
             this.groupResults = new System.Windows.Forms.GroupBox();
             this.dataGridResults = new System.Windows.Forms.DataGridView();
+            this.btnExport = new System.Windows.Forms.Button();
             this.tableLayoutLeft.SuspendLayout();
             this.panelFunction.SuspendLayout();
             this.tableLayoutSplitGraphics.SuspendLayout();
@@ -126,6 +127,7 @@
             // 
             // panelFunction
             // 
+            this.panelFunction.Controls.Add(this.btnExport);
             this.panelFunction.Controls.Add(this.btnOptimizations);
             this.panelFunction.Controls.Add(this.btnEvaluate);
             this.panelFunction.Controls.Add(this.txtFunction);
@@ -134,6 +136,7 @@
             this.panelFunction.Location = new System.Drawing.Point(0, 0);
             this.panelFunction.Margin = new System.Windows.Forms.Padding(0);
             this.panelFunction.Name = "panelFunction";
+            this.panelFunction.Padding = new System.Windows.Forms.Padding(3);
             this.panelFunction.Size = new System.Drawing.Size(941, 29);
             this.panelFunction.TabIndex = 1;
             // 
@@ -168,7 +171,7 @@
             // lbModel
             // 
             this.lbModel.AutoSize = true;
-            this.lbModel.Location = new System.Drawing.Point(3, 8);
+            this.lbModel.Location = new System.Drawing.Point(6, 8);
             this.lbModel.Name = "lbModel";
             this.lbModel.Size = new System.Drawing.Size(44, 13);
             this.lbModel.TabIndex = 0;
@@ -333,6 +336,7 @@
             this.checkEvaluateMonteCarlo.TabIndex = 0;
             this.checkEvaluateMonteCarlo.Text = "checkEvaluateMonteCarlo";
             this.checkEvaluateMonteCarlo.UseVisualStyleBackColor = true;
+            this.checkEvaluateMonteCarlo.CheckedChanged += new System.EventHandler(this.checkEvaluateMonteCarlo_CheckedChanged);
             // 
             // lbExperimentsCount
             // 
@@ -345,6 +349,7 @@
             // 
             // numericExperimentsCount
             // 
+            this.numericExperimentsCount.Enabled = false;
             this.numericExperimentsCount.Location = new System.Drawing.Point(7, 36);
             this.numericExperimentsCount.Maximum = new decimal(new int[] {
             100000000,
@@ -367,6 +372,7 @@
             // 
             // numericPocketsCount
             // 
+            this.numericPocketsCount.Enabled = false;
             this.numericPocketsCount.Location = new System.Drawing.Point(113, 36);
             this.numericPocketsCount.Maximum = new decimal(new int[] {
             1000000,
@@ -418,6 +424,7 @@
             this.checkEvaluateRandomsAlgebra.TabIndex = 0;
             this.checkEvaluateRandomsAlgebra.Text = "checkEvaluateRandomsAlgebra";
             this.checkEvaluateRandomsAlgebra.UseVisualStyleBackColor = true;
+            this.checkEvaluateRandomsAlgebra.CheckedChanged += new System.EventHandler(this.checkEvaluateRandomsAlgebra_CheckedChanged);
             // 
             // lbSamplesCount
             // 
@@ -665,6 +672,17 @@
             this.dataGridResults.Size = new System.Drawing.Size(320, 200);
             this.dataGridResults.TabIndex = 0;
             // 
+            // btnExport
+            // 
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExport.Location = new System.Drawing.Point(863, 3);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(75, 23);
+            this.btnExport.TabIndex = 4;
+            this.btnExport.Text = "btnExport";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // DistributionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -759,6 +777,7 @@
         private System.Windows.Forms.Button btnAddMultivariateDistribution;
         private System.Windows.Forms.GroupBox groupResults;
         private System.Windows.Forms.DataGridView dataGridResults;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 

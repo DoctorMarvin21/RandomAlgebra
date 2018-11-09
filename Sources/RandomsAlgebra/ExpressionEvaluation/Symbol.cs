@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.DistributionsEvaluation
+namespace RandomAlgebra.DistributionsEvaluation
 {
     internal sealed class Operator : Symbol
     {

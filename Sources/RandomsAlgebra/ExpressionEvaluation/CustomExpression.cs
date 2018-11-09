@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace RandomsAlgebra.DistributionsEvaluation
+namespace RandomAlgebra.DistributionsEvaluation
 {
     internal static class CustomExpression
     {

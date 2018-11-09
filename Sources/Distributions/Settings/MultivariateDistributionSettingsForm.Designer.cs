@@ -31,7 +31,7 @@
             this.groupMatrixParameters = new System.Windows.Forms.GroupBox();
             this.btnBuildTables = new System.Windows.Forms.Button();
             this.numericDimensions = new System.Windows.Forms.NumericUpDown();
-            this.lbDimentions = new System.Windows.Forms.Label();
+            this.lbDimensions = new System.Windows.Forms.Label();
             this.comboDistributionType = new System.Windows.Forms.ComboBox();
             this.lbDistributionType = new System.Windows.Forms.Label();
             this.dataGridMatrix = new System.Windows.Forms.DataGridView();
@@ -44,8 +44,8 @@
             this.groupMeans = new System.Windows.Forms.GroupBox();
             this.dataGridMeans = new System.Windows.Forms.DataGridView();
             this.tableMain = new System.Windows.Forms.TableLayoutPanel();
-            this.groupCoeff = new System.Windows.Forms.GroupBox();
-            this.dataGridCoeff = new System.Windows.Forms.DataGridView();
+            this.groupCoefficients = new System.Windows.Forms.GroupBox();
+            this.dataGridCoefficients = new System.Windows.Forms.DataGridView();
             this.panelParameters = new System.Windows.Forms.Panel();
             this.PanelControl = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -61,8 +61,8 @@
             this.groupMeans.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridMeans)).BeginInit();
             this.tableMain.SuspendLayout();
-            this.groupCoeff.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridCoeff)).BeginInit();
+            this.groupCoefficients.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridCoefficients)).BeginInit();
             this.panelParameters.SuspendLayout();
             this.PanelControl.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +71,7 @@
             // 
             this.groupMatrixParameters.Controls.Add(this.btnBuildTables);
             this.groupMatrixParameters.Controls.Add(this.numericDimensions);
-            this.groupMatrixParameters.Controls.Add(this.lbDimentions);
+            this.groupMatrixParameters.Controls.Add(this.lbDimensions);
             this.groupMatrixParameters.Location = new System.Drawing.Point(3, 3);
             this.groupMatrixParameters.Name = "groupMatrixParameters";
             this.groupMatrixParameters.Size = new System.Drawing.Size(157, 102);
@@ -85,7 +85,7 @@
             this.btnBuildTables.Name = "btnBuildTables";
             this.btnBuildTables.Size = new System.Drawing.Size(143, 23);
             this.btnBuildTables.TabIndex = 1;
-            this.btnBuildTables.Text = "Сформировать";
+            this.btnBuildTables.Text = "btnBuildTables";
             this.btnBuildTables.UseVisualStyleBackColor = true;
             this.btnBuildTables.Click += new System.EventHandler(this.btnBuildTables_Click);
             // 
@@ -106,14 +106,14 @@
             0,
             0});
             // 
-            // lbDimentions
+            // lbDimensions
             // 
-            this.lbDimentions.AutoSize = true;
-            this.lbDimentions.Location = new System.Drawing.Point(6, 16);
-            this.lbDimentions.Name = "lbDimentions";
-            this.lbDimentions.Size = new System.Drawing.Size(65, 13);
-            this.lbDimentions.TabIndex = 0;
-            this.lbDimentions.Text = "Измерений";
+            this.lbDimensions.AutoSize = true;
+            this.lbDimensions.Location = new System.Drawing.Point(6, 16);
+            this.lbDimensions.Name = "lbDimensions";
+            this.lbDimensions.Size = new System.Drawing.Size(69, 13);
+            this.lbDimensions.TabIndex = 0;
+            this.lbDimensions.Text = "lbDimensions";
             // 
             // comboDistributionType
             // 
@@ -130,9 +130,9 @@
             this.lbDistributionType.AutoSize = true;
             this.lbDistributionType.Location = new System.Drawing.Point(7, 16);
             this.lbDistributionType.Name = "lbDistributionType";
-            this.lbDistributionType.Size = new System.Drawing.Size(107, 13);
+            this.lbDistributionType.Size = new System.Drawing.Size(91, 13);
             this.lbDistributionType.TabIndex = 0;
-            this.lbDistributionType.Text = "Вид распределения";
+            this.lbDistributionType.Text = "lbDistributionType";
             // 
             // dataGridMatrix
             // 
@@ -155,7 +155,7 @@
             this.groupMatrix.Size = new System.Drawing.Size(499, 131);
             this.groupMatrix.TabIndex = 0;
             this.groupMatrix.TabStop = false;
-            this.groupMatrix.Text = "Данные";
+            this.groupMatrix.Text = "groupMatrix";
             // 
             // groupArguments
             // 
@@ -166,7 +166,7 @@
             this.groupArguments.Size = new System.Drawing.Size(499, 70);
             this.groupArguments.TabIndex = 0;
             this.groupArguments.TabStop = false;
-            this.groupArguments.Text = "Аргументы";
+            this.groupArguments.Text = "groupArguments";
             // 
             // dataGridArguments
             // 
@@ -222,9 +222,9 @@
             this.lbDegreesOfFreedom.AutoSize = true;
             this.lbDegreesOfFreedom.Location = new System.Drawing.Point(6, 57);
             this.lbDegreesOfFreedom.Name = "lbDegreesOfFreedom";
-            this.lbDegreesOfFreedom.Size = new System.Drawing.Size(102, 13);
+            this.lbDegreesOfFreedom.Size = new System.Drawing.Size(107, 13);
             this.lbDegreesOfFreedom.TabIndex = 0;
-            this.lbDegreesOfFreedom.Text = "Степеней свободы";
+            this.lbDegreesOfFreedom.Text = "lbDegreesOfFreedom";
             // 
             // groupMeans
             // 
@@ -235,7 +235,7 @@
             this.groupMeans.Size = new System.Drawing.Size(499, 70);
             this.groupMeans.TabIndex = 0;
             this.groupMeans.TabStop = false;
-            this.groupMeans.Text = "Средние значения";
+            this.groupMeans.Text = "groupMeans";
             // 
             // dataGridMeans
             // 
@@ -253,7 +253,7 @@
             // 
             this.tableMain.ColumnCount = 1;
             this.tableMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMain.Controls.Add(this.groupCoeff, 0, 1);
+            this.tableMain.Controls.Add(this.groupCoefficients, 0, 1);
             this.tableMain.Controls.Add(this.panelParameters, 0, 0);
             this.tableMain.Controls.Add(this.groupMeans, 0, 4);
             this.tableMain.Controls.Add(this.groupArguments, 0, 2);
@@ -272,28 +272,28 @@
             this.tableMain.Size = new System.Drawing.Size(505, 516);
             this.tableMain.TabIndex = 0;
             // 
-            // groupCoeff
+            // groupCoefficients
             // 
-            this.groupCoeff.Controls.Add(this.dataGridCoeff);
-            this.groupCoeff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupCoeff.Location = new System.Drawing.Point(3, 119);
-            this.groupCoeff.Name = "groupCoeff";
-            this.groupCoeff.Size = new System.Drawing.Size(499, 70);
-            this.groupCoeff.TabIndex = 0;
-            this.groupCoeff.TabStop = false;
-            this.groupCoeff.Text = "Коэффициенты";
+            this.groupCoefficients.Controls.Add(this.dataGridCoefficients);
+            this.groupCoefficients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupCoefficients.Location = new System.Drawing.Point(3, 119);
+            this.groupCoefficients.Name = "groupCoefficients";
+            this.groupCoefficients.Size = new System.Drawing.Size(499, 70);
+            this.groupCoefficients.TabIndex = 0;
+            this.groupCoefficients.TabStop = false;
+            this.groupCoefficients.Text = "groupCoefficients";
             // 
-            // dataGridCoeff
+            // dataGridCoefficients
             // 
-            this.dataGridCoeff.AllowUserToAddRows = false;
-            this.dataGridCoeff.AllowUserToDeleteRows = false;
-            this.dataGridCoeff.AllowUserToResizeRows = false;
-            this.dataGridCoeff.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridCoeff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridCoeff.Location = new System.Drawing.Point(3, 16);
-            this.dataGridCoeff.Name = "dataGridCoeff";
-            this.dataGridCoeff.Size = new System.Drawing.Size(493, 51);
-            this.dataGridCoeff.TabIndex = 0;
+            this.dataGridCoefficients.AllowUserToAddRows = false;
+            this.dataGridCoefficients.AllowUserToDeleteRows = false;
+            this.dataGridCoefficients.AllowUserToResizeRows = false;
+            this.dataGridCoefficients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridCoefficients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridCoefficients.Location = new System.Drawing.Point(3, 16);
+            this.dataGridCoefficients.Name = "dataGridCoefficients";
+            this.dataGridCoefficients.Size = new System.Drawing.Size(493, 51);
+            this.dataGridCoefficients.TabIndex = 0;
             // 
             // panelParameters
             // 
@@ -361,8 +361,8 @@
             this.groupMeans.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridMeans)).EndInit();
             this.tableMain.ResumeLayout(false);
-            this.groupCoeff.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridCoeff)).EndInit();
+            this.groupCoefficients.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridCoefficients)).EndInit();
             this.panelParameters.ResumeLayout(false);
             this.PanelControl.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -374,7 +374,7 @@
         private System.Windows.Forms.GroupBox groupMatrixParameters;
         private System.Windows.Forms.Button btnBuildTables;
         private System.Windows.Forms.NumericUpDown numericDimensions;
-        private System.Windows.Forms.Label lbDimentions;
+        private System.Windows.Forms.Label lbDimensions;
         private System.Windows.Forms.ComboBox comboDistributionType;
         private System.Windows.Forms.Label lbDistributionType;
         private System.Windows.Forms.DataGridView dataGridMatrix;
@@ -391,7 +391,7 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.NumericUpDown numericDegreesOfFreedom;
         private System.Windows.Forms.Label lbDegreesOfFreedom;
-        private System.Windows.Forms.GroupBox groupCoeff;
-        private System.Windows.Forms.DataGridView dataGridCoeff;
+        private System.Windows.Forms.GroupBox groupCoefficients;
+        private System.Windows.Forms.DataGridView dataGridCoefficients;
     }
 }

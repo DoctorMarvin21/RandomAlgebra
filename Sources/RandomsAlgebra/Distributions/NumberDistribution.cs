@@ -1,10 +1,10 @@
-﻿using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     /// <summary>
     /// Mean value with zero variance
@@ -35,7 +35,7 @@ namespace RandomsAlgebra.Distributions
 
         internal override DistributionType InnerDistributionType { get { return DistributionType.Number; } }
 
-        internal override int InnerSamples { get { return 1; } }//just one sample that is mean
+        internal override int InnerSamples { get { return 1; } }//just for correct step
 
         internal override double InnerGetPDFYbyX(double x)
         {
@@ -52,10 +52,7 @@ namespace RandomsAlgebra.Distributions
 
         internal override double InnerQuantile(double p)
         {
-            if (p == 1)
-                return 1;
-            else
-                return 0;
+            return _value;
         }
         #endregion
 
@@ -71,7 +68,7 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Randoms algebra
+        #region Random algebra
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
@@ -82,11 +79,11 @@ namespace RandomsAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        return ContinuousRandomsMath.Add((ContinuousDistribution)value, Mean);
+                        return ContinuousRandomMath.Add((ContinuousDistribution)value, Mean);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Add((DiscreteDistribution)value, Mean);
+                        return DiscreteRandomMath.Add((DiscreteDistribution)value, Mean);
                     }
                 default:
                     {
@@ -105,11 +102,11 @@ namespace RandomsAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        return ContinuousRandomsMath.Sub(Mean, (ContinuousDistribution)value);
+                        return ContinuousRandomMath.Sub(Mean, (ContinuousDistribution)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Sub(Mean, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Sub(Mean, (DiscreteDistribution)value);
                     }
                 default:
                     {
@@ -128,11 +125,11 @@ namespace RandomsAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        return ContinuousRandomsMath.Multiply((ContinuousDistribution)value, Mean);
+                        return ContinuousRandomMath.Multiply((ContinuousDistribution)value, Mean);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Multiply((DiscreteDistribution)value, Mean);
+                        return DiscreteRandomMath.Multiply((DiscreteDistribution)value, Mean);
                     }
                 default:
                     {
@@ -152,7 +149,7 @@ namespace RandomsAlgebra.Distributions
                 case DistributionType.Continious:
                 case DistributionType.Discrete:
                     {
-                        return CommonRandomsMath.Divide(Mean, value);
+                        return CommonRandomMath.Divide(Mean, value);
                     }
                 default:
                     {
@@ -172,7 +169,7 @@ namespace RandomsAlgebra.Distributions
                 case DistributionType.Discrete:
                 case DistributionType.Continious:
                     {
-                        return CommonRandomsMath.Power(Mean, value);
+                        return CommonRandomMath.Power(Mean, value);
                     }
                 default:
                     {
@@ -192,7 +189,7 @@ namespace RandomsAlgebra.Distributions
                 case DistributionType.Discrete:
                 case DistributionType.Continious:
                     {
-                        return CommonRandomsMath.Log(Mean, nBase);
+                        return CommonRandomMath.Log(Mean, nBase);
                     }
                 default:
                     {

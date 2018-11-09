@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     namespace SpecialDistributions
     {

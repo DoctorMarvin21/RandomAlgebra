@@ -1,14 +1,14 @@
 ﻿using Accord.Math;
 using Accord.Math.Decompositions;
 using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra.DistributionsEvaluation;
+using RandomAlgebra.DistributionsEvaluation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions.Settings
+namespace RandomAlgebra.Distributions.Settings
 {
     /// <summary>
     /// Base class for multivariate distribution settings
@@ -86,12 +86,12 @@ namespace RandomsAlgebra.Distributions.Settings
         /// </summary>
         /// <param name="rnd">Ranoms source</param>
         /// <returns>Vector of random varibles</returns>
-        public double[] GenerateRandoms(Random rnd)
+        public double[] GenerateRandom(Random rnd)
         {
-            return GenerateRandomsInternal(rnd);
+            return GenerateRandomInternal(rnd);
         }
 
-        protected abstract double[] GenerateRandomsInternal(Random rnd);
+        protected abstract double[] GenerateRandomInternal(Random rnd);
 
         /// <summary>
         /// Vector of means
@@ -158,7 +158,7 @@ namespace RandomsAlgebra.Distributions.Settings
         {
         }
 
-        protected override double[] GenerateRandomsInternal(Random rnd)
+        protected override double[] GenerateRandomInternal(Random rnd)
         {
             double[,] ltf = _chol.LeftTriangularFactor;
             double[] result = new double[Dimension];
@@ -254,7 +254,7 @@ namespace RandomsAlgebra.Distributions.Settings
             get;
         }
 
-        protected override double[] GenerateRandomsInternal(Random rnd)
+        protected override double[] GenerateRandomInternal(Random rnd)
         {
             //from mathlab func MVTRND(C,DF,N)
 

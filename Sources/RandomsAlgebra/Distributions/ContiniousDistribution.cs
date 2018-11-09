@@ -1,12 +1,12 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra.Distributions.Settings;
-using RandomsAlgebra.Distributions.SpecialDistributions;
+using RandomAlgebra.Distributions.Settings;
+using RandomAlgebra.Distributions.SpecialDistributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     /// <summary>
     /// Continuous distribution
@@ -264,7 +264,7 @@ namespace RandomsAlgebra.Distributions
 
         #endregion
 
-        #region Randoms math
+        #region Random math
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
@@ -277,35 +277,35 @@ namespace RandomsAlgebra.Distributions
                         {
                             if (BaseDistribution is NormalDistribution && right.BaseDistribution is NormalDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfNormalAndNormal(this, right);
+                                return ContinuousRandomMath.ConvolutionOfNormalAndNormal(this, right);
                             }
                             else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is UniformContinuousDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfUniformAndUniform(this, right);
+                                return ContinuousRandomMath.ConvolutionOfUniformAndUniform(this, right);
                             }
                             else if (BaseDistribution is NormalDistribution && right.BaseDistribution is UniformContinuousDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfNormalAndUniform(this, right);
+                                return ContinuousRandomMath.ConvolutionOfNormalAndUniform(this, right);
                             }
                             else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is NormalDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfNormalAndUniform(right, this);
+                                return ContinuousRandomMath.ConvolutionOfNormalAndUniform(right, this);
                             }
                             else if (BaseDistribution is NormalDistribution && right.BaseDistribution is BhattacharjeeDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfNormalAndBhattacharjee(this, right);
+                                return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(this, right);
                             }
                             else if (BaseDistribution is BhattacharjeeDistribution && right.BaseDistribution is NormalDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfNormalAndBhattacharjee(right, this);
+                                return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(right, this);
                             }
                             else if (BaseDistribution is StudentGeneralizedDistribution && right.BaseDistribution is UniformContinuousDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfStudentAndUniform(this, right);
+                                return ContinuousRandomMath.ConvolutionOfStudentAndUniform(this, right);
                             }
                             else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is StudentGeneralizedDistribution)
                             {
-                                return ContinuousRandomsMath.ConvolutionOfStudentAndUniform(right, this);
+                                return ContinuousRandomMath.ConvolutionOfStudentAndUniform(right, this);
                             }
                             else
                             {
@@ -344,7 +344,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 case DistributionType.Number:
                     {
-                        return ContinuousRandomsMath.Add(this, (double)value);
+                        return ContinuousRandomMath.Add(this, (double)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -372,7 +372,7 @@ namespace RandomsAlgebra.Distributions
                     }
                 case DistributionType.Number:
                     {
-                        return ContinuousRandomsMath.Sub(this, (double)value);
+                        return ContinuousRandomMath.Sub(this, (double)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -393,7 +393,7 @@ namespace RandomsAlgebra.Distributions
                         if (value.InnerMean == 0)
                             CommonExceptions.ThrowCommonExcepton(CommonExceptionType.MultiplyRandomByZero);
 
-                        return ContinuousRandomsMath.Multiply(this, (double)value);
+                        return ContinuousRandomMath.Multiply(this, (double)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -414,7 +414,7 @@ namespace RandomsAlgebra.Distributions
                         if (value.InnerMean == 0)
                              CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZero);
 
-                        return ContinuousRandomsMath.Divide(this, (double)value);
+                        return ContinuousRandomMath.Divide(this, (double)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -427,15 +427,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return CommonRandomsMath.Power(this, (double)value);
+                        return CommonRandomMath.Power(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Power(Discretize(), (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Power(Discretize(), (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Power(Discretize(), (DiscreteDistribution)(ContinuousDistribution)value);
+                        return DiscreteRandomMath.Power(Discretize(), (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     {
@@ -450,15 +450,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return CommonRandomsMath.Log(this, (double)nBase);
+                        return CommonRandomMath.Log(this, (double)nBase);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Log(Discretize(), (DiscreteDistribution)(ContinuousDistribution)nBase);
+                        return DiscreteRandomMath.Log(Discretize(), (DiscreteDistribution)(ContinuousDistribution)nBase);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Log(Discretize(), (DiscreteDistribution)nBase);
+                        return DiscreteRandomMath.Log(Discretize(), (DiscreteDistribution)nBase);
                     }
                 default:
                     {
@@ -469,12 +469,12 @@ namespace RandomsAlgebra.Distributions
 
         internal override BaseDistribution InnerGetAbs()
         {
-            return CommonRandomsMath.Abs(this);
+            return CommonRandomMath.Abs(this);
         }
 
         internal override BaseDistribution InnerGetNegate()
         {
-            return ContinuousRandomsMath.Negate(this);
+            return ContinuousRandomMath.Negate(this);
         }
 
         #endregion

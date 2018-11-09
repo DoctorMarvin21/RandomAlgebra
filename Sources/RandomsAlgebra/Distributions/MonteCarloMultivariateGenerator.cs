@@ -1,13 +1,13 @@
 ﻿using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra.Distributions.Settings;
+using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     internal class MultivariateGenerator
     {
@@ -110,7 +110,7 @@ namespace RandomsAlgebra.Distributions
             int iter = 0;
             for (int i = 0; i < _multivariate.Length; i++)
             {
-                double[] mul = _multivariate[i].GenerateRandoms(rnd);
+                double[] mul = _multivariate[i].GenerateRandom(rnd);
 
                 for (int j = 0; j < mul.Length; j++)
                 {

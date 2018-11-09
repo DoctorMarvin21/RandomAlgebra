@@ -1,11 +1,11 @@
-﻿using RandomsAlgebra.Distributions;
+﻿using RandomAlgebra.Distributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace RandomsAlgebra.DistributionsEvaluation
+namespace RandomAlgebra.DistributionsEvaluation
 {
     internal class NodeOperation
     {

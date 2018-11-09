@@ -1,4 +1,4 @@
-﻿using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +34,15 @@ namespace Distributions
 
             groupMatrixParameters.Text = Languages.GetText("GroupMatrixParameters");
             groupDistributionParameters.Text = Languages.GetText("GroupDistributionParameters");
+            btnBuildTables.Text = Languages.GetText("ButtonBuildTables");
+            lbDimensions.Text = Languages.GetText("Dimensions");
+            lbDistributionType.Text = Languages.GetText("DistributionType");
+            lbDegreesOfFreedom.Text = Languages.GetText(nameof(StudentGeneralizedDistributionSettings.DegreesOfFreedom));
 
+            groupArguments.Text = Languages.GetText("Arguments");
+            groupCoefficients.Text = Languages.GetText("TableCoeffitients");
+            groupMatrix.Text = Languages.GetText("TableMatrix");
+            groupMeans.Text = Languages.GetText("TableMeans");
 
             _matrixSource.DataSource = _matrix;
             _argumentsSource.DataSource = _arguments;
@@ -43,6 +51,10 @@ namespace Distributions
 
             comboDistributionType.DataSource = new string[] { Languages.GetText(nameof(MultivariateNormalDistributionSettings)), Languages.GetText(nameof(MultivariateTDistributionSettings)) };
 
+            DataGridManager.StartManage(dataGridArguments);
+            DataGridManager.StartManage(dataGridCoefficients);
+            DataGridManager.StartManage(dataGridMatrix);
+            DataGridManager.StartManage(dataGridMeans);
 
             groupDistributionParameters.Visible = showDistributionParameters;
             ChangeRowVisibility(1, showCoeff);
@@ -132,10 +144,10 @@ namespace Distributions
 
             for (int i = 0; i < dimesion; i++)
             {
-                _matrix.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
-                _arguments.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(string)) { AllowDBNull = false });
-                _means.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
-                _coeff.Columns.Add(new DataColumn($"{Languages.GetText("Distribution")} {i + 1}", typeof(double)) { AllowDBNull = false });
+                _matrix.Columns.Add(new DataColumn($"D{i + 1}", typeof(double)) { AllowDBNull = false });
+                _arguments.Columns.Add(new DataColumn($"D{i + 1}", typeof(string)) { AllowDBNull = false });
+                _means.Columns.Add(new DataColumn($"D{i + 1}", typeof(double)) { AllowDBNull = false });
+                _coeff.Columns.Add(new DataColumn($"D{i + 1}", typeof(double)) { AllowDBNull = false });
             }
 
             object[] args = new object[dimesion];
@@ -174,14 +186,14 @@ namespace Distributions
             dataGridMatrix.DataSource = _matrixSource;
             dataGridArguments.DataSource = _argumentsSource;
             dataGridMeans.DataSource = _meansSource;
-            dataGridCoeff.DataSource = _coeffSource;
+            dataGridCoefficients.DataSource = _coeffSource;
 
             for (int i = 0; i < dimesion; i++)
             {
                 dataGridMatrix.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridArguments.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridMeans.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                dataGridCoeff.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                dataGridCoefficients.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
 

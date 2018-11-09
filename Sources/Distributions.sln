@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distribuitons", "Distributions\Distributions.csproj", "{FB324014-D718-4215-9BE4-CADC4C844E0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distributions", "Distributions\Distributions.csproj", "{FB324014-D718-4215-9BE4-CADC4C844E0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomsAlgebra", "RandomsAlgebra\RandomsAlgebra.csproj", "{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomAlgebra", "RandomsAlgebra\RandomAlgebra.csproj", "{DB6B67D7-2F3F-4647-9D0A-43D1B2CFC02A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     internal static class FFT
     {
@@ -34,7 +34,7 @@ namespace RandomsAlgebra.Distributions
 
             //when steps differs too much it would be much slower
             if (samples / MaxStepRate > left.Samples)
-                return DiscreteRandomsMath.Add(left, right.Discretize(left.Samples));
+                return DiscreteRandomMath.Add(left, right.Discretize(left.Samples));
             else
             {
                 var rightDiscrete = right.Discretize((int)samples);

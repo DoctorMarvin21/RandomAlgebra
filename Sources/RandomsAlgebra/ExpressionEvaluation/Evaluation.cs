@@ -1,10 +1,10 @@
-﻿using RandomsAlgebra.Distributions;
+﻿using RandomAlgebra.Distributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.DistributionsEvaluation
+namespace RandomAlgebra.DistributionsEvaluation
 {
     internal static class Evaluation
     {

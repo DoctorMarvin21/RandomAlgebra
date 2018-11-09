@@ -1,6 +1,6 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra.DistributionsEvaluation;
-using RandomsAlgebra.Distributions.Settings;
+using RandomAlgebra.DistributionsEvaluation;
+using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     /// <summary>
     /// Propagation of distributions using Monte-Carlo method
@@ -17,7 +17,7 @@ namespace RandomsAlgebra.Distributions
     public sealed class MonteCarloDistribution : DiscreteDistribution
     {
         static readonly ThreadLocal<Random> _rnd = new ThreadLocal<Random>(() => new Random(Environment.TickCount * Thread.CurrentThread.ManagedThreadId));
-        readonly double[] _randomsSorted = null;
+        readonly double[] _randomSorted = null;
         double? _mean = null;
         double? _variance = null;
         double? _skewness = null;
@@ -47,7 +47,7 @@ namespace RandomsAlgebra.Distributions
 
         private MonteCarloDistribution(BasicDistributionData basicData) : base(basicData.XAxis, basicData.PDF, basicData.CDF)
         {
-            _randomsSorted = basicData.RandomsSorted;
+            _randomSorted = basicData.RandomSorted;
         }
 
         #region Generate and build coordinates
@@ -67,25 +67,25 @@ namespace RandomsAlgebra.Distributions
 
             BasicDistributionData data = new BasicDistributionData();
 
-            double[] randoms;
+            double[] random;
 
             if (multivariateDistributions == null)
             {
-                randoms = GenerateRandoms(evaluator, univariateDistributions, samples);
+                random = GenerateRandom(evaluator, univariateDistributions, samples);
             }
             else
             {
-                randoms = GenerateRandoms(evaluator, univariateDistributions, multivariateDistributions, samples);
+                random = GenerateRandom(evaluator, univariateDistributions, multivariateDistributions, samples);
             }
 
-            Array.Sort(randoms);
+            Array.Sort(random);
 			double step;
-            double[] xAxis = CommonMath.GenerateXAxis(randoms[0], randoms[samples - 1], pockets, out step);
+            double[] xAxis = CommonMath.GenerateXAxis(random[0], random[samples - 1], pockets, out step);
 
-            double[] cdf = GenerateCDF(xAxis, randoms);
+            double[] cdf = GenerateCDF(xAxis, random);
 
 
-            data.RandomsSorted = randoms;
+            data.RandomSorted = random;
             data.XAxis = xAxis;
             data.CDF = cdf;
             data.PDF = Derivate(cdf, xAxis[pockets - 1] - xAxis[0]);
@@ -93,9 +93,9 @@ namespace RandomsAlgebra.Distributions
             return data;
         }
 
-        private static double[] GenerateRandoms(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> randomSource, int samples)
+        private static double[] GenerateRandom(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> randomSource, int samples)
         {
-            double[] randoms = new double[samples];
+            double[] random = new double[samples];
             var order = evaluator.Parameters;
 
             int argsCount = order.Length;
@@ -128,15 +128,15 @@ namespace RandomsAlgebra.Distributions
                     args[j] = orderedDistributions[j].Generate(rnd);
                 }
 
-                randoms[i] = evaluator.EvaluateCompiled(args);
+                random[i] = evaluator.EvaluateCompiled(args);
             });
 
-            return randoms;
+            return random;
         }
 
-        private static double[] GenerateRandoms(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples)
+        private static double[] GenerateRandom(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples)
         {
-            double[] randoms = new double[samples];
+            double[] random = new double[samples];
             var order = evaluator.Parameters;
 
             MultivariateGenerator generator = new MultivariateGenerator(order, univariateDistributions, multivariateDistributions);
@@ -147,28 +147,28 @@ namespace RandomsAlgebra.Distributions
 
                 double[] args = generator.Generate(rnd);
 
-                randoms[i] = evaluator.EvaluateCompiled(args);
+                random[i] = evaluator.EvaluateCompiled(args);
             }
             );
 
-            return randoms;
+            return random;
         }
 
-        private static double[] GenerateCDF(double[] xCoordinates, double[] randomsSorted)
+        private static double[] GenerateCDF(double[] xCoordinates, double[] randomSorted)
         {
             int length = xCoordinates.Length;
-            int randomsLength = randomsSorted.Length;
+            int randomLength = randomSorted.Length;
 
             double[] yCoordinatesCDF = new double[length];
 
-            double cStep = 1d / (randomsLength - 1);
+            double cStep = 1d / (randomLength - 1);
             int d = 0;
 
             for (int i = 0; i < length; i++)
             {
                 double max = xCoordinates[i];
 
-                while (d < randomsLength && randomsSorted[d] <= max)
+                while (d < randomLength && randomSorted[d] <= max)
                 {
                     d++;
                 }
@@ -211,7 +211,7 @@ namespace RandomsAlgebra.Distributions
             {
                 if (_mean == null)
                 {
-                    _mean = _randomsSorted.Sum() / _randomsSorted.Length;
+                    _mean = _randomSorted.Sum() / _randomSorted.Length;
                 }
                 return _mean.Value;
             }
@@ -225,7 +225,7 @@ namespace RandomsAlgebra.Distributions
                 {
                     double mean = InnerMean;
 
-                    _variance = _randomsSorted.Sum(x => Math.Pow(x - mean, 2)) / (_randomsSorted.Length - 1);
+                    _variance = _randomSorted.Sum(x => Math.Pow(x - mean, 2)) / (_randomSorted.Length - 1);
                 }
                 return _variance.Value;
             }
@@ -239,7 +239,7 @@ namespace RandomsAlgebra.Distributions
                 {
                     double mean = InnerMean;
 
-                    double m = _randomsSorted.Sum(x => Math.Pow(x - mean, 3)) / (_randomsSorted.Length - 1);
+                    double m = _randomSorted.Sum(x => Math.Pow(x - mean, 3)) / (_randomSorted.Length - 1);
                     double s = Math.Pow(InnerVariance, 3.0 / 2.0);
 
                     _skewness = m / s;
@@ -250,15 +250,15 @@ namespace RandomsAlgebra.Distributions
 
         internal override double InnerQuantile(double p)
         {
-            double len = _randomsSorted.Length;
+            double len = _randomSorted.Length;
             double c = (len - 1) * p;
-            return _randomsSorted[(int)c];
+            return _randomSorted[(int)c];
         }
         #endregion
 
         private class BasicDistributionData
         {
-            public double[] RandomsSorted { get; set; }
+            public double[] RandomSorted { get; set; }
             public double[] XAxis { get; set; }
             public double[] PDF { get; set; }
             public double[] CDF { get; set; }

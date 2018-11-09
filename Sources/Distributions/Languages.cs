@@ -1,4 +1,4 @@
-﻿using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +19,11 @@ namespace Distributions
             { "GroupDistributionParameters", new Translations("Distribution parameters", "Параметры распределения") },
 
             { "TableCoeffitients", new Translations("Distribution parameters", "Параметры распределения") },
-            { "TableArguments", new Translations("Distribution parameters", "Параметры распределения") },
             { "TableMatrix", new Translations("Covariance matrix", "Параметры распределения") },
             { "TableMeans", new Translations("Mean values", "Средние значения") },
 
             { "ButtonEvaluate", new Translations("Evaluate", "Расчёт") },
+            { "ButtonBuildTables", new Translations("Build tables", "Сформировать таблицы") },
             { "ButtonOk", new Translations("OK", "OK") },
             { "ButtonCancel", new Translations("Cancel", "Отмена") },
             { "ButtonAdd", new Translations("Add", "Добавить")  },
@@ -40,20 +40,18 @@ namespace Distributions
             { "PDFTitle", new Translations("Density Function", "Плотность вероятности") },
             { "CDFTitle", new Translations("Distribution Function", "Функция распределения") },
 
+            { "Argument", new Translations("Argument", "Аргумент") },
+            { "Arguments", new Translations("Arguments", "Аргументы") },
             { "Distribution", new Translations("Distribution", "Распределениe") },
             { "Distributions", new Translations("Distributions", "Распределения") },
+            { "Dimensions", new Translations("Dimensions", "Измерений") },
+            { "DistributionType", new Translations("Distribution type", "Вид распределения") },
             { "MultivariateDistribution", new Translations("Multivariate distribution", "Многомерное распределение") },
             { "DistributionSettings", new Translations("Distribution settings", "Настройки распределения") },
             { "RandomsAlgebra", new Translations("Randoms algebra", "Алгебра сл. величин") },
             { "MonteCarlo", new Translations("Monte-Carlo", "Монте-Карло") },
             { "Optimizations", new Translations("Optimizations", "Оптимизации") },
-
-
-            { "ColumnArgument", new Translations("Argument", "Аргумент") },
-            { "ColumnArguments", new Translations("Arguments", "Аргументы") },
-            { "ColumnDistributionType", new Translations("Distribution type", "Вид распределения") },
-            { "ColumnDistributionSettings", new Translations("Parameters", "Параметры") },
-
+            { "Export", new Translations("Export", "Экспорт") },
 
 
             { "ColumnParameterName", new Translations("Parameter", "Параметр") },
@@ -67,7 +65,6 @@ namespace Distributions
 
             { nameof(MultivariateNormalDistributionSettings), new Translations("Normal", "Нормальное")  },
             { nameof(MultivariateTDistributionSettings), new Translations("t-distribution", "Стьюдента")  },
-
             { nameof(UniformDistributionSettings), new Translations("Uniform", "Равномерное") },
             { nameof(ArcsineDistributionSettings), new Translations("Arcsine", "Арксинусное") },
             { nameof(UniformDistributionSettings.LowerBound), new Translations("Lower bound", "Нижняя граница") },

@@ -1,4 +1,4 @@
-﻿using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     /// <summary>
     /// Discrete distribution as sampling of continuous distribution
@@ -469,18 +469,18 @@ namespace RandomsAlgebra.Distributions
         }
         #endregion
 
-        #region Randoms algebra
+        #region Random algebra
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
             {
                 case DistributionType.Number:
                     {
-                        return DiscreteRandomsMath.Add(this, (double)value);
+                        return DiscreteRandomMath.Add(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Add(this, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Add(this, (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
@@ -490,7 +490,7 @@ namespace RandomsAlgebra.Distributions
                         }
                         else
                         {
-                            return DiscreteRandomsMath.Add(this, (DiscreteDistribution)(ContinuousDistribution)value);
+                            return DiscreteRandomMath.Add(this, (DiscreteDistribution)(ContinuousDistribution)value);
                         }
                     }
                 default:
@@ -504,11 +504,11 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return DiscreteRandomsMath.Sub(this, (double)value);
+                        return DiscreteRandomMath.Sub(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Sub(this, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Sub(this, (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
@@ -518,7 +518,7 @@ namespace RandomsAlgebra.Distributions
                         }
                         else
                         {
-                            return DiscreteRandomsMath.Sub(this, (DiscreteDistribution)(ContinuousDistribution)value);
+                            return DiscreteRandomMath.Sub(this, (DiscreteDistribution)(ContinuousDistribution)value);
                         }
                     }
                 default:
@@ -532,15 +532,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return DiscreteRandomsMath.Multiply(this, (double)value);
+                        return DiscreteRandomMath.Multiply(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Multiply(this, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Multiply(this, (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Multiply(this, (DiscreteDistribution)(ContinuousDistribution)value);
+                        return DiscreteRandomMath.Multiply(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -553,15 +553,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return DiscreteRandomsMath.Divide(this, (double)value);
+                        return DiscreteRandomMath.Divide(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Divide(this, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Divide(this, (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Divide(this, (DiscreteDistribution)(ContinuousDistribution)value);
+                        return DiscreteRandomMath.Divide(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     throw new DistributionsInvalidOperationException();
@@ -574,15 +574,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return CommonRandomsMath.Power(this, (double)value);
+                        return CommonRandomMath.Power(this, (double)value);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Power(this, (DiscreteDistribution)value);
+                        return DiscreteRandomMath.Power(this, (DiscreteDistribution)value);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Power(this, (DiscreteDistribution)(ContinuousDistribution)value);
+                        return DiscreteRandomMath.Power(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     {
@@ -597,15 +597,15 @@ namespace RandomsAlgebra.Distributions
             {
                 case DistributionType.Number:
                     {
-                        return CommonRandomsMath.Log(this, (double)nBase);
+                        return CommonRandomMath.Log(this, (double)nBase);
                     }
                 case DistributionType.Continious:
                     {
-                        return DiscreteRandomsMath.Log(this, (DiscreteDistribution)(ContinuousDistribution)nBase);
+                        return DiscreteRandomMath.Log(this, (DiscreteDistribution)(ContinuousDistribution)nBase);
                     }
                 case DistributionType.Discrete:
                     {
-                        return DiscreteRandomsMath.Log(this, (DiscreteDistribution)nBase);
+                        return DiscreteRandomMath.Log(this, (DiscreteDistribution)nBase);
                     }
                 default:
                     {
@@ -616,12 +616,12 @@ namespace RandomsAlgebra.Distributions
 
         internal override BaseDistribution InnerGetAbs()
         {
-            return CommonRandomsMath.Abs(this);
+            return CommonRandomMath.Abs(this);
         }
 
         internal override BaseDistribution InnerGetNegate()
         {
-            return DiscreteRandomsMath.Negate(this);
+            return DiscreteRandomMath.Negate(this);
         }
 #endregion
 

@@ -1,13 +1,13 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra;
-using RandomsAlgebra.Distributions.SpecialDistributions;
+using RandomAlgebra;
+using RandomAlgebra.Distributions.SpecialDistributions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions.Settings
+namespace RandomAlgebra.Distributions.Settings
 {
     /// <summary>
     /// Distributions settings base class
@@ -44,7 +44,7 @@ namespace RandomsAlgebra.Distributions.Settings
         /// <param name="samples">Number of random variables</param>
         /// <param name="rnd">Random source</param>
         /// <returns>Vector of random variables</returns>
-        public virtual double[] GenerateRandoms(int samples, Random rnd)
+        public virtual double[] GenerateRandom(int samples, Random rnd)
         {
             var distr = this.GetUnivariateContinuoisDistribution();
             return distr.Generate(samples, rnd);
@@ -932,7 +932,7 @@ namespace RandomsAlgebra.Distributions.Settings
     }
 
     /// <summary>
-    /// Параметры распределения на основе <see cref="UnivariateContinuousDistribution"/>, требуется ссылка на сборку <see cref="Accord.Statistics"/>
+    /// Settings of distribution based on <see cref="UnivariateContinuousDistribution"/>, reference for <see cref="Accord.Statistics"/> required
     /// </summary>
     public class CustomDistribution : DistributionSettings
     {

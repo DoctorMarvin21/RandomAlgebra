@@ -1,6 +1,6 @@
-﻿using RandomsAlgebra.Distributions;
-using RandomsAlgebra.Distributions.Settings;
-using RandomsAlgebra.DistributionsEvaluation;
+﻿using RandomAlgebra.Distributions;
+using RandomAlgebra.Distributions.Settings;
+using RandomAlgebra.DistributionsEvaluation;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -1,5 +1,5 @@
-﻿using RandomsAlgebra.Distributions;
-using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions;
+using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 
-namespace RandomsAlgebra.DistributionsEvaluation
+namespace RandomAlgebra.DistributionsEvaluation
 {
     /// <summary>
     /// Propagation of distributions by the method of algebra of random variables that is a combination of analytical and numberical (include numerical integration) methods

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions.Settings
+namespace RandomAlgebra.Distributions.Settings
 {
     /// <summary>
     /// Optimizations used during numerical integration, true by the default, use for tesing

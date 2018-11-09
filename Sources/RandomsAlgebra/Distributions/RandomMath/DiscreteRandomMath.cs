@@ -1,4 +1,4 @@
-﻿using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
-    internal static class DiscreteRandomsMath
+    internal static class DiscreteRandomMath
     {
         private enum DistributionsOperation
         {
@@ -463,7 +463,7 @@ namespace RandomsAlgebra.Distributions
                         if (stepY / stepX > 2)
                         {
                             newAction = DistributionsOperation.Muliply;
-                            return new DiscreteDistribution[] { CommonRandomsMath.Power(dpdfRight, -1), dpdfLeft };
+                            return new DiscreteDistribution[] { CommonRandomMath.Power(dpdfRight, -1), dpdfLeft };
                         }
                         else
                         {

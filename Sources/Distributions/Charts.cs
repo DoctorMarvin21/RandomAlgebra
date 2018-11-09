@@ -1,4 +1,4 @@
-﻿using RandomsAlgebra.Distributions;
+﻿using RandomAlgebra.Distributions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -76,19 +76,25 @@ namespace Distributions
         {
             PointPairList points = new PointPairList();
 
-            for (double x = min; x < max; x += step)
+            if (min == max)
             {
-                var y = func.Invoke(x);
-                if (!double.IsInfinity(y) && !double.IsNaN(y))
+                points.Add(min, func.Invoke(min));
+            }
+            else
+            {
+                for (double x = min; x < max; x += step)
                 {
-                    points.Add(x, y);
-                }
-                else
-                {
-                    points.Add(x, 0);
+                    var y = func.Invoke(x);
+                    if (!double.IsInfinity(y) && !double.IsNaN(y))
+                    {
+                        points.Add(x, y);
+                    }
+                    else
+                    {
+                        points.Add(x, 0);
+                    }
                 }
             }
-
             return points;
         }
     }

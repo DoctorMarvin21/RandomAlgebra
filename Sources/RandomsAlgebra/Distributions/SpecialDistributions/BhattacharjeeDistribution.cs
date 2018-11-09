@@ -5,7 +5,7 @@ using System.Text;
 using Accord;
 using Accord.Statistics.Distributions.Univariate;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
     namespace SpecialDistributions
     {

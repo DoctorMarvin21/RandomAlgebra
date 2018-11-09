@@ -1,13 +1,13 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomsAlgebra.Distributions.SpecialDistributions;
+using RandomAlgebra.Distributions.SpecialDistributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomsAlgebra.Distributions
+namespace RandomAlgebra.Distributions
 {
-    internal static class ContinuousRandomsMath
+    internal static class ContinuousRandomMath
     {
         public static ContinuousDistribution ConvolutionOfNormalAndNormal(ContinuousDistribution pdfX, ContinuousDistribution pdfY)
         {

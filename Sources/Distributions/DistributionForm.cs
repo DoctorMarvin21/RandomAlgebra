@@ -1,7 +1,7 @@
-﻿using RandomsAlgebra;
-using RandomsAlgebra.DistributionsEvaluation;
-using RandomsAlgebra.Distributions;
-using RandomsAlgebra.Distributions.Settings;
+﻿using RandomAlgebra;
+using RandomAlgebra.DistributionsEvaluation;
+using RandomAlgebra.Distributions;
+using RandomAlgebra.Distributions.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,6 +54,7 @@ namespace Distributions
 
             btnEvaluate.Text = Languages.GetText("ButtonEvaluate");
             btnOptimizations.Text = Languages.GetText("Optimizations");
+            btnExport.Text = Languages.GetText("Export");
 
             checkEvaluateRandomsAlgebra.Text = Languages.GetText("RandomsAlgebra");
             checkEvaluateMonteCarlo.Text = Languages.GetText("MonteCarlo");
@@ -84,12 +85,12 @@ namespace Distributions
 
             var argumentColumn = new DataGridViewTextBoxColumn();
             argumentColumn.Width = 50;
-            argumentColumn.HeaderText = Languages.GetText("ColumnArgument");
+            argumentColumn.HeaderText = Languages.GetText("Argument");
             argumentColumn.DataPropertyName = nameof(DistributionFunctionArgument.Argument);
             dataGridUnivariateDistributions.Columns.Add(argumentColumn);
 
             var distributionTypeColumn = new DataGridViewComboBoxColumn();
-            distributionTypeColumn.HeaderText = Languages.GetText("ColumnDistributionType");
+            distributionTypeColumn.HeaderText = Languages.GetText("DistributionType");
             distributionTypeColumn.DataPropertyName = nameof(DistributionFunctionArgument.SettingsType);
             distributionTypeColumn.DataSource = DisplayNameAndSettingType.DisplayNames;
             distributionTypeColumn.DisplayMember = nameof(DisplayNameAndSettingType.Name);
@@ -98,7 +99,7 @@ namespace Distributions
 
             var distributionSettingsColumn = new DataGridViewTextBoxColumn();
             distributionSettingsColumn.ReadOnly = true;
-            distributionSettingsColumn.HeaderText = Languages.GetText("ColumnDistributionSettings");
+            distributionSettingsColumn.HeaderText = Languages.GetText("DistributionSettings");
             distributionSettingsColumn.DataPropertyName = nameof(DistributionFunctionArgument.DistributionSettings);
             dataGridUnivariateDistributions.Columns.Add(distributionSettingsColumn);
         }
@@ -169,14 +170,14 @@ namespace Distributions
             var joinedArgumentsColumn = new DataGridViewTextBoxColumn();
             joinedArgumentsColumn.Width = 100;
             joinedArgumentsColumn.ReadOnly = true;
-            joinedArgumentsColumn.HeaderText = Languages.GetText("ColumnArguments");
+            joinedArgumentsColumn.HeaderText = Languages.GetText("Arguments");
             joinedArgumentsColumn.DataPropertyName = nameof(MultivariateDistributionFunctionArgument.JoinedArguments);
             dataGridMultivariateDistributions.Columns.Add(joinedArgumentsColumn);
 
             var multivariateDistributionTypeColumn = new DataGridViewTextBoxColumn();
             multivariateDistributionTypeColumn.Width = 100;
             multivariateDistributionTypeColumn.ReadOnly = true;
-            multivariateDistributionTypeColumn.HeaderText = Languages.GetText("ColumnDistributionType");
+            multivariateDistributionTypeColumn.HeaderText = Languages.GetText("DistributionType");
             multivariateDistributionTypeColumn.DataPropertyName = nameof(MultivariateDistributionFunctionArgument.DistributionName);
             dataGridMultivariateDistributions.Columns.Add(multivariateDistributionTypeColumn);
         }
@@ -354,12 +355,49 @@ namespace Distributions
         #endregion
 
         #region Parameters
+        private void checkEvaluateRandomsAlgebra_CheckedChanged(object sender, EventArgs e)
+        {
+            bool eval = checkEvaluateRandomsAlgebra.Checked;
+            numericSamplesCount.Enabled = eval;
+        }
+
+        private void checkEvaluateMonteCarlo_CheckedChanged(object sender, EventArgs e)
+        {
+            bool eval = checkEvaluateMonteCarlo.Checked;
+            numericExperimentsCount.Enabled = eval;
+            numericPocketsCount.Enabled = eval;
+        }
+
+
         private void btnOptimizations_Click(object sender, EventArgs e)
         {
             OptimizationsForm optimizations = new OptimizationsForm();
             optimizations.ShowDialog(this);
         }
 
+        #endregion
+
+        #region Export
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "Text|*.txt";
+
+            if (saveFile.ShowDialog(this) == DialogResult.OK)
+            {
+                try
+                {
+                    string path = saveFile.FileName;
+                    string toSave = ImportExport.ExportToText(_distributionsPair);
+                    System.IO.File.WriteAllText(path, toSave);
+                    System.Diagnostics.Process.Start(path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Languages.GetText("Exception"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
         #endregion
     }
 }
