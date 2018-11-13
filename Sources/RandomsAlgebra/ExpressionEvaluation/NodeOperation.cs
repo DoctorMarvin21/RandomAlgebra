@@ -60,21 +60,31 @@ namespace RandomAlgebra.DistributionsEvaluation
         }
 
 
-        public virtual BaseDistribution EvaluateExtended()
+        public virtual BaseDistribution EvaluateExtended(List<CorrelatedPair> correlations)
         {
-
             if (IsUnary)
             {
-                var left = Left.EvaluateExtended();
+                var left = Left.EvaluateExtended(correlations);
+
                 var result = Evaluation.DistributionUnary(left, OperationType);
                 return result;
             }
             else
             {
-                var left = Left.EvaluateExtended();
-                var right = Right.EvaluateExtended();
-                var result = Evaluation.DistributionBinary(left,right, OperationType);
-                return result;
+                var left = Left.EvaluateExtended(correlations);
+                var right = Right.EvaluateExtended(correlations);
+
+                var corr = correlations?.Find(x => x.CheckDistributions(left, right));
+
+                if (corr != null)
+                {
+                    return Evaluation.DistributionBinaryCorrelated(corr.GetBivariate(left, right), OperationType);
+                }
+                else
+                {
+                    var result = Evaluation.DistributionBinary(left, right, OperationType);
+                    return result;
+                }
             }
         }
 
@@ -82,7 +92,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             switch (OperationType)
             {
-                case NodeOperationType.Add:
+                case NodeOperationType.Sum:
                     return Expression.Add(Left.ToExpression(), Right.ToExpression());
                 case NodeOperationType.Substract:
                     return Expression.Subtract(Left.ToExpression(), Right.ToExpression());
@@ -134,7 +144,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             return Expression.Constant(Value);
         }
 
-        public override BaseDistribution EvaluateExtended()
+        public override BaseDistribution EvaluateExtended(List<CorrelatedPair> correlations)
         {
             return Value;
         }
@@ -184,7 +194,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             set;
         } = 1;
 
-        public override BaseDistribution EvaluateExtended()
+        public override BaseDistribution EvaluateExtended(List<CorrelatedPair> correlations)
         {
             if (Value == null)
                 throw new Exception("Аргумент параметра " + Parameter + " не задан");
@@ -210,7 +220,7 @@ namespace RandomAlgebra.DistributionsEvaluation
     {
         Constant,
         Parameter,
-        Add,
+        Sum,
         Substract,
         Multiply,
         Divide,

@@ -9,11 +9,12 @@ namespace RandomAlgebra.Distributions
 {
     namespace SpecialDistributions
     {
-        internal class StudentGeneralizedDistribution : TDistribution
+        internal class StudentGeneralizedDistribution : UnivariateContinuousDistribution
         {
             private readonly double _mean, _variance, _std;
             private readonly DoubleRange _range = new DoubleRange(double.NegativeInfinity, double.PositiveInfinity);
             private readonly NormalDistribution _baseNormal;
+            private readonly TDistribution _baseT;
             private readonly GammaDistribution _gammaDistr;
 
             public StudentGeneralizedDistribution(double degreesOfFreedom) : this(0, 1, degreesOfFreedom)
@@ -21,11 +22,13 @@ namespace RandomAlgebra.Distributions
 
             }
 
-            public StudentGeneralizedDistribution(double mean, double std, double degreesOfFreedom) : base(degreesOfFreedom)
+            public StudentGeneralizedDistribution(double mean, double std, double degreesOfFreedom)
             {
                 _std = std;
                 _mean = mean;
+                DegreesOfFreedom = degreesOfFreedom;
 
+                _baseT = new TDistribution(degreesOfFreedom);
                 _baseNormal = new NormalDistribution(0, 1);
                 _gammaDistr = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
 
@@ -39,6 +42,11 @@ namespace RandomAlgebra.Distributions
                 }
             }
 
+            public double DegreesOfFreedom
+            {
+                get;
+            }
+
             public override double Mean
             {
                 get
@@ -47,7 +55,7 @@ namespace RandomAlgebra.Distributions
                 }
             }
 
-            public double ScaleCoeffitient
+            public double ScaleCoefficient
             {
                 get
                 {
@@ -57,11 +65,11 @@ namespace RandomAlgebra.Distributions
 
             protected override double InnerProbabilityDensityFunction(double x)
             {
-                return base.InnerProbabilityDensityFunction((x - _mean) / _std) / _std;
+                return _baseT.ProbabilityDensityFunction((x - _mean) / _std) / _std;
             }
             protected override double InnerDistributionFunction(double x)
             {
-                return base.InnerDistributionFunction((x - _mean) / _std);
+                return _baseT.DistributionFunction((x - _mean) / _std);
             }
 
             public override double Generate(Random source)

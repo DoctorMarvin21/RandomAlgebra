@@ -379,7 +379,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             get
             {
-                return Math.Sqrt(Math.Pow(StandardDeviation1, 2) + Math.Pow(StandardDeviation2, 2) - 2 * Correlation * StandardDeviation1 * StandardDeviation2);
+                return Math.Sqrt(Math.Pow(StandardDeviation1, 2) + Math.Pow(StandardDeviation2, 2) + 2 * Correlation * StandardDeviation1 * StandardDeviation2);
             }
         }
 

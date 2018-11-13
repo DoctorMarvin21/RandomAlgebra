@@ -43,7 +43,7 @@ namespace Distributions
                 Dictionary<string, BaseDistribution> keyValuePairs = new Dictionary<string, BaseDistribution>();
                 keyValuePairs.Add("A", pair[0].GetDistribution(samples));
                 keyValuePairs.Add("B", pair[1].GetDistribution(samples));
-                BaseDistribution resultMath = evaluator.EvaluateDistributions(keyValuePairs);
+                BaseDistribution resultMath = evaluator.EvaluateDistributions(keyValuePairs, new List<CorrelatedPair>());
 
                 List<double> monteCarloQ = new List<double>();
 

@@ -7,7 +7,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 {
     internal sealed class Operator : Symbol
     {
-        public static readonly Operator Addition = new Operator(1, NodeOperationType.Add, false);
+        public static readonly Operator Addition = new Operator(1, NodeOperationType.Sum, false);
         public static readonly Operator Subtraction = new Operator(1, NodeOperationType.Substract, false);
         public static readonly Operator Multiplication = new Operator(2, NodeOperationType.Multiply, false);
         public static readonly Operator Division = new Operator(2, NodeOperationType.Divide, false);

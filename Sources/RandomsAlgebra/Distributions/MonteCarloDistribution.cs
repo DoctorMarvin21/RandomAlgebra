@@ -80,7 +80,7 @@ namespace RandomAlgebra.Distributions
 
             Array.Sort(random);
 			double step;
-            double[] xAxis = CommonMath.GenerateXAxis(random[0], random[samples - 1], pockets, out step);
+            double[] xAxis = CommonRandomMath.GenerateXAxis(random[0], random[samples - 1], pockets, out step);
 
             double[] cdf = GenerateCDF(xAxis, random);
 

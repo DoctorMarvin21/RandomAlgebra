@@ -91,7 +91,7 @@ namespace RandomAlgebra.Distributions
 
             double step = (max - min) / (length - 1);
 
-            Normalize(coordinates.YCoordinates, step);
+            double k = Normalize(coordinates.YCoordinates, step);
 
             double[] cdf = GetCDF(coordinates.YCoordinates, step);
             double tolerance = 1d / Math.Pow(length * 10, 2);
@@ -116,14 +116,14 @@ namespace RandomAlgebra.Distributions
             max = coordinates.XCoordinates[maxI - 1];
 
             int r = maxI - minI;
-            double[] newX = CommonMath.GenerateXAxis(min, max, length, out step);
+            double[] newX = CommonRandomMath.GenerateXAxis(min, max, length, out step);
             double[] newY = new double[r];
 
             for (int i = 0; i < r; i++)
             {
                 newY[i] = coordinates.YCoordinates[i + minI];
             }
-            newY = CommonMath.Resample(newY, length);
+            newY = CommonRandomMath.Resample(newY, length);
 
             return new PrivateCoordinates { XCoordinates = newX, YCoordinates = newY };
         }
@@ -198,7 +198,7 @@ namespace RandomAlgebra.Distributions
             if (continiousDistribution == null)
                 throw new ArgumentNullException(nameof(continiousDistribution));
 			double step;
-            double[] xAxis = CommonMath.GenerateXAxis(continiousDistribution.InnerMinX, continiousDistribution.InnerMaxX, samples, out step);
+            double[] xAxis = CommonRandomMath.GenerateXAxis(continiousDistribution.InnerMinX, continiousDistribution.InnerMaxX, samples, out step);
 
             double[] discrete = new double[samples];
 
@@ -451,7 +451,7 @@ namespace RandomAlgebra.Distributions
                     {
                         double y0 = xCoordinates[i];
                         double y1 = xCoordinates[i + 1];
-                        double result = CommonMath.InterpolateLinear(x0, x1, y0, y1, p);
+                        double result = CommonRandomMath.InterpolateLinear(x0, x1, y0, y1, p);
                         return result;
                     }
                 }
@@ -624,7 +624,6 @@ namespace RandomAlgebra.Distributions
             return DiscreteRandomMath.Negate(this);
         }
 #endregion
-
 
         private class PrivateCoordinates
         {

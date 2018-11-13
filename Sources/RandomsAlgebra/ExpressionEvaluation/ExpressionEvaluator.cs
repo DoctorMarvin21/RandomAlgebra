@@ -47,9 +47,12 @@ namespace RandomAlgebra.DistributionsEvaluation
         /// Performs propagation of distributions setted as arguments
         /// </summary>
         /// <param name="arguments">Dictionary of pairs of distributions and arguments</param>
+        /// <param name="correlations">Correlation coefficients for distribution arguments</param>
         /// <returns>Propagation result</returns>
-        public BaseDistribution EvaluateDistributions(Dictionary<string, BaseDistribution> arguments)
+        public BaseDistribution EvaluateDistributions(Dictionary<string, BaseDistribution> arguments, List<CorrelatedPair> correlations)
         {
+            correlations?.ForEach(x => x.Used = false);
+
             arguments = arguments ?? new Dictionary<string, BaseDistribution>();
 
             int length = _nodeParameters.Count;
@@ -75,7 +78,12 @@ namespace RandomAlgebra.DistributionsEvaluation
 
             }
 
-            var result = _parsed.EvaluateExtended();
+            var result = _parsed.EvaluateExtended(correlations);
+
+            if (correlations.Any(x => !x.Used))
+            {
+                throw new DistributionsInvalidOperationException("Some of correlation parameters was ignored, rebuild the expression", "Некоторые параметры корреляция были проигнорированы, перестройте выражение");
+            }
 
             return result;
         }

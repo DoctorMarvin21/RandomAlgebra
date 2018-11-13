@@ -295,7 +295,7 @@ namespace Distributions
                 if (evaluateRandomsAlgebra)
                 {
                     sw.Restart();
-                    _distributionsPair.RandomsAlgebra = DistributionManager.RandomsAlgebraDistribution(expression, univariate, samples);
+                    _distributionsPair.RandomsAlgebra = DistributionManager.RandomsAlgebraDistribution(expression, univariate, multivariate, samples);
                     sw.Stop();
 
                     _distributionsPair.RandomsAlgebraTime = sw.Elapsed;

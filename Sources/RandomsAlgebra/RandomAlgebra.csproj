@@ -61,8 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\CommonExceptions.cs" />
-    <Compile Include="Common\CommonMath.cs" />
+    <Compile Include="Distributions\CommonExceptions.cs" />
+    <Compile Include="Distributions\Bivariate\BivariateContinuousDistribution.cs" />
+    <Compile Include="Distributions\Bivariate\BivariateMath.cs" />
+    <Compile Include="Distributions\Bivariate\CorrelatedPair.cs" />
     <Compile Include="Distributions\DistributionSettings\MultivariateDistributionSettings.cs" />
     <Compile Include="Distributions\MonteCarloMultivariateGenerator.cs" />
     <Compile Include="Distributions\NumberDistribution.cs" />
@@ -78,7 +80,7 @@
     <Compile Include="ExpressionEvaluation\ExpressionEvaluator.cs" />
     <Compile Include="ExpressionEvaluation\NodeOperation.cs" />
     <Compile Include="ExpressionEvaluation\Symbol.cs" />
-    <Compile Include="Distributions\ContiniousDistribution.cs" />
+    <Compile Include="Distributions\ContinuousDistribution.cs" />
     <Compile Include="Distributions\DiscreteDistribution.cs" />
     <Compile Include="Distributions\MonteCarloDistribution.cs" />
     <Compile Include="Distributions\BaseDistribution.cs" />

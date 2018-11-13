@@ -10,20 +10,6 @@ namespace RandomAlgebra.Distributions
 {
     internal static class DiscreteRandomMath
     {
-        private enum DistributionsOperation
-        {
-            Add,
-            Sub,
-            SubInv,
-            Muliply,
-            Divide,
-            DivideInv,
-            Power,
-            PowerInv,
-            Log,
-            LogInv
-        }
-
         public static DiscreteDistribution Add(DiscreteDistribution dpdf, double value)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.Add);
@@ -216,9 +202,9 @@ namespace RandomAlgebra.Distributions
 
             double[] yCoordinates = new double[lengthRight];
 
-            double[] range = GetRange(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, dpdfRight.InnerMinX, dpdfRight.InnerMaxX, action);
+            double[] range = CommonRandomMath.GetRange(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, dpdfRight.InnerMinX, dpdfRight.InnerMaxX, action);
 			double stepX0;
-            double[] xCoordinates = CommonMath.GenerateXAxis(range[0], range[1], lengthRight, out stepX0);
+            double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out stepX0);
 
             switch (action)
             {
@@ -507,109 +493,20 @@ namespace RandomAlgebra.Distributions
 
             }
         }
+    }
 
-        private static double[] GetRange(double min1, double max1, double min2, double max2, DistributionsOperation action)
-        {
-            double[] allBounds = new double[4];
-            allBounds[0] = min1;
-            allBounds[1] = max1;
-            allBounds[2] = min2;
-            allBounds[3] = max2;
-
-            double[] result = new double[2];
-
-            switch (action)
-            {
-                case DistributionsOperation.Add:
-                    {
-                        result[0] = min1 + min2;
-                        result[1] = max1 + max2;
-
-                        break;
-                    }
-                case DistributionsOperation.Sub:
-                    {
-                        result[0] = min1 - max2;
-                        result[1] = max1 - min2;
-                        break;
-                    }
-                case DistributionsOperation.Muliply:
-                    {
-                        double[] variants = new double[4];
-                        variants[0] = min1 * min2;
-                        variants[1] = min1 * max2;
-                        variants[2] = max1 * min2;
-                        variants[3] = max1 * max2;
-
-                        result[0] = variants.Min();
-                        result[1] = variants.Max();
-
-                        break;
-                    }
-                case DistributionsOperation.Divide:
-                    {
-                        if (min2 == 0 || max2 == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZeroCrossingRandom);
-                        if (min2 < 0 && max2 > 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZeroCrossingRandom);
-
-
-                        double[] variants = new double[4];
-                        variants[0] = min1 / min2;
-                        variants[1] = min1 / max2;
-                        variants[2] = max1 / min2;
-                        variants[3] = max1 / max2;
-
-                        result[0] = variants.Min();
-                        result[1] = variants.Max();
-
-                        break;
-                    }
-                case DistributionsOperation.PowerInv:
-                    {
-                        if (min2 < 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
-
-                        double[] variants = new double[4];
-                        variants[0] = Math.Pow(min2, min1);
-                        variants[1] = Math.Pow(max2, min1);
-                        variants[2] = Math.Pow(min2, max1);
-                        variants[3] = Math.Pow(max2, max1);
-
-                        result[0] = variants.Min();
-                        result[1] = variants.Max();
-
-                        break;
-                    }
-                case DistributionsOperation.Log:
-                    {
-                        if (min1 <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmOfNotPositiveRandom);
-                        if (min2 <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithNotPositiveRandomBase);
-
-                        if ((min2 < 1 && max2 > 1) || min2 == 1 || max2 == 1)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithOneCrossingRandomBase);
-
-                        double[] variants = new double[4];
-                        variants[0] = Math.Log(min1, min2);
-                        variants[1] = Math.Log(max1, min2);
-                        variants[2] = Math.Log(min1, max2);
-                        variants[3] = Math.Log(max1, max2);
-
-                        result[0] = variants.Min();
-                        result[1] = variants.Max();
-
-                        break;
-                    }
-                default:
-                    {
-                        throw new NotImplementedException();
-                    }
-
-            }
-
-            return result;
-        }
+    internal enum DistributionsOperation
+    {
+        Add,
+        Sub,
+        SubInv,
+        Abs,
+        Muliply,
+        Divide,
+        DivideInv,
+        Power,
+        PowerInv,
+        Log,
+        LogInv
     }
 }

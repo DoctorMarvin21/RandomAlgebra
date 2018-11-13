@@ -12,7 +12,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             switch (operationType)
             {
-                case NodeOperationType.Add:
+                case NodeOperationType.Sum:
                     return left + right;
                 case NodeOperationType.Substract:
                     return left - right;
@@ -97,8 +97,9 @@ namespace RandomAlgebra.DistributionsEvaluation
             {
                 switch (operationType)
                 {
-                    case NodeOperationType.Add:
+                    case NodeOperationType.Sum:
                         {
+
                             return left + right;
                         }
                     case NodeOperationType.Substract:
@@ -126,6 +127,41 @@ namespace RandomAlgebra.DistributionsEvaluation
                             throw new NotImplementedException();
                         }
                 }
+            }
+        }
+
+        public static BaseDistribution DistributionBinaryCorrelated(BivariateContinuousDistribution bivariate, NodeOperationType operationType)
+        {
+            switch (operationType)
+            {
+                case NodeOperationType.Sum:
+                    {
+                        return bivariate.GetSum();
+                    }
+                case NodeOperationType.Substract:
+                    {
+                        return bivariate.GetDifference();
+                    }
+                case NodeOperationType.Multiply:
+                    {
+                        return bivariate.GetProduct();
+                    }
+                case NodeOperationType.Divide:
+                    {
+                        return bivariate.GetRatio();
+                    }
+                case NodeOperationType.Power:
+                    {
+                        return bivariate.GetPower();
+                    }
+                case NodeOperationType.Log:
+                    {
+                        return bivariate.GetLog();
+                    }
+                default:
+                    {
+                        throw new NotImplementedException();
+                    }
             }
         }
     }

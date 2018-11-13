@@ -212,7 +212,7 @@
             this.numericDegreesOfFreedom.Size = new System.Drawing.Size(150, 20);
             this.numericDegreesOfFreedom.TabIndex = 2;
             this.numericDegreesOfFreedom.Value = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});

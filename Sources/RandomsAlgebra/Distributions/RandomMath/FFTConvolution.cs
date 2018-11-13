@@ -51,13 +51,13 @@ namespace RandomAlgebra.Distributions
             {
                 if (left.Step > right.Step)
                 {
-                    leftY = CommonMath.Resample(left.YCoordinatesInternal, (int)(left.Step / right.Step * left.InnerSamples));
+                    leftY = CommonRandomMath.Resample(left.YCoordinatesInternal, (int)(left.Step / right.Step * left.InnerSamples));
                     rightY = right.YCoordinatesInternal;
                     step = right.Step;
                 }
                 else
                 {
-                    rightY = CommonMath.Resample(right.YCoordinatesInternal, (int)(right.Step / left.Step * right.InnerSamples));
+                    rightY = CommonRandomMath.Resample(right.YCoordinatesInternal, (int)(right.Step / left.Step * right.InnerSamples));
                     leftY = left.YCoordinatesInternal;
                     step = left.Step;
                 }
@@ -114,12 +114,12 @@ namespace RandomAlgebra.Distributions
                 result[i] = complexResult[i].Real * step;
             }
 
-            result = CommonMath.Resample(result, resultSamples);
+            result = CommonRandomMath.Resample(result, resultSamples);
 
             double minX = right.InnerMinX + left.InnerMinX;
             double maxX = right.InnerMaxX + left.InnerMaxX;
 
-            double[] xCoordinates = CommonMath.GenerateXAxis(minX, maxX, result.Length, out step);
+            double[] xCoordinates = CommonRandomMath.GenerateXAxis(minX, maxX, result.Length, out step);
 
             return new DiscreteDistribution(xCoordinates, result);
         }

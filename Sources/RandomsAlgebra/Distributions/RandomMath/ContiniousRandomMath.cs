@@ -98,7 +98,7 @@ namespace RandomAlgebra.Distributions
 
             double a = unif.Support.Min * pdfY.Coefficient + pdfY.Offset;
             double b = unif.Support.Max * pdfY.Coefficient + pdfY.Offset;
-            var s = Math.Abs(student.ScaleCoeffitient * pdfX.Coefficient);
+            var s = Math.Abs(student.ScaleCoefficient * pdfX.Coefficient);
             var m = student.Mean * pdfX.Coefficient + pdfX.Offset;
 
             return new ContinuousDistribution(new StudentUniformDistribution(a, b, m, s, student.DegreesOfFreedom), pdfX.Samples);

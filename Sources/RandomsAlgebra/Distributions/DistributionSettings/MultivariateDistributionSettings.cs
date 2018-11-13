@@ -117,6 +117,28 @@ namespace RandomAlgebra.Distributions.Settings
             get;
         }
 
+        /// <summary>
+        /// Returns bivariate pair based on current distribution settings if dimension = 2
+        /// </summary>
+        /// <param name="samples">Number of samples for verctor calculation</param>
+        /// <returns>Bivariate pair</returns>
+        public CorrelatedPair GetBivariatePair(int samples)
+        {
+            if (Dimension != 2)
+                throw new DistributionsInvalidOperationException("To build correlation pair multivariate distribution must be two-dimentional", "Для построения коррелирующей пары многомерное распределение должно быть двумерным");
+
+            double m1 = Means[0];
+            double m2 = Means[1];
+
+            double s1 = Math.Sqrt(CovarianceMatrix[0, 0]);
+            double s2 = Math.Sqrt(CovarianceMatrix[1, 1]);
+            double rho = CovarianceMatrix[0, 1] / (s1 * s2);
+
+            return GetBivariatePairInternal(m1, m2, s1, s2, rho, samples);
+        }
+
+        protected abstract CorrelatedPair GetBivariatePairInternal(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples);
+
         protected class InternalParameters
         {
             public double[] Means
@@ -203,6 +225,11 @@ namespace RandomAlgebra.Distributions.Settings
 
             return new NormalDistributionSettings(mean, Math.Sqrt(variance));
         }
+
+        protected override CorrelatedPair GetBivariatePairInternal(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples)
+        {
+            return new CorrelatedPair(new NormalDistributionSettings(mean1, sigma1).GetDistribution(samples), new NormalDistributionSettings(mean2, sigma2).GetDistribution(samples), rho);
+        }
     }
 
     /// <summary>
@@ -212,6 +239,7 @@ namespace RandomAlgebra.Distributions.Settings
     {
         static NormalDistribution _baseNormal = new NormalDistribution();
         readonly GammaDistribution _baseGamma;
+        readonly ChiSquareDistribution _baseChi;
 
         /// <summary>
         /// Creates new instance of multivariate t distribution by measured value with degrees of freedom N-1
@@ -231,6 +259,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             DegreesOfFreedom = degreesOfFreedom;
             _baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
+            _baseChi = new ChiSquareDistribution((int)degreesOfFreedom);
         }
 
         /// <summary>
@@ -243,6 +272,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             DegreesOfFreedom = degreesOfFreedom;
             _baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
+            _baseChi = new ChiSquareDistribution((int)degreesOfFreedom);
         }
 
 
@@ -256,8 +286,6 @@ namespace RandomAlgebra.Distributions.Settings
 
         protected override double[] GenerateRandomInternal(Random rnd)
         {
-            //from mathlab func MVTRND(C,DF,N)
-
             double[,] ltf = _chol.LeftTriangularFactor;
             double[] result = new double[Dimension];
             double[] u = Means;
@@ -265,17 +293,27 @@ namespace RandomAlgebra.Distributions.Settings
             for (int i = 0; i < Dimension; i++)
             {
                 result[i] = _baseNormal.Generate(rnd);
+                //result[i] = _baseNormal.Generate(rnd) / Math.Sqrt(_baseGamma.Generate(rnd) / DegreesOfFreedom);
             }
 
             result = Matrix.Dot(ltf, result);
 
             double[] gammaSqrt = _baseGamma.Generate(Dimension, rnd).Divide(DegreesOfFreedom).Sqrt();
+            result = Elementwise.Divide(result, gammaSqrt);//from mathlab func MVTRND(C,DF,N)
 
-            result = Elementwise.Divide(result, gammaSqrt);
+            //double[] chiSqrt = _baseChi.Generate(Dimension, rnd).Divide(DegreesOfFreedom).Sqrt();
+            //result = Elementwise.Divide(result, chiSqrt); //from R func R/rmvt.R
+
+
 
             result = Elementwise.Add(result, u);
 
             return result;
+        }
+
+        protected override CorrelatedPair GetBivariatePairInternal(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples)
+        {
+            return new CorrelatedPair(new StudentGeneralizedDistributionSettings(mean1, sigma1, DegreesOfFreedom).GetDistribution(samples), new StudentGeneralizedDistributionSettings(mean2, sigma2, DegreesOfFreedom).GetDistribution(samples), rho);
         }
     }
 }
