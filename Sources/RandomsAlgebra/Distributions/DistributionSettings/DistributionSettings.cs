@@ -355,9 +355,9 @@ namespace RandomAlgebra.Distributions.Settings
             {
                 throw new DistributionsArgumentException("Standard deviation of 2-nd distribution must be greater then zero", "Стандартное отклонение 2 должно быть больше 0");
             }
-            if (_correlation < 0 || _correlation >= 1)
+            if (_correlation <= -1 || _correlation >= 1)
             {
-                throw new DistributionsArgumentException("Correlation must be in range [0, 1)", "Коэффициент корреляции должен быть в пределах [0, 1)");
+                throw new DistributionsArgumentException("Correlation must be in range (-1, 1)", "Коэффициент корреляции должен быть в пределах (-1, 1)");
             }
         }
 

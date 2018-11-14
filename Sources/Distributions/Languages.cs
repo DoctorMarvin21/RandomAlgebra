@@ -14,7 +14,7 @@ namespace Distributions
             { "GroupCommonParameters", new Translations("Common parameters", "Общие параметры") },
             { "GroupResults", new Translations("Results", "Результаты") },
             { "GroupDistributions", new Translations("Distributions", "Распределения") },
-            { "GroupMultivariate", new Translations("Multivariate distributions (Monte-Carlo)", "Многомерные распределения (Монте-Карло)") },
+            { "GroupMultivariate", new Translations("Multivariate distributions", "Многомерные распределения") },
             { "GroupMatrixParameters", new Translations("Matrix parameters", "Параметры матрицы") },
             { "GroupDistributionParameters", new Translations("Distribution parameters", "Параметры распределения") },
 

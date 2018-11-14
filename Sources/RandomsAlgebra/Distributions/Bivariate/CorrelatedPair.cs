@@ -75,7 +75,7 @@ namespace RandomAlgebra.Distributions
 
                 if (contLeft.BaseDistribution is NormalDistribution && contRight.BaseDistribution is NormalDistribution)
                 {
-                    return new BivariateNormalDistribution(left.Mean, right.Mean, left.StandardDeviation, right.StandardDeviation, Correlation, samples);
+                    return new BivariateNormalDistribution(left.Mean, right.Mean, left.StandardDeviation, right.StandardDeviation, Correlation * Math.Sign(contRight.Coefficient), samples);
                 }
                 else if (contLeft.BaseDistribution is StudentGeneralizedDistribution && contRight.BaseDistribution is StudentGeneralizedDistribution)
                 {
@@ -85,7 +85,7 @@ namespace RandomAlgebra.Distributions
                     if (leftT.DegreesOfFreedom != rightT.DegreesOfFreedom)
                         throw new ArgumentException();
 
-                    return new BivariateTDistribution(left.Mean, right.Mean, leftT.ScaleCoefficient * contLeft.Coefficient, rightT.ScaleCoefficient * contRight.Coefficient, Correlation, leftT.DegreesOfFreedom, samples);
+                    return new BivariateTDistribution(left.Mean, right.Mean, leftT.ScaleCoefficient * contLeft.Coefficient, rightT.ScaleCoefficient * contRight.Coefficient, Correlation * Math.Sign(contRight.Coefficient), leftT.DegreesOfFreedom, samples);
                 }
                 else
                 {

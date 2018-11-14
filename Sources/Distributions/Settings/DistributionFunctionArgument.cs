@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Distributions
 {
@@ -30,6 +31,8 @@ namespace Distributions
             get;
             set;
         }
+
+        [XmlIgnore]
         public Type SettingsType
         {
             get
@@ -54,7 +57,7 @@ namespace Distributions
         public DistributionSettings DistributionSettings
         {
             get;
-            private set;
+            set;
         }
 
         public static Dictionary<string, DistributionSettings> CreateDictionary(List<DistributionFunctionArgument> functionArguments)

@@ -42,9 +42,9 @@ namespace RandomAlgebra.Distributions
         {
             int samples = distribution.Samples;
 
-            double[] range = CommonRandomMath.GetRange(distribution.SupportLeft[0], distribution.SupportLeft[1], distribution.SupportRight[0], distribution.SupportRight[1], operation);
+            double[] range = CommonRandomMath.GetRange(distribution.SupportMinLeft, distribution.SupportMaxLeft, distribution.SupportMinRight, distribution.SupportMaxRight, operation);
 
-            double[] rightAxis = CommonRandomMath.GenerateXAxis(distribution.SupportRight[0], distribution.SupportRight[1], samples, out double rightStep);
+            double[] rightAxis = CommonRandomMath.GenerateXAxis(distribution.SupportMinRight, distribution.SupportMaxRight, samples, out double rightStep);
             double[] xAxis = CommonRandomMath.GenerateXAxis(range[0], range[1], samples, out double step);
 
             double[] result = new double[samples];

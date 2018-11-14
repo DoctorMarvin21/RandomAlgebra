@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tableLayoutLeft = new System.Windows.Forms.TableLayoutPanel();
             this.panelFunction = new System.Windows.Forms.Panel();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnOptimizations = new System.Windows.Forms.Button();
             this.btnEvaluate = new System.Windows.Forms.Button();
             this.txtFunction = new System.Windows.Forms.TextBox();
@@ -71,7 +72,6 @@
             this.btnAddMultivariateDistribution = new System.Windows.Forms.Button();
             this.groupResults = new System.Windows.Forms.GroupBox();
             this.dataGridResults = new System.Windows.Forms.DataGridView();
-            this.btnExport = new System.Windows.Forms.Button();
             this.tableLayoutLeft.SuspendLayout();
             this.panelFunction.SuspendLayout();
             this.tableLayoutSplitGraphics.SuspendLayout();
@@ -139,6 +139,17 @@
             this.panelFunction.Padding = new System.Windows.Forms.Padding(3);
             this.panelFunction.Size = new System.Drawing.Size(941, 29);
             this.panelFunction.TabIndex = 1;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExport.Location = new System.Drawing.Point(863, 3);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(75, 23);
+            this.btnExport.TabIndex = 4;
+            this.btnExport.Text = "btnExport";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnOptimizations
             // 
@@ -672,17 +683,6 @@
             this.dataGridResults.Size = new System.Drawing.Size(320, 200);
             this.dataGridResults.TabIndex = 0;
             // 
-            // btnExport
-            // 
-            this.btnExport.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExport.Location = new System.Drawing.Point(863, 3);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(75, 23);
-            this.btnExport.TabIndex = 4;
-            this.btnExport.Text = "btnExport";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
             // DistributionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -691,7 +691,7 @@
             this.Controls.Add(this.splitDistr);
             this.Name = "DistributionForm";
             this.ShowIcon = false;
-            this.Text = "Распределение";
+            this.Text = "DistributionForm";
             this.tableLayoutLeft.ResumeLayout(false);
             this.panelFunction.ResumeLayout(false);
             this.panelFunction.PerformLayout();

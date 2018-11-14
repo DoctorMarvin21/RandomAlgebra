@@ -377,7 +377,7 @@ namespace Distributions
 
         #endregion
 
-        #region Export
+        #region Import/Export
         private void btnExport_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
