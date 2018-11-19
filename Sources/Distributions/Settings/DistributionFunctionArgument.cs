@@ -92,6 +92,7 @@ namespace Distributions
                     new DisplayNameAndSettingType(typeof(BetaDistributionSettings)),
                     new DisplayNameAndSettingType(typeof(GammaDistributionSettings)),
                     new DisplayNameAndSettingType(typeof(LognormalDistributionSettings)),
+                    new DisplayNameAndSettingType(typeof(GeneralizedNormalDistributionSettings)),
                     new DisplayNameAndSettingType(typeof(BivariateBasedNormalDistributionSettings)),
                     new DisplayNameAndSettingType(typeof(MultivariateBasedNormalDistributionSettings)),
                     new DisplayNameAndSettingType(typeof(ChiDistributionSettings)),

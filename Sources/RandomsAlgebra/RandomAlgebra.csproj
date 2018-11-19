@@ -67,7 +67,7 @@
     <Compile Include="Distributions\Bivariate\CorrelatedPair.cs" />
     <Compile Include="Distributions\DistributionSettings\MultivariateDistributionSettings.cs" />
     <Compile Include="Distributions\MonteCarloMultivariateGenerator.cs" />
-    <Compile Include="Distributions\NumberDistribution.cs" />
+    <Compile Include="Distributions\ConstantDistribution.cs" />
     <Compile Include="Distributions\RandomMath\CommonRandomMath.cs" />
     <Compile Include="Distributions\RandomMath\FFTConvolution.cs" />
     <Compile Include="Distributions\DistributionSettings\DistributionSettings.cs" />

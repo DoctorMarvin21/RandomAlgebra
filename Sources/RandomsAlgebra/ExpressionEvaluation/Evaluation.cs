@@ -79,6 +79,18 @@ namespace RandomAlgebra.DistributionsEvaluation
                         {
                             return value.InnerGetLog(10);
                         }
+                    case NodeOperationType.Sin:
+                        {
+                            return CommonRandomMath.Sin(value);
+                        }
+                    case NodeOperationType.Cos:
+                        {
+                            return CommonRandomMath.Cos(value);
+                        }
+                    case NodeOperationType.Tan:
+                        {
+                            return CommonRandomMath.Tan(value);
+                        }
                     default:
                         {
                             throw new NotImplementedException();

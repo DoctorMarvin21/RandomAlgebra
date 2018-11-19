@@ -30,7 +30,7 @@ namespace RandomAlgebra.Distributions
 
         public static BaseDistribution GetPower(BivariateContinuousDistribution distribution)
         {
-            return Bivariate(distribution, DistributionsOperation.Power);
+            return Bivariate(distribution, DistributionsOperation.PowerInv);
         }
 
         public static BaseDistribution GetLog(BivariateContinuousDistribution distribution)
@@ -40,6 +40,9 @@ namespace RandomAlgebra.Distributions
 
         private static DiscreteDistribution Bivariate(BivariateContinuousDistribution distribution, DistributionsOperation operation)
         {
+            if (operation == DistributionsOperation.PowerInv)
+                distribution = distribution.Rotate();
+
             int samples = distribution.Samples;
 
             double[] range = CommonRandomMath.GetRange(distribution.SupportMinLeft, distribution.SupportMaxLeft, distribution.SupportMinRight, distribution.SupportMaxRight, operation);
@@ -126,6 +129,54 @@ namespace RandomAlgebra.Distributions
                                 {
                                     sum += distribution.ProbabilityDensityFunction(x * m, m) * Math.Abs(m);
                                 }
+                            }
+
+                            result[i] = sum * rightStep;
+                        });
+
+                        break;
+                    }
+                case DistributionsOperation.PowerInv:
+                    {
+                        Parallel.For(0, xAxis.Length, i =>
+                        {
+                            double m = 0;
+                            double sum = 0;
+                            double x = xAxis[i];
+                            double d = 0;
+                            double k = 0;
+                            for (int j = 0; j < samples; j++)
+                            {
+                                m = rightAxis[j];
+
+                                d = Math.Log(x, m);
+                                k = Math.Abs(Math.Log(m) * x);
+
+                                sum += distribution.ProbabilityDensityFunction(d, m) / k;
+                            }
+
+                            result[i] = sum * rightStep;
+                        });
+
+                        break;
+                    }
+                case DistributionsOperation.Log:
+                    {
+                        Parallel.For(0, xAxis.Length, i =>
+                        {
+                            double m = 0;
+                            double sum = 0;
+                            double x = xAxis[i];
+                            double d = 0;
+                            double k = 0;
+
+                            for (int j = 0; j < samples; j++)
+                            {
+                                m = rightAxis[j];
+
+                                d = Math.Pow(m, x);
+                                k = Math.Abs(Math.Log(m) * d);
+                                sum += distribution.ProbabilityDensityFunction(d, m) * k;
                             }
 
                             result[i] = sum * rightStep;

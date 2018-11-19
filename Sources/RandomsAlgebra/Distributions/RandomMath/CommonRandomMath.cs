@@ -28,10 +28,24 @@ namespace RandomAlgebra.Distributions
             return Operation(dpdf, nBase, DistributionsOperation.Log);
         }
 
-
         public static DiscreteDistribution Log(double value, BaseDistribution nBase)
         {
             return Operation(nBase, value, DistributionsOperation.LogInv);
+        }
+
+        public static DiscreteDistribution Sin(BaseDistribution distribution)
+        {
+            return Operation(distribution, 0, DistributionsOperation.Sin);
+        }
+
+        public static DiscreteDistribution Cos(BaseDistribution distribution)
+        {
+            return Operation(distribution, 0, DistributionsOperation.Cos);
+        }
+
+        public static DiscreteDistribution Tan(BaseDistribution distribution)
+        {
+            return Operation(distribution, 0, DistributionsOperation.Tan);
         }
 
         public static DiscreteDistribution Abs(BaseDistribution dpdf)
@@ -60,7 +74,7 @@ namespace RandomAlgebra.Distributions
                         double r1 = value / dpdf.InnerMinX;
                         double r2 = value / dpdf.InnerMaxX;
 						double step;
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
@@ -97,7 +111,7 @@ namespace RandomAlgebra.Distributions
                         }
 
 						double step;
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
@@ -127,7 +141,7 @@ namespace RandomAlgebra.Distributions
                         double r2 = Math.Pow(value, dpdf.InnerMaxX);
 						double step;
 
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
@@ -155,7 +169,7 @@ namespace RandomAlgebra.Distributions
                         double r1 = Math.Log(dpdf.InnerMinX, value);
                         double r2 = Math.Log(dpdf.InnerMaxX, value);
 						double step;
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
@@ -180,7 +194,7 @@ namespace RandomAlgebra.Distributions
                         double r1 = Math.Log(value, dpdf.InnerMaxX);
                         double r2 = Math.Log(value, dpdf.InnerMinX);
 						double step;
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
@@ -204,13 +218,101 @@ namespace RandomAlgebra.Distributions
                         }
 
 						double step;
-                        xCoordinates = CommonRandomMath.GenerateXAxis(r1, r2, length, out step);
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
 
                         for (int i = 0; i < length; i++)
                         {
                             double zPow = xCoordinates[i];
 
                             yCoordinates[i] = dpdf.InnerGetPDFYbyX(zPow) + dpdf.InnerGetPDFYbyX(-zPow);
+                        }
+
+                        break;
+                    }
+                case DistributionsOperation.Sin:
+                    {
+                        double r1 = -1;
+                        double r2 = 1;
+
+                        double step;
+
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
+
+
+                        //max asin [-PI/2, PI/2]
+                        int minJ = (int)(dpdf.MinX / (2 * Math.PI)) - 1;
+                        int maxJ = (int)(dpdf.MaxX / (2 * Math.PI)) + 1;
+
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            double z = xCoordinates[i];
+
+                            double arcsin = Math.Asin(z);
+                            double k = 1d / Math.Sqrt(1 - Math.Pow(z, 2));
+
+                            for (double j = minJ; j <= maxJ; j++)
+                            {
+                                yCoordinates[i] += k * (dpdf.InnerGetPDFYbyX(Math.PI * 2 * j - (Math.PI + arcsin)) + dpdf.InnerGetPDFYbyX(Math.PI * 2 * j + arcsin));
+                            }
+                        }
+
+                        break;
+                    }
+                case DistributionsOperation.Cos:
+                    {
+                        //https://mathoverflow.net/questions/35260/resultant-probability-distribution-when-taking-the-cosine-of-gaussian-distribute
+                        double r1 = -1;
+                        double r2 = 1;
+
+                        double step;
+
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
+
+
+                        //max acos [0, PI]
+                        int minJ = (int)(dpdf.MinX / (2 * Math.PI)) - 1;
+                        int maxJ = (int)(dpdf.MaxX / (2 * Math.PI)) + 1;
+
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            double z = xCoordinates[i];
+
+                            double acos = Math.Acos(z);
+                            double k = 1d / Math.Sqrt(1 - Math.Pow(z, 2));
+
+                            for (double j = minJ; j <= maxJ; j++)
+                            {
+                                yCoordinates[i] +=  k * (dpdf.InnerGetPDFYbyX(2 * (j + 1) * Math.PI - acos) + dpdf.InnerGetPDFYbyX(2 * j * Math.PI + acos));
+                            }
+                        }
+
+                        break;
+                    }
+                case DistributionsOperation.Tan:
+                    {
+                        if (dpdf.MaxX - dpdf.MinX > Math.PI || dpdf.MinX % Math.PI <= -Math.PI / 2 || dpdf.MaxX % Math.PI >= Math.PI / 2)
+                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.TangentOfValueCrossingAsymptote);
+
+                        double r1 = Math.Tan(dpdf.MinX);
+                        double r2 = Math.Tan(dpdf.MaxX);
+
+                        double step;
+
+                        xCoordinates = GenerateXAxis(r1, r2, length, out step);
+
+                        int j = dpdf.Mean < 0 ? (int)((dpdf.MinX) / Math.PI) : (int)((dpdf.MaxX) / Math.PI);
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            double z = xCoordinates[i];
+
+                            double atan = Math.Atan(z);
+                            double k = 1d / (Math.Pow(z, 2) + 1);
+
+                            yCoordinates[i] += k * (dpdf.InnerGetPDFYbyX(-Math.PI / 2d + Math.PI * j) + dpdf.InnerGetPDFYbyX(atan + j * Math.PI));
+
                         }
 
                         break;

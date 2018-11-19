@@ -9,15 +9,15 @@ namespace RandomAlgebra.Distributions
     /// <summary>
     /// Mean value with zero variance
     /// </summary>
-    public sealed class NumberDistribution : BaseDistribution
+    public sealed class ConstantDistribution : BaseDistribution
     {
         readonly double _value = 0;
 
         /// <summary>
-        /// Creates instance of <see cref="NumberDistribution"/> by mean value
+        /// Creates instance of <see cref="ConstantDistribution"/> by mean value
         /// </summary>
         /// <param name="value">Constant mean value</param>
-        public NumberDistribution(double value)
+        public ConstantDistribution(double value)
         {
             _value = value;
         }
@@ -57,12 +57,12 @@ namespace RandomAlgebra.Distributions
         #endregion
 
         #region Operators
-        public static implicit operator NumberDistribution(double value)
+        public static implicit operator ConstantDistribution(double value)
         {
-            return new NumberDistribution(value);
+            return new ConstantDistribution(value);
         }
 
-        public static explicit operator double(NumberDistribution value)
+        public static explicit operator double(ConstantDistribution value)
         {
             return value.Mean;
         }

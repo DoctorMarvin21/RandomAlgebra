@@ -215,18 +215,12 @@ namespace RandomAlgebra.Distributions
                             double m = 0;
                             double x = xCoordinates[i];
                             double sum = 0;
-                            double s = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
                                 //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x - m);
-
-                                s = rightY[j] * InterpolateInlined(x - m, leftMinX, leftMaxX, stepLeft, leftY);
-                                if (i == 0 || i == lengthRight - 1)
-                                    s /= 2d;
-
-                                sum += s;
+                                sum += rightY[j] * InterpolateInlined(x - m, leftMinX, leftMaxX, stepLeft, leftY);
                             }
                             
                             yCoordinates[i] = sum * stepRight;
@@ -241,16 +235,12 @@ namespace RandomAlgebra.Distributions
                             double m = 0;
                             double x = xCoordinates[i];
                             double sum = 0;
-                            double s = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
                                 //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x + m);
-                                s = rightY[j] * InterpolateInlined(x + m, leftMinX, leftMaxX, stepLeft, leftY);
-                                if (i == 0 || i == lengthRight - 1)
-                                    s /= 2d;
-                                sum += s;
+                                sum += rightY[j] * InterpolateInlined(x + m, leftMinX, leftMaxX, stepLeft, leftY);
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -266,7 +256,6 @@ namespace RandomAlgebra.Distributions
                             double sum = 0;
                             double x = xCoordinates[i];
                             double k = 0;
-                            double s = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -276,11 +265,7 @@ namespace RandomAlgebra.Distributions
                                 if (k > 0)
                                 {
                                     //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x / m) / k;
-                                    var l = InterpolateInlined(x / m, leftMinX, leftMaxX, stepLeft, leftY);
-                                    s = rightY[j] * l / k;
-                                    if (i == 0 || i == lengthRight - 1)
-                                        s /= 2d;
-                                    sum += s;
+                                    sum += rightY[j] * InterpolateInlined(x / m, leftMinX, leftMaxX, stepLeft, leftY) / k;
                                 }
                             }
 
@@ -297,7 +282,6 @@ namespace RandomAlgebra.Distributions
                             double sum = 0;
                             double x = xCoordinates[i];
                             double k = 0;
-                            double s = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -307,10 +291,7 @@ namespace RandomAlgebra.Distributions
                                 if (k > 0)
                                 {
                                     //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x * m) * k;
-                                    s = rightY[j] * InterpolateInlined(x * m, leftMinX, leftMaxX, stepLeft, leftY) * k;
-                                    if (i == 0 || i == lengthRight - 1)
-                                        s /= 2d;
-                                    sum += s;
+                                    sum += rightY[j] * InterpolateInlined(x * m, leftMinX, leftMaxX, stepLeft, leftY) * k;
                                 }
                             }
 
@@ -328,7 +309,6 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double d = 0;
                             double k = 0;
-                            double s = 0;
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
@@ -336,10 +316,7 @@ namespace RandomAlgebra.Distributions
                                 d = Math.Log(x, m);
                                 k = Math.Abs(Math.Log(m) * x);
                                 //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(d) / k;
-                                s = rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) / k;
-                                if (i == 0 || i == lengthRight - 1)
-                                    s /= 2d;
-                                sum += s;
+                                sum += rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) / k;
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -356,7 +333,6 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double d = 0;
                             double k = 0;
-                            double s = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -365,10 +341,7 @@ namespace RandomAlgebra.Distributions
                                 d = Math.Pow(m, x); 
                                 k = Math.Abs(Math.Log(m) * d);
                                 //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(d) * k;
-                                s = rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) * k;
-                                if (i == 0 || i == lengthRight - 1)
-                                    s /= 2d;
-                                sum += s;
+                                sum += rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) * k;
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -507,6 +480,9 @@ namespace RandomAlgebra.Distributions
         Power,
         PowerInv,
         Log,
-        LogInv
+        LogInv,
+        Sin,
+        Cos,
+        Tan
     }
 }

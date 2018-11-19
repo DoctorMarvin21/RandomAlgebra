@@ -244,6 +244,83 @@ namespace RandomAlgebra.Distributions.Settings
     }
 
     /// <summary>
+    /// Generalized Gaussian, also known as exponential power distribution settings, for shape parameter 2 it is normal distribution, 1 is laplace, and inf is uniform, it is standartized above standard deviation
+    /// </summary>
+    public class GeneralizedNormalDistributionSettings : NormalDistributionSettings
+    {
+        private double _shapeParameter = 2;
+
+        /// <summary>
+        /// Base constructor with zero mean, scale is one and shape is ten
+        /// </summary>
+        public GeneralizedNormalDistributionSettings()
+        {
+        }
+
+        /// <summary>
+        /// Create instance of generalized t-distribution with zero mean, scale is one and shape parameter is <paramref name="shapeParameter"/>
+        /// </summary>
+        /// <param name="shapeParameter">Shape parameter</param>
+        public GeneralizedNormalDistributionSettings(double shapeParameter) : base()
+        {
+            _shapeParameter = shapeParameter;
+
+            CheckParameters();
+        }
+
+        /// <summary>
+        /// Create instance of generalized t-distribution with expected value <paramref name="mean"/>, scale <paramref name="std"/> and degrees of freedom <paramref name="shapeParameter"/>
+        /// </summary>
+        /// <param name="mean">Expected value</param>
+        /// <param name="std">Standard deviation as scale parameter, standard deviation of resulted generalized t-distribution settings would be  σ * ν/(ν-2)</param>
+        /// <param name="shapeParameter">Shape parameter</param>
+        public GeneralizedNormalDistributionSettings(double mean, double std, double shapeParameter) : base(mean, std)
+        {
+            _shapeParameter = shapeParameter;
+
+            CheckParameters();
+        }
+
+        /// <summary>
+        /// For shape parameter 2 it is normal distribution, 1 is laplace, and inf is uniform
+        /// </summary>
+        public double ShapeParameter
+        {
+            get
+            {
+                return _shapeParameter;
+            }
+            set
+            {
+                _shapeParameter = value;
+
+                CheckParameters();
+            }
+        }
+
+        protected override void CheckParameters()
+        {
+            base.CheckParameters();
+
+            if (_shapeParameter <= 0)
+                throw new DistributionsArgumentException("Shape parameter must be greater then zero", "Стандартное отклонение должно быть больше 0");
+        }
+
+
+        internal override UnivariateContinuousDistribution GetUnivariateContinuoisDistribution()
+        {
+            double a = StandardDeviation * Math.Sqrt(Accord.Math.Gamma.Function(1d / ShapeParameter) / Accord.Math.Gamma.Function(3d / ShapeParameter));
+
+            return new GeneralizedNormalDistribution(Mean, a, ShapeParameter);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"; β = {ShapeParameter}";
+        }
+    }
+
+    /// <summary>
     /// Sum of two correlated normal distributions
     /// </summary>
     public class BivariateBasedNormalDistributionSettings : DistributionSettings
@@ -504,7 +581,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// <param name="degreesOfFreedom">Degrees of freedom</param>
         public StudentGeneralizedDistributionSettings(double degreesOfFreedom) : base()
         {
-            DegreesOfFreedom = degreesOfFreedom;
+            _degreesOfFreedom = degreesOfFreedom;
             
             CheckParameters();
         }
@@ -517,7 +594,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// <param name="degreesOfFreedom">Degrees of freedom</param>
         public StudentGeneralizedDistributionSettings(double mean, double std, double degreesOfFreedom) : base(mean, std)
         {
-            DegreesOfFreedom = degreesOfFreedom;
+            _degreesOfFreedom = degreesOfFreedom;
 
             CheckParameters();
         }
@@ -790,9 +867,8 @@ namespace RandomAlgebra.Distributions.Settings
     }
 
     /// <summary>
-    /// Creates instance of Chi distribution with degrees of freedom = <paramref name="degreesOfFreedom"/>
+    /// Chi distribution settings
     /// </summary>
-    /// <param name="degreesOfFreedom">Degrees of freedom</param>
     public class ChiDistributionSettings : DistributionSettings
     {
         private int _degreesOfFreedom = 1;
@@ -805,9 +881,14 @@ namespace RandomAlgebra.Distributions.Settings
 
         }
 
+        /// <summary>
+        /// Creates instance of Chi distribution with degrees of freedom = <paramref name="degreesOfFreedom"/>
+        /// </summary>
+        /// <param name="degreesOfFreedom">Degrees of freedom</param>
         public ChiDistributionSettings(int degreesOfFreedom)
         {
-            DegreesOfFreedom = degreesOfFreedom;
+            _degreesOfFreedom = degreesOfFreedom;
+            CheckParameters();
         }
 
         /// <summary>
@@ -891,7 +972,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// <summary>
         /// Creates instance of Rayleigh distribution settings with scale parameter = <paramref name="scaleParameter"/>
         /// </summary>
-        /// <param name="scaleParameter"></param>
+        /// <param name="scaleParameter">Scale parameter</param>
         public RayleighDistributionSettings(double scaleParameter)
         {
             _scaleParameter = scaleParameter;
@@ -937,7 +1018,7 @@ namespace RandomAlgebra.Distributions.Settings
     public class CustomDistribution : DistributionSettings
     {
         /// <summary>
-        /// Создает экземпляр класса распределения <paramref name="distribution"/>, требуется ссылка на сборку <see cref="Accord.Statistics"/>
+        /// Creates instance based on <paramref name="distribution"/>, reference for <see cref="Accord.Statistics"/> required
         /// </summary>
         /// <param name="distribution"></param>
         public CustomDistribution(UnivariateContinuousDistribution distribution)
@@ -946,7 +1027,7 @@ namespace RandomAlgebra.Distributions.Settings
         }
 
         /// <summary>
-        /// Вид распредления, требуется ссылка на сборку <see cref="Accord.Statistics"/>
+        /// Base distrubution, reference for <see cref="Accord.Statistics"/> required
         /// </summary>
         public UnivariateContinuousDistribution Distribution
         {

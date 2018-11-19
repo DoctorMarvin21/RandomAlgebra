@@ -61,7 +61,7 @@ namespace RandomAlgebra.Distributions
 
         public static implicit operator BaseDistribution(double value)
         {
-            return new NumberDistribution(value);
+            return new ConstantDistribution(value);
         }
         public static explicit operator double(BaseDistribution value)
         {
@@ -127,7 +127,7 @@ namespace RandomAlgebra.Distributions
         public double StandardDeviation { get { return Math.Sqrt(InnerVariance); } }
 
         /// <summary>
-        /// DistributionType: contiuuous (<see cref="ContinuousDistribution"/>), discrete (<see cref="DiscreteDistribution"/>) of number with zero variance (<see cref="NumberDistribution"/>)
+        /// DistributionType: contiuuous (<see cref="ContinuousDistribution"/>), discrete (<see cref="DiscreteDistribution"/>) of number with zero variance (<see cref="ConstantDistribution"/>)
         /// </summary>
         public DistributionType DistributionType { get { return InnerDistributionType; } }
 

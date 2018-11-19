@@ -47,6 +47,9 @@ namespace RandomAlgebra
                     throw new DistributionsInvalidOperationException("Logarithm of zero", "Логарифм от 0");
                 case CommonExceptionType.LogarithmOfNegativeValue:
                     throw new DistributionsInvalidOperationException("Logarithm of a negative number", "Логарифм от отрицательного числа");
+                case CommonExceptionType.TangentOfValueCrossingAsymptote:
+                    throw new DistributionsInvalidOperationException("Tangent of random value crssing asymptote", "Тангенс от случайной величины пересекающей асимптоту");
+
 
             }
         }
@@ -78,7 +81,8 @@ namespace RandomAlgebra
         LogarithmWithNotPositiveRandomBase,
         LogarithmWithOneCrossingRandomBase,
         LogarithmOfZeroValue,
-        LogarithmOfNegativeValue
+        LogarithmOfNegativeValue,
+        TangentOfValueCrossingAsymptote
     }
 
     /// <summary>

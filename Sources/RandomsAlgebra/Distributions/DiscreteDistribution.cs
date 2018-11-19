@@ -51,6 +51,7 @@ namespace RandomAlgebra.Distributions
 
         private DiscreteDistribution(PrivateCoordinates coordinates)
         {
+
             if (coordinates.XCoordinates == null)
                 throw new ArgumentNullException(nameof(coordinates.XCoordinates));
             if (coordinates.YCoordinates == null)

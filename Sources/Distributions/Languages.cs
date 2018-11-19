@@ -71,6 +71,7 @@ namespace Distributions
             { nameof(UniformDistributionSettings.UpperBound), new Translations("Upper bound", "Верхняя граница") },
             { nameof(NormalDistributionSettings), new Translations("Normal", "Нормальное") },
             { nameof(LognormalDistributionSettings), new Translations("Lognormal", "Логнормальное") },
+            { nameof(GeneralizedNormalDistributionSettings), new Translations("Generalized normal", "Обобщенное нормальное") },
             { nameof(NormalDistributionSettings.Mean), new Translations("Expected value", "Мат. ожидание") },
             { nameof(NormalDistributionSettings.StandardDeviation), new Translations("Standard deviation", "Стандартное отклонение") },
             { nameof(BivariateBasedNormalDistributionSettings), new Translations("Two dimensional normal", "Двумерное нормальное") },

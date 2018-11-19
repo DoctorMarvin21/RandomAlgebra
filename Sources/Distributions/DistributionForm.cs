@@ -32,6 +32,7 @@ namespace Distributions
             SetLanguage();
 
             txtFunction.Text = "A+B*3+1";
+            txtFunction.Text = "tan(B)";
             _argumentsUnivariate.Add(new DistributionFunctionArgument("A", new NormalDistributionSettings()));
             _argumentsUnivariate.Add(new DistributionFunctionArgument("B", new UniformDistributionSettings()));
 

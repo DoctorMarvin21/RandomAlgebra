@@ -76,6 +76,8 @@ namespace RandomAlgebra.Distributions
             get;
         }
 
+        public abstract BivariateContinuousDistribution Rotate();
+
         public double ProbabilityDensityFunction(double x, double y)
         {
             if (x < SupportMinLeft || x > SupportMaxLeft || y < SupportMinRight || y > SupportMaxRight)
@@ -131,14 +133,14 @@ namespace RandomAlgebra.Distributions
             return BivariateMath.GetRatio(this);
         }
 
-        public virtual BaseDistribution GetLog()
-        {
-            return BivariateMath.GetLog(this);//TODO?
-        }
-
         public virtual BaseDistribution GetPower()
         {
-            return BivariateMath.GetPower(this);//TODO?
+            return BivariateMath.GetPower(this);
+        }
+
+        public virtual BaseDistribution GetLog()
+        {
+            return BivariateMath.GetLog(this);
         }
     }
 
@@ -150,6 +152,10 @@ namespace RandomAlgebra.Distributions
         readonly double supportMaxRight;
         readonly double k;
         readonly double e;
+
+        readonly double vInv1;
+        readonly double vInv2;
+        readonly double sProdInv;
 
         public BivariateNormalDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples) : base(mean1, mean2, sigma1, sigma2, rho, samples)
         {
@@ -163,6 +169,10 @@ namespace RandomAlgebra.Distributions
 
             k = 1d / (2d * Math.PI * sigma1 * sigma2 * Math.Sqrt(1 - Math.Pow(rho, 2)));
             e = -1d / (2d * (1 - Math.Pow(rho, 2)));
+
+            vInv1 = 1d / Variance1;
+            vInv2 = 1d / Variance2;
+            sProdInv = 1d / (Sigma1 * Sigma2);
         }
 
         public override double SupportMinLeft
@@ -197,23 +207,43 @@ namespace RandomAlgebra.Distributions
             }
         }
 
+        public override BivariateContinuousDistribution Rotate()
+        {
+            return new BivariateNormalDistribution(Mean2, Mean1, Sigma2, Sigma1, Correlation, Samples);
+        }
+
         public override BaseDistribution GetSum()
         {
-            return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation).GetDistribution(Samples);
+            if (Settings.Optimizations.UseContiniousConvolution)
+            {
+                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation).GetDistribution(Samples);
+            }
+            else
+            {
+                return base.GetSum();
+            }
         }
 
         public override BaseDistribution GetDifference()
         {
-            return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation).GetDistribution(Samples);
+            if (Settings.Optimizations.UseContiniousConvolution)
+            {
+                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation).GetDistribution(Samples);
+            }
+            else
+            {
+                return base.GetDifference();
+            }
+            
         }
 
 
 
         protected override double InnerProbabilityDensityFunction(double x, double y)
         {
-            double p1 = Math.Pow(x - Mean1, 2) / Variance1;
-            double p2 = Math.Pow(y - Mean2, 2) / Variance2;
-            double p3 = 2 * Correlation * (x - Mean1) * (y - Mean2) / (Sigma1 * Sigma2);
+            double p1 = Math.Pow(x - Mean1, 2) * vInv1;
+            double p2 = Math.Pow(y - Mean2, 2) * vInv2;
+            double p3 = 2 * Correlation * (x - Mean1) * (y - Mean2) * sProdInv;
 
             return k * Math.Exp(e * (p1 + p2 - p3));
         }
@@ -229,8 +259,19 @@ namespace RandomAlgebra.Distributions
         readonly double d;
         readonly double p;
 
+        readonly double vInv1;
+        readonly double vInv2;
+        readonly double sProdInv;
+
         public BivariateTDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, double degreesOfFreedom, int samples) : base(mean1, mean2, sigma1, sigma2, rho, samples)
         {
+            if (degreesOfFreedom < 1)
+            {
+                throw new DistributionsArgumentException("Defrees of freedom must not be less then 1", "Число степеней свободы не должно быть меньше 1");
+            }
+
+            DegressOfFreedom = degreesOfFreedom;
+
             ContinuousDistribution left = new ContinuousDistribution(new StudentGeneralizedDistribution(mean1, sigma1, degreesOfFreedom), samples);
             ContinuousDistribution right = new ContinuousDistribution(new StudentGeneralizedDistribution(mean2, sigma2, degreesOfFreedom), samples);
 
@@ -242,6 +283,10 @@ namespace RandomAlgebra.Distributions
             k = 1d / (2d * Math.PI * sigma1 * sigma2 * Math.Sqrt(1 - Math.Pow(rho, 2)));
             d = degreesOfFreedom * (1d - Math.Pow(rho, 2));
             p = -(degreesOfFreedom + 2d) / 2d;
+
+            vInv1 = 1d / Variance1;
+            vInv2 = 1d / Variance2;
+            sProdInv = 1d / (Sigma1 * Sigma2);
         }
 
         public override double SupportMinLeft
@@ -276,10 +321,23 @@ namespace RandomAlgebra.Distributions
             }
         }
 
+        public double DegressOfFreedom
+        {
+            get;
+        }
+
+        public override BivariateContinuousDistribution Rotate()
+        {
+            return new BivariateTDistribution(Mean2, Mean1, Sigma2, Sigma1, Correlation, DegressOfFreedom, Samples);
+        }
+
         protected override double InnerProbabilityDensityFunction(double x, double y)
         {
-            double s = Math.Pow(x - Mean1, 2) / Variance1 + Math.Pow(y - Mean2, 2) / Variance2 - 2 * Correlation * (x - Mean1) * (y - Mean2) / (Sigma1 * Sigma2);
-            return k * Math.Pow(1 + s / d, p);
+            double p1 = Math.Pow(x - Mean1, 2) * vInv1;
+            double p2 = Math.Pow(y - Mean2, 2) * vInv2;
+            double p3 = 2 * Correlation * (x - Mean1) * (y - Mean2) * sProdInv;
+
+            return k * Math.Pow(1 + (p1 + p2 - p3) / d, p);
         }
     }
 }
