@@ -51,7 +51,6 @@ namespace RandomAlgebra.Distributions
 
         private DiscreteDistribution(PrivateCoordinates coordinates)
         {
-
             if (coordinates.XCoordinates == null)
                 throw new ArgumentNullException(nameof(coordinates.XCoordinates));
             if (coordinates.YCoordinates == null)
@@ -95,7 +94,7 @@ namespace RandomAlgebra.Distributions
             double k = Normalize(coordinates.YCoordinates, step);
 
             double[] cdf = GetCDF(coordinates.YCoordinates, step);
-            double tolerance = 1d / Math.Pow(length * 10, 2);
+            double tolerance = 1d / Math.Pow(length, 2);
 
             var minI = 0;
             var maxI = length - 1;
@@ -114,7 +113,7 @@ namespace RandomAlgebra.Distributions
             }
 
             min = coordinates.XCoordinates[minI];
-            max = coordinates.XCoordinates[maxI - 1];
+            max = coordinates.XCoordinates[maxI];
 
             int r = maxI - minI;
             double[] newX = CommonRandomMath.GenerateXAxis(min, max, length, out step);
@@ -160,7 +159,7 @@ namespace RandomAlgebra.Distributions
         private static void ReplaceInvalidValues(double[] arr)
         {
             int l = arr.Length;
-
+            //the best approximator is power
             for (int i = 0; i < l; i++)
             {
                 double value = arr[i];
@@ -169,11 +168,11 @@ namespace RandomAlgebra.Distributions
                 {
                     if (i == 0)
                     {
-                        arr[0] = 2 * arr[1] - arr[2];
+                        arr[0] = Math.Pow(2 * arr[1] - arr[2], 2);
                     }
                     else if (i == l - 1)
                     {
-                        arr[l - 1] = 2 * arr[l - 2] - arr[i - 3];
+                        arr[l - 1] = Math.Pow(2 * arr[l - 2] - arr[l - 3], 2);
                     }
                     else
                     {
@@ -183,10 +182,9 @@ namespace RandomAlgebra.Distributions
                         }
                         else
                         {
-                            arr[i] = (arr[i - 1] + arr[i + 1]) / 2;
+                            arr[i] = Math.Pow((arr[i - 1] + arr[i + 1]) / 2, 2);
                         }
                     }
-
                 }
             }
         }
@@ -373,13 +371,15 @@ namespace RandomAlgebra.Distributions
             for (int i = 0; i < _length; i++)
             {
                 d = Math.Pow(xCoordinates[i] - m, k) * yCoordinates[i];
-
+                
                 if (i == 0 || i == _length - 1)
                     d /= 2d;
+
 
                 var += d;
 
             }
+
             return var * Step;
         }
 
@@ -411,22 +411,26 @@ namespace RandomAlgebra.Distributions
 
             double ind = (x - _min) / Step;
 
-            int intInt = (int)ind;
-            double k = ind - intInt;
+            int indInt = (int)ind;
+            double k = ind - indInt;
+
 
             if (k == 0)
             {
-                return coordinates[intInt];
+                return coordinates[indInt];
             }
             else
             {
-                //да, такое может быть, double хитёр
-                if (intInt < 0 || (intInt >= _length - 1))
-                    return 0;
+                if (indInt < 0)
+                    return coordinates[0];
+                else if (indInt >= _length - 2)
+                {
+                    return coordinates[_length - 1];
+                }
                 else
                 {
-                    double min = coordinates[intInt];
-                    double max = coordinates[intInt + 1];
+                    double min = coordinates[indInt];
+                    double max = coordinates[indInt + 1];
                     return (max - min) * k + min;
                 }
             }

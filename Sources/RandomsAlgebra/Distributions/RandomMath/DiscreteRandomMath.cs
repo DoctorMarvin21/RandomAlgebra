@@ -215,17 +215,22 @@ namespace RandomAlgebra.Distributions
                             double m = 0;
                             double x = xCoordinates[i];
                             double sum = 0;
+                            double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
-                                //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x - m);
-                                sum += rightY[j] * InterpolateInlined(x - m, leftMinX, leftMaxX, stepLeft, leftY);
+
+                                r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x - m);
+
+                                if (j == 0 || j == lengthRight - 1)
+                                    r /= 2;
+
+                                sum += r;
                             }
-                            
+
                             yCoordinates[i] = sum * stepRight;
                         });
-
                         break;
                     }
                 case DistributionsOperation.Sub:
@@ -235,12 +240,18 @@ namespace RandomAlgebra.Distributions
                             double m = 0;
                             double x = xCoordinates[i];
                             double sum = 0;
+                            double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
-                                //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x + m);
-                                sum += rightY[j] * InterpolateInlined(x + m, leftMinX, leftMaxX, stepLeft, leftY);
+
+                                r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x + m);
+
+                                if (j == 0 || j == lengthRight - 1)
+                                    r /= 2;
+
+                                sum += r;
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -256,6 +267,7 @@ namespace RandomAlgebra.Distributions
                             double sum = 0;
                             double x = xCoordinates[i];
                             double k = 0;
+                            double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -264,11 +276,20 @@ namespace RandomAlgebra.Distributions
 
                                 if (k > 0)
                                 {
-                                    //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x / m) / k;
-                                    sum += rightY[j] * InterpolateInlined(x / m, leftMinX, leftMaxX, stepLeft, leftY) / k;
+                                    r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x / m) / k;
+
+                                    if (j == 0 || j == lengthRight - 1)
+                                        r /= 2;
+
+                                    sum += r;
+                                }
+                                else
+                                {
+
                                 }
                             }
 
+                            //yCoordinates[i] = Accord.Math.Integration.InfiniteAdaptiveGaussKronrod.Integrate(y => { return dpdfRight.InnerGetPDFYbyX(y) * dpdfLeft.InnerGetPDFYbyX(x / y) / Math.Abs(y); }, dpdfRight.MinX, dpdfRight.MaxX);
                             yCoordinates[i] = sum * stepRight;
                         });
 
@@ -282,6 +303,7 @@ namespace RandomAlgebra.Distributions
                             double sum = 0;
                             double x = xCoordinates[i];
                             double k = 0;
+                            double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -290,8 +312,12 @@ namespace RandomAlgebra.Distributions
 
                                 if (k > 0)
                                 {
-                                    //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(x * m) * k;
-                                    sum += rightY[j] * InterpolateInlined(x * m, leftMinX, leftMaxX, stepLeft, leftY) * k;
+                                    r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x * m) * k;
+
+                                    if (j == 0 || j == lengthRight - 1)
+                                        r /= 2;
+
+                                    sum += r;
                                 }
                             }
 
@@ -309,14 +335,21 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double d = 0;
                             double k = 0;
+                            double r = 0;
+
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
 
                                 d = Math.Log(x, m);
                                 k = Math.Abs(Math.Log(m) * x);
-                                //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(d) / k;
-                                sum += rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) / k;
+
+                                r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(d) / k;
+
+                                if (j == 0 || j == lengthRight - 1)
+                                    r /= 2;
+
+                                sum += r;
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -333,6 +366,7 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double d = 0;
                             double k = 0;
+                            double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
@@ -340,8 +374,13 @@ namespace RandomAlgebra.Distributions
 
                                 d = Math.Pow(m, x); 
                                 k = Math.Abs(Math.Log(m) * d);
-                                //sum += rightY[j] * dpdfLeft.GetPDFYbyXInternal(d) * k;
-                                sum += rightY[j] * InterpolateInlined(d, leftMinX, leftMaxX, stepLeft, leftY) * k;
+
+                                r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(d) * k;
+
+                                if (j == 0 || j == lengthRight - 1)
+                                    r /= 2;
+
+                                sum += r;
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -379,9 +418,24 @@ namespace RandomAlgebra.Distributions
                             return new DiscreteDistribution[] { dpdfLeft, dpdfRight };
                         }
                     }
+                case DistributionsOperation.Sub:
+                    {
+
+                        if (stepX < stepY)
+                        {
+                            newAction = DistributionsOperation.Add;
+                            return new DiscreteDistribution[] { Multiply(dpdfRight, -1), dpdfLeft };
+                        }
+                        else
+                        {
+                            newAction = action;
+                            return new DiscreteDistribution[] { dpdfLeft, dpdfRight };
+                        }
+                    }
                 case DistributionsOperation.Muliply:
                     {
                         newAction = action;
+
                         //в случаях, когда одна из случайных величин переспекает 0, все плохо
                         if (dpdfRight.MinX <= 0 && dpdfRight.MaxX >= 0 && !(dpdfLeft.MinX <= 0 && dpdfLeft.MaxX >= 0))
                         {
@@ -403,67 +457,11 @@ namespace RandomAlgebra.Distributions
                             }
                         }
                     }
-                case DistributionsOperation.Sub:
-                    {
-
-                        if (stepX < stepY)
-                        {
-                            newAction = DistributionsOperation.Add;
-                            return new DiscreteDistribution[] { Multiply(dpdfRight, -1), dpdfLeft };
-                        }
-                        else
-                        {
-                            newAction = action;
-                            return new DiscreteDistribution[] { dpdfLeft, dpdfRight };
-                        }
-                    }
-                case DistributionsOperation.Divide:
-                    {
-                        if (stepY / stepX > 2)
-                        {
-                            newAction = DistributionsOperation.Muliply;
-                            return new DiscreteDistribution[] { CommonRandomMath.Power(dpdfRight, -1), dpdfLeft };
-                        }
-                        else
-                        {
-                            newAction = action;
-                            return new DiscreteDistribution[] { dpdfLeft, dpdfRight };
-                        }
-                    }
                 default:
                     {
                         newAction = action;
                         return new DiscreteDistribution[] { dpdfLeft, dpdfRight };
                     }
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static double InterpolateInlined(double x, double minX, double maxX, double step, double[] coordinates)
-        {
-            if (x < minX || x > maxX)
-                return 0;
-
-            double ind = (x - minX) / step;
-
-            int intInt = (int)ind;
-            double k = ind - intInt;
-
-            if (k == 0)
-            {
-                return coordinates[intInt];
-            }
-            else
-            {
-                if (intInt < 0 || (intInt >= coordinates.Length - 1))
-                    return 0;
-                else
-                {
-                    double min = coordinates[intInt];
-                    double max = coordinates[intInt + 1];
-                    return (max - min) * k + min;
-                }
-
-
             }
         }
     }

@@ -23,13 +23,14 @@ namespace Distributions
             results.Columns.Add(new DataColumn("Vgum", typeof(double)));
 
             Optimizations.UseContiniousConvolution = false;
+            Optimizations.UseFFTConvolution = false;
 
             int experiments = 10;
-            int samples = 10000;
-            int randoms = (int)10e3;
-            int testType = 4;
+            int samples = 1000;
+            int randoms = (int)10e2;
+            int testType = 3;
             double m1 = 0;
-            double m2 = 0; //для тестов 6, 7 - положение левой границы
+            double m2 = 10; //для тестов 6, 7 - положение левой границы
 
             for (int i = 0; i < experiments; i++)
             {
@@ -37,7 +38,6 @@ namespace Distributions
                 double s2 = s1 * InterpolateLiner(0.1, 10, i, experiments);
 
                 var pair = GetData(testType, m1, m2, s1, s2, out double vOriginal, out double gum, out string formula);
-
 
                 DistributionsEvaluator evaluator = new DistributionsEvaluator(formula);
                 Dictionary<string, BaseDistribution> keyValuePairs = new Dictionary<string, BaseDistribution>();

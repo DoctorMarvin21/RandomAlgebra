@@ -154,7 +154,7 @@ namespace RandomAlgebra.Distributions
             bool minInfinite = double.IsInfinity(BaseDistribution.Support.Min);
             bool maxInfinite = double.IsInfinity(BaseDistribution.Support.Max);
 
-            double tolerance = 1d / Math.Pow(InnerSamples * 10, 2);
+            double tolerance = 1d / Math.Pow(InnerSamples, 2);
             double min = minInfinite ? GetSupport(true, tolerance) : BaseDistribution.Support.Min;
             double max = maxInfinite ? GetSupport(false, tolerance) : BaseDistribution.Support.Max;
 

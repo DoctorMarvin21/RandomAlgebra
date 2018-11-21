@@ -65,7 +65,7 @@ namespace Distributions
             pane.YAxis.Scale.MaxAuto = false;
 
             pane.YAxis.Scale.Min = 0;
-            pane.YAxis.Scale.Max = pane.CurveList.Min(x => ((PointPairList)x.Points).Max(y => y.Y)) * 1.1d;
+            pane.YAxis.Scale.Max = pane.CurveList.Max(x => ((PointPairList)x.Points).Max(y => y.Y)) * 1.1d;
 
             control.AxisChange();
 

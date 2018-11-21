@@ -53,6 +53,7 @@ namespace Distributions
             parameters.Add(new DistributionParameters("σ²", randomsAlgebra?.Variance, monteCarlo?.Variance));
             parameters.Add(new DistributionParameters("U⁺", randomsAlgebra?.QuantileUpper(p), monteCarlo?.QuantileUpper(p)));
             parameters.Add(new DistributionParameters("U⁻", randomsAlgebra?.QuantileLower(p), monteCarlo?.QuantileLower(p)));
+            parameters.Add(new DistributionParameters("γ", randomsAlgebra?.Skewness, monteCarlo?.Skewness));
             parameters.Add(new DistributionParameters("U±", randomsAlgebra?.QuantileRange(p), monteCarlo?.QuantileRange(p)));
 
             return parameters;

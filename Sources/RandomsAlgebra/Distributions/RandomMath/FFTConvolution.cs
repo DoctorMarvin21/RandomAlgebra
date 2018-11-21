@@ -82,10 +82,12 @@ namespace RandomAlgebra.Distributions
             Complex[] complexLeft = new Complex[paddedLength];
             Complex[] complexRight = new Complex[paddedLength];
 
+            //copy len - 1 because of correction
+
             Parallel.Invoke(() =>
             {
 
-                for (int i = 0; i < leftY.Length; i++)
+                for (int i = 0; i < leftY.Length - 1; i++)
                 {
                     complexLeft[i] = leftY[i];
                 }
@@ -94,7 +96,7 @@ namespace RandomAlgebra.Distributions
             },
             () =>
             {
-                for (int i = 0; i < rightY.Length; i++)
+                for (int i = 0; i < rightY.Length - 1; i++)
                 {
                     complexRight[i] = rightY[i];
                 }
