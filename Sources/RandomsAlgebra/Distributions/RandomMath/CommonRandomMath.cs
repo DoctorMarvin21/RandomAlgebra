@@ -496,8 +496,6 @@ namespace RandomAlgebra.Distributions
 
         public static double SimpsonsIntegration(double[] array, double step)
         {
-            //common
-            //TODO:
             int length = array.Length;
 
             double result = array[0] + array[length - 1];

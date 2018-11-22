@@ -395,7 +395,6 @@ namespace RandomAlgebra.Distributions
 
         private static DiscreteDistribution[] Swap(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight, DistributionsOperation action, out DistributionsOperation newAction)
         {
-            //TODO:Tests and enhance
             double stepX = dpdfLeft.Step;
             double stepY = dpdfRight.Step;
 
@@ -430,10 +429,9 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionsOperation.Muliply:
                     {
-                        //TODO:Add expremum processing
                         newAction = action;
 
-                        //в случаях, когда одна из случайных величин переспекает 0, все плохо
+                        //when one of distributions corssing Oy we need to exact locate them to eliminate 1/0 error on numerical integration
                         if (dpdfRight.MinX <= 0 && dpdfRight.MaxX >= 0 && !(dpdfLeft.MinX <= 0 && dpdfLeft.MaxX >= 0))
                         {
                             return new DiscreteDistribution[] { dpdfRight, dpdfLeft };

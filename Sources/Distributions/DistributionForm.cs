@@ -55,9 +55,9 @@ namespace Distributions
 
             CalculationProgress.Warning += CalculationProgress_Warning;
 
-            dataGridResults.AutoGenerateColumns = true;
-            dataGridResults.Columns.Clear();
-            dataGridResults.DataSource = Test.TestData();
+            //dataGridResults.AutoGenerateColumns = true;
+            //dataGridResults.Columns.Clear();
+            //dataGridResults.DataSource = Test.TestData();
         }
 
         private void CalculationProgress_Warning(object sender, WarningEventArgs e)
@@ -320,7 +320,7 @@ namespace Distributions
 
                     if (_distributionsPair.RandomsAlgebra is ContinuousDistribution continuous)
                     {
-                        _distributionsPair.RandomsAlgebra = continuous.Discretize();
+                        //_distributionsPair.RandomsAlgebra = continuous.Discretize();
                     }
 
 
