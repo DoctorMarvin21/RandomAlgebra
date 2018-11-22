@@ -72,6 +72,8 @@
             this.btnAddMultivariateDistribution = new System.Windows.Forms.Button();
             this.groupResults = new System.Windows.Forms.GroupBox();
             this.dataGridResults = new System.Windows.Forms.DataGridView();
+            this.groupWarnings = new System.Windows.Forms.GroupBox();
+            this.listWarnings = new System.Windows.Forms.ListBox();
             this.tableLayoutLeft.SuspendLayout();
             this.panelFunction.SuspendLayout();
             this.tableLayoutSplitGraphics.SuspendLayout();
@@ -106,6 +108,7 @@
             this.panel1.SuspendLayout();
             this.groupResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).BeginInit();
+            this.groupWarnings.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutLeft
@@ -238,6 +241,7 @@
             // 
             // panelParameters
             // 
+            this.panelParameters.Controls.Add(this.groupWarnings);
             this.panelParameters.Controls.Add(this.groupCommonParameters);
             this.panelParameters.Controls.Add(this.groupMonteCarloParameters);
             this.panelParameters.Controls.Add(this.groupRandomsAlgebraParameters);
@@ -683,6 +687,24 @@
             this.dataGridResults.Size = new System.Drawing.Size(320, 200);
             this.dataGridResults.TabIndex = 0;
             // 
+            // groupWarnings
+            // 
+            this.groupWarnings.Controls.Add(this.listWarnings);
+            this.groupWarnings.Location = new System.Drawing.Point(613, 3);
+            this.groupWarnings.Name = "groupWarnings";
+            this.groupWarnings.Size = new System.Drawing.Size(319, 64);
+            this.groupWarnings.TabIndex = 3;
+            this.groupWarnings.TabStop = false;
+            this.groupWarnings.Text = "groupWarnings";
+            // 
+            // listWarnings
+            // 
+            this.listWarnings.FormattingEnabled = true;
+            this.listWarnings.Location = new System.Drawing.Point(6, 16);
+            this.listWarnings.Name = "listWarnings";
+            this.listWarnings.Size = new System.Drawing.Size(307, 43);
+            this.listWarnings.TabIndex = 0;
+            // 
             // DistributionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -730,6 +752,7 @@
             this.panel1.ResumeLayout(false);
             this.groupResults.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).EndInit();
+            this.groupWarnings.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -778,6 +801,8 @@
         private System.Windows.Forms.GroupBox groupResults;
         private System.Windows.Forms.DataGridView dataGridResults;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.GroupBox groupWarnings;
+        private System.Windows.Forms.ListBox listWarnings;
     }
 }
 

@@ -17,6 +17,7 @@ namespace Distributions
             { "GroupMultivariate", new Translations("Multivariate distributions", "Многомерные распределения") },
             { "GroupMatrixParameters", new Translations("Matrix parameters", "Параметры матрицы") },
             { "GroupDistributionParameters", new Translations("Distribution parameters", "Параметры распределения") },
+            { "GroupWarnings", new Translations("Warnings", "Предупреждения") },
 
             { "TableCoeffitients", new Translations("Distribution parameters", "Параметры распределения") },
             { "TableMatrix", new Translations("Covariance matrix", "Параметры распределения") },

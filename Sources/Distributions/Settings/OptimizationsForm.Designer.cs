@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkContiniousConvolution = new System.Windows.Forms.CheckBox();
+            this.checkContinuousConvolution = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.checkFFTConvolution = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // checkContiniousConvolution
+            // checkContinuousConvolution
             // 
-            this.checkContiniousConvolution.AutoSize = true;
-            this.checkContiniousConvolution.Location = new System.Drawing.Point(12, 12);
-            this.checkContiniousConvolution.Name = "checkContiniousConvolution";
-            this.checkContiniousConvolution.Size = new System.Drawing.Size(161, 17);
-            this.checkContiniousConvolution.TabIndex = 0;
-            this.checkContiniousConvolution.Text = "checkContiniousConvolution";
-            this.checkContiniousConvolution.UseVisualStyleBackColor = true;
+            this.checkContinuousConvolution.AutoSize = true;
+            this.checkContinuousConvolution.Location = new System.Drawing.Point(12, 12);
+            this.checkContinuousConvolution.Name = "checkContinuousConvolution";
+            this.checkContinuousConvolution.Size = new System.Drawing.Size(161, 17);
+            this.checkContinuousConvolution.TabIndex = 0;
+            this.checkContinuousConvolution.Text = "checkContinuousConvolution";
+            this.checkContinuousConvolution.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
@@ -82,7 +82,7 @@
             this.Controls.Add(this.checkFFTConvolution);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.checkContiniousConvolution);
+            this.Controls.Add(this.checkContinuousConvolution);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -98,7 +98,7 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox checkContiniousConvolution;
+        private System.Windows.Forms.CheckBox checkContinuousConvolution;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.CheckBox checkFFTConvolution;

@@ -73,7 +73,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
 
             }
@@ -108,7 +108,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
 
             }
@@ -289,7 +289,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             {
                 var next = (char)peek;
 
-                if (char.IsLetter(next))
+                if (char.IsLetter(next) || (parameter.Length > 0 && char.IsDigit(next)))
                 {
                     reader.Read();
                     parameter += next;

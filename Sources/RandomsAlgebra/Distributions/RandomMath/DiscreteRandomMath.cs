@@ -283,10 +283,6 @@ namespace RandomAlgebra.Distributions
 
                                     sum += r;
                                 }
-                                else
-                                {
-
-                                }
                             }
 
                             //yCoordinates[i] = Accord.Math.Integration.InfiniteAdaptiveGaussKronrod.Integrate(y => { return dpdfRight.InnerGetPDFYbyX(y) * dpdfLeft.InnerGetPDFYbyX(x / y) / Math.Abs(y); }, dpdfRight.MinX, dpdfRight.MaxX);
@@ -434,6 +430,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionsOperation.Muliply:
                     {
+                        //TODO:Add expremum processing
                         newAction = action;
 
                         //в случаях, когда одна из случайных величин переспекает 0, все плохо
@@ -447,6 +444,11 @@ namespace RandomAlgebra.Distributions
                         }
                         else
                         {
+                            if (dpdfLeft.MinX <= 0 && dpdfLeft.MaxX >= 0 && dpdfRight.MinX <= 0 && dpdfRight.MaxX >= 0)
+                            {
+                                CalculationProgress.InvokeWarning($"Both of distributions cross Oy on distributions product, accuracy loss is expected", $"Оба распределения пересекают Oy при операции произведения распределений, возможна потеря точности");
+                            }
+
                             if (stepX < stepY)
                             {
                                 return new DiscreteDistribution[] { dpdfRight, dpdfLeft };

@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Distributions\CalculationProgress.cs" />
     <Compile Include="Distributions\CommonExceptions.cs" />
     <Compile Include="Distributions\Bivariate\BivariateContinuousDistribution.cs" />
     <Compile Include="Distributions\Bivariate\BivariateMath.cs" />

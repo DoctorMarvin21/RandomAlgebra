@@ -331,6 +331,11 @@ namespace RandomAlgebra.Distributions
             return y0 + (y1 - y0) / (x1 - x0) * (x - x0);
         }
 
+        public static double GetTolerance(int samples)
+        {
+            return 0.5d / Math.Pow(samples, 2);
+        }
+
         public static double[] GenerateXAxis(double r1, double r2, int samples, out double step)
         {
             double min = Math.Min(r1, r2);

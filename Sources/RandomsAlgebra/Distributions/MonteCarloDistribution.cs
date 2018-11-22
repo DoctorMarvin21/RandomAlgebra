@@ -114,7 +114,7 @@ namespace RandomAlgebra.Distributions
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" value is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
                 }
             }
 

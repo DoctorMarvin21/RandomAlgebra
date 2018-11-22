@@ -37,6 +37,7 @@ namespace RandomAlgebra.Distributions
                 return DiscreteRandomMath.Add(left, right.Discretize(left.Samples));
             else
             {
+                samples = Math.Round(samples);
                 var rightDiscrete = right.Discretize((int)samples);
                 return Convolute(left, rightDiscrete, left.InnerSamples, false);
             }
@@ -51,13 +52,15 @@ namespace RandomAlgebra.Distributions
             {
                 if (left.Step > right.Step)
                 {
-                    leftY = CommonRandomMath.Resample(left.YCoordinatesInternal, (int)(left.Step / right.Step * left.InnerSamples));
+                    double samples = Math.Round(left.Step / right.Step * left.InnerSamples);
+                    leftY = CommonRandomMath.Resample(left.YCoordinatesInternal, (int)samples);
                     rightY = right.YCoordinatesInternal;
                     step = right.Step;
                 }
                 else
                 {
-                    rightY = CommonRandomMath.Resample(right.YCoordinatesInternal, (int)(right.Step / left.Step * right.InnerSamples));
+                    double samples = Math.Round(left.Step / right.Step * left.InnerSamples);
+                    rightY = CommonRandomMath.Resample(right.YCoordinatesInternal, (int)samples);
                     leftY = left.YCoordinatesInternal;
                     step = left.Step;
                 }
@@ -87,7 +90,7 @@ namespace RandomAlgebra.Distributions
             Parallel.Invoke(() =>
             {
 
-                for (int i = 0; i < leftY.Length - 1; i++)
+                for (int i = 0; i < leftY.Length; i++)
                 {
                     complexLeft[i] = leftY[i];
                 }
@@ -96,7 +99,7 @@ namespace RandomAlgebra.Distributions
             },
             () =>
             {
-                for (int i = 0; i < rightY.Length - 1; i++)
+                for (int i = 0; i < rightY.Length; i++)
                 {
                     complexRight[i] = rightY[i];
                 }

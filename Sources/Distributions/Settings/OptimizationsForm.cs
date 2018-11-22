@@ -17,20 +17,20 @@ namespace Distributions
             InitializeComponent();
 
             Text = Languages.GetText("Optimizations");
-            checkContiniousConvolution.Text = Languages.GetText("CheckContinuous");
+            checkContinuousConvolution.Text = Languages.GetText("CheckContinuous");
             checkFFTConvolution.Text = Languages.GetText("CheckFFT");
             btnOk.Text = Languages.GetText("ButtonOk");
             btnCancel.Text = Languages.GetText("ButtonCancel");
 
 
-            checkContiniousConvolution.Checked = Optimizations.UseContiniousConvolution;
+            checkContinuousConvolution.Checked = Optimizations.UseContinuousConvolution;
             checkFFTConvolution.Checked = Optimizations.UseFFTConvolution;
 
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            Optimizations.UseContiniousConvolution = checkContiniousConvolution.Checked;
+            Optimizations.UseContinuousConvolution = checkContinuousConvolution.Checked;
             Optimizations.UseFFTConvolution = checkFFTConvolution.Checked;
 
             DialogResult = DialogResult.OK;

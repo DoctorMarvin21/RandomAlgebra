@@ -25,6 +25,9 @@ namespace Distributions
         List<MultivariateDistributionFunctionArgument> _argumentsMultivariate = new List<MultivariateDistributionFunctionArgument>();
         BindingSource _argumentsMultivariateSource = new BindingSource();
 
+        List<string> _warnings = new List<string>();
+        BindingSource _warningsSource = new BindingSource();
+
         public DistributionForm()
         {
             InitializeComponent();
@@ -47,11 +50,20 @@ namespace Distributions
 
             Charts.PrepareGraph(zedDistrPDF, zedDistrCDF);
 
+            _warningsSource.DataSource = _warnings;
+            listWarnings.DataSource = _warningsSource;
 
+            CalculationProgress.Warning += CalculationProgress_Warning;
 
             dataGridResults.AutoGenerateColumns = true;
             dataGridResults.Columns.Clear();
             dataGridResults.DataSource = Test.TestData();
+        }
+
+        private void CalculationProgress_Warning(object sender, WarningEventArgs e)
+        {
+            _warningsSource.Add(e.Message);
+            _warningsSource.MoveLast();
         }
 
         private void SetLanguage()
@@ -69,6 +81,7 @@ namespace Distributions
             groupDistributions.Text = Languages.GetText("GroupDistributions");
             groupMultivariate.Text = Languages.GetText("GroupMultivariate");
             groupResults.Text = Languages.GetText("GroupResults");
+            groupWarnings.Text = Languages.GetText("GroupWarnings");
 
             lbModel.Text = Languages.GetText("LabelModel");
             lbSamplesCount.Text = Languages.GetText("LabelSamplesCount");
@@ -281,6 +294,8 @@ namespace Distributions
             try
 #endif
             {
+                _warningsSource.Clear();
+
                 string expression = txtFunction.Text;
                 bool evaluateRandomsAlgebra = checkEvaluateRandomsAlgebra.Checked;
                 bool evaluateMonteCarlo = checkEvaluateMonteCarlo.Checked;
@@ -302,6 +317,13 @@ namespace Distributions
                 {
                     sw.Restart();
                     _distributionsPair.RandomsAlgebra = DistributionManager.RandomsAlgebraDistribution(expression, univariate, multivariate, samples);
+
+                    if (_distributionsPair.RandomsAlgebra is ContinuousDistribution continuous)
+                    {
+                        _distributionsPair.RandomsAlgebra = continuous.Discretize();
+                    }
+
+
                     sw.Stop();
 
                     _distributionsPair.RandomsAlgebraTime = sw.Elapsed;

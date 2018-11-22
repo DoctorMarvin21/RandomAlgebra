@@ -138,7 +138,6 @@ namespace RandomAlgebra.Distributions
         /// <returns>Upper quantile</returns>
         public double QuantileUpper(double p)
         {
-
             double pc = (p + 1) / 2d;
             return Quantile(pc);
         }
@@ -150,7 +149,6 @@ namespace RandomAlgebra.Distributions
         /// <returns>Lower quantile</returns>
         public double QuantileLower(double p)
         {
-
             double pc = (1 - p) / 2d;
             return Quantile(pc);
         }
@@ -201,7 +199,7 @@ namespace RandomAlgebra.Distributions
 
         /// <summary>
         /// Sum (convolution) of distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseContiniousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>
+        /// <see cref="Optimizations.UseContinuousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns>Sum result</returns>
@@ -209,7 +207,7 @@ namespace RandomAlgebra.Distributions
 
         /// <summary>
         /// Difference between distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseContiniousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>
+        /// <see cref="Optimizations.UseContinuousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns>Difference result</returns>

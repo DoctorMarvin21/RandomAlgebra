@@ -14,7 +14,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// <summary>
         /// If setted to true, on convolution of several distributions (eg. two normal distributions) the result of convolution will be derived analytically
         /// </summary>
-        public static bool UseContiniousConvolution
+        public static bool UseContinuousConvolution
         {
             get;
             set;
