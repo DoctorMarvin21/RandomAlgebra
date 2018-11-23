@@ -243,7 +243,7 @@ namespace RandomAlgebra.Distributions
                         int minJ = (int)(dpdf.MinX / (2 * Math.PI)) - 1;
                         int maxJ = (int)(dpdf.MaxX / (2 * Math.PI)) + 1;
 
-
+                        //TODO:nan and inf for sin, cos
                         for (int i = 0; i < length; i++)
                         {
                             double z = xCoordinates[i];
@@ -352,7 +352,9 @@ namespace RandomAlgebra.Distributions
                 else if (i == samples - 1)
                     result[i] = max;
                 else
+                {
                     result[i] = min + i * step;
+                }
             }
 
             return result;
@@ -476,18 +478,26 @@ namespace RandomAlgebra.Distributions
             for (int i = 1; i < newLength; i++)
             {
                 double x = i * scale;
-                int x0 = (int)(i * scale);
-                int x1 = x0 + 1;
+                int xInt = (int)x;
 
-                if (x1 >= oldLength - 1)
+                if (xInt >= oldLength - 1)
                 {
                     newArray[i] = array[oldLength - 1];
                 }
                 else
                 {
-                    double y0 = array[x0];
-                    double y1 = array[x1];
-                    newArray[i] = InterpolateLinear(x0, x1, y0, y1, x);
+                    double k = x - xInt;
+
+                    if (k == 0)
+                    {
+                        newArray[i] = array[xInt];
+                    }
+                    else
+                    {
+                        double min = array[xInt];
+                        double max = array[xInt + 1];
+                        newArray[i] = (max - min) * k + min;
+                    }
                 }
             }
 

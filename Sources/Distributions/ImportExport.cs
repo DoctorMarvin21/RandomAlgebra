@@ -38,8 +38,13 @@ namespace Distributions
 
             AppendTableLine(sb, Languages.GetText("Argument"), Languages.GetText("PDFTitle"), Languages.GetText("CDFTitle"));
 
-            for (double x = distribution.MinX; x < distribution.MaxX; x += step)
+            for (int i = 0; i < distribution.Samples; i++)
             {
+                double x = i * distribution.Step + distribution.MinX;
+
+                if (i == distribution.Samples - 1)
+                    x = distribution.MaxX;
+
                 AppendTableLine(sb, x.ToString(inv), distribution.ProbabilityDensityFunction(x).ToString(inv), distribution.DistributionFunction(x).ToString(inv));
             }
         }

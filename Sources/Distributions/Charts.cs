@@ -43,8 +43,8 @@ namespace Distributions
 
             double step = (distribution.MaxX - distribution.MinX) / (length - 1);
 
-            var pointsPDF = GetPoints(distribution.ProbabilityDensityFunction, distribution.MinX, distribution.MaxX, step);
-            var pointsCDF = GetPoints(distribution.DistributionFunction, distribution.MinX, distribution.MaxX, step);
+            var pointsPDF = GetPoints(distribution.ProbabilityDensityFunction, distribution.MinX, distribution.MaxX, step, length);
+            var pointsCDF = GetPoints(distribution.DistributionFunction, distribution.MinX, distribution.MaxX, step, length);
 
 
             pdf.GraphPane.AddCurve(name, pointsPDF, color, SymbolType.None);
@@ -72,7 +72,7 @@ namespace Distributions
             control.Invalidate();
         }
 
-        private static PointPairList GetPoints(Func<double, double> func, double min, double max, double step)
+        private static PointPairList GetPoints(Func<double, double> func, double min, double max, double step, int length)
         {
             PointPairList points = new PointPairList();
 
@@ -82,8 +82,13 @@ namespace Distributions
             }
             else
             {
-                for (double x = min; x < max; x += step)
+                for (int i = 0; i < length; i++)
                 {
+                    double x = i * step + min;
+
+                    if (i == length - 1)
+                        x = max;
+
                     var y = func.Invoke(x);
                     if (!double.IsInfinity(y) && !double.IsNaN(y))
                     {

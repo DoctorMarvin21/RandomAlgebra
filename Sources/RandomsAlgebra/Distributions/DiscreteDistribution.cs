@@ -66,7 +66,9 @@ namespace RandomAlgebra.Distributions
                 throw new DistributionsArgumentException("Length of arguments not equal to length of values", "Несовпадение длин массивов аргументов и значений");
 
             if (!coordinates.FromContinuous && coordinates.CDFCoordinates == null)
+            {
                 coordinates = Resample(coordinates);
+            }
 
             XCoordinatesInternal = coordinates.XCoordinates;
             YCoordinatesInternal = coordinates.PDFCoordinates;
@@ -78,8 +80,13 @@ namespace RandomAlgebra.Distributions
             _max = XCoordinatesInternal[_length - 1];
 
             if (coordinates.CDFCoordinates == null)
+            {
                 NormalizeAdaptive(YCoordinatesInternal, Step);
+            }
         }
+        #endregion
+
+        #region Constructor functions
 
         private static PrivateCoordinates Resample(PrivateCoordinates coordinates)
         {
@@ -115,26 +122,32 @@ namespace RandomAlgebra.Distributions
             max = coordinates.XCoordinates[maxI];
 
             int r = maxI - minI + 1;
-            double[] newX = CommonRandomMath.GenerateXAxis(min, max, length, out step);
-            double[] newY = new double[r];
 
-            for (int i = 0; i < r; i++)
+            if (r != length)
             {
-                newY[i] = coordinates.PDFCoordinates[i + minI];
+
+                double[] newX = CommonRandomMath.GenerateXAxis(min, max, length, out step);
+                double[] newY = new double[r];
+
+                for (int i = 0; i < r; i++)
+                {
+                    newY[i] = coordinates.PDFCoordinates[i + minI];
+                }
+                newY = CommonRandomMath.Resample(newY, length);
+
+                return new PrivateCoordinates { XCoordinates = newX, PDFCoordinates = newY };
             }
-            newY = CommonRandomMath.Resample(newY, length);
-
-            return new PrivateCoordinates { XCoordinates = newX, PDFCoordinates = newY };
+            else
+            {
+                return coordinates;
+            }
         }
-        #endregion
-
-        #region Constructor functions
 
         private static void NormalizeAdaptive(double[] yCoordinates, double step)
         {
             int l = yCoordinates.Length;
 
-            //replaceNaN. find scale, find infinities
+            //replace NaN, find scale, find infinities
             double scale = 0;
 
             List<int> infIndexes = new List<int>();
@@ -146,6 +159,7 @@ namespace RandomAlgebra.Distributions
 
                 if (double.IsNaN(value))
                 {
+                    //TODO: interpolation?
                     yCoordinates[i] = 0;
                 }
                 else if (double.IsInfinity(value))
@@ -153,9 +167,13 @@ namespace RandomAlgebra.Distributions
                     yCoordinates[i] = 0;
                     infIndexes.Add(i);
                     if (i == 0 || i == l - 1)
+                    {
                         trianglesCount++;
+                    }
                     else
+                    {
                         trianglesCount += 2;
+                    }
 
                 }
                 else
@@ -171,22 +189,14 @@ namespace RandomAlgebra.Distributions
 
             if (trianglesCount > 0)
             {
-                CalculationProgress.InvokeWarning($"{infIndexes.Count} infinite value(s) would be eliminated, accuracy loss is expected", $"{infIndexes.Count} значение бесконечности будет устранено, возможна потеря точности");
+                CalculationProgress.InvokeWarning($"{infIndexes.Count} infinite value(s) is eliminated, accuracy loss is expected", $"{infIndexes.Count} значение бесконечности устранено, возможна потеря точности");
             }
 
             if (trianglesCount == 0 || scale >= 1)
             {
-                //only when less then 10 % error
-                if (Math.Abs(1 - scale) < 0.1)
+                for (int i = 0; i < l; i++)
                 {
-                    for (int i = 0; i < l; i++)
-                    {
-                        yCoordinates[i] = yCoordinates[i] / scale;
-                    }
-                }
-                else
-                {
-                    CalculationProgress.InvokeWarning($"Area under probablity distribution is {scale}, normalization is impossible", $"Площадь под графиком плотности вероятности составляет {scale}, невозможно выполнить нормализацию");
+                    yCoordinates[i] = yCoordinates[i] / scale;
                 }
             }
             else
@@ -197,51 +207,9 @@ namespace RandomAlgebra.Distributions
 
                 for (int i = 0; i < infIndexes.Count; i++)
                 {
-                    int ind = infIndexes[i];
-                    if (ind == 0)
-                    {
-                        yCoordinates[0] = value;
-                    }
-                    else if (ind == l - 1)
-                    {
-                        yCoordinates[l - 1] = value;
-                    }
-                    else
-                    {
-                        yCoordinates[ind] = value * 2;
-                    }
+                    yCoordinates[infIndexes[i]] = value;
                 }
             }
-
-            /*
-            for (int i = 0; i < l; i++)
-            {
-                double value = yCoordinates[i];
-
-                if (double.IsInfinity(value) || double.IsNaN(value))
-                {
-                    if (i == 0)
-                    {
-                        yCoordinates[0] = Math.Pow(2 * yCoordinates[1] - yCoordinates[2], 2);
-                    }
-                    else if (i == l - 1)
-                    {
-                        yCoordinates[l - 1] = Math.Pow(2 * yCoordinates[l - 2] - yCoordinates[l - 3], 2);
-                    }
-                    else
-                    {
-                        if (double.IsInfinity(yCoordinates[i + 1]) || double.IsNaN(yCoordinates[i + 1]))
-                        {
-                            yCoordinates[i] = 0;
-                        }
-                        else
-                        {
-                            yCoordinates[i] = Math.Pow((yCoordinates[i - 1] + yCoordinates[i + 1]) / 2, 2);
-                        }
-                    }
-                }
-            }
-            */
         }
 
         private static PrivateCoordinates DiscretizeContinious(ContinuousDistribution continiousDistribution, int samples)
@@ -467,20 +435,22 @@ namespace RandomAlgebra.Distributions
             double ind = (x - _min) / Step;
 
             int indInt = (int)ind;
-            double k = ind - indInt;
 
-
-            if (k == 0)
+            if (indInt < 0)
             {
-                return coordinates[indInt];
+                return coordinates[0];
+            }
+            else if (indInt >= _length - 1)
+            {
+                return coordinates[_length - 1];
             }
             else
             {
-                if (indInt < 0)
-                    return coordinates[0];
-                else if (indInt >= _length - 2)
+                double k = ind - indInt;
+
+                if (k == 0)
                 {
-                    return coordinates[_length - 1];
+                    return coordinates[indInt];
                 }
                 else
                 {
