@@ -90,6 +90,7 @@ namespace RandomAlgebra.Distributions
 
         private static PrivateCoordinates Resample(PrivateCoordinates coordinates)
         {
+            var pdf = coordinates.PDFCoordinates;
             int length = coordinates.XCoordinates.Length;
 
             double min = coordinates.XCoordinates[0];
@@ -99,7 +100,7 @@ namespace RandomAlgebra.Distributions
 
             NormalizeAdaptive(coordinates.PDFCoordinates, step);
 
-            double[] cdf = GetCDF(coordinates.PDFCoordinates, step);
+            double[] cdf = GetCDF(pdf, step);
             double tolerance = CommonRandomMath.GetTolerance(length);
 
             var minI = 0;
@@ -107,13 +108,29 @@ namespace RandomAlgebra.Distributions
 
             for (int i = 0; i < length - 1; i++)
             {
-                var d = cdf[i];
+                var c = cdf[i];
 
-                if (d < tolerance)
-                    minI = i;
-                if (d > 1 - tolerance)
+                if (c < tolerance)
                 {
-                    maxI = i;
+                    if (pdf[i] == 0)
+                    {
+                        minI = i + 1;
+                    }
+                    else
+                    {
+                        minI = i;
+                    }
+                }
+                if (c > 1 - tolerance)
+                {
+                    if (pdf[i] == 0)
+                    {
+                        maxI = i - 1;
+                    }
+                    else
+                    {
+                        maxI = i;
+                    }
                     break;
                 }
             }
@@ -151,6 +168,7 @@ namespace RandomAlgebra.Distributions
             double scale = 0;
 
             List<int> infIndexes = new List<int>();
+            List<double> weights = new List<double>();
             int trianglesCount = 0;
 
             for (int i = 0; i < l; i++)
@@ -169,10 +187,20 @@ namespace RandomAlgebra.Distributions
                     if (i == 0 || i == l - 1)
                     {
                         trianglesCount++;
+
+                        if (i == 0)
+                        {
+                            weights.Add(yCoordinates[i + 1]);
+                        }
+                        else
+                        {
+                            weights.Add(yCoordinates[i - 1]);
+                        }
                     }
                     else
                     {
                         trianglesCount += 2;
+                        weights.Add(yCoordinates[i - 1] + yCoordinates[i + 1]);
                     }
 
                 }
@@ -203,11 +231,11 @@ namespace RandomAlgebra.Distributions
             {
                 double area = (1 - scale) / trianglesCount;
 
-                double value = (2 * area) / step;
+                double value = (2 * area) / step / weights.Sum();
 
                 for (int i = 0; i < infIndexes.Count; i++)
                 {
-                    yCoordinates[infIndexes[i]] = value;
+                    yCoordinates[infIndexes[i]] = value * weights[i];
                 }
             }
         }

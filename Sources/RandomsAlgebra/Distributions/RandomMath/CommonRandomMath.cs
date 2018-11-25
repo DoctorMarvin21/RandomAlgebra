@@ -253,7 +253,9 @@ namespace RandomAlgebra.Distributions
 
                             for (double j = minJ; j <= maxJ; j++)
                             {
-                                yCoordinates[i] += k * (dpdf.InnerGetPDFYbyX(Math.PI * 2 * j - (Math.PI + arcsin)) + dpdf.InnerGetPDFYbyX(Math.PI * 2 * j + arcsin));
+                                double v = dpdf.InnerGetPDFYbyX(Math.PI * 2 * j - (Math.PI + arcsin)) + dpdf.InnerGetPDFYbyX(Math.PI * 2 * j + arcsin);
+                                if (v != 0)
+                                    yCoordinates[i] += k * v;
                             }
                         }
 
@@ -262,6 +264,8 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Cos:
                     {
                         //https://mathoverflow.net/questions/35260/resultant-probability-distribution-when-taking-the-cosine-of-gaussian-distribute
+                        double[] range = GetTrigonometricRange(-1, 1, dpdf);
+
                         double r1 = -1;
                         double r2 = 1;
 
@@ -284,7 +288,9 @@ namespace RandomAlgebra.Distributions
 
                             for (double j = minJ; j <= maxJ; j++)
                             {
-                                yCoordinates[i] +=  k * (dpdf.InnerGetPDFYbyX(2 * (j + 1) * Math.PI - acos) + dpdf.InnerGetPDFYbyX(2 * j * Math.PI + acos));
+                                double v = dpdf.InnerGetPDFYbyX(2 * (j + 1) * Math.PI - acos) + dpdf.InnerGetPDFYbyX(2 * j * Math.PI + acos);
+                                if (v != 0)
+                                    yCoordinates[i] += k * v;
                             }
                         }
 
@@ -292,7 +298,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionsOperation.Tan:
                     {
-                        if (dpdf.MaxX - dpdf.MinX > Math.PI || dpdf.MinX % Math.PI <= -Math.PI / 2 || dpdf.MaxX % Math.PI >= Math.PI / 2)
+                        if (dpdf.MaxX - dpdf.MinX >= Math.PI || dpdf.MinX % Math.PI <= -Math.PI / 2 || dpdf.MaxX % Math.PI >= Math.PI / 2)
                             CommonExceptions.ThrowCommonExcepton(CommonExceptionType.TangentOfValueCrossingAsymptote);
 
                         double r1 = Math.Tan(dpdf.MinX);
@@ -311,7 +317,10 @@ namespace RandomAlgebra.Distributions
                             double atan = Math.Atan(z);
                             double k = 1d / (Math.Pow(z, 2) + 1);
 
-                            yCoordinates[i] += k * (dpdf.InnerGetPDFYbyX(-Math.PI / 2d + Math.PI * j) + dpdf.InnerGetPDFYbyX(atan + j * Math.PI));
+                            double v = dpdf.InnerGetPDFYbyX(-Math.PI / 2d + Math.PI * j) + dpdf.InnerGetPDFYbyX(atan + j * Math.PI);
+
+                            if (v != 0)
+                                yCoordinates[i] = k * v;
 
                         }
 
@@ -324,6 +333,30 @@ namespace RandomAlgebra.Distributions
             }
 
             return new DiscreteDistribution(xCoordinates, yCoordinates);
+        }
+
+        private static double[] GetTrigonometricRange(double min, double max, BaseDistribution dpdf)
+        {
+            double[] range = new double[2];
+            if (dpdf.MinX >= min && dpdf.MinX <= max)
+            {
+                range[0] = dpdf.MinX;
+            }
+            else
+            {
+                range[0] = min;
+            }
+
+            if (dpdf.MaxX >= min && dpdf.MaxX <= max)
+            {
+                range[1] = dpdf.MaxX;
+            }
+            else
+            {
+                range[1] = max;
+            }
+
+            return range;
         }
 
         public static double InterpolateLinear(double x0, double x1, double y0, double y1, double x)
