@@ -417,7 +417,9 @@ namespace RandomAlgebra.Distributions
         private static double GetYByX(double x, double[] coordinates, double minX, double maxX, double step, int length)
         {
             if (x < minX || x > maxX)
+            {
                 return 0;
+            }
 
             double ind = (x - minX) / step;
 

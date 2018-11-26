@@ -21,12 +21,12 @@ namespace RandomAlgebra.Distributions.Settings
         } = true;
 
         /// <summary>
-        /// Use FFT convolution (if possible) instead of discrete convolution, if would be faster (N log(N) against N^2), but less accurate
+        /// Use FFT convolution (if possible) instead of discrete convolution, if would be faster (N log(N) against N^2), but, sometimes, less accurate
         /// </summary>
         public static bool UseFFTConvolution
         {
             get;
             set;
-        } = false;
+        } = true;
     }
 }

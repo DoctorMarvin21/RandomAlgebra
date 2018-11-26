@@ -15,8 +15,8 @@ namespace RandomAlgebra.Distributions
     public class DiscreteDistribution : BaseDistribution
     {
         readonly double _min = 0;
-        readonly int _length = 0;
         readonly double _max = 0;
+        readonly int _length = 0;
         double[] _cdfCoordinates = null;
         ReadOnlyCollection<double> _xCoordinatesReadonly = null;
         ReadOnlyCollection<double> _yCoordinatesReadonly = null;
@@ -81,13 +81,16 @@ namespace RandomAlgebra.Distributions
 
             if (coordinates.CDFCoordinates == null)
             {
-                NormalizeAdaptive(YCoordinatesInternal, Step);
+                bool gotInf = AnalyzeInfinities(YCoordinatesInternal, Step);
+                if (!coordinates.FromContinuous || gotInf)
+                {
+                    Normalize(YCoordinatesInternal, Step);
+                }
             }
         }
         #endregion
 
         #region Constructor functions
-
         private static PrivateCoordinates Resample(PrivateCoordinates coordinates)
         {
             var pdf = coordinates.PDFCoordinates;
@@ -98,7 +101,9 @@ namespace RandomAlgebra.Distributions
 
             double step = (max - min) / (length - 1);
 
-            NormalizeAdaptive(coordinates.PDFCoordinates, step);
+            AnalyzeInfinities(pdf, step);
+            Normalize(pdf, step);
+
 
             double[] cdf = GetCDF(pdf, step);
             double tolerance = CommonRandomMath.GetTolerance(length);
@@ -160,8 +165,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        private static void NormalizeAdaptive(double[] yCoordinates, double step)
+        private static bool AnalyzeInfinities(double[] yCoordinates, double step)
         {
+            bool gotInfinities = false;
             int l = yCoordinates.Length;
 
             //replace NaN, find scale, find infinities
@@ -217,26 +223,77 @@ namespace RandomAlgebra.Distributions
 
             if (trianglesCount > 0)
             {
+                gotInfinities = true;
                 CalculationProgress.InvokeWarning($"{infIndexes.Count} infinite value(s) is eliminated, accuracy loss is expected", $"{infIndexes.Count} значение бесконечности устранено, возможна потеря точности");
             }
 
-            if (trianglesCount == 0 || scale >= 1)
-            {
-                for (int i = 0; i < l; i++)
-                {
-                    yCoordinates[i] = yCoordinates[i] / scale;
-                }
-            }
-            else
+            if (scale < 1)
             {
                 double area = (1 - scale) / trianglesCount;
 
-                double value = (2 * area) / step / weights.Sum();
+                double h = (2 * area) / step / weights.Sum();
 
                 for (int i = 0; i < infIndexes.Count; i++)
                 {
-                    yCoordinates[infIndexes[i]] = value * weights[i];
+                    int infIndex = infIndexes[i];
+                    double value = h * weights[i];
+
+                    if (infIndex == 0)
+                    {
+                        double vNext = yCoordinates[1];
+
+                        if (value < vNext)
+                        {
+                            value = vNext;
+                        }
+                    }
+                    else if (infIndex == l - 1)
+                    {
+                        double vPrev = yCoordinates[l - 1];
+
+                        if (value < vPrev)
+                        {
+                            value = vPrev;
+                        }
+                    }
+                    else
+                    {
+                        double vPrev = yCoordinates[infIndex - 1];
+                        double vNext = yCoordinates[infIndex + 1];
+                        double vMean = (vNext + vPrev) / 2d;
+
+                        if (value < vPrev || value < vNext)
+                        {
+                            value = vMean;
+                        }
+                    }
+
+                    yCoordinates[infIndex] = value;
                 }
+            }
+
+            return gotInfinities;
+        }
+
+        private static void Normalize(double[] yCoordinates, double step)
+        {
+            int l = yCoordinates.Length;
+            double scale = 0;
+
+            for (int i = 0; i < l; i++)
+            {
+                double value = yCoordinates[i];
+
+                if (i == 0 || i == l - 1)
+                    value /= 2d;
+
+                scale += value;
+            }
+            scale *= step;
+
+            for (int i = 0; i < l; i++)
+            {
+                yCoordinates[i] = yCoordinates[i] / scale;
             }
         }
 

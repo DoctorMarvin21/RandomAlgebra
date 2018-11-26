@@ -797,7 +797,7 @@ namespace RandomAlgebra.Distributions.Settings
 
         internal override UnivariateContinuousDistribution GetUnivariateContinuoisDistribution()
         {
-            return new GammaDistribution(ScaleParameter, ShapeParameter);
+            return new GammaCorrectedDistribution(ScaleParameter, ShapeParameter);
         }
 
         public override string ToString()

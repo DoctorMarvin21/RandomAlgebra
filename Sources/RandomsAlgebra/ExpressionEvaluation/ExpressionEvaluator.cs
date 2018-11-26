@@ -310,18 +310,29 @@ namespace RandomAlgebra.DistributionsEvaluation
             }
             else
             {
-                var found = _nodeParameters.FirstOrDefault(x => x.Parameter == parameter);
-
-                if (found != null)
+                if (parameter == "pi")
                 {
-                    found.Count++;
-                    _nodeStack.Push(found);
+                    _nodeStack.Push(new NodeConstant(Math.PI));
+                }
+                else if (parameter == "exp")
+                {
+                    _nodeStack.Push(new NodeConstant(Math.E));
                 }
                 else
                 {
-                    var nodeParameter = new NodeParameter(parameter, _nodeParameters.Count, _parameterExpression);
-                    _nodeParameters.Add(nodeParameter);
-                    _nodeStack.Push(nodeParameter);
+                    var found = _nodeParameters.FirstOrDefault(x => x.Parameter == parameter);
+
+                    if (found != null)
+                    {
+                        found.Count++;
+                        _nodeStack.Push(found);
+                    }
+                    else
+                    {
+                        var nodeParameter = new NodeParameter(parameter, _nodeParameters.Count, _parameterExpression);
+                        _nodeParameters.Add(nodeParameter);
+                        _nodeStack.Push(nodeParameter);
+                    }
                 }
             }
         }

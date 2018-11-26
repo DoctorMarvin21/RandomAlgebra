@@ -76,6 +76,7 @@
     <Compile Include="Distributions\SpecialDistributions\ChiDistribution.cs" />
     <Compile Include="Distributions\SpecialDistributions\ArcsineDisctribution.cs" />
     <Compile Include="Distributions\SpecialDistributions\IsoscelesTrapezoidalDistributionDistribution.cs" />
+    <Compile Include="Distributions\SpecialDistributions\GammaCorrectedDistribution.cs" />
     <Compile Include="ExpressionEvaluation\CustomExpression.cs" />
     <Compile Include="ExpressionEvaluation\Evaluation.cs" />
     <Compile Include="ExpressionEvaluation\ExpressionEvaluator.cs" />

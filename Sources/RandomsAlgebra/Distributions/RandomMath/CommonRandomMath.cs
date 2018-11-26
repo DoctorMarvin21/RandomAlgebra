@@ -373,10 +373,13 @@ namespace RandomAlgebra.Distributions
         {
             double min = Math.Min(r1, r2);
             double max = Math.Max(r1, r2);
+            decimal decimalMin = (decimal)min;
+            decimal decimalMax = (decimal)max;
 
             double[] result = new double[samples];
 
-            step = (max - min) / (samples - 1);
+            decimal decimalStep = (decimalMax - decimalMin) / (samples - 1);
+            decimal d = decimalMin;
 
             for (int i = 0; i < samples; i++)
             {
@@ -386,9 +389,13 @@ namespace RandomAlgebra.Distributions
                     result[i] = max;
                 else
                 {
-                    result[i] = min + i * step;
+                    result[i] = (double)(decimalMin + i * decimalStep);
                 }
+
+                d += decimalStep;
             }
+
+            step = (double)decimalStep;
 
             return result;
 

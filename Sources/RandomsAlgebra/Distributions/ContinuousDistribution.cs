@@ -217,43 +217,33 @@ namespace RandomAlgebra.Distributions
         #region Overrides functions
         internal override double InnerGetPDFYbyX(double x)
         {
-            try
-            {
-                if (x < InnerMinX || x > InnerMaxX)
-                {
-                    return 0;
-                }
-                else if (Coefficient == 1 && Offset == 0)
-                {
-                    return BaseDistribution.ProbabilityDensityFunction(x);
-                }
-                else if (Coefficient == 1)
-                {
-                    return BaseDistribution.ProbabilityDensityFunction(x - Offset);
-                }
-                else
-                {
-                    return BaseDistribution.ProbabilityDensityFunction((x - Offset) / Coefficient) / (Math.Abs(Coefficient));
-                }
-            }
-            catch
+            if (x < InnerMinX || x > InnerMaxX)
             {
                 return 0;
+            }
+            else if (Coefficient == 1 && Offset == 0)
+            {
+                return BaseDistribution.ProbabilityDensityFunction(x);
+            }
+            else if (Coefficient == 1)
+            {
+                return BaseDistribution.ProbabilityDensityFunction(x - Offset);
+            }
+            else
+            {
+                return BaseDistribution.ProbabilityDensityFunction((x - Offset) / Coefficient) / (Math.Abs(Coefficient));
             }
         }
 
         internal override double InnerGetCDFYbyX(double x)
         {
-            try
-            {
-                if (x < InnerMinX || x > InnerMaxX)
-                    return 0;
-                else
-                    return BaseDistribution.DistributionFunction((x - Offset) / Coefficient);
-            }
-            catch
+            if (x < InnerMinX || x > InnerMaxX)
             {
                 return 0;
+            }
+            else
+            {
+                return BaseDistribution.DistributionFunction((x - Offset) / Coefficient);
             }
         }
 
