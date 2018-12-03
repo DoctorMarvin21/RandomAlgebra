@@ -206,25 +206,27 @@ namespace RandomAlgebra.Distributions
 			double stepX0;
             double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out stepX0);
 
+
             switch (action)
             {
                 case DistributionsOperation.Add:
                     {
                         List<int> operations = new List<int>();
 
-                        //for (int i = 0; i < lengthRight; i++)
                         Parallel.For(0, lengthRight, i =>
                         {
                             double m = 0;
                             double x = xCoordinates[i];
                             double sum = 0;
+                            double y = 0;
                             double r = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
-                                //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x - m);
-                                r = rightY[j] * GetYByX(x - m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
+                                y = rightY[j];
+
+                                r = y * GetYByX(x - m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
 
                                 if (j == 0 || j == lengthRight - 1)
                                     r /= 2;
@@ -243,13 +245,14 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double sum = 0;
                             double r = 0;
+                            double y = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
+                                y = rightY[j];
 
-                                //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x + m);
-                                r = rightY[j] * GetYByX(x + m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
+                                r = y * GetYByX(x + m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
 
                                 if (j == 0 || j == lengthRight - 1)
                                     r /= 2;
@@ -271,16 +274,17 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double k = 0;
                             double r = 0;
+                            double y = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
+                                y = rightY[j];
                                 k = Math.Abs(m);
 
-                                if (k > 0)
+                                if (k != 0)
                                 {
-                                    //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x / m) / k;
-                                    r = rightY[j] * GetYByX(x / m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
+                                    r = y * GetYByX(x / m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
 
                                     if (j == 0 || j == lengthRight - 1)
                                         r /= 2;
@@ -319,16 +323,17 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double k = 0;
                             double r = 0;
+                            double y = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
+                                y = rightY[j];
                                 k = Math.Abs(m);
 
-                                if (k > 0)
+                                if (k != 0)
                                 {
-                                    //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(x * m) * k;
-                                    r = rightY[j] * GetYByX(x * m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
+                                    r = y * GetYByX(x * m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
 
                                     if (j == 0 || j == lengthRight - 1)
                                         r /= 2;
@@ -351,20 +356,23 @@ namespace RandomAlgebra.Distributions
                             double x = xCoordinates[i];
                             double k = 0;
                             double r = 0;
+                            double y = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
-
+                                y = rightY[j];
                                 k = Math.Abs(Math.Log(m) * x);
 
-                                //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(Math.Log(x, m)) / k;
-                                r = rightY[j] * GetYByX(Math.Log(x, m), leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
+                                if (k != 0)
+                                {
+                                    r = y * GetYByX(Math.Log(x, m), leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
 
-                                if (j == 0 || j == lengthRight - 1)
-                                    r /= 2;
+                                    if (j == 0 || j == lengthRight - 1)
+                                        r /= 2;
 
-                                sum += r;
+                                    sum += r;
+                                }
                             }
 
                             yCoordinates[i] = sum * stepRight;
@@ -382,21 +390,24 @@ namespace RandomAlgebra.Distributions
                             double d = 0;
                             double k = 0;
                             double r = 0;
+                            double y = 0;
 
                             for (int j = 0; j < lengthRight; j++)
                             {
                                 m = rightX[j];
-
+                                y = rightY[j];
                                 d = Math.Pow(m, x); 
                                 k = Math.Abs(Math.Log(m) * d);
 
-                                //r = rightY[j] * dpdfLeft.InnerGetPDFYbyX(d) * k;
-                                r = rightY[j] * GetYByX(d, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
+                                if (k != 0)
+                                {
+                                    r = y * GetYByX(d, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
 
-                                if (j == 0 || j == lengthRight - 1)
-                                    r /= 2;
+                                    if (j == 0 || j == lengthRight - 1)
+                                        r /= 2;
 
-                                sum += r;
+                                    sum += r;
+                                }
                             }
 
                             yCoordinates[i] = sum * stepRight;

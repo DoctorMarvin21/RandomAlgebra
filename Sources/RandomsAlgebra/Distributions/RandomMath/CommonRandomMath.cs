@@ -243,7 +243,6 @@ namespace RandomAlgebra.Distributions
                         int minJ = (int)(dpdf.MinX / (2 * Math.PI)) - 1;
                         int maxJ = (int)(dpdf.MaxX / (2 * Math.PI)) + 1;
 
-                        //TODO:nan and inf for sin, cos
                         for (int i = 0; i < length; i++)
                         {
                             double z = xCoordinates[i];
@@ -371,8 +370,16 @@ namespace RandomAlgebra.Distributions
 
         public static double[] GenerateXAxis(double r1, double r2, int samples, out double step)
         {
+
+            if (double.IsNaN(r1) || double.IsInfinity(r1))
+                r1 = 0;
+
+            if (double.IsNaN(r2) || double.IsInfinity(r2))
+                r2 = 0;
+
             double min = Math.Min(r1, r2);
             double max = Math.Max(r1, r2);
+
             decimal decimalMin = (decimal)min;
             decimal decimalMax = (decimal)max;
 

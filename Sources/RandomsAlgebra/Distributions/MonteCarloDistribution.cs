@@ -186,18 +186,16 @@ namespace RandomAlgebra.Distributions
 
             double[] derivated = new double[length];
 
-            double lowStep = xRange / (length - 1);//шаг по числу интервалов
+            double step = xRange / (length - 1);//шаг по числу интервалов
 
-            double highStep = xRange / (length + 1);//шаг по числу интервалов + 1
-
-            derivated[0] = yValues[1] / highStep;
+            derivated[0] = (yValues[1] - yValues[0]) / step;
 
             for (int i = 1; i < length - 1; i++)
             {
-                derivated[i] = (yValues[i + 1] - yValues[i - 1]) / (2d * lowStep);
+                derivated[i] = (yValues[i + 1] - yValues[i - 1]) / (2d * step);
             }
 
-            derivated[length - 1] = (1 - yValues[length - 2]) / highStep;
+            derivated[length - 1] = (yValues[length - 1] - yValues[length - 2]) / step;
 
             return derivated;
         }
