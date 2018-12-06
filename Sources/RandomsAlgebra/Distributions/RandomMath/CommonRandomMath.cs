@@ -13,9 +13,26 @@ namespace RandomAlgebra.Distributions
             return Operation(dpdf, value, DistributionsOperation.DivideInv);
         }
 
-        public static DiscreteDistribution Power(BaseDistribution dpdf, double value)
+        public static BaseDistribution Power(BaseDistribution dpdf, double value)
         {
             return Operation(dpdf, value, DistributionsOperation.Power);
+
+            //TODO:??? idn
+            if (Settings.Optimizations.UseFFTConvolution && dpdf is ContinuousDistribution continuous)
+            {
+                if (value == 2 && continuous.InnerMean == 0 && continuous.BaseDistribution is Accord.Statistics.Distributions.Univariate.NormalDistribution)
+                {
+                    return new ContinuousDistribution(new Accord.Statistics.Distributions.Univariate.ChiSquareDistribution(1), dpdf.Samples, continuous.InnerVariance, 0);
+                }
+                else
+                {
+                    return Operation(dpdf, value, DistributionsOperation.Power);
+                }
+            }
+            else
+            {
+                
+            }
         }
 
         public static DiscreteDistribution Power(double value, BaseDistribution dpdf)
@@ -403,6 +420,43 @@ namespace RandomAlgebra.Distributions
             }
 
             step = (double)decimalStep;
+
+            return result;
+
+        }
+
+        public static decimal[] GenerateXAxisDecimal(double r1, double r2, int samples, out decimal step)
+        {
+
+            if (double.IsNaN(r1) || double.IsInfinity(r1))
+                r1 = 0;
+
+            if (double.IsNaN(r2) || double.IsInfinity(r2))
+                r2 = 0;
+
+            decimal decimalMin = (decimal)Math.Min(r1, r2);
+            decimal decimalMax = (decimal)Math.Max(r1, r2);
+
+            decimal[] result = new decimal[samples];
+
+            decimal decimalStep = (decimalMax - decimalMin) / (samples - 1);
+            decimal d = decimalMin;
+
+            for (int i = 0; i < samples; i++)
+            {
+                if (i == 0)
+                    result[i] = decimalMin;
+                else if (i == samples - 1)
+                    result[i] = decimalMax;
+                else
+                {
+                    result[i] = decimalMin + i * decimalStep;
+                }
+
+                d += decimalStep;
+            }
+
+            step = decimalStep;
 
             return result;
 

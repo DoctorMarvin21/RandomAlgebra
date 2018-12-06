@@ -195,16 +195,19 @@ namespace RandomAlgebra.Distributions
             double leftMaxX = dpdfLeft.MaxX;
 
             double[] leftX = dpdfLeft.XCoordinatesInternal;
+            //decimal[] leftXDecimal = CommonRandomMath.GenerateXAxisDecimal(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, lengthLeft, out decimal stepLeftDecimal);
             double[] leftY = dpdfLeft.YCoordinatesInternal;
 
             double[] rightX = dpdfRight.XCoordinatesInternal;
+            //decimal[] rightXDecimal = CommonRandomMath.GenerateXAxisDecimal(dpdfRight.InnerMinX, dpdfRight.InnerMaxX, lengthRight, out decimal stepRightDecimal);
             double[] rightY = dpdfRight.YCoordinatesInternal;
 
             double[] yCoordinates = new double[lengthRight];
 
             double[] range = CommonRandomMath.GetRange(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, dpdfRight.InnerMinX, dpdfRight.InnerMaxX, action);
-			double stepX0;
-            double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out stepX0);
+
+            double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out double stepX0);
+            //decimal[] xCoordinatesDecimal = CommonRandomMath.GenerateXAxisDecimal(range[0], range[1], lengthRight, out decimal stepX1);
 
 
             switch (action)
@@ -235,7 +238,9 @@ namespace RandomAlgebra.Distributions
                             }
                             yCoordinates[i] = sum * stepRight;
                         });
-                        break;
+
+
+                       break;
                     }
                 case DistributionsOperation.Sub:
                     {

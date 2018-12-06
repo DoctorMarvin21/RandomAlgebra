@@ -209,7 +209,14 @@ namespace RandomAlgebra.Distributions
             {
                 if (_mean == null)
                 {
-                    _mean = _randomSorted.Sum() / _randomSorted.Length;
+                    double sum = 0;
+
+                    for (int i = 0; i < _randomSorted.Length; i++)
+                    {
+                        sum += _randomSorted[i];
+                    }
+
+                    _mean = sum / _randomSorted.Length;
                 }
                 return _mean.Value;
             }
@@ -223,7 +230,14 @@ namespace RandomAlgebra.Distributions
                 {
                     double mean = InnerMean;
 
-                    _variance = _randomSorted.Sum(x => Math.Pow(x - mean, 2)) / (_randomSorted.Length - 1);
+                    double sum = 0;
+
+                    for (int i = 0; i < _randomSorted.Length; i++)
+                    {
+                        sum += Math.Pow(_randomSorted[i] - mean, 2);
+                    }
+
+                    _variance = sum / (_randomSorted.Length - 1);
                 }
                 return _variance.Value;
             }
@@ -237,7 +251,16 @@ namespace RandomAlgebra.Distributions
                 {
                     double mean = InnerMean;
 
-                    double m = _randomSorted.Sum(x => Math.Pow(x - mean, 3)) / (_randomSorted.Length - 1);
+
+                    double sum = 0;
+
+                    for (int i = 0; i < _randomSorted.Length; i++)
+                    {
+                        sum += Math.Pow(_randomSorted[i] - mean, 3);
+                    }
+
+                    double m = sum / (_randomSorted.Length - 1);
+
                     double s = Math.Pow(InnerVariance, 3.0 / 2.0);
 
                     _skewness = m / s;

@@ -503,12 +503,47 @@ namespace RandomAlgebra.Distributions
         #region Override functions
         internal override double InnerGetPDFYbyX(double x)
         {
+            //return GetYByXQuadratic(x, YCoordinatesInternal);
             return GetYByX(x, YCoordinatesInternal);
         }
 
         internal override double InnerGetCDFYbyX(double x)
         {
             return GetYByX(x, CDFCoordinatesInternal);
+        }
+
+        internal double GetYByXQuadratic(double x, double[] coordinates)
+        {
+            //TODO: remove after tests
+            if (x < _min || x > _max)
+                return 0;
+
+            double ind = (x - _min) / Step;
+            int indInt = (int)ind;
+
+            if (indInt == 0)
+                indInt++;
+            else if (indInt == _length - 1)
+                indInt--;
+
+
+            double xc = XCoordinatesInternal[indInt];
+            double xp = XCoordinatesInternal[indInt - 1];
+            double xn = XCoordinatesInternal[indInt + 1];
+
+            double fxc = coordinates[indInt];
+            double fxp = coordinates[indInt - 1];
+            double fxn = coordinates[indInt + 1];
+
+
+
+            double a0, a1, a2;
+
+            a2 = (fxn - fxp) / ((xn - xp) * (xn - xc)) - (fxc - fxp) / ((xc - xp) * (xn - xc));
+            a1 = (fxc - fxp) / (xc - xp) - a2 * (xc + xp);
+            a0 = fxp - a1 * xp - a2 * Math.Pow(xp, 2);
+
+            return a0 + a1 * x + a2 * Math.Pow(x, 2);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

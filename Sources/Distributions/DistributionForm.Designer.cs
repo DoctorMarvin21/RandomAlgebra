@@ -40,6 +40,8 @@
             this.zedDistrCDF = new ZedGraph.ZedGraphControl();
             this.zedDistrPDF = new ZedGraph.ZedGraphControl();
             this.panelParameters = new System.Windows.Forms.Panel();
+            this.groupWarnings = new System.Windows.Forms.GroupBox();
+            this.listWarnings = new System.Windows.Forms.ListBox();
             this.groupCommonParameters = new System.Windows.Forms.GroupBox();
             this.numericChartPoints = new System.Windows.Forms.NumericUpDown();
             this.lbChartPoints = new System.Windows.Forms.Label();
@@ -72,12 +74,11 @@
             this.btnAddMultivariateDistribution = new System.Windows.Forms.Button();
             this.groupResults = new System.Windows.Forms.GroupBox();
             this.dataGridResults = new System.Windows.Forms.DataGridView();
-            this.groupWarnings = new System.Windows.Forms.GroupBox();
-            this.listWarnings = new System.Windows.Forms.ListBox();
             this.tableLayoutLeft.SuspendLayout();
             this.panelFunction.SuspendLayout();
             this.tableLayoutSplitGraphics.SuspendLayout();
             this.panelParameters.SuspendLayout();
+            this.groupWarnings.SuspendLayout();
             this.groupCommonParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericChartPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericProbability)).BeginInit();
@@ -108,7 +109,6 @@
             this.panel1.SuspendLayout();
             this.groupResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).BeginInit();
-            this.groupWarnings.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutLeft
@@ -196,7 +196,7 @@
             this.tableLayoutSplitGraphics.ColumnCount = 2;
             this.tableLayoutSplitGraphics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutSplitGraphics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutSplitGraphics.Controls.Add(this.zedDistrCDF, 0, 0);
+            this.tableLayoutSplitGraphics.Controls.Add(this.zedDistrCDF, 1, 0);
             this.tableLayoutSplitGraphics.Controls.Add(this.zedDistrPDF, 0, 0);
             this.tableLayoutSplitGraphics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutSplitGraphics.Location = new System.Drawing.Point(3, 32);
@@ -250,6 +250,24 @@
             this.panelParameters.Name = "panelParameters";
             this.panelParameters.Size = new System.Drawing.Size(935, 74);
             this.panelParameters.TabIndex = 3;
+            // 
+            // groupWarnings
+            // 
+            this.groupWarnings.Controls.Add(this.listWarnings);
+            this.groupWarnings.Location = new System.Drawing.Point(613, 3);
+            this.groupWarnings.Name = "groupWarnings";
+            this.groupWarnings.Size = new System.Drawing.Size(319, 64);
+            this.groupWarnings.TabIndex = 3;
+            this.groupWarnings.TabStop = false;
+            this.groupWarnings.Text = "groupWarnings";
+            // 
+            // listWarnings
+            // 
+            this.listWarnings.FormattingEnabled = true;
+            this.listWarnings.Location = new System.Drawing.Point(6, 16);
+            this.listWarnings.Name = "listWarnings";
+            this.listWarnings.Size = new System.Drawing.Size(307, 43);
+            this.listWarnings.TabIndex = 0;
             // 
             // groupCommonParameters
             // 
@@ -687,24 +705,6 @@
             this.dataGridResults.Size = new System.Drawing.Size(320, 200);
             this.dataGridResults.TabIndex = 0;
             // 
-            // groupWarnings
-            // 
-            this.groupWarnings.Controls.Add(this.listWarnings);
-            this.groupWarnings.Location = new System.Drawing.Point(613, 3);
-            this.groupWarnings.Name = "groupWarnings";
-            this.groupWarnings.Size = new System.Drawing.Size(319, 64);
-            this.groupWarnings.TabIndex = 3;
-            this.groupWarnings.TabStop = false;
-            this.groupWarnings.Text = "groupWarnings";
-            // 
-            // listWarnings
-            // 
-            this.listWarnings.FormattingEnabled = true;
-            this.listWarnings.Location = new System.Drawing.Point(6, 16);
-            this.listWarnings.Name = "listWarnings";
-            this.listWarnings.Size = new System.Drawing.Size(307, 43);
-            this.listWarnings.TabIndex = 0;
-            // 
             // DistributionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -719,6 +719,7 @@
             this.panelFunction.PerformLayout();
             this.tableLayoutSplitGraphics.ResumeLayout(false);
             this.panelParameters.ResumeLayout(false);
+            this.groupWarnings.ResumeLayout(false);
             this.groupCommonParameters.ResumeLayout(false);
             this.groupCommonParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericChartPoints)).EndInit();
@@ -752,7 +753,6 @@
             this.panel1.ResumeLayout(false);
             this.groupResults.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResults)).EndInit();
-            this.groupWarnings.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
