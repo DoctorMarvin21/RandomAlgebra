@@ -10,31 +10,31 @@ namespace RandomAlgebra.DistributionsEvaluation
     {
         public static Expression Abs(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Abs"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Abs)), x);
         }
         public static Expression Log(Expression left, Expression right)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Log"), left, right);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Log)), left, right);
         }
         public static Expression Lg10(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Lg10"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Lg10)), x);
         }
         public static Expression Ln(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Ln"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Ln)), x);
         }
         public static Expression Sin(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Sin"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Sin)), x);
         }
         public static Expression Cos(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Cos"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Cos)), x);
         }
         public static Expression Tan(Expression x)
         {
-            return Expression.Call(typeof(CustomActions).GetMethod("Tan"), x);
+            return Expression.Call(typeof(CustomActions).GetMethod(nameof(CustomActions.Tan)), x);
         }
     }
 

@@ -30,6 +30,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 return Right == null;
             }
         }
+
         public NodeOperationType OperationType
         {
             get;
