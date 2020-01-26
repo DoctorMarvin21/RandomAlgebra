@@ -6,15 +6,16 @@ namespace DistributionsWpf
 {
     public class DistributionSettingsBinding
     {
+        private readonly DistributionFunctionArgument _owner;
         private readonly DistributionSettings _instance;
         private readonly PropertyInfo _propertyInfo;
 
-        public DistributionSettingsBinding(DistributionSettings instance, PropertyInfo propertyInfo)
+        public DistributionSettingsBinding(DistributionFunctionArgument owner, DistributionSettings instance, PropertyInfo propertyInfo)
         {
-
+            _owner = owner;
             _instance = instance;
             _propertyInfo = propertyInfo;
-            Description = propertyInfo.Name;
+            Description = Resources.GetMessage(propertyInfo.Name) ?? propertyInfo.Name;
         }
 
         public string Description
@@ -32,6 +33,7 @@ namespace DistributionsWpf
             {
                 object newValue = Convert.ChangeType(value, _propertyInfo.PropertyType);
                 _propertyInfo.SetValue(_instance, newValue);
+                _owner.DistributionSettingsChanged();
             }
         }
     }

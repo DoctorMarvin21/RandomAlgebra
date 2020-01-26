@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RandomAlgebra.Distributions
 {
@@ -17,13 +13,13 @@ namespace RandomAlgebra.Distributions
 
         internal static void InvokeWarning(WarningType warningType)
         {
-            string message = ExceptionMessages.GetExceptionMessage(warningType.ToString());
+            string message = Resources.GetMessage(warningType.ToString());
             Warning?.Invoke(null, new WarningEventArgs(message));
         }
 
         internal static void InvokeWarning(WarningType warningType, params object[] arguments)
         {
-            string message = ExceptionMessages.GetExceptionMessage(warningType.ToString());
+            string message = Resources.GetMessage(warningType.ToString());
             Warning?.Invoke(null, new WarningEventArgs(string.Format(message, arguments)));
         }
     }

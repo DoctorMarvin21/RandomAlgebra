@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Reflection;
-using System.Resources;
 
 namespace RandomAlgebra
 {
-    internal static class ExceptionMessages
-    {
-        private static ResourceManager resourceManager
-            = new ResourceManager("RandomAlgebra.Resources.ExceptionMessages",
-                Assembly.GetAssembly(typeof(DistributionsArgumentException)));
-
-        public static string GetExceptionMessage(string resourceKey)
-        {
-            return resourceManager.GetString(resourceKey);
-        }
-    }
-
+    //TODO: use different exceptions for expression evaluator and distributions operations
     internal enum DistributionsInvalidOperationExceptionType
     {
         ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce,
@@ -90,7 +77,7 @@ namespace RandomAlgebra
         }
 
         internal DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType exceptionType)
-            : base(ExceptionMessages.GetExceptionMessage(exceptionType.ToString()))
+            : base(Resources.GetMessage(exceptionType.ToString()))
         {
         }
     }
@@ -101,12 +88,12 @@ namespace RandomAlgebra
     public class DistributionsArgumentException : ArgumentException
     {
         internal DistributionsArgumentException(DistributionsArgumentExceptionType exceptionType)
-            : base(ExceptionMessages.GetExceptionMessage(exceptionType.ToString()))
+            : base(Resources.GetMessage(exceptionType.ToString()))
         {
         }
 
         internal DistributionsArgumentException(DistributionsArgumentExceptionType exceptionType, params object[] arguments)
-            : base(string.Format(ExceptionMessages.GetExceptionMessage(exceptionType.ToString()), arguments))
+            : base(string.Format(Resources.GetMessage(exceptionType.ToString()), arguments))
         {
         }
     }

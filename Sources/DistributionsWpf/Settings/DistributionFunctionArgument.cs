@@ -8,59 +8,96 @@ using System.Xml.Serialization;
 
 namespace DistributionsWpf
 {
-    public class DistributionFunctionArgument
+    public class DistributionFunctionArgument : INotifyPropertyChanged
     {
-        private Type _settingType = typeof(NormalDistributionSettings);
+        private DisplayNameAndSettingType _settingsType;
+        private DistributionSettings _distributionSettings;
+        private string _argument;
 
         public DistributionFunctionArgument(string arg, Type settingsType)
         {
             Argument = arg;
-            _settingType = settingsType;
-            GenerateSettings();
+            SettingsType = SettingTypes.FirstOrDefault(x => x.SettingsType == settingsType);
         }
 
         public DistributionFunctionArgument(string arg, DistributionSettings settings)
+            : this(arg, settings.GetType())
         {
-            Argument = arg;
-            _settingType = settings.GetType();
             DistributionSettings = settings;
         }
 
-        public string Argument
-        {
-            get;
-            set;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        [XmlIgnore]
-        public Type SettingsType
+        public string Argument
         {
             get
             {
-                return _settingType;
+                return _argument;
             }
             set
             {
-                if (_settingType != value)
-                {
-                    _settingType = value;
-                    GenerateSettings();
-                }
+                _argument = value;
+                OnPropertyChanged(nameof(Argument));
             }
-        }
-
-        private void GenerateSettings()
-        {
-            DistributionSettings = (DistributionSettings)Activator.CreateInstance(SettingsType);
         }
 
         public DistributionSettings DistributionSettings
         {
-            get;
-            set;
+            get
+            {
+                return _distributionSettings;
+            }
+            set
+            {
+                _distributionSettings = value;
+                OnPropertyChanged(nameof(DistributionSettings));
+
+                DistributionSettingsBindings.Update(this, DistributionSettings);
+            }
         }
 
-        public static Dictionary<string, DistributionSettings> CreateDictionary(List<DistributionFunctionArgument> functionArguments)
+        public DisplayNameAndSettingType SettingsType
+        {
+            get
+            {
+                return _settingsType;
+            }
+            set
+            {
+                _settingsType = value;
+                OnPropertyChanged(nameof(SettingsType));
+
+                GenerateSettings();
+            }
+        }
+
+        public DisplayNameAndSettingType[] SettingTypes
+        {
+            get
+            {
+                return DisplayNameAndSettingType.DisplayNames;
+            }
+        }
+
+        public DistributionSettingsBindingCollection DistributionSettingsBindings { get; }
+            = new DistributionSettingsBindingCollection();
+
+        private void GenerateSettings()
+        {
+            DistributionSettings = (DistributionSettings)Activator.CreateInstance(SettingsType.SettingsType);
+        }
+
+        public void DistributionSettingsChanged()
+        {
+            OnPropertyChanged(nameof(DistributionSettings));
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static Dictionary<string, DistributionSettings> CreateDictionary(ICollection<DistributionFunctionArgument> functionArguments)
         {
             Dictionary<string, DistributionSettings> keyValuePairs = new Dictionary<string, DistributionSettings>();
             foreach (DistributionFunctionArgument arg in functionArguments)
@@ -77,7 +114,7 @@ namespace DistributionsWpf
         public DisplayNameAndSettingType(Type settingType)
         {
             SettingsType = settingType;
-            //Name = Languages.GetText(settingType.Name);
+            Name = Resources.GetMessage(settingType.Name);
         }
 
         static DisplayNameAndSettingType()

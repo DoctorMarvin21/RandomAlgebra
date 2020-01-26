@@ -27,7 +27,7 @@ namespace RandomAlgebra.Test
 
             foreach (DistributionsArgumentExceptionType value in values)
             {
-                string message = ExceptionMessages.GetExceptionMessage(value.ToString());
+                string message = Resources.GetMessage(value.ToString());
                 Assert.IsNotNull(message);
             }
         }
@@ -44,7 +44,7 @@ namespace RandomAlgebra.Test
 
             foreach (DistributionsInvalidOperationExceptionType value in values)
             {
-                string message = ExceptionMessages.GetExceptionMessage(value.ToString());
+                string message = Resources.GetMessage(value.ToString());
                 Assert.IsNotNull(message);
             }
         }
@@ -71,7 +71,7 @@ namespace RandomAlgebra.Test
 
             foreach (DistributionsArgumentExceptionType value in values)
             {
-                string message = ExceptionMessages.GetExceptionMessage(value.ToString());
+                string message = Resources.GetMessage(value.ToString());
                 Assert.IsNotNull(message);
             }
         }
@@ -86,7 +86,7 @@ namespace RandomAlgebra.Test
 
             foreach (DistributionsInvalidOperationExceptionType value in values)
             {
-                string message = ExceptionMessages.GetExceptionMessage(value.ToString());
+                string message = Resources.GetMessage(value.ToString());
                 Assert.IsNotNull(message);
             }
         }

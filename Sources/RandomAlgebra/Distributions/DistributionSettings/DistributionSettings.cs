@@ -1,11 +1,6 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomAlgebra;
 using RandomAlgebra.Distributions.SpecialDistributions;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace RandomAlgebra.Distributions.Settings
 {
@@ -89,6 +84,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// Lower bound
         /// </summary>
         public double LowerBound { get; set; } = -1;
+
         /// <summary>
         /// Upper bound
         /// </summary>

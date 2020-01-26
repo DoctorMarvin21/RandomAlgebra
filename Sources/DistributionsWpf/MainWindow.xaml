@@ -1,13 +1,112 @@
-﻿<Window x:Class="DistributionsWpf.MainWindow"
+﻿<controls:MetroWindow x:Class="DistributionsWpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DistributionsWpf"
+        xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         x:Name="Window"
         Title="MainWindow" Height="450" Width="800">
-    <DataGrid ItemsSource="{Binding ElementName=Window, Path=SettingsBindings}">
-        
-    </DataGrid>
-</Window>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding ElementName=Window, Path=Expression}" />
+                <Button Content="Calculate!" Click="Button_Click" />
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <charts:CartesianChart Series="{Binding ElementName=Window, Path=PdfCollection}" Zoom="Xy" LegendLocation="Bottom">
+                    <charts:CartesianChart.AxisY>
+                        <charts:Axis Title="Sales" />
+                    </charts:CartesianChart.AxisY>
+                    <charts:CartesianChart.AxisX>
+                        <charts:Axis Title="Month" />
+                    </charts:CartesianChart.AxisX>
+                </charts:CartesianChart>
+                <charts:CartesianChart Grid.Column="1" Series="{Binding ElementName=Window, Path=CdfCollection}" Zoom="Xy" LegendLocation="Bottom">
+                    <charts:CartesianChart.AxisY>
+                        <charts:Axis Title="Sales" />
+                    </charts:CartesianChart.AxisY>
+                    <charts:CartesianChart.AxisX>
+                        <charts:Axis Title="Month" />
+                    </charts:CartesianChart.AxisX>
+                </charts:CartesianChart>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Random Algebra">
+                    
+                </GroupBox>
+                <GroupBox Grid.Column="1" Header="Monte Carlo">
+                    
+                </GroupBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Width="250">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <DataGrid AutoGenerateColumns="False"
+                      ItemsSource="{Binding ElementName=Window, Path=DistributionFunctionArguments}"
+                      RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Argument">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Argument}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Distribution">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding SettingTypes}" SelectedItem="{Binding SettingsType, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Settings" IsReadOnly="True" Binding="{Binding DistributionSettings}" />
+                </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding DistributionSettingsBindings}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Description}" />
+                                        <TextBox Text="{Binding Value}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+            <DataGrid Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ElementName=Window, Path=DistributionParameters}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Parameter" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Random Algebra" Binding="{Binding RandomsAlgebra}" />
+                    <DataGridTextColumn Header="Monte Carlo" Binding="{Binding MonteCarlo}" />
+                    <DataGridTextColumn Header="Persent Ratio" Binding="{Binding PersentRatio}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</controls:MetroWindow>

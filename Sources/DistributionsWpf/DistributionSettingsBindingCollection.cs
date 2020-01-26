@@ -8,23 +8,23 @@ using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsWpf
 {
-    public class DistributionSettingsBindingCollection<T> : Collection<DistributionSettingsBinding>
-        where T : DistributionSettings, new()
+    public class DistributionSettingsBindingCollection : ObservableCollection<DistributionSettingsBinding>
     {
-        private readonly T _settings;
         public DistributionSettingsBindingCollection()
         {
-            _settings = new T();
+        }
 
-            var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        public void Update(DistributionFunctionArgument source, DistributionSettings settings)
+        {
+            Clear();
+
+            var properties = settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(x => x.CanWrite && x.CanRead);
 
             foreach (var property in properties)
             {
-                Add(new DistributionSettingsBinding(_settings, property));
+                Add(new DistributionSettingsBinding(source, settings, property));
             }
         }
-
-        public T SettingsInstance { get; }
     }
 }
