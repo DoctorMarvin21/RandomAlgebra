@@ -48,7 +48,7 @@ namespace RandomAlgebra.Distributions
         internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution, int samples) : this(baseDistribution)
         {
             if (samples < 2)
-                throw new DistributionsArgumentException("Samples must be greater than 2", "Число отсчетов должно быть положительным числом больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.SamplesNumberMustBeGreaterThenTwo);
 
 
             _samples = samples;
@@ -395,7 +395,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionType.Number:
                     {
                         if (value.InnerMean == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.MultiplyRandomByZero);
+                            new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
 
                         return ContinuousRandomMath.Multiply(this, (double)value);
                     }
@@ -416,7 +416,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionType.Number:
                     {
                         if (value.InnerMean == 0)
-                             CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZero);
+                             new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
 
                         return ContinuousRandomMath.Divide(this, (double)value);
                     }

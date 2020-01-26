@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RandomAlgebra.Distributions
 {
@@ -16,23 +13,6 @@ namespace RandomAlgebra.Distributions
         public static BaseDistribution Power(BaseDistribution dpdf, double value)
         {
             return Operation(dpdf, value, DistributionsOperation.Power);
-
-            //TODO:??? idn
-            if (Settings.Optimizations.UseFFTConvolution && dpdf is ContinuousDistribution continuous)
-            {
-                if (value == 2 && continuous.InnerMean == 0 && continuous.BaseDistribution is Accord.Statistics.Distributions.Univariate.NormalDistribution)
-                {
-                    return new ContinuousDistribution(new Accord.Statistics.Distributions.Univariate.ChiSquareDistribution(1), dpdf.Samples, continuous.InnerVariance, 0);
-                }
-                else
-                {
-                    return Operation(dpdf, value, DistributionsOperation.Power);
-                }
-            }
-            else
-            {
-                
-            }
         }
 
         public static DiscreteDistribution Power(double value, BaseDistribution dpdf)
@@ -83,10 +63,10 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.DivideInv:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionOfZero);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionOfZero);
 
                         if ((dpdf.InnerMinX < 0 && dpdf.InnerMaxX > 0) || dpdf.InnerMinX == 0 || dpdf.InnerMaxX == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZeroCrossingRandom);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZeroCrossingRandom);
 
                         double r1 = value / dpdf.InnerMinX;
                         double r2 = value / dpdf.InnerMaxX;
@@ -107,16 +87,16 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Power:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfRandomInZeroPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfRandomInZeroPower);
 
                         if (value < 0 && ((dpdf.InnerMinX < 0 && dpdf.InnerMaxX > 0) || dpdf.InnerMinX == 0 || dpdf.InnerMaxX == 0))
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfZeroCrossingRandomInNegativePower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfZeroCrossingRandomInNegativePower);
 
                         bool evenPower = Math.Abs(value % 2) == 0;
                         bool naturalPower = value - (int)value == 0;
 
                         if (dpdf.InnerMinX < 0 && !naturalPower)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
 
                         double r1 = Math.Pow(dpdf.InnerMinX, value);
                         double r2 = Math.Pow(dpdf.InnerMaxX, value);
@@ -148,11 +128,11 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.PowerInv:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfZeroInRandomPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfZeroInRandomPower);
                         else if (value < 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfNegativeInRandomPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfNegativeInRandomPower);
                         else if (value == 1)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfOneInRandomPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfOneInRandomPower);
 
                         double r1 = Math.Pow(value, dpdf.InnerMinX);
                         double r2 = Math.Pow(value, dpdf.InnerMaxX);
@@ -173,14 +153,14 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Log:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithZeroBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithZeroBase);
                         else if (value < 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithNegativeBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithNegativeBase);
                         else if (value == 1)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithOneBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithOneBase);
 
                         if (dpdf.InnerMinX <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmOfNotPositiveRandom);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfNotPositiveRandom);
 
 
                         double r1 = Math.Log(dpdf.InnerMinX, value);
@@ -200,13 +180,13 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.LogInv:
                     {
                         if (dpdf.InnerMinX <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithNotPositiveRandomBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithNotPositiveRandomBase);
                         if ((dpdf.InnerMinX < 1 && dpdf.InnerMaxX > 1) || dpdf.InnerMinX == 1 || dpdf.InnerMaxX == 1)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithOneCrossingRandomBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithOneCrossingRandomBase);
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmOfZeroValue);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfZeroValue);
                         if (value < 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmOfNegativeValue);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfNegativeValue);
 
                         double r1 = Math.Log(value, dpdf.InnerMaxX);
                         double r2 = Math.Log(value, dpdf.InnerMinX);
@@ -315,7 +295,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Tan:
                     {
                         if (dpdf.MaxX - dpdf.MinX >= Math.PI || dpdf.MinX % Math.PI <= -Math.PI / 2 || dpdf.MaxX % Math.PI >= Math.PI / 2)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.TangentOfValueCrossingAsymptote);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.TangentOfValueCrossingAsymptote);
 
                         double r1 = Math.Tan(dpdf.MinX);
                         double r2 = Math.Tan(dpdf.MaxX);
@@ -503,9 +483,9 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Divide:
                     {
                         if (min2 == 0 || max2 == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZeroCrossingRandom);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZeroCrossingRandom);
                         if (min2 < 0 && max2 > 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZeroCrossingRandom);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZeroCrossingRandom);
 
 
                         double[] variants = new double[4];
@@ -522,7 +502,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.PowerInv:
                     {
                         if (min2 < 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
 
                         double[] variants = new double[4];
                         variants[0] = Math.Pow(min2, min1);
@@ -538,12 +518,12 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Log:
                     {
                         if (min1 <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmOfNotPositiveRandom);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfNotPositiveRandom);
                         if (min2 <= 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithNotPositiveRandomBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithNotPositiveRandomBase);
 
                         if ((min2 < 1 && max2 > 1) || min2 == 1 || max2 == 1)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.LogarithmWithOneCrossingRandomBase);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithOneCrossingRandomBase);
 
                         double[] variants = new double[4];
                         variants[0] = Math.Log(min1, min2);

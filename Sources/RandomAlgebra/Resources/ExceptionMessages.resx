@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CorrelationMustBeInRangeFromMinusOneToOne" xml:space="preserve">
+    <value>Correlation must be in range (-1, 1)</value>
+  </data>
+  <data name="CorrelationParamtersIgnored" xml:space="preserve">
+    <value>Some of correlation parameters was ignored, rebuild the expression</value>
+  </data>
+  <data name="CovarianceMatrixMustBePositiveDefined" xml:space="preserve">
+    <value>Covariance matrix must be positive-definite</value>
+  </data>
+  <data name="CovarianceMatrixMustBeSquare" xml:space="preserve">
+    <value>Covariance matrix must be square</value>
+  </data>
+  <data name="CovarianceMatrixMustBeSymmetric" xml:space="preserve">
+    <value>Covariance matrix must be symmetric</value>
+  </data>
+  <data name="DegreesOfFreedomMustBeGreaterThenZero" xml:space="preserve">
+    <value>Degrees of freedom must be greater then zero</value>
+  </data>
+  <data name="DegreesOfFreedomMustNotBeLessThenOne" xml:space="preserve">
+    <value>Degrees of freedom must not be less then 1</value>
+  </data>
+  <data name="DivisionByZero" xml:space="preserve">
+    <value>Division by zero</value>
+  </data>
+  <data name="DivisionByZeroCrossingRandom" xml:space="preserve">
+    <value>Division by random that takes zero value</value>
+  </data>
+  <data name="DivisionOfZero" xml:space="preserve">
+    <value>Division of zero by random</value>
+  </data>
+  <data name="ExponentialOfNegativeInRandomPower" xml:space="preserve">
+    <value>Rising negative number to random power</value>
+  </data>
+  <data name="ExponentialOfNotPositiveRandomInIrrationalPower" xml:space="preserve">
+    <value>Raising non-positive random variable to a non-natural power</value>
+  </data>
+  <data name="ExponentialOfOneInRandomPower" xml:space="preserve">
+    <value>Rising one to random power</value>
+  </data>
+  <data name="ExponentialOfRandomInZeroPower" xml:space="preserve">
+    <value>Raising the random variable to the zero power</value>
+  </data>
+  <data name="ExponentialOfZeroCrossingRandomInNegativePower" xml:space="preserve">
+    <value>Rasing random variable that takes zero to negative power</value>
+  </data>
+  <data name="ExponentialOfZeroInRandomPower" xml:space="preserve">
+    <value>Rising zero to random power</value>
+  </data>
+  <data name="ExpressionOpreatorsInconsistent" xml:space="preserve">
+    <value>Expression operators are inconsistent</value>
+  </data>
+  <data name="ForCorrelationPairBothOfDistributionsMustBeContinuous" xml:space="preserve">
+    <value>For correlation pair both if distributions must be continuous</value>
+  </data>
+  <data name="ForCorrelationPairMultivariateDistributionMustBeTwoDimensional" xml:space="preserve">
+    <value>To build correlation pair multivariate distribution must be two-dimentional</value>
+  </data>
+  <data name="ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce" xml:space="preserve">
+    <value>It is impossible to perform the propagation by the method of algebra of random variables, since the parameter "{0}" occurs more than once</value>
+  </data>
+  <data name="InifinityEliminated" xml:space="preserve">
+    <value>{0} infinite value(s) is eliminated, accuracy loss is expected</value>
+  </data>
+  <data name="LengthOfArgumentsMustBeEqualToLengthOfParameters" xml:space="preserve">
+    <value>The number of arguments {0} does not match the number of parameters {1}</value>
+  </data>
+  <data name="LengthOfArgumentsMustBeEqualToLengthOfValues" xml:space="preserve">
+    <value>Length of arguments must be equal to length of values</value>
+  </data>
+  <data name="LengthOfArgumentsMustBeGreaterThenTwo" xml:space="preserve">
+    <value>Length of arguments must be greater then 2</value>
+  </data>
+  <data name="LengthOfValuesMustBeGreaterThenTwo" xml:space="preserve">
+    <value>Length of values must be greater then 2</value>
+  </data>
+  <data name="LogarithmOfNegativeValue" xml:space="preserve">
+    <value>Logarithm of a negative number</value>
+  </data>
+  <data name="LogarithmOfNotPositiveRandom" xml:space="preserve">
+    <value>Logarithm of non-positive or taking zero random value</value>
+  </data>
+  <data name="LogarithmOfZeroValue" xml:space="preserve">
+    <value>Logarithm of zero</value>
+  </data>
+  <data name="LogarithmWithNegativeBase" xml:space="preserve">
+    <value>Logarithm with negative base</value>
+  </data>
+  <data name="LogarithmWithNotPositiveRandomBase" xml:space="preserve">
+    <value>Logarithm with non-positive or taking zero random value base</value>
+  </data>
+  <data name="LogarithmWithOneBase" xml:space="preserve">
+    <value>Logarithm with base one</value>
+  </data>
+  <data name="LogarithmWithOneCrossingRandomBase" xml:space="preserve">
+    <value>Logarithm with taking one random value base</value>
+  </data>
+  <data name="LogarithmWithZeroBase" xml:space="preserve">
+    <value>Logarithm with zero base</value>
+  </data>
+  <data name="LowerBoundIsGreaterThenUpperBound" xml:space="preserve">
+    <value>Lower bound is greater then upper bound</value>
+  </data>
+  <data name="MultiplyRandomByZero" xml:space="preserve">
+    <value>Multiplying a random value by zero</value>
+  </data>
+  <data name="NumberOfExperimentsMustBeGreaterThenTwo" xml:space="preserve">
+    <value>Number of experiments must be greater then 2</value>
+  </data>
+  <data name="NumberOfPocketsMustBeGreaterThenTwo" xml:space="preserve">
+    <value>Number of pockets must be greater then 2</value>
+  </data>
+  <data name="ParameterValueIsMissing" xml:space="preserve">
+    <value>Parameter value "{0}" is missing</value>
+  </data>
+  <data name="ProbabilityMustBeInRangeFromZeroToOne" xml:space="preserve">
+    <value>Probability must be in range [0, 1]</value>
+  </data>
+  <data name="RateParameterMustBeGreaterThenZero" xml:space="preserve">
+    <value>Rate parameter must be greater then zero</value>
+  </data>
+  <data name="SamplesNumberMustBeGreaterThenTwo" xml:space="preserve">
+    <value>Samples number must be greater than 2</value>
+  </data>
+  <data name="ScaleParameterMustBeGreaterThenZero" xml:space="preserve">
+    <value>Scale parameter must be greater then zero</value>
+  </data>
+  <data name="ShapeParameterAMustBeGreaterThenZero" xml:space="preserve">
+    <value>Shape parameter α must be greater then zero</value>
+  </data>
+  <data name="ShapeParameterBMustBeGreaterThenZero" xml:space="preserve">
+    <value>Shape parameter β must be greater then zero</value>
+  </data>
+  <data name="ShapeParameterMustBeGreaterThenZero" xml:space="preserve">
+    <value>Shape parameter must be greater then zero</value>
+  </data>
+  <data name="StandardDeviationMustBeGreaterThenZero" xml:space="preserve">
+    <value>Standard deviation must be greater then zero</value>
+  </data>
+  <data name="StandardDeviationOfFirstDistributionMustBeGreaterThenZero" xml:space="preserve">
+    <value>Standard deviation of 1-st distribution must be greater then zero</value>
+  </data>
+  <data name="StandardDeviationOfSecondDistributionMustBeGreaterThenZero" xml:space="preserve">
+    <value>Standard deviation of 2-nd distribution must be greater then zero</value>
+  </data>
+  <data name="TangentOfValueCrossingAsymptote" xml:space="preserve">
+    <value>Tangent of random value crssing asymptote</value>
+  </data>
+  <data name="VectorOfCoeffitientsMustBeEqualToDimension" xml:space="preserve">
+    <value>Vector of coefficients length is not equals to dimension of covariance matrix</value>
+  </data>
+  <data name="VectorOfMeansMustBeEqualToDimension" xml:space="preserve">
+    <value>Vector of means length is not equals to dimension of covariance matrix</value>
+  </data>
+</root>

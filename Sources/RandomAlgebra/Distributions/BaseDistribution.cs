@@ -99,7 +99,7 @@ namespace RandomAlgebra.Distributions
                     _step = (InnerMaxX - InnerMinX) / (InnerSamples - 1);
 
                     if (_step < 0)
-                        throw new DistributionsArgumentException("Negative step", "Отрицательный шаг");
+                        throw new DistributionsArgumentException(DistributionsArgumentExceptionType.NegativeStep);
                 }
 
                 return _step.Value;
@@ -174,7 +174,7 @@ namespace RandomAlgebra.Distributions
         public double Quantile(double p)
         {
             if (p < 0 || p > 1)
-                throw new DistributionsArgumentException("Probability must be in range [0, 1]", "Вероятность должна находиться в пределах от 0 до 1");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ProbabilityMustBeInRangeFromZeroToOne);
 
             return InnerQuantile(p);
         }

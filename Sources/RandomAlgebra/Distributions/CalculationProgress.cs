@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace RandomAlgebra.Distributions
 {
+    public enum WarningType
+    {
+        InifinityEliminated
+    }
+
     public static class CalculationProgress
     {
         public static event EventHandler<WarningEventArgs> Warning;
 
-        internal static void InvokeWarning(string warningEng, string warningRus)
+        internal static void InvokeWarning(WarningType warningType)
         {
-            string message;
-            if (CommonExceptions.Locale == "ru")
-            {
-                message = warningRus;
-            }
-            else
-            {
-                message = warningEng;
-            }
-
+            string message = ExceptionMessages.GetExceptionMessage(warningType.ToString());
             Warning?.Invoke(null, new WarningEventArgs(message));
+        }
+
+        internal static void InvokeWarning(WarningType warningType, params object[] arguments)
+        {
+            string message = ExceptionMessages.GetExceptionMessage(warningType.ToString());
+            Warning?.Invoke(null, new WarningEventArgs(string.Format(message, arguments)));
         }
     }
 

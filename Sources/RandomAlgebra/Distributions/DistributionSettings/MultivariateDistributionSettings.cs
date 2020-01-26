@@ -60,13 +60,13 @@ namespace RandomAlgebra.Distributions.Settings
                 throw new ArgumentNullException(nameof(parameters.Means));
 
             if (!parameters.CovarianceMatrix.IsSquare())
-                throw new DistributionsArgumentException("Covariance matrix is not square", "Матрица ковариации не квадратная");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CovarianceMatrixMustBeSquare);
 
             if (!parameters.CovarianceMatrix.IsSymmetric())
-                throw new DistributionsArgumentException("Covariance matrix is asymmetric", "Матрица ковариации не симметричная");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CovarianceMatrixMustBeSymmetric);
 
             if (parameters.Means.Length != parameters.CovarianceMatrix.GetLength(0))
-                throw new DistributionsArgumentException("Vector of means length is not equals to dimension of covariance matrix", "Длина вектора средних значений не совпадает с размерностью матрицы");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.VectorOfMeansMustBeEqualToDimension);
 
             Dimension = parameters.Means.Length;
 
@@ -77,7 +77,7 @@ namespace RandomAlgebra.Distributions.Settings
 
             if (!_chol.IsPositiveDefinite)
             {
-                throw new DistributionsArgumentException("Covariance matrix is not positive-definite", "Матрица ковариации не является положительно определенной");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CovarianceMatrixMustBePositiveDefined);
             }
         }
 
@@ -125,7 +125,7 @@ namespace RandomAlgebra.Distributions.Settings
         public CorrelatedPair GetBivariatePair(int samples)
         {
             if (Dimension != 2)
-                throw new DistributionsInvalidOperationException("To build correlation pair multivariate distribution must be two-dimentional", "Для построения коррелирующей пары многомерное распределение должно быть двумерным");
+                throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ForCorrelationPairMultivariateDistributionMustBeTwoDimensional);
 
             double m1 = Means[0];
             double m2 = Means[1];
@@ -209,7 +209,7 @@ namespace RandomAlgebra.Distributions.Settings
                 coeffs = Vector.Ones(Dimension);
 
             if (coeffs.Length != Dimension)
-                throw new DistributionsArgumentException("Vector of coefficients length is not equals to dimension of covariance matrix", "Длина вектора средних значений не совпадает с размерностью матрицы");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.VectorOfCoeffitientsMustBeEqualToDimension);
 
             if (coeffs.All(x => x == 1))
                 return new NormalDistributionSettings(Means.Sum(), Math.Sqrt(CovarianceMatrix.Sum()));

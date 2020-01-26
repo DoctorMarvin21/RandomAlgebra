@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RandomAlgebra.Distributions.Settings;
+using RandomAlgebra.Distributions;
 
 namespace DistributionsWpf
 {
@@ -23,6 +25,22 @@ namespace DistributionsWpf
         public MainWindow()
         {
             InitializeComponent();
+
+            UniformDistributionSettings uniformDistributionSettings = new UniformDistributionSettings(-1, 1);
+
+            ContinuousDistribution distribution = new ContinuousDistribution(uniformDistributionSettings);
+
+            try
+            {
+                var p = distribution / 0;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
+
+        public DistributionSettingsBindingCollection<UniformDistributionSettings> SettingsBindings { get; }
+            = new DistributionSettingsBindingCollection<UniformDistributionSettings>();
     }
 }

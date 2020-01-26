@@ -14,15 +14,15 @@ namespace RandomAlgebra.Distributions
         {
             if (sigma1 <= 0)
             {
-                throw new DistributionsArgumentException("Standard deviation of 1-st distribution must be greater then zero", "Стандартное отклонение 1 должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.StandardDeviationOfFirstDistributionMustBeGreaterThenZero);
             }
             if (sigma2 <= 0)
             {
-                throw new DistributionsArgumentException("Standard deviation of 2-nd distribution must be greater then zero", "Стандартное отклонение 2 должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.StandardDeviationOfSecondDistributionMustBeGreaterThenZero);
             }
             if (rho <= -1 || rho >= 1)
             {
-                throw new DistributionsArgumentException("Correlation must be in range (-1, 1)", "Коэффициент корреляции должен быть в пределах (-1, 1)");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CorrelationMustBeInRangeFromMinusOneToOne);
             }
 
             Mean1 = mean1;
@@ -267,7 +267,7 @@ namespace RandomAlgebra.Distributions
         {
             if (degreesOfFreedom < 1)
             {
-                throw new DistributionsArgumentException("Defrees of freedom must not be less then 1", "Число степеней свободы не должно быть меньше 1");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.DegreesOfFreedomMustNotBeLessThenOne);
             }
 
             DegressOfFreedom = degreesOfFreedom;

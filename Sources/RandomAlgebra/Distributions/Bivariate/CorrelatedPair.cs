@@ -14,7 +14,7 @@ namespace RandomAlgebra.Distributions
                 throw new ArgumentNullException(nameof(right));
 
             if (left.DistributionType != DistributionType.Continious || right.DistributionType != DistributionType.Continious)
-                throw new DistributionsArgumentException("For correlation pair both if distributions must be continuous", "Для коррелирующей пары оба распределения должны быть непрерывными");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ForCorrelationPairBothOfDistributionsMustBeContinuous);
 
             BaseLeft = (ContinuousDistribution)left;
             BaseRight = (ContinuousDistribution)right;

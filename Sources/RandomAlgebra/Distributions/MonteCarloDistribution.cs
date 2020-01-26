@@ -60,10 +60,10 @@ namespace RandomAlgebra.Distributions
                 throw new ArgumentNullException(nameof(univariateDistributions));
 
             if (samples < 3)
-                throw new DistributionsArgumentException("Number of experiments must be greater then 2", "Число экспериментов должно быть больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.NumberOfExperimentsMustBeGreaterThenTwo);
 
             if (pockets < 3)
-                throw new DistributionsArgumentException("Number of pockets must be greater then 2", "Число карманов должно быть больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.NumberOfPocketsMustBeGreaterThenTwo);
 
             BasicDistributionData data = new BasicDistributionData();
 
@@ -114,7 +114,9 @@ namespace RandomAlgebra.Distributions
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    //TODO: check this out
+                    //throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
             }
 

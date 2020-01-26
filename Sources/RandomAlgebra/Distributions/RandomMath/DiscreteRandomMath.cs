@@ -91,7 +91,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Muliply:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.MultiplyRandomByZero);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
 
                         if (value < 0)
                         {
@@ -114,7 +114,7 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Divide:
                     {
                         if (value == 0)
-                            CommonExceptions.ThrowCommonExcepton(CommonExceptionType.DivisionByZero);
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
 
                         if (value < 0)
                         {

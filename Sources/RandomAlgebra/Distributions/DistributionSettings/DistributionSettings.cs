@@ -98,7 +98,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (LowerBound > UpperBound)
             {
-                throw new DistributionsArgumentException("Lower bound is greater then upper bound", "Нижняя граница больше верхней границы");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LowerBoundIsGreaterThenUpperBound);
             }
         }
 
@@ -200,7 +200,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_standardDeviation <= 0)
             {
-                throw new DistributionsArgumentException("Standard deviation must be greater then zero", "Стандартное отклонение должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.StandardDeviationMustBeGreaterThenZero);
             }
         }
 
@@ -303,7 +303,7 @@ namespace RandomAlgebra.Distributions.Settings
             base.CheckParameters();
 
             if (_shapeParameter <= 0)
-                throw new DistributionsArgumentException("Shape parameter must be greater then zero", "Стандартное отклонение должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ShapeParameterMustBeGreaterThenZero);
         }
 
 
@@ -426,15 +426,15 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_standardDeviation1 <= 0)
             {
-                throw new DistributionsArgumentException("Standard deviation of 1-st distribution must be greater then zero", "Стандартное отклонение 1 должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.StandardDeviationOfFirstDistributionMustBeGreaterThenZero);
             }
             if (_standardDeviation2 <= 0)
             {
-                throw new DistributionsArgumentException("Standard deviation of 2-nd distribution must be greater then zero", "Стандартное отклонение 2 должно быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.StandardDeviationOfSecondDistributionMustBeGreaterThenZero);
             }
             if (_correlation <= -1 || _correlation >= 1)
             {
-                throw new DistributionsArgumentException("Correlation must be in range (-1, 1)", "Коэффициент корреляции должен быть в пределах (-1, 1)");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CorrelationMustBeInRangeFromMinusOneToOne);
             }
         }
 
@@ -625,7 +625,7 @@ namespace RandomAlgebra.Distributions.Settings
 
             if (_degreesOfFreedom < 1)
             {
-                throw new DistributionsArgumentException("Degrees of freedom must not be less then 1", "Число степеней свободы должно быть не меньше 1");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.DegreesOfFreedomMustNotBeLessThenOne);
             }
         }
 
@@ -701,12 +701,12 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_shapeParameterA <= 0)
             {
-                throw new DistributionsArgumentException("Shape parameter α must be greater then zero", "Параметр формы α должен быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ShapeParameterAMustBeGreaterThenZero);
             }
 
             if (_shapeParameterB <= 0)
             {
-                throw new DistributionsArgumentException("Shape parameter β must be greater then zero", "Параметр формы β должен быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ShapeParameterBMustBeGreaterThenZero);
             }
         }
 
@@ -786,12 +786,12 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_shapeParameter <= 0)
             {
-                throw new DistributionsArgumentException("Shape parameter must be greater then zero", "Параметр формы должен быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ShapeParameterMustBeGreaterThenZero);
             }
 
             if (_scaleParameter <= 0)
             {
-                throw new DistributionsArgumentException("Scale parameter must be greater then zero", "Параметр масштаба должен быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ScaleParameterMustBeGreaterThenZero);
             }
         }
 
@@ -851,7 +851,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_rate <= 0)
             {
-                throw new DistributionsArgumentException("Rate parameter must be greater then zero", "Интенсивность должна быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.RateParameterMustBeGreaterThenZero);
             }
         }
 
@@ -912,7 +912,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_degreesOfFreedom < 1)
             {
-                throw new DistributionsArgumentException("Degrees of freedom must be greater then zero", "Число степеней свободы должно быть больше нуля");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.DegreesOfFreedomMustBeGreaterThenZero);
             }
         }
 
@@ -997,7 +997,7 @@ namespace RandomAlgebra.Distributions.Settings
         {
             if (_scaleParameter <= 0)
             {
-                throw new DistributionsArgumentException("Scale parameter must be greater then zero", "Параметр масштаба должен быть больше 0");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ScaleParameterMustBeGreaterThenZero);
             }
         }
 

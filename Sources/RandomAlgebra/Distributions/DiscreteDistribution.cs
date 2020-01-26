@@ -58,12 +58,12 @@ namespace RandomAlgebra.Distributions
                 throw new ArgumentNullException(nameof(coordinates.PDFCoordinates));
 
             if (coordinates.XCoordinates.Length < 3)
-                throw new DistributionsArgumentException("Length of arguments must be greater then 2", "Длина массива аргументов должна быть больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LengthOfArgumentsMustBeGreaterThenTwo);
             if (coordinates.PDFCoordinates.Length < 3)
-                throw new DistributionsArgumentException("Length of values must be greater then 2", "Длина массива значений должна быть больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LengthOfValuesMustBeGreaterThenTwo);
 
             if (coordinates.XCoordinates.Length != coordinates.PDFCoordinates.Length)
-                throw new DistributionsArgumentException("Length of arguments not equal to length of values", "Несовпадение длин массивов аргументов и значений");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfValues);
 
             if (!coordinates.FromContinuous && coordinates.CDFCoordinates == null)
             {
@@ -224,7 +224,7 @@ namespace RandomAlgebra.Distributions
             if (trianglesCount > 0)
             {
                 gotInfinities = true;
-                CalculationProgress.InvokeWarning($"{infIndexes.Count} infinite value(s) is eliminated, accuracy loss is expected", $"{infIndexes.Count} значение бесконечности устранено, возможна потеря точности");
+                CalculationProgress.InvokeWarning(WarningType.InifinityEliminated, infIndexes.Count);
             }
 
             if (scale < 1)
@@ -300,7 +300,7 @@ namespace RandomAlgebra.Distributions
         private static PrivateCoordinates DiscretizeContinious(ContinuousDistribution continiousDistribution, int samples)
         {
             if (samples < 2)
-                throw new DistributionsArgumentException("Samples count must be greater then 2", "Число отсчётов должно быть больше 2");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.SamplesNumberMustBeGreaterThenTwo);
 
             if (continiousDistribution == null)
                 throw new ArgumentNullException(nameof(continiousDistribution));

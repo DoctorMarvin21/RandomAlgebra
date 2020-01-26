@@ -32,7 +32,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         public DistributionsEvaluator(string modelExpression)
         {
             if (string.IsNullOrWhiteSpace(modelExpression))
-                throw new DistributionsArgumentException("Missing expression", "Выражение не задано");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.MissingExpression);
 
             ExpressionText = modelExpression;
             _parsed = Parse(modelExpression);
@@ -64,7 +64,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 string arg = parameter.Parameter;
 
                 if (parameter.Count > 1)
-                    throw new DistributionsInvalidOperationException($"It is impossible to perform the propagation by the method of algebra of random variables, since the parameter \"{ arg }\" occurs more than once ", $"Невозможно выполнить транформацию методом алгебры случайных величин, так как параметр \"{arg}\" встречается более одного раза");
+                    throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce);
 
 				BaseDistribution value;
                 if (arguments.TryGetValue(arg, out value))
@@ -73,7 +73,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
 
             }
@@ -82,7 +82,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
             if (correlations.Any(x => !x.Used))
             {
-                throw new DistributionsInvalidOperationException("Some of correlation parameters was ignored, rebuild the expression", "Некоторые параметры корреляция были проигнорированы, перестройте выражение");
+                throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.CorrelationParamtersIgnored);
             }
 
             return result;
@@ -108,7 +108,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
 
             }
@@ -119,7 +119,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         internal double EvaluateCompiled(double[] arguments)
         {
             if (arguments.Length != _nodeParameters.Count)
-                throw new DistributionsArgumentException($"The number of arguments {arguments.Length} does not match the number of parameters {_nodeParameters.Count}", $"Число аргументов {arguments.Length} не соответствует числу параметров {_nodeParameters.Count}");
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfParameters, arguments.Length, _nodeParameters.Count);
 
             return _compiled(arguments);
         }
@@ -218,7 +218,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                     }
 
 
-                    throw new DistributionsArgumentException($"Unknown symbol \"{next}\" in expression \"{expression}\"", $"Неизвестный символ \"{next}\" в выражении \"{expression}\"");
+                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.UnknownSymbolInExpression, next, expression);
                 }
             }
 
@@ -246,7 +246,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             }
             catch
             {
-                throw new DistributionsInvalidOperationException("Expression operators are inconsistent", "Операторы выражения несогласованы");
+                throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExpressionOpreatorsInconsistent);
             }
         }
 
