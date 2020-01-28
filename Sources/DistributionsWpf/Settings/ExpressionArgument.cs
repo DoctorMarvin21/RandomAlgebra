@@ -3,24 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 
 namespace DistributionsWpf
 {
-    public class DistributionFunctionArgument : INotifyPropertyChanged
+    public class ExpressionArgument : INotifyPropertyChanged
     {
         private DisplayNameAndSettingType _settingsType;
         private DistributionSettings _distributionSettings;
         private string _argument;
 
-        public DistributionFunctionArgument(string arg, Type settingsType)
+        public ExpressionArgument(string arg, Type settingsType)
         {
             Argument = arg;
             SettingsType = SettingTypes.FirstOrDefault(x => x.SettingsType == settingsType);
         }
 
-        public DistributionFunctionArgument(string arg, DistributionSettings settings)
+        public ExpressionArgument(string arg, DistributionSettings settings)
             : this(arg, settings.GetType())
         {
             DistributionSettings = settings;
@@ -97,10 +95,10 @@ namespace DistributionsWpf
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static Dictionary<string, DistributionSettings> CreateDictionary(ICollection<DistributionFunctionArgument> functionArguments)
+        public static Dictionary<string, DistributionSettings> CreateDictionary(ICollection<ExpressionArgument> functionArguments)
         {
             Dictionary<string, DistributionSettings> keyValuePairs = new Dictionary<string, DistributionSettings>();
-            foreach (DistributionFunctionArgument arg in functionArguments)
+            foreach (ExpressionArgument arg in functionArguments)
             {
                 keyValuePairs.Add(arg.Argument, arg.DistributionSettings);
             }
@@ -108,13 +106,22 @@ namespace DistributionsWpf
         }
     }
 
-    public class DisplayNameAndSettingType
+    public class DisplayNameAndSettingType : INotifyPropertyChanged
     {
 
         public DisplayNameAndSettingType(Type settingType)
         {
             SettingsType = settingType;
-            Name = Resources.GetMessage(settingType.Name);
+
+            TranslationSource.Instance.PropertyChanged += TranslationSourcePropertyChanged;
+            UpdateName();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void TranslationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateName();
         }
 
         static DisplayNameAndSettingType()
@@ -138,26 +145,16 @@ namespace DistributionsWpf
             };
         }
 
-        public string Name
-        {
-            get;
-            set;
-        }
-        public Type SettingsType
-        {
-            get;
-            set;
-        }
+        public Type SettingsType { get; set; }
 
-        public static DisplayNameAndSettingType[] DisplayNames
-        {
-            get;
-            private set;
-        }
+        public string Name { get; private set; }
 
-        public override string ToString()
+        public static DisplayNameAndSettingType[] DisplayNames { get; private set; }
+
+        private void UpdateName()
         {
-            return Name;
+            Name = TranslationSource.Instance.GetTranslation(SettingsType.Name);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
         }
     }
 }

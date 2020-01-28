@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
   <data name="ArcsineDistributionSettings" xml:space="preserve">
     <value>Арксинусное</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>Аргумент</value>
+  </data>
+  <data name="Arguments" xml:space="preserve">
+    <value>Аргументы</value>
   </data>
   <data name="BetaDistributionSettings" xml:space="preserve">
     <value>Бета</value>
@@ -126,17 +135,41 @@
   <data name="BivariateBasedNormalDistributionSettings" xml:space="preserve">
     <value>Двумерное нормальное</value>
   </data>
+  <data name="CDF" xml:space="preserve">
+    <value>Функция Распределения</value>
+  </data>
+  <data name="ChartPoints" xml:space="preserve">
+    <value>Точек Графика</value>
+  </data>
   <data name="Chi" xml:space="preserve">
     <value>Хи</value>
   </data>
   <data name="ChiSquaredDistributionSettings" xml:space="preserve">
     <value>Хи-квадрат</value>
   </data>
+  <data name="CommonParameters" xml:space="preserve">
+    <value>Общие Параметры</value>
+  </data>
   <data name="Correlation" xml:space="preserve">
     <value>Коэффициент корреляции</value>
   </data>
   <data name="DegreesOfFreedom" xml:space="preserve">
     <value>Степеней свободы</value>
+  </data>
+  <data name="Distribution" xml:space="preserve">
+    <value>Распределение</value>
+  </data>
+  <data name="Distributions" xml:space="preserve">
+    <value>Распределения</value>
+  </data>
+  <data name="Evaluate" xml:space="preserve">
+    <value>Расчёт</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Experiments" xml:space="preserve">
+    <value>Экспериментов</value>
   </data>
   <data name="ExponentialDistributionSettings" xml:space="preserve">
     <value>Экспоненциальное</value>
@@ -162,6 +195,12 @@
   <data name="Mean2" xml:space="preserve">
     <value>Мат. ожидание 2</value>
   </data>
+  <data name="Model" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="MonteCarlo" xml:space="preserve">
+    <value>Монте-Карло</value>
+  </data>
   <data name="MultivariateBasedNormalDistributionSettings" xml:space="preserve">
     <value>Многомерное нормальное</value>
   </data>
@@ -174,11 +213,38 @@
   <data name="NormalDistributionSettings" xml:space="preserve">
     <value>Нормальное</value>
   </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="PDF" xml:space="preserve">
+    <value>Плотность Вероятности</value>
+  </data>
+  <data name="PersentRatio" xml:space="preserve">
+    <value>Соотношение, %</value>
+  </data>
+  <data name="Pockets" xml:space="preserve">
+    <value>Карманов</value>
+  </data>
+  <data name="Probability" xml:space="preserve">
+    <value>Вероятность, p</value>
+  </data>
+  <data name="RandomAlgebra" xml:space="preserve">
+    <value>Алгебра сл. величин</value>
+  </data>
   <data name="Rate" xml:space="preserve">
     <value>Интенсивность λ</value>
   </data>
   <data name="RayleighDistributionSettings" xml:space="preserve">
     <value>Рэлея</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Samples" xml:space="preserve">
+    <value>Отсчётов</value>
   </data>
   <data name="ScaleParameter" xml:space="preserve">
     <value>Параметр масштаба</value>
@@ -209,5 +275,8 @@
   </data>
   <data name="UpperBound" xml:space="preserve">
     <value>Верхняя граница</value>
+  </data>
+  <data name="Warnings" xml:space="preserve">
+    <value>Предупреждения</value>
   </data>
 </root>

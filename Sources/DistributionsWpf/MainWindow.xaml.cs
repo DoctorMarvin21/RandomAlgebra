@@ -1,192 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RandomAlgebra.Distributions.Settings;
-using RandomAlgebra.Distributions;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using LiveCharts;
-using LiveCharts.Wpf;
-using LiveCharts.Defaults;
+﻿using System.Windows;
 using MahApps.Metro.Controls;
+using System.Globalization;
+using OxyPlot.Wpf;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 
 namespace DistributionsWpf
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private DistributionsPair _distributionsPair = new DistributionsPair();
-
         public MainWindow()
         {
-            Expression = "A+B*3+1";
-            DistributionFunctionArguments.Add(new DistributionFunctionArgument("A", new UniformDistributionSettings()));
-            DistributionFunctionArguments.Add(new DistributionFunctionArgument("B", new NormalDistributionSettings()));
-
-            PdfCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Randoms Algebra",
-                    PointGeometry = null,
-                    LineSmoothness = 0
-                },
-                new LineSeries
-                {
-                    Title = "Monte Carlo",
-                    PointGeometry = null,
-                    LineSmoothness = 0
-                }
-            };
-
-            CdfCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Randoms Algebra",
-                    PointGeometry = null,
-                    LineSmoothness = 0
-                },
-                new LineSeries
-                {
-                    Title = "Monte Carlo",
-                    PointGeometry = null,
-                    LineSmoothness = 0
-                }
-            };
-
+            Configuration = new Configuration();
             InitializeComponent();
         }
 
-        public string Expression { get; set; }
+        public Configuration Configuration { get; } = new Configuration();
 
-        public ObservableCollection<DistributionFunctionArgument> DistributionFunctionArguments { get; }
-            = new ObservableCollection<DistributionFunctionArgument>();
+        public DistributionsPair Results { get; } = new DistributionsPair();
 
-        public ObservableCollection<DistributionParameters> DistributionParameters { get; }
-            = new ObservableCollection<DistributionParameters>();
+        public ChartData PdfChart { get; set; } = new ChartData(ChartDataType.PDF);
 
-        public SeriesCollection PdfCollection { get; }
+        public ChartData CdfChart { get; set; } = new ChartData(ChartDataType.CDF);
 
-        public SeriesCollection CdfCollection { get; }
-
-        private void Process()
+        private async void Process()
         {
-#if !DEBUG
             try
-#endif
             {
-                //_warningsSource.Clear();
+                await Results.ProcessAsync(Configuration);
 
-                string expression = Expression;
-                bool evaluateRandomsAlgebra = true;
-                bool evaluateMonteCarlo = true;
+                PdfChart.Update(Results, Configuration.ChartPoints);
+                CdfChart.Update(Results, Configuration.ChartPoints);
 
-                int samples = 1000;
-                int experiments = 1000000;
-                int pockets = 1000;
-
-                var univariate = DistributionFunctionArgument.CreateDictionary(DistributionFunctionArguments);
-
-
-                var multivariate = MultivariateDistributionFunctionArgument.CreateDictionary(new List<MultivariateDistributionFunctionArgument>());
-                if (multivariate.Count == 0)
-                    multivariate = null;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                if (evaluateRandomsAlgebra)
-                {
-                    sw.Restart();
-                    _distributionsPair.RandomsAlgebra = DistributionManager.RandomsAlgebraDistribution(expression, univariate, multivariate, samples);
-
-                    if (_distributionsPair.RandomsAlgebra is ContinuousDistribution continuous)
-                    {
-                        //_distributionsPair.RandomsAlgebra = continuous.Discretize();
-                    }
-
-
-                    sw.Stop();
-
-                    _distributionsPair.RandomsAlgebraTime = sw.Elapsed;
-                }
-                else
-                {
-                    _distributionsPair.RandomsAlgebra = null;
-                    _distributionsPair.RandomsAlgebraTime = null;
-                }
-
-                if (evaluateMonteCarlo)
-                {
-                    sw.Restart();
-                    _distributionsPair.MonteCarlo = DistributionManager.MonteCarloDistribution(expression, univariate, multivariate, experiments, pockets);
-                    sw.Stop();
-
-                    _distributionsPair.MonteCarloTime = sw.Elapsed;
-                }
-                else
-                {
-                    _distributionsPair.MonteCarlo = null;
-                    _distributionsPair.MonteCarloTime = null;
-                }
-
-                FillResults();
-                FillCharts();
+                PdfPlot.FindChild<Plot>().ResetAllAxes();
+                CdfPlot.FindChild<Plot>().ResetAllAxes();
             }
-#if !DEBUG
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Languages.GetText("Exception"), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-#endif
-        }
-
-        private void FillResults()
-        {
-            DistributionParameters.Clear();
-
-            foreach (DistributionParameters parameter in DistributionManager.GetParameters(_distributionsPair, 0.95))
-            {
-                DistributionParameters.Add(parameter);
+                await this.ShowMessageAsync(TranslationSource.Instance.GetTranslation("Exception"), ex.Message);
             }
         }
 
-        private void FillCharts()
-        {
-            var a = new ChartValues<ObservablePoint>();
-            var b = new ChartValues<ObservablePoint>();
-            var c = new ChartValues<ObservablePoint>();
-            var d = new ChartValues<ObservablePoint>();
-
-            Charts.FillChart(a, b, _distributionsPair.RandomsAlgebra, 100);
-            Charts.FillChart(c, d, _distributionsPair.MonteCarlo, 100);
-
-            PdfCollection[0].Values = a;
-            PdfCollection[1].Values = c;
-
-            CdfCollection[0].Values = b;
-            CdfCollection[1].Values = d;
-
-            //Charts.PrepareGraph(zedDistrPDF, zedDistrCDF);
-            //Charts.AddCharts(zedDistrPDF, zedDistrCDF, _distributionsPair, (int)numericChartPoints.Value);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Process(object sender, RoutedEventArgs e)
         {
             Process();
+        }
+
+        private void LanguageTest(object sender, RoutedEventArgs e)
+        {
+            TranslationSource.Instance.CurrentCulture = new CultureInfo("en-US");
+        }
+
+        private async void DistributionSettingsMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && e.ClickCount >= 2)
+            {
+                var argument = ((FrameworkElement)sender).DataContext as ExpressionArgument;
+                await this.ShowMetroDialogAsync(new DistributionEditWindow(this, argument));
+            }
+        }
+
+        private void AddExpressionArgument(object sender, RoutedEventArgs e)
+        {
+            Configuration.ExpressionArguments.Add(new ExpressionArgument(null,
+                new RandomAlgebra.Distributions.Settings.UniformDistributionSettings()));
+        }
+
+        private void RemoveExpressionArgument(object sender, RoutedEventArgs e)
+        {
+            if (Configuration.SelectedArgument != null)
+            {
+                Configuration.ExpressionArguments.Remove(Configuration.SelectedArgument);
+            }
+            else if (Configuration.ExpressionArguments.Count > 0)
+            {
+                Configuration.ExpressionArguments.RemoveAt(Configuration.ExpressionArguments.Count - 1);
+            }
         }
     }
 }

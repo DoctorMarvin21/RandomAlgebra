@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DistributionsWpf
 {
-    public class MultivariateDistributionFunctionArgument
+    public class MultivariateExpressionArgument
     {
-        public MultivariateDistributionFunctionArgument(string[] arguments, MultivariateDistributionSettings settings)
+        public MultivariateExpressionArgument(string[] arguments, MultivariateDistributionSettings settings)
         {
             Arguments = arguments;
             MultivariateDistributionSettings = settings;
@@ -49,10 +49,10 @@ namespace DistributionsWpf
             set;
         }
 
-        public static Dictionary<string[], MultivariateDistributionSettings> CreateDictionary(List<MultivariateDistributionFunctionArgument> functionArguments)
+        public static Dictionary<string[], MultivariateDistributionSettings> CreateDictionary(ICollection<MultivariateExpressionArgument> functionArguments)
         {
             Dictionary<string[], MultivariateDistributionSettings> keyValuePairs = new Dictionary<string[], MultivariateDistributionSettings>();
-            foreach (MultivariateDistributionFunctionArgument arg in functionArguments)
+            foreach (MultivariateExpressionArgument arg in functionArguments)
             {
                 keyValuePairs.Add(arg.Arguments, arg.MultivariateDistributionSettings);
             }

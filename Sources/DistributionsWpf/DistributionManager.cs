@@ -3,6 +3,10 @@ using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.DistributionsEvaluation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace DistributionsWpf
 {
@@ -37,29 +41,11 @@ namespace DistributionsWpf
         {
             return new MonteCarloDistribution(expression, univariate, multivariate, experiments, pockets);
         }
-
-        public static List<DistributionParameters> GetParameters(DistributionsPair distributions, double p)
-        {
-            var randomsAlgebra = distributions.RandomsAlgebra;
-            var monteCarlo = distributions.MonteCarlo;
-
-            List<DistributionParameters> parameters = new List<DistributionParameters>();
-            parameters.Add(new DistributionParameters("t, ms", distributions.RandomsAlgebraTime?.TotalMilliseconds, distributions.MonteCarloTime?.TotalMilliseconds));
-            parameters.Add(new DistributionParameters("μ", randomsAlgebra?.Mean, monteCarlo?.Mean));
-            parameters.Add(new DistributionParameters("σ", randomsAlgebra?.StandardDeviation, monteCarlo?.StandardDeviation));
-            parameters.Add(new DistributionParameters("σ²", randomsAlgebra?.Variance, monteCarlo?.Variance));
-            parameters.Add(new DistributionParameters("U⁺", randomsAlgebra?.QuantileUpper(p), monteCarlo?.QuantileUpper(p)));
-            parameters.Add(new DistributionParameters("U⁻", randomsAlgebra?.QuantileLower(p), monteCarlo?.QuantileLower(p)));
-            parameters.Add(new DistributionParameters("γ", randomsAlgebra?.Skewness, monteCarlo?.Skewness));
-            parameters.Add(new DistributionParameters("U±", randomsAlgebra?.QuantileRange(p), monteCarlo?.QuantileRange(p)));
-
-            return parameters;
-        }
     }
 
-    public class DistributionParameters
+    public class DistributionParameter
     {
-        public DistributionParameters(string name, double? randomsAlgebra, double? monteCarlo)
+        public DistributionParameter(string name, double? randomsAlgebra, double? monteCarlo)
         {
             Name = name;
             RandomsAlgebra = randomsAlgebra;
@@ -109,28 +95,128 @@ namespace DistributionsWpf
 
     public class DistributionsPair
     {
-        public BaseDistribution RandomsAlgebra
+        private readonly object warningsLocker = new object();
+        private readonly object parametersLocker = new object();
+        private readonly object processLocker = new object();
+
+        public DistributionsPair()
         {
-            get;
-            set;
+            BindingOperations.EnableCollectionSynchronization(Warnings, warningsLocker);
+            BindingOperations.EnableCollectionSynchronization(DistributionParameters, parametersLocker);
+
+            CalculationProgress.Warning += CalculationProgressWarning;
         }
 
-        public BaseDistribution MonteCarlo
+        private void CalculationProgressWarning(object sender, WarningEventArgs e)
         {
-            get;
-            set;
+            lock (warningsLocker)
+            {
+                Warnings.Add(e.Message);
+            }
         }
 
-        public TimeSpan? RandomsAlgebraTime
+        public BaseDistribution RandomAlgebra { get; set; }
+
+        public BaseDistribution MonteCarlo { get; set; }
+
+        public TimeSpan? RandomsAlgebraTime { get; set; }
+
+        public TimeSpan? MonteCarloTime { get; set; }
+
+        public ObservableCollection<DistributionParameter> DistributionParameters { get; } = new ObservableCollection<DistributionParameter>();
+
+        public ObservableCollection<string> Warnings { get; } = new ObservableCollection<string>();
+
+
+
+        public async Task ProcessAsync(Configuration configuration)
         {
-            get;
-            set;
+            await Task.Run(() => Process(configuration));
         }
 
-        public TimeSpan? MonteCarloTime
+        public void Process(Configuration configuration)
         {
-            get;
-            set;
+            lock (processLocker)
+            {
+                lock (warningsLocker)
+                {
+                    Warnings.Clear();
+                }
+
+                var univariate = ExpressionArgument.CreateDictionary(configuration.ExpressionArguments);
+                var multivariate = MultivariateExpressionArgument.CreateDictionary(configuration.MultivariateExpressionArguments);
+
+                if (multivariate.Count == 0)
+                    multivariate = null;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                if (configuration.EvaluateRandomAlgebra)
+                {
+                    RandomAlgebra = DistributionManager.RandomsAlgebraDistribution(
+                        configuration.Expression,
+                        univariate,
+                        multivariate,
+                        configuration.Samples);
+
+                    sw.Stop();
+
+                    RandomsAlgebraTime = sw.Elapsed;
+                }
+                else
+                {
+                    RandomAlgebra = null;
+                    RandomsAlgebraTime = null;
+                }
+
+                if (configuration.EvaluateMonteCarlo)
+                {
+                    sw.Restart();
+
+                    MonteCarlo = DistributionManager.MonteCarloDistribution(
+                        configuration.Expression,
+                        univariate,
+                        multivariate,
+                        configuration.Experiments,
+                        configuration.Pockets);
+
+                    sw.Stop();
+
+                    MonteCarloTime = sw.Elapsed;
+                }
+                else
+                {
+                    MonteCarlo = null;
+                    MonteCarloTime = null;
+                }
+
+                UpdateParameters(configuration.Probability);
+            }
+        }
+
+        private void UpdateParameters(double p)
+        {
+            lock (parametersLocker)
+            {
+                DistributionParameters.Clear();
+            }
+
+            AddParameter(new DistributionParameter("t, ms", RandomsAlgebraTime?.TotalMilliseconds, MonteCarloTime?.TotalMilliseconds));
+            AddParameter(new DistributionParameter("μ", RandomAlgebra?.Mean, MonteCarlo?.Mean));
+            AddParameter(new DistributionParameter("σ", RandomAlgebra?.StandardDeviation, MonteCarlo?.StandardDeviation));
+            AddParameter(new DistributionParameter("σ²", RandomAlgebra?.Variance, MonteCarlo?.Variance));
+            AddParameter(new DistributionParameter("U⁺", RandomAlgebra?.QuantileUpper(p), MonteCarlo?.QuantileUpper(p)));
+            AddParameter(new DistributionParameter("U⁻", RandomAlgebra?.QuantileLower(p), MonteCarlo?.QuantileLower(p)));
+            AddParameter(new DistributionParameter("γ", RandomAlgebra?.Skewness, MonteCarlo?.Skewness));
+            AddParameter(new DistributionParameter("U±", RandomAlgebra?.QuantileRange(p), MonteCarlo?.QuantileRange(p)));
+        }
+
+        private void AddParameter(DistributionParameter parameter)
+        {
+            lock (parametersLocker)
+            {
+                DistributionParameters.Add(parameter);
+            }
         }
     }
 }

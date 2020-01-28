@@ -3,15 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:charts="http://oxyplot.org/wpf"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:DistributionsWpf"
         mc:Ignorable="d"
-        x:Name="Window"
-        Title="MainWindow" Height="450" Width="800">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="{local:Localize Distributions}" Height="600" Width="1200">
+    <Window.Resources>
+        <ControlTemplate x:Key="ChartControl">
+            <charts:Plot
+                Title="{Binding Title}"
+                LegendPlacement="Outside"
+                LegendPosition="BottomLeft"
+                LegendOrientation="Horizontal">
+                <charts:Plot.Axes>
+                    <charts:LinearAxis Position="Left" IsZoomEnabled="True" />
+                    <charts:LinearAxis Position="Bottom" IsZoomEnabled="True" />
+                </charts:Plot.Axes>
+                <charts:Plot.Series>
+                    <charts:LineSeries
+                        Title="{local:Localize RandomAlgebra}"
+                        Color="Red"
+                        StrokeThickness="0.5"
+                        ItemsSource="{Binding RandomAlgebra}" />
+                    <charts:LineSeries
+                        Title="{local:Localize MonteCarlo}"
+                        Color="Blue"
+                        StrokeThickness="0.5"
+                        ItemsSource="{Binding MonteCarlo}" />
+                </charts:Plot.Series>
+            </charts:Plot>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
@@ -20,91 +48,156 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ElementName=Window, Path=Expression}" />
-                <Button Content="Calculate!" Click="Button_Click" />
+                <Label Content="{local:Localize Model}" VerticalAlignment="Center" />
+                <TextBox Text="{Binding Configuration.Expression}" Width="200" Margin="5" />
+                <Button Content="{local:Localize Evaluate}" Click="Process" Margin="5" />
+                <Button Content="To Eng" Click="LanguageTest" Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <charts:CartesianChart Series="{Binding ElementName=Window, Path=PdfCollection}" Zoom="Xy" LegendLocation="Bottom">
-                    <charts:CartesianChart.AxisY>
-                        <charts:Axis Title="Sales" />
-                    </charts:CartesianChart.AxisY>
-                    <charts:CartesianChart.AxisX>
-                        <charts:Axis Title="Month" />
-                    </charts:CartesianChart.AxisX>
-                </charts:CartesianChart>
-                <charts:CartesianChart Grid.Column="1" Series="{Binding ElementName=Window, Path=CdfCollection}" Zoom="Xy" LegendLocation="Bottom">
-                    <charts:CartesianChart.AxisY>
-                        <charts:Axis Title="Sales" />
-                    </charts:CartesianChart.AxisY>
-                    <charts:CartesianChart.AxisX>
-                        <charts:Axis Title="Month" />
-                    </charts:CartesianChart.AxisX>
-                </charts:CartesianChart>
+                <ContentControl x:Name="PdfPlot"
+                                Grid.Column="0"
+                                Template="{StaticResource ChartControl}"
+                                DataContext="{Binding PdfChart}" />
+                <ContentControl x:Name="CdfPlot" Grid.Column="1"
+                                Template="{StaticResource ChartControl}"
+                                DataContext="{Binding CdfChart}" />
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <GroupBox Header="Random Algebra">
-                    
+                <GroupBox Grid.Column="0" Header="{local:Localize RandomAlgebra}">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=Window},
+                                Path=Configuration.EvaluateRandomAlgebra}">
+                                <TextBlock Text="{Binding}" Foreground="{StaticResource MahApps.Brushes.White}" />
+                            </CheckBox>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel>
+                        <DockPanel>
+                            <Label Content="{local:Localize Samples}" VerticalAlignment="Center" />
+                            <controls:NumericUpDown Value="{Binding Configuration.Samples}"
+                                                    Minimum="1"
+                                                    Maximum="10000000"
+                                                    HideUpDownButtons="True"
+                                                    Margin="3" />
+                        </DockPanel>
+                    </StackPanel>
                 </GroupBox>
-                <GroupBox Grid.Column="1" Header="Monte Carlo">
-                    
+                <GroupBox Grid.Column="1" Header="{local:Localize MonteCarlo}">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType=Window},
+                                Path=Configuration.EvaluateMonteCarlo}">
+                                <TextBlock Text="{Binding}" Foreground="{StaticResource MahApps.Brushes.White}" />
+                            </CheckBox>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel>
+                        <DockPanel>
+                            <Label Content="{local:Localize Experiments}" VerticalAlignment="Center" />
+                            <controls:NumericUpDown Value="{Binding Configuration.Experiments}"
+                                                    Minimum="10"
+                                                    Maximum="1000000000"
+                                                    HideUpDownButtons="True"
+                                                    Margin="3" />
+                        </DockPanel>
+                        <DockPanel>
+                            <Label Content="{local:Localize Pockets}" VerticalAlignment="Center" />
+                            <controls:NumericUpDown Value="{Binding Configuration.Pockets}"
+                                                    Minimum="10"
+                                                    Maximum="1000000000"
+                                                    HideUpDownButtons="True"
+                                                    Margin="3" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Column="2" Header="{local:Localize CommonParameters}">
+                    <StackPanel>
+                        <DockPanel>
+                            <Label Content="{local:Localize Probability}" VerticalAlignment="Center" />
+                            <controls:NumericUpDown Value="{Binding Configuration.Probability}"
+                                                    Minimum="0"
+                                                    Interval="0.1"
+                                                    StringFormat="0.000"
+                                                    Maximum="1"
+                                                    HideUpDownButtons="True"
+                                                    Margin="3" />
+                        </DockPanel>
+                        <DockPanel>
+                            <Label Content="{local:Localize ChartPoints}" VerticalAlignment="Center" />
+                            <controls:NumericUpDown Value="{Binding Configuration.ChartPoints}"
+                                                    Minimum="10"
+                                                    Maximum="10000"
+                                                    HideUpDownButtons="True"
+                                                    Margin="3" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Column="3" Header="{local:Localize Warnings}">
+                    <ListView ItemsSource="{Binding Results.Warnings}" />
                 </GroupBox>
             </Grid>
         </Grid>
-        <Grid Grid.Column="1" Width="250">
+        <GridSplitter Grid.Column="1" Width="3" />
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding ElementName=Window, Path=DistributionFunctionArguments}"
-                      RowDetailsVisibilityMode="VisibleWhenSelected">
+                      ItemsSource="{Binding Configuration.ExpressionArguments}"
+                                            SelectedItem="{Binding Configuration.SelectedArgument}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Argument">
+                    <DataGridTemplateColumn Header="{local:Localize Argument}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Argument}" />
+                                <TextBox Text="{Binding Argument, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Distribution">
+                    <DataGridTemplateColumn Header="{local:Localize Distribution}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding SettingTypes}" SelectedItem="{Binding SettingsType, UpdateSourceTrigger=PropertyChanged}" />
+                                <ComboBox
+                                    ItemsSource="{Binding SettingTypes}"
+                                    SelectedItem="{Binding SettingsType, UpdateSourceTrigger=PropertyChanged}"
+                                    DisplayMemberPath="Name" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Settings" IsReadOnly="True" Binding="{Binding DistributionSettings}" />
+                    <DataGridTemplateColumn Header="{local:Localize Parameters}" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DistributionSettings}" PreviewMouseDown="DistributionSettingsMouseDown" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding DistributionSettingsBindings}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Description}" />
-                                        <TextBox Text="{Binding Value}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
             </DataGrid>
-            <DataGrid Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ElementName=Window, Path=DistributionParameters}">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{local:Localize Add}" Margin="5" Width="70" Click="AddExpressionArgument" />
+                <Button Content="{local:Localize Remove}" Margin="5" Width="70" Click="RemoveExpressionArgument" />
+            </StackPanel>
+            <DataGrid Grid.Row="2"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding Results.DistributionParameters}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Parameter" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Random Algebra" Binding="{Binding RandomsAlgebra}" />
-                    <DataGridTextColumn Header="Monte Carlo" Binding="{Binding MonteCarlo}" />
-                    <DataGridTextColumn Header="Persent Ratio" Binding="{Binding PersentRatio}" />
+                    <DataGridTextColumn Header="{local:Localize Parameter}" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="{local:Localize RandomAlgebra}" Binding="{Binding RandomsAlgebra}" />
+                    <DataGridTextColumn Header="{local:Localize MonteCarlo}" Binding="{Binding MonteCarlo}" />
+                    <DataGridTextColumn Header="{local:Localize PersentRatio}" Binding="{Binding PersentRatio}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

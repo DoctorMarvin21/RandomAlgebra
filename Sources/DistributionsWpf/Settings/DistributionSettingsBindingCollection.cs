@@ -14,7 +14,7 @@ namespace DistributionsWpf
         {
         }
 
-        public void Update(DistributionFunctionArgument source, DistributionSettings settings)
+        public void Update(ExpressionArgument source, DistributionSettings settings)
         {
             Clear();
 
