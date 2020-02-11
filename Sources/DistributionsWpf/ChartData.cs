@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using OxyPlot;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using OxyPlot.Wpf;
 
 namespace DistributionsWpf
 {

@@ -1,13 +1,18 @@
-﻿<controls:BaseMetroDialog x:Class="DistributionsWpf.DistributionEditWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window x:Class="DistributionsWpf.DistributionEditWindow"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="{Binding ExpressionArgument.SettingsType.Name}" 
-        Height="Auto"
+        Title="{Binding ExpressionArgument.SettingsType.Name}"
+        SizeToContent="Height"
         Width="400">
     <Grid>
-        <ItemsControl ItemsSource="{Binding ExpressionArgument.DistributionSettingsBindings}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ItemsControl Items="{Binding ExpressionArgument.DistributionSettingsBindings}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -17,14 +22,12 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
-    <controls:BaseMetroDialog.DialogBottom>
-        <Button Content="OK"
+        <Button Grid.Row="1"
+                Content="OK"
                 IsDefault="True"
                 HorizontalAlignment="Right"
                 Width="100"
                 Margin="5"
-                Style="{StaticResource MahApps.Styles.Button.Dialogs}"
                 Click="OkClick" />
-    </controls:BaseMetroDialog.DialogBottom>
-</controls:BaseMetroDialog>
+    </Grid>
+</Window>

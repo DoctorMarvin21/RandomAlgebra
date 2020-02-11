@@ -1,36 +1,36 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 
 namespace DistributionsWpf
 {
     /// <summary>
     /// Логика взаимодействия для EditDistributionWindow.xaml
     /// </summary>
-    public partial class DistributionEditWindow : BaseMetroDialog
+    public partial class DistributionEditWindow : Window
     {
-        public DistributionEditWindow(MetroWindow owner, ExpressionArgument expressionArgument)
-            : base(owner, null)
+        public DistributionEditWindow()
+        {
+            InitializeComponent();
+        }
+
+        public DistributionEditWindow(Window owner, ExpressionArgument expressionArgument)
         {
             ExpressionArgument = expressionArgument;
             InitializeComponent();
         }
 
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+
         public ExpressionArgument ExpressionArgument { get; }
 
-        private async void OkClick(object sender, RoutedEventArgs e)
+        public void OkClick(object sender, RoutedEventArgs e)
         {
-            await OwningWindow.HideMetroDialogAsync(this);
+            Close();
+            //await OwningWindow.HideMetroDialogAsync(this);
         }
     }
 }
