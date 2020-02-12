@@ -3,7 +3,6 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Input;
 
 namespace DistributionsWpf
 {
@@ -30,6 +29,8 @@ namespace DistributionsWpf
         public ChartData PdfChart { get; set; } = new ChartData(ChartDataType.PDF);
 
         public ChartData CdfChart { get; set; } = new ChartData(ChartDataType.CDF);
+
+        public TranslationSource TranslationSource { get { return TranslationSource.Instance; } }
 
         private async void Process()
         {

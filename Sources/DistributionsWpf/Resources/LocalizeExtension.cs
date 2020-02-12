@@ -18,8 +18,8 @@ namespace DistributionsWpf
             Binding binding = new Binding
             {
                 Mode = BindingMode.OneWay,
-                Path = $"[{Key}]",
-                Source = TranslationSource.Instance,
+                Path = nameof(TranslationData.Value),
+                Source = TranslationSource.Instance[Key],
                 FallbackValue = Key
             };
 

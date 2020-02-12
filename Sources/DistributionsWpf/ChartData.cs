@@ -13,33 +13,24 @@ namespace DistributionsWpf
         CDF
     }
 
-    public class ChartData : INotifyPropertyChanged
+    public class ChartData
     {
         public ChartData(ChartDataType dataType)
         {
             DataType = dataType;
 
-            TranslationSource.Instance.PropertyChanged += TranslationSourcePropertyChanged;
-            Title = TranslationSource.Instance.GetTranslation(DataType.ToString());
-        }
-
-        private void TranslationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Title = TranslationSource.Instance.GetTranslation(DataType.ToString());
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+            Title = TranslationSource.Instance[DataType.ToString()];
         }
 
         public ChartDataType DataType { get; }
 
-        public string Title { get; private set; }
+        public TranslationData Title { get; private set; }
 
         public ObservableCollection<DataPoint> RandomAlgebra { get; }
             = new ObservableCollection<DataPoint>();
 
         public ObservableCollection<DataPoint> MonteCarlo { get; }
             = new ObservableCollection<DataPoint> ();
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Update(DistributionsPair distributionsPair, int length)
         {

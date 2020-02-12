@@ -6,8 +6,11 @@ using System.Resources;
 
 namespace DistributionsWpf
 {
-    public class TranslationSource : INotifyPropertyChanged
+    public class TranslationSource
     {
+        private Dictionary<string, TranslationData> translations = new Dictionary<string, TranslationData>();
+
+
         private CultureInfo currentCulture = CultureInfo.InstalledUICulture;
 
         private TranslationSource()
@@ -19,12 +22,11 @@ namespace DistributionsWpf
         public static ResourceManager ResourceManager { get; } =
             new ResourceManager("DistributionsWpf.Resources.Distributions", Assembly.GetExecutingAssembly());
 
-        public string this[string key]
+        public TranslationData this[string key]
         {
             get
             {
-                string translation = GetTranslation(key);
-                return translation ?? key;
+                return GetTranslation(key);
             }
         }
 
@@ -36,15 +38,57 @@ namespace DistributionsWpf
                 if (currentCulture != value)
                 {
                     currentCulture = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+
+                    foreach (TranslationData translation in translations.Values)
+                    {
+                        translation.Value = ResourceManager.GetString(translation.Key, currentCulture) ?? translation.Key;
+                    }
                 }
             }
         }
 
-        public string GetTranslation(string resourceKey)
+        private TranslationData GetTranslation(string resourceKey)
         {
-            return ResourceManager.GetString(resourceKey, currentCulture) ?? resourceKey;
+            if (translations.TryGetValue(resourceKey, out TranslationData translation))
+            {
+                return translation;
+            }
+            else
+            {
+                string text = ResourceManager.GetString(resourceKey, currentCulture) ?? resourceKey;
+                translation = new TranslationData(resourceKey, text);
+                translations.Add(resourceKey, translation);
+            }
+
+            return translation;
         }
+    }
+
+    public class TranslationData : INotifyPropertyChanged
+    {
+        private string value;
+
+        public TranslationData(string key, string value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public string Key { get; }
+
+        public string Value
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                this.value = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

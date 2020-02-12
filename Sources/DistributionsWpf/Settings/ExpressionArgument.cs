@@ -106,22 +106,13 @@ namespace DistributionsWpf
         }
     }
 
-    public class DisplayNameAndSettingType : INotifyPropertyChanged
+    public class DisplayNameAndSettingType
     {
 
         public DisplayNameAndSettingType(Type settingType)
         {
+            Name = TranslationSource.Instance[settingType.Name];
             SettingsType = settingType;
-
-            TranslationSource.Instance.PropertyChanged += TranslationSourcePropertyChanged;
-            UpdateName();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void TranslationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateName();
         }
 
         static DisplayNameAndSettingType()
@@ -147,14 +138,8 @@ namespace DistributionsWpf
 
         public Type SettingsType { get; set; }
 
-        public string Name { get; private set; }
+        public TranslationData Name { get; private set; }
 
         public static DisplayNameAndSettingType[] DisplayNames { get; private set; }
-
-        private void UpdateName()
-        {
-            Name = TranslationSource.Instance.GetTranslation(SettingsType.Name);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-        }
     }
 }

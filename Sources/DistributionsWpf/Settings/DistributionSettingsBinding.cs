@@ -17,18 +17,12 @@ namespace DistributionsWpf
             _instance = instance;
             _propertyInfo = propertyInfo;
 
-            TranslationSource.Instance.PropertyChanged += TranslationSourcePropertyChanged;
-            UpdateName();
-        }
-
-        private void TranslationSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateName();
+            Name = TranslationSource.Instance[_propertyInfo.Name];
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Name { get; private set; }
+        public TranslationData Name { get; private set; }
 
         public string Value
         {
@@ -42,12 +36,6 @@ namespace DistributionsWpf
                 _propertyInfo.SetValue(_instance, newValue);
                 _owner.DistributionSettingsChanged();
             }
-        }
-
-        private void UpdateName()
-        {
-            Name = TranslationSource.Instance.GetTranslation(_propertyInfo.Name);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
         }
     }
 }
