@@ -1,73 +1,96 @@
-﻿using RandomAlgebra.Distributions;
-using RandomAlgebra.Distributions.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
+using RandomAlgebra.Distributions;
 
 namespace RandomAlgebra.DistributionsEvaluation
 {
     /// <summary>
-    /// Propagation of distributions by the method of algebra of random variables that is a combination of analytical and numberical (include numerical integration) methods
+    /// Propagation of distributions by the method of algebra of random variables that is
+    /// a combination of analytical and numerical (include numerical integration) methods.
     /// </summary>
     public class DistributionsEvaluator
     {
-        readonly Stack<NodeOperation> _nodeStack = new Stack<NodeOperation>();
-        readonly Stack<Symbol> _operatorStack = new Stack<Symbol>();
-        readonly List<NodeParameter> _nodeParameters = new List<NodeParameter>();
-        readonly ParameterExpression _parameterExpression = Expression.Parameter(typeof(double[]), "args");
-        readonly NodeOperation _parsed = null;
-        readonly Func<double[], double> _compiled = null;
-        const char _decimalSeparator = '.';
+        private const char ParenthesisLeft = ')';
+        private const char ParenthesisRight = '(';
+        private const char DecimalSeparator = '.';
+        private const char Comma = ',';
+        private const char Minus = '-';
+        private const string PiConstant = "pi";
+        private const string ExponentConstant = "exp";
+
+        private readonly Stack<NodeOperation> nodeStack = new Stack<NodeOperation>();
+        private readonly Stack<Symbol> operatorStack = new Stack<Symbol>();
+        private readonly List<NodeParameter> nodeParameters = new List<NodeParameter>();
+        private readonly ParameterExpression parameterExpression = Expression.Parameter(typeof(double[]), "args");
+        private readonly Func<double[], double> compiled = null;
 
         /// <summary>
-        /// Creates instance of distributions evaluatior
+        /// Initializes a new instance of the <see cref="DistributionsEvaluator"/> class.
         /// </summary>
-        /// <param name="modelExpression">Model expression, e.g. "A+B*3+1", where A and B, are parameters of function
+        /// <param name="modelExpression">Model expression, e.g. "A+B*3+1", where A and B, are parameters of function.</param>
         public DistributionsEvaluator(string modelExpression)
         {
             if (string.IsNullOrWhiteSpace(modelExpression))
+            {
                 throw new DistributionsArgumentException(DistributionsArgumentExceptionType.MissingExpression);
+            }
 
             ExpressionText = modelExpression;
-            _parsed = Parse(modelExpression);
+            Parsed = Parse(modelExpression);
 
-            _compiled = Compile(_parsed.ToExpression());
+            compiled = Compile(Parsed.ToExpression());
 
-            Parameters = _nodeParameters.Select(x => x.Parameter).ToArray();
+            Parameters = nodeParameters.Select(x => x.Parameter).ToArray();
         }
 
-        #region Calculations
+        #region Properties
+
         /// <summary>
-        /// Performs propagation of distributions setted as arguments
+        /// Parameters that must be set as arguments.
         /// </summary>
-        /// <param name="arguments">Dictionary of pairs of distributions and arguments</param>
-        /// <param name="correlations">Correlation coefficients for distribution arguments</param>
-        /// <returns>Propagation result</returns>
+        public string[] Parameters { get; }
+
+        /// <summary>
+        /// Model expression.
+        /// </summary>
+        public string ExpressionText { get; }
+
+        internal NodeOperation Parsed { get; }
+
+        #endregion
+
+        #region Calculations
+
+        /// <summary>
+        /// Performs propagation of distributions set as arguments.
+        /// </summary>
+        /// <param name="arguments">Dictionary of pairs of distributions and arguments.</param>
+        /// <param name="correlations">Correlation coefficients for distribution arguments.</param>
+        /// <returns>Propagation result.</returns>
         public BaseDistribution EvaluateDistributions(Dictionary<string, BaseDistribution> arguments, List<CorrelatedPair> correlations)
         {
             correlations?.ForEach(x => x.Used = false);
 
             arguments = arguments ?? new Dictionary<string, BaseDistribution>();
 
-            int length = _nodeParameters.Count;
+            int length = nodeParameters.Count;
 
             for (int i = 0; i < length; i++)
             {
-                var parameter = _nodeParameters[i];
+                NodeParameter parameter = nodeParameters[i];
 
                 string arg = parameter.Parameter;
 
                 if (parameter.Count > 1)
+                {
                     throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce);
+                }
 
-				BaseDistribution value;
-                if (arguments.TryGetValue(arg, out value))
+                if (arguments.TryGetValue(arg, out BaseDistribution value))
                 {
                     parameter.Value = value;
                 }
@@ -75,10 +98,9 @@ namespace RandomAlgebra.DistributionsEvaluation
                 {
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
-
             }
 
-            var result = _parsed.EvaluateExtended(correlations);
+            BaseDistribution result = Parsed.EvaluateExtended(correlations);
 
             if (correlations.Any(x => !x.Used))
             {
@@ -92,17 +114,16 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             arguments = arguments ?? new Dictionary<string, double>();
 
-
-            int length = _nodeParameters.Count;
+            int length = nodeParameters.Count;
             double[] args = new double[length];
 
             for (int i = 0; i < length; i++)
             {
-                var parameter = _nodeParameters[i];
+                var parameter = nodeParameters[i];
 
                 string arg = parameter.Parameter;
-				double value;
-                if (arguments.TryGetValue(arg, out value))
+
+                if (arguments.TryGetValue(arg, out double value))
                 {
                     args[i] = value;
                 }
@@ -110,46 +131,32 @@ namespace RandomAlgebra.DistributionsEvaluation
                 {
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
-
             }
 
-            return _compiled(args);
+            return compiled(args);
         }
 
         internal double EvaluateCompiled(double[] arguments)
         {
-            if (arguments.Length != _nodeParameters.Count)
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfParameters, arguments.Length, _nodeParameters.Count);
-
-            return _compiled(arguments);
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Parameters that must be setted as arguments
-        /// </summary>
-        public string[] Parameters { get; } = null;
-
-        /// <summary>
-        /// Model expression
-        /// </summary>
-        public string ExpressionText { get; } = null;
-
-        internal NodeOperation Parsed
-        {
-            get
+            if (arguments.Length != nodeParameters.Count)
             {
-                return _parsed;
+                throw new DistributionsArgumentException(
+                    DistributionsArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfParameters,
+                    arguments.Length,
+                    nodeParameters.Count);
             }
+
+            return compiled(arguments);
         }
+
         #endregion
 
         #region Parsing expression
+
         private NodeOperation Parse(string expression)
         {
-            //simply useful 
-            expression = expression.Replace(',', _decimalSeparator).Replace(" ", string.Empty);
+            // Simply useful
+            expression = expression.Replace(Comma, DecimalSeparator).Replace(" ", string.Empty);
 
             if (string.IsNullOrWhiteSpace(expression))
             {
@@ -159,13 +166,14 @@ namespace RandomAlgebra.DistributionsEvaluation
             using (var reader = new StringReader(expression))
             {
                 int peek;
+
                 while ((peek = reader.Peek()) > -1)
                 {
                     var next = (char)peek;
 
                     if (char.IsDigit(next))
                     {
-                        _nodeStack.Push(ReadOperand(reader));
+                        nodeStack.Push(ReadOperand(reader));
                         continue;
                     }
 
@@ -177,54 +185,52 @@ namespace RandomAlgebra.DistributionsEvaluation
 
                     if (Operator.IsDefined(next))
                     {
-                        if (next == '-' && _nodeStack.Count == 0)
+                        if (next == Minus && nodeStack.Count == 0)
                         {
                             reader.Read();
-                            _operatorStack.Push(Operator.UnaryMinus);
+                            operatorStack.Push(Operator.UnaryMinus);
                             continue;
                         }
 
                         var currentOperation = ReadOperation(reader);
 
-                        EvaluateWhile(() => _operatorStack.Count > 0 && _operatorStack.Peek() != Parentheses.Left &&
-                            currentOperation.Precedence <= ((Operator)_operatorStack.Peek()).Precedence);
+                        EvaluateWhile(() => operatorStack.Count > 0 && operatorStack.Peek() != Parentheses.Left &&
+                            currentOperation.Precedence <= ((Operator)operatorStack.Peek()).Precedence);
 
-                        _operatorStack.Push(currentOperation);
+                        operatorStack.Push(currentOperation);
                         continue;
                     }
 
-                    if (next == '(')
+                    if (next == ParenthesisRight)
                     {
-
                         reader.Read();
 
-                        _operatorStack.Push(Parentheses.Left);
+                        operatorStack.Push(Parentheses.Left);
 
-                        if (reader.Peek() == '-')
+                        if (reader.Peek() == Minus)
                         {
                             reader.Read();
-                            _operatorStack.Push(Operator.UnaryMinus);
+                            operatorStack.Push(Operator.UnaryMinus);
                         }
 
                         continue;
                     }
 
-                    if (next == ')')
+                    if (next == ParenthesisLeft)
                     {
                         reader.Read();
-                        EvaluateWhile(() => _operatorStack.Count > 0 && _operatorStack.Peek() != Parentheses.Left);
-                        _operatorStack.Pop();
+                        EvaluateWhile(() => operatorStack.Count > 0 && operatorStack.Peek() != Parentheses.Left);
+                        operatorStack.Pop();
                         continue;
                     }
-
 
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.UnknownSymbolInExpression, next, expression);
                 }
             }
 
-            EvaluateWhile(() => _operatorStack.Count > 0);
+            EvaluateWhile(() => operatorStack.Count > 0);
 
-            return _nodeStack.Pop();
+            return nodeStack.Pop();
         }
 
         private void EvaluateWhile(Func<bool> condition)
@@ -233,15 +239,15 @@ namespace RandomAlgebra.DistributionsEvaluation
             {
                 while (condition())
                 {
-                    var operation = (Operator)_operatorStack.Pop();
+                    var operation = (Operator)operatorStack.Pop();
 
                     var expressions = new NodeOperation[operation.NumberOfOperands];
                     for (var i = operation.NumberOfOperands - 1; i >= 0; i--)
                     {
-                        expressions[i] = _nodeStack.Pop();
+                        expressions[i] = nodeStack.Pop();
                     }
 
-                    _nodeStack.Push(operation.Apply(expressions));
+                    nodeStack.Push(operation.Apply(expressions));
                 }
             }
             catch
@@ -260,7 +266,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             {
                 var next = (char)peek;
 
-                if (char.IsDigit(next) || next == _decimalSeparator)
+                if (char.IsDigit(next) || next == DecimalSeparator)
                 {
                     reader.Read();
                     operand += next;
@@ -270,6 +276,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                     break;
                 }
             }
+
             return new NodeConstant(double.Parse(operand, NumberStyles.Any, CultureInfo.InvariantCulture));
         }
 
@@ -285,6 +292,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
             int peek;
             bool nextParenthesis = false;
+
             while ((peek = reader.Peek()) > -1)
             {
                 var next = (char)peek;
@@ -294,7 +302,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                     reader.Read();
                     parameter += next;
                 }
-                else if (next == '(')
+                else if (next == ParenthesisRight)
                 {
                     nextParenthesis = true;
                     break;
@@ -306,46 +314,49 @@ namespace RandomAlgebra.DistributionsEvaluation
             }
             if (nextParenthesis && Operator.IsDefinedFunction(parameter))
             {
-                _operatorStack.Push((Operator)parameter);
+                operatorStack.Push((Operator)parameter);
             }
             else
             {
-                if (parameter == "pi")
+                if (parameter == PiConstant)
                 {
-                    _nodeStack.Push(new NodeConstant(Math.PI));
+                    nodeStack.Push(new NodeConstant(Math.PI));
                 }
-                else if (parameter == "exp")
+                else if (parameter == ExponentConstant)
                 {
-                    _nodeStack.Push(new NodeConstant(Math.E));
+                    nodeStack.Push(new NodeConstant(Math.E));
                 }
                 else
                 {
-                    var found = _nodeParameters.FirstOrDefault(x => x.Parameter == parameter);
+                    var found = nodeParameters.FirstOrDefault(x => x.Parameter == parameter);
 
                     if (found != null)
                     {
                         found.Count++;
-                        _nodeStack.Push(found);
+                        nodeStack.Push(found);
                     }
                     else
                     {
-                        var nodeParameter = new NodeParameter(parameter, _nodeParameters.Count, _parameterExpression);
-                        _nodeParameters.Add(nodeParameter);
-                        _nodeStack.Push(nodeParameter);
+                        var nodeParameter = new NodeParameter(parameter, nodeParameters.Count, parameterExpression);
+                        nodeParameters.Add(nodeParameter);
+                        nodeStack.Push(nodeParameter);
                     }
                 }
             }
         }
+
         #endregion
 
         #region Compiling
+
         private Func<double[], double> Compile(Expression expression)
         {
-            var lambda = Expression.Lambda<Func<double[], double>>(expression, _parameterExpression);
-            ;
+            var lambda = Expression.Lambda<Func<double[], double>>(expression, parameterExpression);
+
             var compiled = lambda.Compile();
             return compiled;
         }
+
         #endregion
     }
 }

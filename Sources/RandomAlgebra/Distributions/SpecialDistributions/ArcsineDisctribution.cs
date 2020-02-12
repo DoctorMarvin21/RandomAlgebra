@@ -1,6 +1,6 @@
-﻿using Accord;
+﻿using System;
+using Accord;
 using Accord.Statistics.Distributions.Univariate;
-using System;
 
 namespace RandomAlgebra.Distributions
 {
@@ -8,13 +8,13 @@ namespace RandomAlgebra.Distributions
     {
         internal class ArcsineDistribution : UnivariateContinuousDistribution
         {
-            readonly double _mean;
-            readonly double _variance;
-            readonly DoubleRange _support = new DoubleRange(0, 1);
+            private readonly double mean;
+            private readonly double variance;
+            private readonly DoubleRange support = new DoubleRange(0, 1);
 
-            public ArcsineDistribution() : this(0, 1)
+            public ArcsineDistribution()
+                : this(0, 1)
             {
-
             }
 
             public ArcsineDistribution(double a, double b)
@@ -22,17 +22,17 @@ namespace RandomAlgebra.Distributions
                 LowerBound = a;
                 UpperBound = b;
 
-                _support = new DoubleRange(a, b);
+                support = new DoubleRange(a, b);
 
-                _mean = (a + b) / 2d;
-                _variance = 0.125 * Math.Pow(b - a, 2);
+                mean = (a + b) / 2d;
+                variance = 0.125 * Math.Pow(b - a, 2);
             }
 
             public override double Mean
             {
                 get
                 {
-                    return _mean;
+                    return mean;
                 }
             }
 
@@ -40,7 +40,7 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _variance;
+                    return variance;
                 }
             }
 
@@ -66,19 +66,8 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _support;
+                    return support;
                 }
-            }
-
-            protected override double InnerProbabilityDensityFunction(double x)
-            {
-                return 1d / (Math.PI * Math.Sqrt((x - LowerBound) * (UpperBound - x)));
-
-            }
-
-            protected override double InnerDistributionFunction(double x)
-            {
-                return 2d / Math.PI * Math.Asin(Math.Sqrt((x - LowerBound) / (UpperBound - LowerBound)));
             }
 
             public override object Clone()
@@ -89,6 +78,16 @@ namespace RandomAlgebra.Distributions
             public override string ToString(string format, IFormatProvider formatProvider)
             {
                 return ToString();
+            }
+
+            protected override double InnerProbabilityDensityFunction(double x)
+            {
+                return 1d / (Math.PI * Math.Sqrt((x - LowerBound) * (UpperBound - x)));
+            }
+
+            protected override double InnerDistributionFunction(double x)
+            {
+                return 2d / Math.PI * Math.Asin(Math.Sqrt((x - LowerBound) / (UpperBound - LowerBound)));
             }
         }
     }

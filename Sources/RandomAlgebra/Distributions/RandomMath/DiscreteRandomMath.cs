@@ -1,31 +1,51 @@
-﻿using RandomAlgebra.Distributions.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
+using RandomAlgebra.Distributions.Settings;
 
 namespace RandomAlgebra.Distributions
 {
+    internal enum DistributionsOperation
+    {
+        Add,
+        Sub,
+        SubInv,
+        Abs,
+        Muliply,
+        Divide,
+        DivideInv,
+        Power,
+        PowerInv,
+        Log,
+        LogInv,
+        Sin,
+        Cos,
+        Tan
+    }
+
     internal static class DiscreteRandomMath
     {
         public static DiscreteDistribution Add(DiscreteDistribution dpdf, double value)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.Add);
         }
+
         public static DiscreteDistribution Sub(DiscreteDistribution dpdf, double value)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.Sub);
         }
+
         public static DiscreteDistribution Sub(double value, DiscreteDistribution dpdf)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.SubInv);
         }
+
         public static DiscreteDistribution Multiply(DiscreteDistribution dpdf, double value)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.Muliply);
         }
+
         public static DiscreteDistribution Divide(DiscreteDistribution dpdf, double value)
         {
             return DiscreteDistributionAndValue(dpdf, value, DistributionsOperation.Divide);
@@ -43,11 +63,42 @@ namespace RandomAlgebra.Distributions
 
         public static DiscreteDistribution Power(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
         {
-            //так быстрее, и не теряются корни. Никогда.
             return TwoDiscreteDistributions(dpdfRight, dpdfLeft, DistributionsOperation.PowerInv);
-            //return TwoDiscreteDistributions(dpdfX, dpdfY, DistributionsOperation.Power);
         }
 
+        public static DiscreteDistribution Add(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
+        {
+            if (Optimizations.UseFFTConvolution && dpdfLeft.Step / dpdfRight.Step < FFT.MaxStepRate && dpdfRight.Step / dpdfLeft.Step < FFT.MaxStepRate)
+            {
+                return FFT.Convolute(dpdfLeft, dpdfRight, dpdfLeft.InnerSamples);
+            }
+            else
+            {
+                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Add);
+            }
+        }
+
+        public static DiscreteDistribution Sub(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
+        {
+            if (Optimizations.UseFFTConvolution)
+            {
+                return FFT.Convolute(dpdfLeft, Multiply(dpdfRight, -1), dpdfLeft.InnerSamples);
+            }
+            else
+            {
+                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Sub);
+            }
+        }
+
+        public static DiscreteDistribution Multiply(DiscreteDistribution dpdfX, DiscreteDistribution dpdfY)
+        {
+            return TwoDiscreteDistributions(dpdfX, dpdfY, DistributionsOperation.Muliply);
+        }
+
+        public static DiscreteDistribution Divide(DiscreteDistribution dpdfX, DiscreteDistribution dpdfY)
+        {
+            return TwoDiscreteDistributions(dpdfX, dpdfY, DistributionsOperation.Divide);
+        }
 
         private static DiscreteDistribution DiscreteDistributionAndValue(DiscreteDistribution dpdf, double value, DistributionsOperation action)
         {
@@ -57,7 +108,6 @@ namespace RandomAlgebra.Distributions
 
             double[] yCoordinates = new double[length];
             double[] xCoordinates = new double[length];
-
 
             switch (action)
             {
@@ -91,7 +141,9 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Muliply:
                     {
                         if (value == 0)
+                        {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
+                        }
 
                         if (value < 0)
                         {
@@ -114,7 +166,9 @@ namespace RandomAlgebra.Distributions
                 case DistributionsOperation.Divide:
                     {
                         if (value == 0)
+                        {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
+                        }
 
                         if (value < 0)
                         {
@@ -143,42 +197,9 @@ namespace RandomAlgebra.Distributions
             return new DiscreteDistribution(xCoordinates, yCoordinates);
         }
 
-        public static DiscreteDistribution Add(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
-        {
-            if (Optimizations.UseFFTConvolution && dpdfLeft.Step / dpdfRight.Step < FFT.MaxStepRate && dpdfRight.Step / dpdfLeft.Step < FFT.MaxStepRate)
-            {
-                return FFT.Convolute(dpdfLeft, dpdfRight, dpdfLeft.InnerSamples);
-            }
-            else
-            {
-                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Add);
-            }
-            
-        }
-        public static DiscreteDistribution Sub(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
-        {
-            if (Optimizations.UseFFTConvolution)
-            {
-                return FFT.Convolute(dpdfLeft, Multiply(dpdfRight, -1), dpdfLeft.InnerSamples);
-            }
-            else
-            {
-                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Sub);
-            }
-        }
-        public static DiscreteDistribution Multiply(DiscreteDistribution dpdfX, DiscreteDistribution dpdfY)
-        {
-            return TwoDiscreteDistributions(dpdfX, dpdfY, DistributionsOperation.Muliply);
-        }
-        public static DiscreteDistribution Divide(DiscreteDistribution dpdfX, DiscreteDistribution dpdfY)
-        {
-            return TwoDiscreteDistributions(dpdfX, dpdfY, DistributionsOperation.Divide);
-        }
-
         private static DiscreteDistribution TwoDiscreteDistributions(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight, DistributionsOperation action)
         {
-            DistributionsOperation newAction;
-            var exchange = Swap(dpdfLeft, dpdfRight, action, out newAction);
+            var exchange = Swap(dpdfLeft, dpdfRight, action, out DistributionsOperation newAction);
 
             action = newAction;
 
@@ -195,11 +216,9 @@ namespace RandomAlgebra.Distributions
             double leftMaxX = dpdfLeft.MaxX;
 
             double[] leftX = dpdfLeft.XCoordinatesInternal;
-            //decimal[] leftXDecimal = CommonRandomMath.GenerateXAxisDecimal(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, lengthLeft, out decimal stepLeftDecimal);
             double[] leftY = dpdfLeft.YCoordinatesInternal;
 
             double[] rightX = dpdfRight.XCoordinatesInternal;
-            //decimal[] rightXDecimal = CommonRandomMath.GenerateXAxisDecimal(dpdfRight.InnerMinX, dpdfRight.InnerMaxX, lengthRight, out decimal stepRightDecimal);
             double[] rightY = dpdfRight.YCoordinatesInternal;
 
             double[] yCoordinates = new double[lengthRight];
@@ -207,8 +226,6 @@ namespace RandomAlgebra.Distributions
             double[] range = CommonRandomMath.GetRange(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, dpdfRight.InnerMinX, dpdfRight.InnerMaxX, action);
 
             double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out double stepX0);
-            //decimal[] xCoordinatesDecimal = CommonRandomMath.GenerateXAxisDecimal(range[0], range[1], lengthRight, out decimal stepX1);
-
 
             switch (action)
             {
@@ -232,15 +249,16 @@ namespace RandomAlgebra.Distributions
                                 r = y * GetYByX(x - m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
 
                                 if (j == 0 || j == lengthRight - 1)
+                                {
                                     r /= 2;
+                                }
 
                                 sum += r;
                             }
                             yCoordinates[i] = sum * stepRight;
                         });
 
-
-                       break;
+                        break;
                     }
                 case DistributionsOperation.Sub:
                     {
@@ -260,7 +278,9 @@ namespace RandomAlgebra.Distributions
                                 r = y * GetYByX(x + m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft);
 
                                 if (j == 0 || j == lengthRight - 1)
+                                {
                                     r /= 2;
+                                }
 
                                 sum += r;
                             }
@@ -292,17 +312,18 @@ namespace RandomAlgebra.Distributions
                                     r = y * GetYByX(x / m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
 
                                     if (j == 0 || j == lengthRight - 1)
+                                    {
                                         r /= 2;
+                                    }
 
                                     sum += r;
                                 }
                             }
 
-                            //yCoordinates[i] = Accord.Math.Integration.InfiniteAdaptiveGaussKronrod.Integrate(y => { return dpdfRight.InnerGetPDFYbyX(y) * dpdfLeft.InnerGetPDFYbyX(x / y) / Math.Abs(y); }, dpdfRight.MinX, dpdfRight.MaxX);
                             yCoordinates[i] = sum * stepRight;
                         });
 
-                        //in case when both of distributions cross Oy it is inf in zero
+                        // in case when both of distributions cross Oy it is inf in zero
                         if (dpdfLeft.MinX <= 0 && dpdfLeft.MaxX >= 0 && dpdfRight.MinX <= 0 && dpdfRight.MaxX >= 0)
                         {
                             for (int i = 0; i < lengthRight - 1; i++)
@@ -312,10 +333,8 @@ namespace RandomAlgebra.Distributions
                                     yCoordinates[i] = double.PositiveInfinity;
                                     break;
                                 }
-
                             }
                         }
-
 
                         break;
                     }
@@ -341,7 +360,9 @@ namespace RandomAlgebra.Distributions
                                     r = y * GetYByX(x * m, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
 
                                     if (j == 0 || j == lengthRight - 1)
+                                    {
                                         r /= 2;
+                                    }
 
                                     sum += r;
                                 }
@@ -374,7 +395,9 @@ namespace RandomAlgebra.Distributions
                                     r = y * GetYByX(Math.Log(x, m), leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) / k;
 
                                     if (j == 0 || j == lengthRight - 1)
+                                    {
                                         r /= 2;
+                                    }
 
                                     sum += r;
                                 }
@@ -401,7 +424,7 @@ namespace RandomAlgebra.Distributions
                             {
                                 m = rightX[j];
                                 y = rightY[j];
-                                d = Math.Pow(m, x); 
+                                d = Math.Pow(m, x);
                                 k = Math.Abs(Math.Log(m) * d);
 
                                 if (k != 0)
@@ -409,7 +432,9 @@ namespace RandomAlgebra.Distributions
                                     r = y * GetYByX(d, leftY, leftMinX, leftMaxX, stepLeft, lengthLeft) * k;
 
                                     if (j == 0 || j == lengthRight - 1)
+                                    {
                                         r /= 2;
+                                    }
 
                                     sum += r;
                                 }
@@ -461,7 +486,7 @@ namespace RandomAlgebra.Distributions
                 {
                     double min = coordinates[indInt];
                     double max = coordinates[indInt + 1];
-                    return min + (max - min) * k;
+                    return min + ((max - min) * k);
                 }
             }
         }
@@ -488,7 +513,6 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionsOperation.Sub:
                     {
-
                         if (stepX < stepY)
                         {
                             newAction = DistributionsOperation.Add;
@@ -504,7 +528,7 @@ namespace RandomAlgebra.Distributions
                     {
                         newAction = action;
 
-                        //when one of distributions corssing Oy we need to exact locate them to eliminate 1/0 error on numerical integration
+                        // When one of distributions crossing Oy we need to exact locate them to eliminate 1/0 error on numerical integration
                         if (dpdfRight.MinX <= 0 && dpdfRight.MaxX >= 0 && !(dpdfLeft.MinX <= 0 && dpdfLeft.MaxX >= 0))
                         {
                             return new DiscreteDistribution[] { dpdfRight, dpdfLeft };
@@ -532,23 +556,5 @@ namespace RandomAlgebra.Distributions
                     }
             }
         }
-    }
-
-    internal enum DistributionsOperation
-    {
-        Add,
-        Sub,
-        SubInv,
-        Abs,
-        Muliply,
-        Divide,
-        DivideInv,
-        Power,
-        PowerInv,
-        Log,
-        LogInv,
-        Sin,
-        Cos,
-        Tan
     }
 }

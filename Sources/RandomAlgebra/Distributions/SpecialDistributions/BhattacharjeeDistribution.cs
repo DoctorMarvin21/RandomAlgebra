@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Accord;
 using Accord.Statistics.Distributions.Univariate;
 
@@ -13,10 +10,9 @@ namespace RandomAlgebra.Distributions
         {
             private readonly double ua, ub, nm, ns;
 
-            private readonly NormalDistribution _base;
-            private readonly double _mean, _variance;
-            private readonly DoubleRange _range = new DoubleRange(double.NegativeInfinity, double.PositiveInfinity);
-
+            private readonly NormalDistribution baseDistributions;
+            private readonly double mean, variance;
+            private readonly DoubleRange range = new DoubleRange(double.NegativeInfinity, double.PositiveInfinity);
 
             public BhattacharjeeDistribution(double uniformLowerBound, double uniformUpperBound, double normalMean, double normalStd)
             {
@@ -25,9 +21,9 @@ namespace RandomAlgebra.Distributions
                 nm = normalMean;
                 ns = normalStd;
 
-                _base = new NormalDistribution(0, 1);
-                _mean = (ua + ub) / 2d + nm;
-                _variance = Math.Pow(ns, 2d) + Math.Pow(ub - ua, 2) / 12d;
+                baseDistributions = new NormalDistribution(0, 1);
+                mean = ((ua + ub) / 2d) + nm;
+                variance = Math.Pow(ns, 2d) + (Math.Pow(ub - ua, 2) / 12d);
             }
 
             public BhattacharjeeDistribution(double n)
@@ -35,38 +31,20 @@ namespace RandomAlgebra.Distributions
                 ns = Math.Sqrt(1d / (Math.Pow(n, 2) + 1d));
                 double a = n * ns * Math.Sqrt(3);
 
-
                 ua = -a;
                 ub = a;
                 nm = 0;
 
-                _base = new NormalDistribution(0, 1);
-                _mean = 0;
-                _variance = Math.Pow(ns, 2d) + Math.Pow(a, 2) / 3d;
-            }
-
-
-
-            protected override double InnerProbabilityDensityFunction(double x)
-            {
-                return 1d / (ub - ua) * (_base.DistributionFunction((x - nm - ua) / ns) - _base.DistributionFunction((x - nm - ub) / ns));
-            }
-
-            protected override double InnerDistributionFunction(double x)
-            {
-                return 1d / (ub - ua) * (IntegralFunction((x - nm - ua) / ns) - IntegralFunction((x - nm - ub) / ns));
-            }
-
-            private double IntegralFunction(double x)
-            {
-                return ns * (x * _base.DistributionFunction(x) + _base.ProbabilityDensityFunction(x));
+                baseDistributions = new NormalDistribution(0, 1);
+                mean = 0;
+                variance = Math.Pow(ns, 2d) + (Math.Pow(a, 2) / 3d);
             }
 
             public override double Mean
             {
                 get
                 {
-                    return _mean;
+                    return mean;
                 }
             }
 
@@ -74,7 +52,7 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _variance;
+                    return variance;
                 }
             }
 
@@ -90,7 +68,7 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _range;
+                    return range;
                 }
             }
 
@@ -101,6 +79,7 @@ namespace RandomAlgebra.Distributions
                     return ua;
                 }
             }
+
             public double UniformMax
             {
                 get
@@ -133,6 +112,21 @@ namespace RandomAlgebra.Distributions
             public override string ToString(string format, IFormatProvider formatProvider)
             {
                 throw new NotImplementedException();
+            }
+
+            protected override double InnerProbabilityDensityFunction(double x)
+            {
+                return 1d / (ub - ua) * (baseDistributions.DistributionFunction((x - nm - ua) / ns) - baseDistributions.DistributionFunction((x - nm - ub) / ns));
+            }
+
+            protected override double InnerDistributionFunction(double x)
+            {
+                return 1d / (ub - ua) * (IntegralFunction((x - nm - ua) / ns) - IntegralFunction((x - nm - ub) / ns));
+            }
+
+            private double IntegralFunction(double x)
+            {
+                return ns * ((x * baseDistributions.DistributionFunction(x)) + baseDistributions.ProbabilityDensityFunction(x));
             }
         }
     }

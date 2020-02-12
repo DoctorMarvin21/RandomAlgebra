@@ -1,62 +1,45 @@
-﻿using RandomAlgebra.Distributions.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace RandomAlgebra.Distributions
 {
     /// <summary>
-    /// Mean value with zero variance
+    /// Mean value with zero variance.
     /// </summary>
     public sealed class ConstantDistribution : BaseDistribution
     {
-        readonly double _value = 0;
+        private readonly double value;
 
         /// <summary>
-        /// Creates instance of <see cref="ConstantDistribution"/> by mean value
+        /// Initializes a new instance of the <see cref="ConstantDistribution"/> class
+        /// by mean value.
         /// </summary>
-        /// <param name="value">Constant mean value</param>
+        /// <param name="value">Constant mean value.</param>
         public ConstantDistribution(double value)
         {
-            _value = value;
+            this.value = value;
         }
 
-        #region Overriding parameters and functions
+        #region Overriding parameters
+
         internal override double InnerVariance { get { return 0; } }
 
         internal override double InnerSkewness { get { return 0; } }
 
-        internal override double InnerMean { get { return _value; } }
+        internal override double InnerMean { get { return value; } }
 
-        internal override double InnerMaxX { get { return _value; } }
+        internal override double InnerMaxX { get { return value; } }
 
-        internal override double InnerMinX { get { return _value; } }
+        internal override double InnerMinX { get { return value; } }
 
         internal override DistributionType InnerDistributionType { get { return DistributionType.Number; } }
 
-        internal override int InnerSamples { get { return 1; } }//just for correct step
+        // Just for correct step
+        internal override int InnerSamples { get { return 1; } }
 
-        internal override double InnerGetPDFYbyX(double x)
-        {
-            if (x == _value)
-                return 1;
-            else
-                return 0;
-        }
-
-        internal override double InnerGetCDFYbyX(double x)
-        {
-            return InnerGetPDFYbyX(x);
-        }
-
-        internal override double InnerQuantile(double p)
-        {
-            return _value;
-        }
         #endregion
 
         #region Operators
+
         public static implicit operator ConstantDistribution(double value)
         {
             return new ConstantDistribution(value);
@@ -66,9 +49,37 @@ namespace RandomAlgebra.Distributions
         {
             return value.Mean;
         }
+
+        #endregion
+
+        #region Overriding functions
+
+        internal override double InnerGetPDFYbyX(double x)
+        {
+            if (x == value)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        internal override double InnerGetCDFYbyX(double x)
+        {
+            return InnerGetPDFYbyX(x);
+        }
+
+        internal override double InnerQuantile(double p)
+        {
+            return value;
+        }
+
         #endregion
 
         #region Random algebra
+
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
@@ -207,6 +218,7 @@ namespace RandomAlgebra.Distributions
         {
             return -Mean;
         }
+
         #endregion
     }
 }

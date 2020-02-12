@@ -1,30 +1,30 @@
-﻿using Accord.Math;
-using Accord.Statistics.Distributions.Univariate;
-using RandomAlgebra.Distributions.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Math;
+using Accord.Statistics.Distributions.Univariate;
+using RandomAlgebra.Distributions.Settings;
 
 namespace RandomAlgebra.Distributions
 {
     internal class MultivariateGenerator
     {
-        readonly int _length = 0;
-        readonly int[] _indexesUnivariate;
-        readonly int[] _indexesMultivariate;
-        readonly UnivariateContinuousDistribution[] _univariate;
-        readonly MultivariateDistributionSettings[] _multivariate;
+        private readonly int length = 0;
+        private readonly int[] indexesUnivariate;
+        private readonly int[] indexesMultivariate;
+        private readonly UnivariateContinuousDistribution[] univariate;
+        private readonly MultivariateDistributionSettings[] multivariate;
 
         public MultivariateGenerator(string[] orderedArguments, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions)
         {
-            _length = orderedArguments.Length;
+            length = orderedArguments.Length;
 
             foreach (var arg in univariateDistributions.Keys)
             {
                 if (multivariateDistributions.Keys.Any(x => x.Contains(arg)))
+                {
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ArgumentSpecifiedSeveralTimes, arg);
+                }
             }
 
             foreach (var args in multivariateDistributions.Keys)
@@ -32,30 +32,55 @@ namespace RandomAlgebra.Distributions
                 foreach (string arg in args)
                 {
                     if (args.Count(x => x == arg) > 1)
+                    {
                         throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ArgumentSpecifiedSeveralTimes, arg);
-
+                    }
 
                     if (multivariateDistributions.Keys.Where(x => x != args).Any(x => x.Contains(arg)))
+                    {
                         throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ArgumentSpecifiedSeveralTimes, arg);
+                    }
                 }
             }
 
-            _univariate = univariateDistributions.Select(x => x.Value.GetUnivariateContinuoisDistribution()).ToArray();
-            _multivariate = multivariateDistributions.Select(x => x.Value).ToArray();
+            univariate = univariateDistributions.Select(x => x.Value.GetUnivariateContinuoisDistribution()).ToArray();
+            multivariate = multivariateDistributions.Select(x => x.Value).ToArray();
 
-            _indexesUnivariate = GenerateIndexesUnivariate(orderedArguments, univariateDistributions);
-            _indexesMultivariate = GenerateIndexesMultivariate(orderedArguments, multivariateDistributions);
+            indexesUnivariate = GenerateIndexesUnivariate(orderedArguments, univariateDistributions);
+            indexesMultivariate = GenerateIndexesMultivariate(orderedArguments, multivariateDistributions);
 
-
-            for (int i = 0; i < _length; i++)
+            for (int i = 0; i < length; i++)
             {
                 string arg = orderedArguments[i];
 
-                if (!(_indexesUnivariate.Contains(i) || _indexesMultivariate.Contains(i)))
+                if (!(indexesUnivariate.Contains(i) || indexesMultivariate.Contains(i)))
                 {
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
             }
+        }
+
+        public double[] Generate(Random rnd)
+        {
+            double[] generated = new double[length];
+            for (int i = 0; i < univariate.Length; i++)
+            {
+                generated[indexesUnivariate[i]] = univariate[i].Generate(rnd);
+            }
+
+            int iter = 0;
+            for (int i = 0; i < multivariate.Length; i++)
+            {
+                double[] mul = multivariate[i].GenerateRandom(rnd);
+
+                for (int j = 0; j < mul.Length; j++)
+                {
+                    generated[indexesMultivariate[iter]] = mul[j];
+                    iter++;
+                }
+            }
+
+            return generated;
         }
 
         private int[] GenerateIndexesUnivariate(string[] orderedArguments, Dictionary<string, DistributionSettings> univariateDistributions)
@@ -68,7 +93,9 @@ namespace RandomAlgebra.Distributions
                 var argIndex = orderedArguments.IndexOf(distr.Key);
 
                 if (argIndex >= 0)
+                {
                     result[iterIndex] = argIndex;
+                }
 
                 iterIndex++;
             }
@@ -90,36 +117,15 @@ namespace RandomAlgebra.Distributions
                     var argIndex = orderedArguments.IndexOf(keys[i]);
 
                     if (argIndex >= 0)
+                    {
                         result[iterIndex] = argIndex;
+                    }
 
                     iterIndex++;
                 }
             }
 
             return result;
-        }
-
-        public double[] Generate(Random rnd)
-        {
-            double[] generated = new double[_length];
-            for (int i = 0; i < _univariate.Length; i++)
-            {
-                generated[_indexesUnivariate[i]] = _univariate[i].Generate(rnd);
-            }
-
-            int iter = 0;
-            for (int i = 0; i < _multivariate.Length; i++)
-            {
-                double[] mul = _multivariate[i].GenerateRandom(rnd);
-
-                for (int j = 0; j < mul.Length; j++)
-                {
-                    generated[_indexesMultivariate[iter]] = mul[j];
-                    iter++;
-                }
-            }
-
-            return generated;
         }
     }
 }

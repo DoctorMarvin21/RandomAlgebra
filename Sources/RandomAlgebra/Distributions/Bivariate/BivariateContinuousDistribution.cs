@@ -1,14 +1,12 @@
-﻿using RandomAlgebra.Distributions.SpecialDistributions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Statistics.Distributions.Univariate;
+using RandomAlgebra.Distributions.SpecialDistributions;
 
 namespace RandomAlgebra.Distributions
 {
-    internal abstract class BivariateContinuousDistribution//TODO: make it public, create documentation and random generator
+    // TODO: make it public, create documentation and random generator.
+    internal abstract class BivariateContinuousDistribution
     {
         public BivariateContinuousDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples)
         {
@@ -76,23 +74,6 @@ namespace RandomAlgebra.Distributions
             get;
         }
 
-        public abstract BivariateContinuousDistribution Rotate();
-
-        public double ProbabilityDensityFunction(double x, double y)
-        {
-            if (x < SupportMinLeft || x > SupportMaxLeft || y < SupportMinRight || y > SupportMaxRight)
-            {
-                return 0;
-            }
-            else
-            {
-                return InnerProbabilityDensityFunction(x, y);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract double InnerProbabilityDensityFunction(double x, double y);
-
         public abstract double SupportMinLeft
         {
             get;
@@ -111,6 +92,20 @@ namespace RandomAlgebra.Distributions
         public abstract double SupportMaxRight
         {
             get;
+        }
+
+        public abstract BivariateContinuousDistribution Rotate();
+
+        public double ProbabilityDensityFunction(double x, double y)
+        {
+            if (x < SupportMinLeft || x > SupportMaxLeft || y < SupportMinRight || y > SupportMaxRight)
+            {
+                return 0;
+            }
+            else
+            {
+                return InnerProbabilityDensityFunction(x, y);
+            }
         }
 
         public virtual BaseDistribution GetSum()
@@ -142,25 +137,29 @@ namespace RandomAlgebra.Distributions
         {
             return BivariateMath.GetLog(this);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected abstract double InnerProbabilityDensityFunction(double x, double y);
     }
 
     internal class BivariateNormalDistribution : BivariateContinuousDistribution
     {
-        readonly double supportMinLeft;
-        readonly double supportMaxLeft;
-        readonly double supportMinRight;
-        readonly double supportMaxRight;
-        readonly double k;
-        readonly double e;
+        private readonly double supportMinLeft;
+        private readonly double supportMaxLeft;
+        private readonly double supportMinRight;
+        private readonly double supportMaxRight;
+        private readonly double k;
+        private readonly double e;
 
-        readonly double vInv1;
-        readonly double vInv2;
-        readonly double sProdInv;
+        private readonly double vInv1;
+        private readonly double vInv2;
+        private readonly double sProdInv;
 
-        public BivariateNormalDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples) : base(mean1, mean2, sigma1, sigma2, rho, samples)
+        public BivariateNormalDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples)
+            : base(mean1, mean2, sigma1, sigma2, rho, samples)
         {
-            ContinuousDistribution left = new ContinuousDistribution(new Accord.Statistics.Distributions.Univariate.NormalDistribution(Mean1, Sigma1), samples);
-            ContinuousDistribution right = new ContinuousDistribution(new Accord.Statistics.Distributions.Univariate.NormalDistribution(Mean2, Sigma2), samples);
+            ContinuousDistribution left = new ContinuousDistribution(new NormalDistribution(Mean1, Sigma1), samples);
+            ContinuousDistribution right = new ContinuousDistribution(new NormalDistribution(Mean2, Sigma2), samples);
 
             supportMinLeft = left.MinX;
             supportMaxLeft = left.MaxX;
@@ -216,7 +215,8 @@ namespace RandomAlgebra.Distributions
         {
             if (Settings.Optimizations.UseContinuousConvolution)
             {
-                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation).GetDistribution(Samples);
+                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation)
+                    .GetDistribution(Samples);
             }
             else
             {
@@ -228,16 +228,14 @@ namespace RandomAlgebra.Distributions
         {
             if (Settings.Optimizations.UseContinuousConvolution)
             {
-                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation).GetDistribution(Samples);
+                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation)
+                    .GetDistribution(Samples);
             }
             else
             {
                 return base.GetDifference();
             }
-            
         }
-
-
 
         protected override double InnerProbabilityDensityFunction(double x, double y)
         {
@@ -251,19 +249,20 @@ namespace RandomAlgebra.Distributions
 
     internal class BivariateTDistribution : BivariateContinuousDistribution
     {
-        readonly double supportMinLeft;
-        readonly double supportMaxLeft;
-        readonly double supportMinRight;
-        readonly double supportMaxRight;
-        readonly double k;
-        readonly double d;
-        readonly double p;
+        private readonly double supportMinLeft;
+        private readonly double supportMaxLeft;
+        private readonly double supportMinRight;
+        private readonly double supportMaxRight;
+        private readonly double k;
+        private readonly double d;
+        private readonly double p;
 
-        readonly double vInv1;
-        readonly double vInv2;
-        readonly double sProdInv;
+        private readonly double vInv1;
+        private readonly double vInv2;
+        private readonly double sProdInv;
 
-        public BivariateTDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, double degreesOfFreedom, int samples) : base(mean1, mean2, sigma1, sigma2, rho, samples)
+        public BivariateTDistribution(double mean1, double mean2, double sigma1, double sigma2, double rho, double degreesOfFreedom, int samples)
+            : base(mean1, mean2, sigma1, sigma2, rho, samples)
         {
             if (degreesOfFreedom < 1)
             {
@@ -337,7 +336,7 @@ namespace RandomAlgebra.Distributions
             double p2 = Math.Pow(y - Mean2, 2) * vInv2;
             double p3 = 2 * Correlation * (x - Mean1) * (y - Mean2) * sProdInv;
 
-            return k * Math.Pow(1 + (p1 + p2 - p3) / d, p);
+            return k * Math.Pow(1 + ((p1 + p2 - p3) / d), p);
         }
     }
 }

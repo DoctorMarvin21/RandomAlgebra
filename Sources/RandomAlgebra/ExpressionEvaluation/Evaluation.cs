@@ -1,8 +1,5 @@
-﻿using RandomAlgebra.Distributions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using RandomAlgebra.Distributions;
 
 namespace RandomAlgebra.DistributionsEvaluation
 {
@@ -13,39 +10,68 @@ namespace RandomAlgebra.DistributionsEvaluation
             switch (operationType)
             {
                 case NodeOperationType.Sum:
-                    return left + right;
+                    {
+                        return left + right;
+                    }
                 case NodeOperationType.Substract:
-                    return left - right;
+                    {
+                        return left - right;
+                    }
                 case NodeOperationType.Multiply:
-                    return left * right;
+                    {
+                        return left * right;
+                    }
                 case NodeOperationType.Divide:
-                    return left / right;
+                    {
+                        return left / right;
+                    }
                 case NodeOperationType.Power:
-                    return Math.Pow(left, right);
+                    {
+                        return Math.Pow(left, right);
+                    }
                 case NodeOperationType.Log:
-                    return Math.Log(left, right);
+                    {
+                        return Math.Log(left, right);
+                    }
                 default:
-                    throw new NotImplementedException();
+                    {
+                        throw new NotImplementedException();
+                    }
             }
         }
+
         public static double EvaluateDoubleUnary(double value, NodeOperationType operationType)
         {
             switch (operationType)
             {
                 case NodeOperationType.Negate:
-                    return -value;
+                    {
+                        return -value;
+                    }
                 case NodeOperationType.Sqrt:
-                    return Math.Sqrt(value);
+                    {
+                        return Math.Sqrt(value);
+                    }
                 case NodeOperationType.Abs:
-                    return Math.Abs(value);
+                    {
+                        return Math.Abs(value);
+                    }
                 case NodeOperationType.Lg10:
-                    return Math.Log10(value);
+                    {
+                        return Math.Log10(value);
+                    }
                 case NodeOperationType.Ln:
-                    return Math.Log(value);
+                    {
+                        return Math.Log(value);
+                    }
                 case NodeOperationType.Sin:
-                    return Math.Sin(value);
+                    {
+                        return Math.Sin(value);
+                    }
                 default:
-                    throw new NotImplementedException();
+                    {
+                        throw new NotImplementedException();
+                    }
             }
         }
 
@@ -111,7 +137,6 @@ namespace RandomAlgebra.DistributionsEvaluation
                 {
                     case NodeOperationType.Sum:
                         {
-
                             return left + right;
                         }
                     case NodeOperationType.Substract:

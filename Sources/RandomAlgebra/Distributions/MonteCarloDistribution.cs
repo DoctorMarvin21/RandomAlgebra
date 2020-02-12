@@ -1,69 +1,157 @@
-﻿using Accord.Statistics.Distributions.Univariate;
-using RandomAlgebra.DistributionsEvaluation;
-using RandomAlgebra.Distributions.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Accord.Statistics.Distributions.Univariate;
+using RandomAlgebra.Distributions.Settings;
+using RandomAlgebra.DistributionsEvaluation;
 
 namespace RandomAlgebra.Distributions
 {
     /// <summary>
-    /// Propagation of distributions using Monte-Carlo method
+    /// Propagation of distributions using Monte-Carlo method.
     /// </summary>
     public sealed class MonteCarloDistribution : DiscreteDistribution
     {
-        static readonly ThreadLocal<Random> _rnd = new ThreadLocal<Random>(() => new Random(Environment.TickCount * Thread.CurrentThread.ManagedThreadId));
-        readonly double[] _randomSorted = null;
-        double? _mean = null;
-        double? _variance = null;
-        double? _skewness = null;
+        private static readonly ThreadLocal<Random> Rnd = new ThreadLocal<Random>(() =>
+            new Random(Environment.TickCount * Thread.CurrentThread.ManagedThreadId));
+
+        private readonly double[] randomSorted;
+
+        private double? mean;
+        private double? variance;
+        private double? skewness;
 
         /// <summary>
-        /// Creates instance of Monte-Calrlo distribution
+        /// Initializes a new instance of the <see cref="MonteCarloDistribution"/> class.
         /// </summary>
-        /// <param name="model">Model of propagation</param>
-        /// <param name="univariateDistributions">Dictionary of univariate distribution settings and arguments</param>
-        /// <param name="multivariateDistributions">Dictionary of multivariate distribution settings and arguments</param>
-        /// <param name="samples">Number of experiments</param>
-        /// <param name="pockets">Number of pockets for generating coodinates of PDF and CDF</param>
-        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets) : this(GenerateBasicData(new DistributionsEvaluator(model), univariateDistributions, multivariateDistributions, samples, pockets))
+        /// <param name="model">Model of propagation.</param>
+        /// <param name="univariateDistributions">Dictionary of univariate distribution settings and arguments.</param>
+        /// <param name="multivariateDistributions">Dictionary of multivariate distribution settings and arguments.</param>
+        /// <param name="samples">Number of experiments.</param>
+        /// <param name="pockets">Number of pockets for generating coordinates of PDF and CDF.</param>
+        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets)
+            : this(GenerateBasicData(new DistributionsEvaluator(model), univariateDistributions, multivariateDistributions, samples, pockets))
         {
         }
 
         /// <summary>
-        /// Creates instance of Monte-Calrlo distribution
+        /// Initializes a new instance of the <see cref="MonteCarloDistribution"/> class.
         /// </summary>
-        /// <param name="model">Model of propagation</param>
-        /// <param name="randomSource">Dictionary of distribution settings and arguments</param>
-        /// <param name="samples">Number of experiments</param>
-        /// <param name="pockets">Number of pockets for generating coodinates of PDF and CDF</param>
-        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> randomSource, int samples, int pockets) : this(GenerateBasicData(new DistributionsEvaluator(model), randomSource, null, samples, pockets))
+        /// <param name="model">Model of propagation.</param>
+        /// <param name="randomSource">Dictionary of distribution settings and arguments.</param>
+        /// <param name="samples">Number of experiments.</param>
+        /// <param name="pockets">Number of pockets for generating coordinates of PDF and CDF.</param>
+        public MonteCarloDistribution(string model, Dictionary<string, DistributionSettings> randomSource, int samples, int pockets)
+            : this(GenerateBasicData(new DistributionsEvaluator(model), randomSource, null, samples, pockets))
         {
         }
 
-        private MonteCarloDistribution(BasicDistributionData basicData) : base(basicData.XAxis, basicData.PDF, basicData.CDF)
+        private MonteCarloDistribution(BasicDistributionData basicData)
+            : base(basicData.XAxis, basicData.PDF, basicData.CDF)
         {
-            _randomSorted = basicData.RandomSorted;
+            randomSorted = basicData.RandomSorted;
         }
+
+        #region Overrides
+
+        internal override double InnerMean
+        {
+            get
+            {
+                if (mean == null)
+                {
+                    double sum = 0;
+
+                    for (int i = 0; i < randomSorted.Length; i++)
+                    {
+                        sum += randomSorted[i];
+                    }
+
+                    mean = sum / randomSorted.Length;
+                }
+                return mean.Value;
+            }
+        }
+
+        internal override double InnerVariance
+        {
+            get
+            {
+                if (variance == null)
+                {
+                    double mean = InnerMean;
+
+                    double sum = 0;
+
+                    for (int i = 0; i < randomSorted.Length; i++)
+                    {
+                        sum += Math.Pow(randomSorted[i] - mean, 2);
+                    }
+
+                    variance = sum / (randomSorted.Length - 1);
+                }
+                return variance.Value;
+            }
+        }
+
+        internal override double InnerSkewness
+        {
+            get
+            {
+                if (skewness == null)
+                {
+                    double mean = InnerMean;
+
+                    double sum = 0;
+
+                    for (int i = 0; i < randomSorted.Length; i++)
+                    {
+                        sum += Math.Pow(randomSorted[i] - mean, 3);
+                    }
+
+                    double m = sum / (randomSorted.Length - 1);
+
+                    double s = Math.Pow(InnerVariance, 3.0 / 2.0);
+
+                    skewness = m / s;
+                }
+                return skewness.Value;
+            }
+        }
+
+        internal override double InnerQuantile(double p)
+        {
+            double len = randomSorted.Length;
+            double c = (len - 1) * p;
+            return randomSorted[(int)c];
+        }
+
+        #endregion
 
         #region Generate and build coordinates
+
         private static BasicDistributionData GenerateBasicData(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples, int pockets)
         {
             if (evaluator == null)
+            {
                 throw new ArgumentNullException(nameof(evaluator));
+            }
 
             if (univariateDistributions == null)
+            {
                 throw new ArgumentNullException(nameof(univariateDistributions));
+            }
 
             if (samples < 3)
+            {
                 throw new DistributionsArgumentException(DistributionsArgumentExceptionType.NumberOfExperimentsMustBeGreaterThenTwo);
+            }
 
             if (pockets < 3)
+            {
                 throw new DistributionsArgumentException(DistributionsArgumentExceptionType.NumberOfPocketsMustBeGreaterThenTwo);
+            }
 
             BasicDistributionData data = new BasicDistributionData();
 
@@ -79,11 +167,10 @@ namespace RandomAlgebra.Distributions
             }
 
             Array.Sort(random);
-			double step;
-            double[] xAxis = CommonRandomMath.GenerateXAxis(random[0], random[samples - 1], pockets, out step);
+
+            double[] xAxis = CommonRandomMath.GenerateXAxis(random[0], random[samples - 1], pockets, out _);
 
             double[] cdf = GenerateCDF(xAxis, random);
-
 
             data.RandomSorted = random;
             data.XAxis = xAxis;
@@ -107,15 +194,15 @@ namespace RandomAlgebra.Distributions
             for (int i = 0; i < argsCount; i++)
             {
                 string arg = order[i];
-				DistributionSettings value;
-                if (randomSource.TryGetValue(arg, out value))
+
+                if (randomSource.TryGetValue(arg, out DistributionSettings value))
                 {
                     orderedDistributions[i] = value.GetUnivariateContinuoisDistribution();
                 }
                 else
                 {
-                    //TODO: check this out
-                    //throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
+                    // TODO: check this out
+                    // throw new DistributionsArgumentException($"Parameter value \"{arg}\" is missing", $"Отсутствует значение параметра \"{arg}\"");
                     throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
             }
@@ -123,7 +210,7 @@ namespace RandomAlgebra.Distributions
             Parallel.For(0, samples, i =>
             {
                 double[] args = argsLocal.Value;
-                Random rnd = _rnd.Value;
+                Random rnd = Rnd.Value;
 
                 for (int j = 0; j < argsCount; j++)
                 {
@@ -145,13 +232,12 @@ namespace RandomAlgebra.Distributions
 
             Parallel.For(0, samples, i =>
             {
-                Random rnd = _rnd.Value;
+                Random rnd = Rnd.Value;
 
                 double[] args = generator.Generate(rnd);
 
                 random[i] = evaluator.EvaluateCompiled(args);
-            }
-            );
+            });
 
             return random;
         }
@@ -176,7 +262,6 @@ namespace RandomAlgebra.Distributions
                 }
 
                 yCoordinatesCDF[i] = d * cStep;
-
             }
 
             return yCoordinatesCDF;
@@ -188,7 +273,7 @@ namespace RandomAlgebra.Distributions
 
             double[] derivated = new double[length];
 
-            double step = xRange / (length - 1);//шаг по числу интервалов
+            double step = xRange / (length - 1);
 
             derivated[0] = (yValues[1] - yValues[0]) / step;
 
@@ -204,86 +289,14 @@ namespace RandomAlgebra.Distributions
 
         #endregion
 
-        #region Overrides
-        internal override double InnerMean
-        {
-            get
-            {
-                if (_mean == null)
-                {
-                    double sum = 0;
-
-                    for (int i = 0; i < _randomSorted.Length; i++)
-                    {
-                        sum += _randomSorted[i];
-                    }
-
-                    _mean = sum / _randomSorted.Length;
-                }
-                return _mean.Value;
-            }
-        }
-
-        internal override double InnerVariance
-        {
-            get
-            {
-                if (_variance == null)
-                {
-                    double mean = InnerMean;
-
-                    double sum = 0;
-
-                    for (int i = 0; i < _randomSorted.Length; i++)
-                    {
-                        sum += Math.Pow(_randomSorted[i] - mean, 2);
-                    }
-
-                    _variance = sum / (_randomSorted.Length - 1);
-                }
-                return _variance.Value;
-            }
-        }
-
-        internal override double InnerSkewness
-        {
-            get
-            {
-                if (_skewness == null)
-                {
-                    double mean = InnerMean;
-
-
-                    double sum = 0;
-
-                    for (int i = 0; i < _randomSorted.Length; i++)
-                    {
-                        sum += Math.Pow(_randomSorted[i] - mean, 3);
-                    }
-
-                    double m = sum / (_randomSorted.Length - 1);
-
-                    double s = Math.Pow(InnerVariance, 3.0 / 2.0);
-
-                    _skewness = m / s;
-                }
-                return _skewness.Value;
-            }
-        }
-
-        internal override double InnerQuantile(double p)
-        {
-            double len = _randomSorted.Length;
-            double c = (len - 1) * p;
-            return _randomSorted[(int)c];
-        }
-        #endregion
-
         private class BasicDistributionData
         {
             public double[] RandomSorted { get; set; }
+
             public double[] XAxis { get; set; }
+
             public double[] PDF { get; set; }
+
             public double[] CDF { get; set; }
         }
     }

@@ -1,9 +1,6 @@
-﻿using Accord;
+﻿using System;
+using Accord;
 using Accord.Statistics.Distributions.Univariate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RandomAlgebra.Distributions
 {
@@ -11,34 +8,34 @@ namespace RandomAlgebra.Distributions
     {
         internal class StudentGeneralizedDistribution : UnivariateContinuousDistribution
         {
-            private readonly double _mean, _variance, _std;
-            private readonly DoubleRange _range = new DoubleRange(double.NegativeInfinity, double.PositiveInfinity);
-            private readonly NormalDistribution _baseNormal;
-            private readonly TDistribution _baseT;
-            private readonly GammaDistribution _gammaDistr;
+            private readonly double mean, variance;
+            private readonly DoubleRange range = new DoubleRange(double.NegativeInfinity, double.PositiveInfinity);
+            private readonly NormalDistribution baseNormal;
+            private readonly TDistribution baseT;
+            private readonly GammaDistribution gammaDistr;
 
-            public StudentGeneralizedDistribution(double degreesOfFreedom) : this(0, 1, degreesOfFreedom)
+            public StudentGeneralizedDistribution(double degreesOfFreedom)
+                : this(0, 1, degreesOfFreedom)
             {
-
             }
 
             public StudentGeneralizedDistribution(double mean, double std, double degreesOfFreedom)
             {
-                _std = std;
-                _mean = mean;
+                ScaleCoefficient = std;
+                this.mean = mean;
                 DegreesOfFreedom = degreesOfFreedom;
 
-                _baseT = new TDistribution(degreesOfFreedom);
-                _baseNormal = new NormalDistribution(0, 1);
-                _gammaDistr = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
+                baseT = new TDistribution(degreesOfFreedom);
+                baseNormal = new NormalDistribution(0, 1);
+                gammaDistr = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
 
                 if (degreesOfFreedom > 2)
                 {
-                    _variance = Math.Pow(_std, 2) * degreesOfFreedom / (degreesOfFreedom - 2);
+                    variance = Math.Pow(ScaleCoefficient, 2) * degreesOfFreedom / (degreesOfFreedom - 2);
                 }
                 else
                 {
-                    _variance = double.NaN;
+                    variance = double.NaN;
                 }
             }
 
@@ -51,39 +48,17 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _mean;
+                    return mean;
                 }
             }
 
-            public double ScaleCoefficient
-            {
-                get
-                {
-                    return _std;
-                }
-            }
-
-            protected override double InnerProbabilityDensityFunction(double x)
-            {
-                return _baseT.ProbabilityDensityFunction((x - _mean) / _std) / _std;
-            }
-            protected override double InnerDistributionFunction(double x)
-            {
-                return _baseT.DistributionFunction((x - _mean) / _std);
-            }
-
-            public override double Generate(Random source)
-            {
-                double x = _baseNormal.Generate(source);
-                double y = _gammaDistr.Generate(source);
-                return x / Math.Sqrt(y / DegreesOfFreedom) * _std + _mean;
-            }
+            public double ScaleCoefficient { get; }
 
             public override double Variance
             {
                 get
                 {
-                    return _variance;
+                    return variance;
                 }
             }
 
@@ -99,18 +74,35 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _range;
+                    return range;
                 }
+            }
+
+            public override double Generate(Random source)
+            {
+                double x = baseNormal.Generate(source);
+                double y = gammaDistr.Generate(source);
+                return (x / Math.Sqrt(y / DegreesOfFreedom) * ScaleCoefficient) + mean;
             }
 
             public override object Clone()
             {
-                throw new NotImplementedException();
+                return new StudentGeneralizedDistribution(Mean, ScaleCoefficient, DegreesOfFreedom);
             }
 
             public override string ToString(string format, IFormatProvider formatProvider)
             {
-                throw new NotImplementedException();
+                return ToString();
+            }
+
+            protected override double InnerProbabilityDensityFunction(double x)
+            {
+                return baseT.ProbabilityDensityFunction((x - mean) / ScaleCoefficient) / ScaleCoefficient;
+            }
+
+            protected override double InnerDistributionFunction(double x)
+            {
+                return baseT.DistributionFunction((x - mean) / ScaleCoefficient);
             }
         }
     }

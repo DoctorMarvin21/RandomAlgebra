@@ -2,7 +2,7 @@
 
 namespace RandomAlgebra
 {
-    //TODO: use different exceptions for expression evaluator and distributions operations
+    // TODO: use different exceptions for expression evaluator and distributions operations.
     internal enum DistributionsInvalidOperationExceptionType
     {
         ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce,
@@ -63,15 +63,13 @@ namespace RandomAlgebra
         VectorOfMeansMustBeEqualToDimension,
         VectorOfCoeffitientsMustBeEqualToDimension,
         ForCorrelationPairBothOfDistributionsMustBeContinuous
-
     }
 
     /// <summary>
-    /// Invalid operation exception for distributions
+    /// Invalid operation exception for distributions.
     /// </summary>
     public class DistributionsInvalidOperationException : InvalidOperationException
     {
-
         internal DistributionsInvalidOperationException()
         {
         }

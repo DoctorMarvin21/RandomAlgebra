@@ -5,13 +5,14 @@ namespace RandomAlgebra
 {
     internal static class Resources
     {
-        private static ResourceManager resourceManager
-            = new ResourceManager("RandomAlgebra.Resources.RandomAlgebra",
+        private static readonly ResourceManager ResourceManager
+            = new ResourceManager(
+                "RandomAlgebra.Resources.RandomAlgebra",
                 Assembly.GetAssembly(typeof(Resources)));
 
         public static string GetMessage(string resourceKey)
         {
-            return resourceManager.GetString(resourceKey);
+            return ResourceManager.GetString(resourceKey);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace RandomAlgebra.Distributions
 {
+    // TODO: Add documentation to this class and rework.
     public enum WarningType
     {
         InifinityEliminated

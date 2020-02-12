@@ -1,114 +1,82 @@
-﻿using Accord.Statistics.Distributions.Univariate;
+﻿using System;
+using Accord.Math.Integration;
+using Accord.Statistics.Distributions.Univariate;
 using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.Distributions.SpecialDistributions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RandomAlgebra.Distributions
 {
     /// <summary>
-    /// Continuous distribution
+    /// Continuous distribution.
     /// </summary>
     public sealed class ContinuousDistribution : BaseDistribution
     {
         internal const int DefaultSamples = 1000;
 
-        double[] _support = null;
-        double? _skewness = null;
-        int _samples = DefaultSamples;
+        private readonly int samples = DefaultSamples;
+        private double[] support;
+        private double? skewness;
 
         #region Constructors
+
         /// <summary>
-        /// Creates continuous distribution by <paramref name="distributionSettings"/>
+        /// Initializes a new instance of the <see cref="ContinuousDistribution"/> class
+        /// by <paramref name="distributionSettings"/>.
         /// </summary>
-        /// <param name="distributionSettings">Distribution settings</param>
-        public ContinuousDistribution(DistributionSettings distributionSettings) : this(distributionSettings?.GetUnivariateContinuoisDistribution())
+        /// <param name="distributionSettings">Distribution settings.</param>
+        public ContinuousDistribution(DistributionSettings distributionSettings)
+            : this(distributionSettings?.GetUnivariateContinuoisDistribution())
         {
         }
 
         /// <summary>
-        /// Creates continuous distribution by <paramref name="distributionSettings"/> and samples count
+        /// Initializes a new instance of the <see cref="ContinuousDistribution"/> class.
+        /// by <paramref name="distributionSettings"/> and samples count.
         /// </summary>
-        /// <param name="distributionSettings">Distribution settings</param>
-        /// <param name="samples">Samples count used in method <see cref="Discretize"/></param>
-        public ContinuousDistribution(DistributionSettings distributionSettings, int samples) : this(distributionSettings?.GetUnivariateContinuoisDistribution(), samples)
+        /// <param name="distributionSettings">Distribution settings.</param>
+        /// <param name="samples">Samples count used in method <see cref="Discretize"/>.</param>
+        public ContinuousDistribution(DistributionSettings distributionSettings, int samples)
+            : this(distributionSettings?.GetUnivariateContinuoisDistribution(), samples)
         {
         }
 
         internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution)
         {
-			if (baseDistribution == null)
-				throw new ArgumentNullException(nameof(baseDistribution));
-
-            BaseDistribution = baseDistribution;
+            BaseDistribution = baseDistribution ?? throw new ArgumentNullException(nameof(baseDistribution));
         }
 
-        internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution, int samples) : this(baseDistribution)
+        internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution, int samples)
+            : this(baseDistribution)
         {
             if (samples < 2)
+            {
                 throw new DistributionsArgumentException(DistributionsArgumentExceptionType.SamplesNumberMustBeGreaterThenTwo);
+            }
 
-
-            _samples = samples;
+            this.samples = samples;
         }
 
-        internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution, int samples, double coeff, double offset) : this(baseDistribution, samples)
+        internal ContinuousDistribution(UnivariateContinuousDistribution baseDistribution, int samples, double coeff, double offset)
+            : this(baseDistribution, samples)
         {
             Coefficient = coeff;
             Offset = offset;
         }
+
         #endregion
 
         #region Settings
-        internal UnivariateContinuousDistribution BaseDistribution
-        {
-            get;
-        }
 
-        internal double Coefficient
-        {
-            get;
-        } = 1;
+        internal UnivariateContinuousDistribution BaseDistribution { get; }
 
+        internal double Coefficient { get; } = 1;
 
-        internal double Offset
-        {
-            get;
-        }
-
-        #endregion
-
-        #region Sampling
-        /// <summary>
-        /// Performs sampling to discrete distributions with number of samples <see cref="Samples"/>
-        /// </summary>
-        /// <returns>Discrete distribution</returns>
-        public DiscreteDistribution Discretize()
-        {
-            return Discretize(_samples);
-        }
-
-
-        /// <summary>
-        /// Performs sampling to discrete distributions with number of samples <paramref name="samples"/>
-        /// </summary>
-        /// <param name="samples">Samples</param>
-        /// <returns>Discrete distribution</returns>
-        public DiscreteDistribution Discretize(int samples)
-        {
-            return new DiscreteDistribution(this, samples);
-        }
-
-        public static explicit operator DiscreteDistribution(ContinuousDistribution continious)
-        {
-            return continious.Discretize();
-        }
+        internal double Offset { get; }
 
         #endregion
 
         #region Overrides properties
+
         internal override DistributionType InnerDistributionType
         {
             get
@@ -121,11 +89,11 @@ namespace RandomAlgebra.Distributions
         {
             get
             {
-                if (_support == null)
+                if (support == null)
                 {
-                    _support = GetDiscretizationSupport();
+                    support = GetDiscretizationSupport();
                 }
-                return _support[0];
+                return support[0];
             }
         }
 
@@ -133,11 +101,11 @@ namespace RandomAlgebra.Distributions
         {
             get
             {
-                if (_support == null)
+                if (support == null)
                 {
-                    _support = GetDiscretizationSupport();
+                    support = GetDiscretizationSupport();
                 }
-                return _support[1];
+                return support[1];
             }
         }
 
@@ -145,45 +113,15 @@ namespace RandomAlgebra.Distributions
         {
             get
             {
-                return _samples;
+                return samples;
             }
-        }
-
-        private double[] GetDiscretizationSupport()
-        {
-            bool minInfinite = double.IsInfinity(BaseDistribution.Support.Min);
-            bool maxInfinite = double.IsInfinity(BaseDistribution.Support.Max);
-
-            double tolerance = CommonRandomMath.GetTolerance(InnerSamples);
-            double min = minInfinite ? GetSupport(true, tolerance) : BaseDistribution.Support.Min;
-            double max = maxInfinite ? GetSupport(false, tolerance) : BaseDistribution.Support.Max;
-
-            min = min * Coefficient + Offset;
-            max = max * Coefficient + Offset;
-
-            if (min > max)
-            {
-                double temp = min;
-                min = max;
-                max = temp;
-            }
-
-            return new double[] { min, max };
-        }
-
-        private double GetSupport(bool min, double tolerance)
-        {
-            if (min)
-                return BaseDistribution.InverseDistributionFunction(tolerance);
-            else
-                return BaseDistribution.InverseDistributionFunction(1 - tolerance);
         }
 
         internal override double InnerMean
         {
             get
             {
-                return BaseDistribution.Mean * Coefficient + Offset;
+                return (BaseDistribution.Mean * Coefficient) + Offset;
             }
         }
 
@@ -199,22 +137,48 @@ namespace RandomAlgebra.Distributions
         {
             get
             {
-                //Рассчитаем как интеграл через третий момент
-                if (_skewness == null)
-                    _skewness = Accord.Math.Integration.InfiniteAdaptiveGaussKronrod.Integrate(ThirdMoment, MinX, MaxX) / Math.Pow(Variance, 3d / 2);
+                // 3-d moment integration
+                if (skewness == null)
+                {
+                    skewness = InfiniteAdaptiveGaussKronrod.Integrate(ThirdMoment, MinX, MaxX) / Math.Pow(Variance, 3d / 2);
+                }
 
-                return _skewness.Value;
+                return skewness.Value;
             }
         }
 
-        public double ThirdMoment(double x)
+        #endregion
+
+        #region Sampling
+
+        public static explicit operator DiscreteDistribution(ContinuousDistribution continious)
         {
-            return Math.Pow(x - Mean, 3) * InnerGetPDFYbyX(x);
+            return continious.Discretize();
+        }
+
+        /// <summary>
+        /// Performs sampling to discrete distributions with number of samples <see cref="Samples"/>.
+        /// </summary>
+        /// <returns>Discrete distribution.</returns>
+        public DiscreteDistribution Discretize()
+        {
+            return Discretize(samples);
+        }
+
+        /// <summary>
+        /// Performs sampling to discrete distributions with number of samples <paramref name="samples"/>.
+        /// </summary>
+        /// <param name="samples">Samples.</param>
+        /// <returns>Discrete distribution.</returns>
+        public DiscreteDistribution Discretize(int samples)
+        {
+            return new DiscreteDistribution(this, samples);
         }
 
         #endregion
 
         #region Overrides functions
+
         internal override double InnerGetPDFYbyX(double x)
         {
             try
@@ -233,7 +197,7 @@ namespace RandomAlgebra.Distributions
                 }
                 else
                 {
-                    return BaseDistribution.ProbabilityDensityFunction((x - Offset) / Coefficient) / (Math.Abs(Coefficient));
+                    return BaseDistribution.ProbabilityDensityFunction((x - Offset) / Coefficient) / Math.Abs(Coefficient);
                 }
             }
             catch
@@ -263,12 +227,13 @@ namespace RandomAlgebra.Distributions
 
         internal override double InnerQuantile(double p)
         {
-            return BaseDistribution.InverseDistributionFunction(p) * Coefficient + Offset;
+            return (BaseDistribution.InverseDistributionFunction(p) * Coefficient) + Offset;
         }
 
         #endregion
 
-        #region Random math
+        #region Random algebra
+
         internal override BaseDistribution InnerGetSumm(BaseDistribution value)
         {
             switch (value.InnerDistributionType)
@@ -361,7 +326,7 @@ namespace RandomAlgebra.Distributions
             {
                 case DistributionType.Continious:
                     {
-                        return this + value * -1;
+                        return this + (value * -1);
                     }
                 case DistributionType.Discrete:
                     {
@@ -395,7 +360,9 @@ namespace RandomAlgebra.Distributions
                 case DistributionType.Number:
                     {
                         if (value.InnerMean == 0)
-                            new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
+                        {
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
+                        }
 
                         return ContinuousRandomMath.Multiply(this, (double)value);
                     }
@@ -416,7 +383,9 @@ namespace RandomAlgebra.Distributions
                 case DistributionType.Number:
                     {
                         if (value.InnerMean == 0)
-                             new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
+                        {
+                            throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
+                        }
 
                         return ContinuousRandomMath.Divide(this, (double)value);
                     }
@@ -479,6 +448,49 @@ namespace RandomAlgebra.Distributions
         internal override BaseDistribution InnerGetNegate()
         {
             return ContinuousRandomMath.Negate(this);
+        }
+
+        #endregion
+
+        #region Private functions
+
+        private double ThirdMoment(double x)
+        {
+            return Math.Pow(x - Mean, 3) * InnerGetPDFYbyX(x);
+        }
+
+        private double[] GetDiscretizationSupport()
+        {
+            bool minInfinite = double.IsInfinity(BaseDistribution.Support.Min);
+            bool maxInfinite = double.IsInfinity(BaseDistribution.Support.Max);
+
+            double tolerance = CommonRandomMath.GetTolerance(InnerSamples);
+            double min = minInfinite ? GetSupport(true, tolerance) : BaseDistribution.Support.Min;
+            double max = maxInfinite ? GetSupport(false, tolerance) : BaseDistribution.Support.Max;
+
+            min = (min * Coefficient) + Offset;
+            max = (max * Coefficient) + Offset;
+
+            if (min > max)
+            {
+                double temp = min;
+                min = max;
+                max = temp;
+            }
+
+            return new double[] { min, max };
+        }
+
+        private double GetSupport(bool min, double tolerance)
+        {
+            if (min)
+            {
+                return BaseDistribution.InverseDistributionFunction(tolerance);
+            }
+            else
+            {
+                return BaseDistribution.InverseDistributionFunction(1 - tolerance);
+            }
         }
 
         #endregion

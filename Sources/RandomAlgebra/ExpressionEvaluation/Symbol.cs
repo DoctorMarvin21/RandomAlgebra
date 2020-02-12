@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RandomAlgebra.DistributionsEvaluation
 {
@@ -26,11 +24,12 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             { '+', Addition },
             { '-', Subtraction },
-            { '*', Multiplication},
+            { '*', Multiplication },
             { '/', Division },
             { '^', Power },
             { '_', Log }
         };
+
         private static readonly Dictionary<string, Operator> Functions = new Dictionary<string, Operator>
         {
             { "sqrt", SqareRoot },
@@ -41,7 +40,6 @@ namespace RandomAlgebra.DistributionsEvaluation
             { "lg", Lg10 },
             { "ln", Ln }
         };
-
 
         private Operator(int precedence, NodeOperationType operationType, bool isUnary)
         {
@@ -54,11 +52,15 @@ namespace RandomAlgebra.DistributionsEvaluation
 
         public int Precedence { get; private set; }
 
+        public NodeOperationType OperationType
+        {
+            get;
+            private set;
+        }
+
         public static explicit operator Operator(char operation)
         {
-            Operator result;
-
-            if (Operations.TryGetValue(operation, out result))
+            if (Operations.TryGetValue(operation, out Operator result))
             {
                 return result;
             }
@@ -70,9 +72,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
         public static explicit operator Operator(string function)
         {
-            Operator result;
-
-            if (Functions.TryGetValue(function, out result))
+            if (Functions.TryGetValue(function, out Operator result))
             {
                 return result;
             }
@@ -80,16 +80,6 @@ namespace RandomAlgebra.DistributionsEvaluation
             {
                 throw new InvalidCastException();
             }
-        }
-
-        private NodeOperation Apply(NodeOperation node)
-        {
-            return new NodeOperation(node, OperationType);
-        }
-
-        private NodeOperation Apply(NodeOperation left, NodeOperation right)
-        {
-            return new NodeOperation(left, right, OperationType);
         }
 
         public static bool IsDefined(char operation)
@@ -117,10 +107,15 @@ namespace RandomAlgebra.DistributionsEvaluation
                 throw new NotImplementedException();
             }
         }
-        public NodeOperationType OperationType
+
+        private NodeOperation Apply(NodeOperation node)
         {
-            get;
-            private set;
+            return new NodeOperation(node, OperationType);
+        }
+
+        private NodeOperation Apply(NodeOperation left, NodeOperation right)
+        {
+            return new NodeOperation(left, right, OperationType);
         }
     }
 
@@ -131,7 +126,6 @@ namespace RandomAlgebra.DistributionsEvaluation
 
         private Parentheses()
         {
-
         }
     }
 

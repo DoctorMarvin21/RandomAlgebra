@@ -1,10 +1,6 @@
-﻿using Accord;
+﻿using System;
+using Accord;
 using Accord.Statistics.Distributions.Univariate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RandomAlgebra.Distributions
 {
@@ -12,24 +8,23 @@ namespace RandomAlgebra.Distributions
     {
         internal class ChiDistribution : UnivariateContinuousDistribution
         {
-            readonly double _mean;
-            readonly double _variance;
-            readonly DoubleRange _support = new DoubleRange(0, double.PositiveInfinity);
-
+            private readonly double mean;
+            private readonly double variance;
+            private readonly DoubleRange support = new DoubleRange(0, double.PositiveInfinity);
 
             public ChiDistribution(int degreesOfFreedom)
             {
                 DegreesOfFreedom = degreesOfFreedom;
 
-                _mean = Math.Sqrt(2) * Accord.Math.Gamma.Function((DegreesOfFreedom + 1) / 2d) / Accord.Math.Gamma.Function(DegreesOfFreedom / 2d);
-                _variance = DegreesOfFreedom - Math.Pow(_mean, 2);
+                mean = Math.Sqrt(2) * Accord.Math.Gamma.Function((DegreesOfFreedom + 1) / 2d) / Accord.Math.Gamma.Function(DegreesOfFreedom / 2d);
+                variance = DegreesOfFreedom - Math.Pow(mean, 2);
             }
 
             public override double Mean
             {
                 get
                 {
-                    return _mean;
+                    return mean;
                 }
             }
 
@@ -37,7 +32,7 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _variance;
+                    return variance;
                 }
             }
 
@@ -58,26 +53,8 @@ namespace RandomAlgebra.Distributions
             {
                 get
                 {
-                    return _support;
+                    return support;
                 }
-            }
-
-            protected override double InnerProbabilityDensityFunction(double x)
-            {
-                double k = DegreesOfFreedom;
-
-                double a = Math.Pow(x, k - 1) * Math.Exp(-Math.Pow(x, 2) / 2d);
-                double b = Math.Pow(2, k / 2d - 1) * Accord.Math.Gamma.Function(k / 2d);
-
-                return a / b; 
-            }
-
-            protected override double InnerDistributionFunction(double x)
-            {
-                double a = DegreesOfFreedom / 2d;
-                double b = Math.Pow(x, 2) / 2d;
-
-                return Accord.Math.Gamma.LowerIncomplete(a, b);
             }
 
             public override object Clone()
@@ -88,6 +65,24 @@ namespace RandomAlgebra.Distributions
             public override string ToString(string format, IFormatProvider formatProvider)
             {
                 return ToString();
+            }
+
+            protected override double InnerProbabilityDensityFunction(double x)
+            {
+                double k = DegreesOfFreedom;
+
+                double a = Math.Pow(x, k - 1) * Math.Exp(-Math.Pow(x, 2) / 2d);
+                double b = Math.Pow(2, (k / 2d) - 1) * Accord.Math.Gamma.Function(k / 2d);
+
+                return a / b;
+            }
+
+            protected override double InnerDistributionFunction(double x)
+            {
+                double a = DegreesOfFreedom / 2d;
+                double b = Math.Pow(x, 2) / 2d;
+
+                return Accord.Math.Gamma.LowerIncomplete(a, b);
             }
         }
     }

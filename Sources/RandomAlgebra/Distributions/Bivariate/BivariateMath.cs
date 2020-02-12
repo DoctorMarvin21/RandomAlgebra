@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RandomAlgebra.Distributions
@@ -41,7 +38,9 @@ namespace RandomAlgebra.Distributions
         private static DiscreteDistribution Bivariate(BivariateContinuousDistribution distribution, DistributionsOperation operation)
         {
             if (operation == DistributionsOperation.PowerInv)
+            {
                 distribution = distribution.Rotate();
+            }
 
             int samples = distribution.Samples;
 
@@ -60,8 +59,8 @@ namespace RandomAlgebra.Distributions
                         {
                             double x = xAxis[i];
                             double sum = 0;
-                            //trap rule is useless because both normal and t-distributions are smoooth
 
+                            // Trap rule is useless because both normal and t-distributions are smoooth.
                             for (int j = 1; j < samples; j++)
                             {
                                 double m = rightAxis[j];
@@ -70,8 +69,6 @@ namespace RandomAlgebra.Distributions
                             }
 
                             result[i] = sum * rightStep;
-
-                            //result[i] = func.Invoke(0, x);
                         });
 
                         break;

@@ -1,17 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
-    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\oxyplot-avalonia\Source\OxyPlot.Avalonia\OxyPlot.Avalonia.csproj" />
     <ProjectReference Include="..\RandomAlgebra\RandomAlgebra.csproj" />
   </ItemGroup>
 
@@ -20,5 +15,17 @@
       <CustomToolNamespace>WPF</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  
+  <ItemGroup>
+    <AvaloniaResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.3" />
+    <PackageReference Include="Avalonia" Version="0.9.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.3" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.3" />
+    <PackageReference Include="Citrus.Avalonia" Version="1.2.3" />
+    <PackageReference Include="Material.Avalonia" Version="0.9.0" />
+  </ItemGroup>
 </Project>

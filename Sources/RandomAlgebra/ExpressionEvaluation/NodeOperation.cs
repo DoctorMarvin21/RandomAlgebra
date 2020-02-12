@@ -1,28 +1,49 @@
-﻿using RandomAlgebra.Distributions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using RandomAlgebra.Distributions;
 
 namespace RandomAlgebra.DistributionsEvaluation
 {
+    internal enum NodeOperationType
+    {
+        Constant,
+        Parameter,
+        Sum,
+        Substract,
+        Multiply,
+        Divide,
+        Negate,
+        Power,
+        Log,
+        Lg10,
+        Ln,
+        Sqrt,
+        Abs,
+        Sin,
+        Cos,
+        Tan
+    }
+
     internal class NodeOperation
     {
         public NodeOperation()
         {
         }
+
         public NodeOperation(NodeOperation left, NodeOperationType operationType)
         {
             Left = left;
             OperationType = operationType;
         }
+
         public NodeOperation(NodeOperation left, NodeOperation right, NodeOperationType operationType)
         {
             Left = left;
             Right = right;
             OperationType = operationType;
         }
+
         public bool IsUnary
         {
             get
@@ -42,6 +63,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             get;
             set;
         }
+
         public NodeOperation Right
         {
             get;
@@ -59,7 +81,6 @@ namespace RandomAlgebra.DistributionsEvaluation
                 return Evaluation.EvaluateDoubleBinary(Left.Evaluate(), Right.Evaluate(), OperationType);
             }
         }
-
 
         public virtual BaseDistribution EvaluateExtended(List<CorrelatedPair> correlations)
         {
@@ -94,35 +115,65 @@ namespace RandomAlgebra.DistributionsEvaluation
             switch (OperationType)
             {
                 case NodeOperationType.Sum:
-                    return Expression.Add(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return Expression.Add(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Substract:
-                    return Expression.Subtract(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return Expression.Subtract(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Divide:
-                    return Expression.Divide(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return Expression.Divide(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Multiply:
-                    return Expression.Multiply(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return Expression.Multiply(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Power:
-                    return Expression.Power(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return Expression.Power(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Log:
-                    return CustomExpression.Log(Left.ToExpression(), Right.ToExpression());
+                    {
+                        return CustomExpression.Log(Left.ToExpression(), Right.ToExpression());
+                    }
                 case NodeOperationType.Negate:
-                    return Expression.Negate(Left.ToExpression());
+                    {
+                        return Expression.Negate(Left.ToExpression());
+                    }
                 case NodeOperationType.Sqrt:
-                    return Expression.Power(Left.ToExpression(), Expression.Constant(0.5d));
+                    {
+                        return Expression.Power(Left.ToExpression(), Expression.Constant(0.5d));
+                    }
                 case NodeOperationType.Abs:
-                    return CustomExpression.Abs(Left.ToExpression());
+                    {
+                        return CustomExpression.Abs(Left.ToExpression());
+                    }
                 case NodeOperationType.Lg10:
-                    return CustomExpression.Lg10(Left.ToExpression());
+                    {
+                        return CustomExpression.Lg10(Left.ToExpression());
+                    }
                 case NodeOperationType.Ln:
-                    return CustomExpression.Ln(Left.ToExpression());
+                    {
+                        return CustomExpression.Ln(Left.ToExpression());
+                    }
                 case NodeOperationType.Sin:
-                    return CustomExpression.Sin(Left.ToExpression());
+                    {
+                        return CustomExpression.Sin(Left.ToExpression());
+                    }
                 case NodeOperationType.Cos:
-                    return CustomExpression.Cos(Left.ToExpression());
+                    {
+                        return CustomExpression.Cos(Left.ToExpression());
+                    }
                 case NodeOperationType.Tan:
-                    return CustomExpression.Tan(Left.ToExpression());
+                    {
+                        return CustomExpression.Tan(Left.ToExpression());
+                    }
                 default:
-                    throw new NotImplementedException();
+                    {
+                        throw new NotImplementedException();
+                    }
             }
         }
     }
@@ -134,6 +185,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             Value = value;
             OperationType = NodeOperationType.Constant;
         }
+
         public double Value
         {
             get;
@@ -165,6 +217,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             ParameterIndex = index;
             ParameterExpression = expression;
         }
+
         public string Parameter
         {
             get;
@@ -198,7 +251,9 @@ namespace RandomAlgebra.DistributionsEvaluation
         public override BaseDistribution EvaluateExtended(List<CorrelatedPair> correlations)
         {
             if (Value == null)
-                throw new Exception("Аргумент параметра " + Parameter + " не задан");
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, Parameter);
+            }
 
             return Value;
         }
@@ -206,34 +261,16 @@ namespace RandomAlgebra.DistributionsEvaluation
         public override Expression ToExpression()
         {
             return Expression.ArrayIndex(ParameterExpression, Expression.Constant(ParameterIndex));
-
         }
 
         public override double Evaluate()
         {
             if (Value == null)
-                throw new Exception("Аргумент параметра " + Parameter + " не задан");
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, Parameter);
+            }
+
             return (double)Value;
         }
-    }
-
-    internal enum NodeOperationType
-    {
-        Constant,
-        Parameter,
-        Sum,
-        Substract,
-        Multiply,
-        Divide,
-        Negate,
-        Power,
-        Log,
-        Lg10,
-        Ln,
-        Sqrt,
-        Abs,
-        Sin,
-        Cos,
-        Tan
     }
 }

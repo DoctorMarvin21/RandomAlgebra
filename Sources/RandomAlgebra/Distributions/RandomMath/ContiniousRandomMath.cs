@@ -1,9 +1,6 @@
-﻿using Accord.Statistics.Distributions.Univariate;
+﻿using System;
+using Accord.Statistics.Distributions.Univariate;
 using RandomAlgebra.Distributions.SpecialDistributions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RandomAlgebra.Distributions
 {
@@ -15,9 +12,9 @@ namespace RandomAlgebra.Distributions
             var norm2 = (NormalDistribution)pdfY.BaseDistribution;
 
             var v1 = norm1.Variance * Math.Pow(pdfX.Coefficient, 2);
-            var m1 = norm1.Mean * pdfX.Coefficient + pdfX.Offset;
+            var m1 = (norm1.Mean * pdfX.Coefficient) + pdfX.Offset;
             var v2 = norm2.Variance * Math.Pow(pdfY.Coefficient, 2);
-            var m2 = norm2.Mean * pdfY.Coefficient + pdfY.Offset;
+            var m2 = (norm2.Mean * pdfY.Coefficient) + pdfY.Offset;
 
             var newDistribution = new ContinuousDistribution(new NormalDistribution(m1 + m2, Math.Sqrt(v1 + v2)), pdfX.Samples);
             return newDistribution;
@@ -28,8 +25,8 @@ namespace RandomAlgebra.Distributions
             var unif1 = (UniformContinuousDistribution)pdfX.BaseDistribution;
             var unif2 = (UniformContinuousDistribution)pdfY.BaseDistribution;
 
-            double a1 = unif1.Support.Min * pdfX.Coefficient + pdfX.Offset;
-            double b1 = unif1.Support.Max * pdfX.Coefficient + pdfX.Offset;
+            double a1 = (unif1.Support.Min * pdfX.Coefficient) + pdfX.Offset;
+            double b1 = (unif1.Support.Max * pdfX.Coefficient) + pdfX.Offset;
 
             if (a1 > b1)
             {
@@ -38,8 +35,8 @@ namespace RandomAlgebra.Distributions
                 b1 = t;
             }
 
-            double a2 = unif2.Support.Min * pdfY.Coefficient + pdfY.Offset;
-            double b2 = unif2.Support.Max * pdfY.Coefficient + pdfY.Offset;
+            double a2 = (unif2.Support.Min * pdfY.Coefficient) + pdfY.Offset;
+            double b2 = (unif2.Support.Max * pdfY.Coefficient) + pdfY.Offset;
 
             if (a2 > b2)
             {
@@ -62,10 +59,10 @@ namespace RandomAlgebra.Distributions
             var norm = (NormalDistribution)pdfX.BaseDistribution;
             var unif = (UniformContinuousDistribution)pdfY.BaseDistribution;
 
-            double a = unif.Support.Min * pdfY.Coefficient + pdfY.Offset;
-            double b = unif.Support.Max * pdfY.Coefficient + pdfY.Offset;
+            double a = (unif.Support.Min * pdfY.Coefficient) + pdfY.Offset;
+            double b = (unif.Support.Max * pdfY.Coefficient) + pdfY.Offset;
             var s = Math.Abs(norm.StandardDeviation * pdfX.Coefficient);
-            var m = norm.Mean * pdfX.Coefficient + pdfX.Offset;
+            var m = (norm.Mean * pdfX.Coefficient) + pdfX.Offset;
 
             return new ContinuousDistribution(new BhattacharjeeDistribution(a, b, m, s), pdfX.Samples);
         }
@@ -76,17 +73,15 @@ namespace RandomAlgebra.Distributions
             var bhat = (BhattacharjeeDistribution)pdfY.BaseDistribution;
 
             var v1 = norm.Variance * Math.Pow(pdfX.Coefficient, 2);
-            var m1 = norm.Mean * pdfX.Coefficient + pdfX.Offset;
+            var m1 = (norm.Mean * pdfX.Coefficient) + pdfX.Offset;
             var v2 = Math.Pow(bhat.NormalSigma * pdfY.Coefficient, 2);
-            var m2 = bhat.NormalMean * pdfY.Coefficient + pdfY.Offset;
+            var m2 = (bhat.NormalMean * pdfY.Coefficient) + pdfY.Offset;
 
             var a = bhat.UniformMin * pdfY.Coefficient;
             var b = bhat.UniformMax * pdfY.Coefficient;
 
             var s = Math.Sqrt(v1 + v2);
             var m = m1 + m2;
-
-
 
             return new ContinuousDistribution(new BhattacharjeeDistribution(a, b, m, s), pdfX.Samples);
         }
@@ -96,14 +91,13 @@ namespace RandomAlgebra.Distributions
             var student = (StudentGeneralizedDistribution)pdfX.BaseDistribution;
             var unif = (UniformContinuousDistribution)pdfY.BaseDistribution;
 
-            double a = unif.Support.Min * pdfY.Coefficient + pdfY.Offset;
-            double b = unif.Support.Max * pdfY.Coefficient + pdfY.Offset;
+            double a = (unif.Support.Min * pdfY.Coefficient) + pdfY.Offset;
+            double b = (unif.Support.Max * pdfY.Coefficient) + pdfY.Offset;
             var s = Math.Abs(student.ScaleCoefficient * pdfX.Coefficient);
-            var m = student.Mean * pdfX.Coefficient + pdfX.Offset;
+            var m = (student.Mean * pdfX.Coefficient) + pdfX.Offset;
 
             return new ContinuousDistribution(new StudentUniformDistribution(a, b, m, s, student.DegreesOfFreedom), pdfX.Samples);
         }
-
 
         public static ContinuousDistribution Add(ContinuousDistribution pdf, double value)
         {

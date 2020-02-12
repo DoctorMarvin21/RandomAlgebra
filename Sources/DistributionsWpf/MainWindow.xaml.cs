@@ -1,21 +1,26 @@
-﻿using System.Windows;
-using MahApps.Metro.Controls;
-using System.Globalization;
-using OxyPlot.Wpf;
-using MahApps.Metro.Controls.Dialogs;
+﻿using System.Globalization;
 using System;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
+using Avalonia.Input;
 
 namespace DistributionsWpf
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
             Configuration = new Configuration();
             InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
         }
 
         public Configuration Configuration { get; } = new Configuration();
@@ -35,12 +40,14 @@ namespace DistributionsWpf
                 PdfChart.Update(Results, Configuration.ChartPoints);
                 CdfChart.Update(Results, Configuration.ChartPoints);
 
-                PdfPlot.FindChild<Plot>().ResetAllAxes();
-                CdfPlot.FindChild<Plot>().ResetAllAxes();
+                //this.FindControl<ContentControl>("PdfPlot").
+
+                //PdfPlot.FindChild<Plot>().ResetAllAxes();
+                //CdfPlot.FindChild<Plot>().ResetAllAxes();
             }
             catch (Exception ex)
             {
-                await this.ShowMessageAsync(TranslationSource.Instance.GetTranslation("Exception"), ex.Message);
+                //await this.ShowMessageAsync(TranslationSource.Instance.GetTranslation("Exception"), ex.Message);
             }
         }
 
@@ -54,13 +61,13 @@ namespace DistributionsWpf
             TranslationSource.Instance.CurrentCulture = new CultureInfo("en-US");
         }
 
-        private async void DistributionSettingsMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+        public async void OnDistributionSettingsDoubleTapped(object sender, RoutedEventArgs e)
         {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && e.ClickCount >= 2)
-            {
-                var argument = ((FrameworkElement)sender).DataContext as ExpressionArgument;
-                await this.ShowMetroDialogAsync(new DistributionEditWindow(this, argument));
-            }
+            var argument = ((TextBlock)sender).DataContext as ExpressionArgument;
+
+            DistributionEditWindow editWindow = new DistributionEditWindow(this, argument);
+            await editWindow.ShowDialog(this);
         }
 
         private void AddExpressionArgument(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using RandomAlgebra.Distributions;
+﻿using Avalonia.Threading;
+using RandomAlgebra.Distributions;
 using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.DistributionsEvaluation;
 using System;
@@ -6,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace DistributionsWpf
 {
@@ -95,24 +95,19 @@ namespace DistributionsWpf
 
     public class DistributionsPair
     {
-        private readonly object warningsLocker = new object();
-        private readonly object parametersLocker = new object();
         private readonly object processLocker = new object();
 
         public DistributionsPair()
         {
-            BindingOperations.EnableCollectionSynchronization(Warnings, warningsLocker);
-            BindingOperations.EnableCollectionSynchronization(DistributionParameters, parametersLocker);
-
             CalculationProgress.Warning += CalculationProgressWarning;
         }
 
         private void CalculationProgressWarning(object sender, WarningEventArgs e)
         {
-            lock (warningsLocker)
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
                 Warnings.Add(e.Message);
-            }
+            });
         }
 
         public BaseDistribution RandomAlgebra { get; set; }
@@ -138,10 +133,10 @@ namespace DistributionsWpf
         {
             lock (processLocker)
             {
-                lock (warningsLocker)
+                Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     Warnings.Clear();
-                }
+                });
 
                 var univariate = ExpressionArgument.CreateDictionary(configuration.ExpressionArguments);
                 var multivariate = MultivariateExpressionArgument.CreateDictionary(configuration.MultivariateExpressionArguments);
@@ -196,10 +191,10 @@ namespace DistributionsWpf
 
         private void UpdateParameters(double p)
         {
-            lock (parametersLocker)
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
                 DistributionParameters.Clear();
-            }
+            });
 
             AddParameter(new DistributionParameter("t, ms", RandomsAlgebraTime?.TotalMilliseconds, MonteCarloTime?.TotalMilliseconds));
             AddParameter(new DistributionParameter("μ", RandomAlgebra?.Mean, MonteCarlo?.Mean));
@@ -213,10 +208,10 @@ namespace DistributionsWpf
 
         private void AddParameter(DistributionParameter parameter)
         {
-            lock (parametersLocker)
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
                 DistributionParameters.Add(parameter);
-            }
+            });
         }
     }
 }

@@ -1,10 +1,8 @@
-﻿using Accord.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
+using Accord.Math;
+using Accord.Math.Transforms;
 
 namespace RandomAlgebra.Distributions
 {
@@ -30,11 +28,13 @@ namespace RandomAlgebra.Distributions
         public static DiscreteDistribution Convolute(DiscreteDistribution left, ContinuousDistribution right)
         {
             double step = left.Step;
-            double samples = (right.InnerMaxX - right.InnerMinX) / step + 1d;
+            double samples = ((right.InnerMaxX - right.InnerMinX) / step) + 1d;
 
-            //when steps differs too much it would be much slower
+            // When steps differs too much it would be much slower
             if (samples / MaxStepRate > left.Samples)
+            {
                 return DiscreteRandomMath.Add(left, right.Discretize(left.Samples));
+            }
             else
             {
                 samples = Math.Round(samples);
@@ -74,9 +74,8 @@ namespace RandomAlgebra.Distributions
 
             int minPaddedLength = leftY.Length + rightY.Length - 1;
 
-            //original transform supports not only pow of 2, but in ths case if would be faster
+            // Original transform supports not only pow of 2, but in this case if would be faster
             int paddedLength = UpperPowerOfTwo(minPaddedLength);
-
 
             double[] result = new double[minPaddedLength];
 
@@ -85,34 +84,33 @@ namespace RandomAlgebra.Distributions
             Complex[] complexLeft = new Complex[paddedLength];
             Complex[] complexRight = new Complex[paddedLength];
 
-            //copy len - 1 because of correction
+            // Copy len - 1 because of correction
+            Parallel.Invoke(
+                () =>
+                    {
+                        for (int i = 0; i < leftY.Length; i++)
+                        {
+                            complexLeft[i] = leftY[i];
+                        }
 
-            Parallel.Invoke(() =>
-            {
+                        FourierTransform2.FFT(complexLeft, FourierTransform.Direction.Forward);
+                    },
+                () =>
+                    {
+                        for (int i = 0; i < rightY.Length; i++)
+                        {
+                            complexRight[i] = rightY[i];
+                        }
 
-                for (int i = 0; i < leftY.Length; i++)
-                {
-                    complexLeft[i] = leftY[i];
-                }
-
-                Accord.Math.Transforms.FourierTransform2.FFT(complexLeft, FourierTransform.Direction.Forward);
-            },
-            () =>
-            {
-                for (int i = 0; i < rightY.Length; i++)
-                {
-                    complexRight[i] = rightY[i];
-                }
-
-                Accord.Math.Transforms.FourierTransform2.FFT(complexRight, FourierTransform.Direction.Forward);
-            });
+                        FourierTransform2.FFT(complexRight, FourierTransform.Direction.Forward);
+                    });
 
             for (int i = 0; i < paddedLength; i++)
             {
                 complexResult[i] = complexLeft[i] * complexRight[i];
             }
 
-            Accord.Math.Transforms.FourierTransform2.FFT(complexResult, FourierTransform.Direction.Backward);
+            FourierTransform2.FFT(complexResult, FourierTransform.Direction.Backward);
 
             for (int i = 0; i < minPaddedLength; i++)
             {
@@ -129,7 +127,7 @@ namespace RandomAlgebra.Distributions
             return new DiscreteDistribution(xCoordinates, result);
         }
 
-    public static int UpperPowerOfTwo(int v)
+        public static int UpperPowerOfTwo(int v)
         {
             v--;
             v |= v >> 1;
@@ -138,8 +136,8 @@ namespace RandomAlgebra.Distributions
             v |= v >> 8;
             v |= v >> 16;
             v++;
-            return v;
 
+            return v;
         }
     }
 }
