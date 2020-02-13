@@ -1,0 +1,16 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=netstandard">
+  <Styles.Resources>
+    <Color x:Key="ColorAccent1">#637aad</Color>
+    <Color x:Key="ColorAccent2">#5972a7</Color>
+    <Color x:Key="ColorAccent3">#314179</Color>
+    <SolidColorBrush x:Key="ColorAccent3Brush" Color="{StaticResource ColorAccent3}" />
+    <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource ColorAccent1}" />
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#ededed" />
+    <LinearGradientBrush x:Key="LinearGradientNormal" StartPoint="100%,0%" EndPoint="100%,100%">
+      <GradientStop Offset="0" Color="{StaticResource ColorAccent2}" />
+      <GradientStop Offset="1" Color="{StaticResource ColorAccent1}" />
+    </LinearGradientBrush>
+  </Styles.Resources>
+</Styles>

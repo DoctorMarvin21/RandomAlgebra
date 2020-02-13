@@ -7,6 +7,7 @@
         xmlns:charts="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
         mc:Ignorable="d" Height="600" Width="1200"
         d:DesignHeight="600" d:DesignWidth="600"
+        Background="#ededed"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{local:Localize Distributions}">
     <Window.Resources>
@@ -50,8 +51,8 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{local:Localize Model}" VerticalAlignment="Center" />
                 <TextBox Text="{Binding Configuration.Expression}" Width="200" Margin="5" />
-                <Button Content="{local:Localize Evaluate}" Click="Process" Margin="5" />
-                <Button Content="To Eng" Click="LanguageTest" Margin="5" />
+                <Button Content="{local:Localize Evaluate}" Click="Process" Width="100" Margin="5" />
+                <Button Content="To Eng" Click="LanguageTest" Width="100" Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -66,90 +67,106 @@
                                 Template="{StaticResource ChartControl}"
                                 DataContext="{Binding CdfChart}" />
             </Grid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <CheckBox IsChecked="{Binding Configuration.EvaluateRandomAlgebra}">
-                        <TextBlock Text="{local:Localize RandomAlgebra}" />
-                    </CheckBox>
-                    <StackPanel Grid.Row="1">
-                        <DockPanel>
-                            <TextBlock Text="{local:Localize Samples}" VerticalAlignment="Center" />
-                            <NumericUpDown Value="{Binding Configuration.Samples}"
-                                           Minimum="1"
-                                           Maximum="10000000"
-                                           Margin="3" />
-                        </DockPanel>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <CheckBox IsChecked="{Binding Configuration.EvaluateMonteCarlo}">
-                        <TextBlock Text="{local:Localize MonteCarlo}" />
-                    </CheckBox>
-                    <StackPanel Grid.Row="1">
-                        <DockPanel>
-                            <TextBlock Text="{local:Localize Experiments}" VerticalAlignment="Center" />
-                            <NumericUpDown Value="{Binding Configuration.Experiments}"
-                                                    Minimum="10"
-                                                    Maximum="1000000000"
-                                                    Margin="3" />
-                        </DockPanel>
-                        <DockPanel>
-                            <TextBlock Text="{local:Localize Pockets}" VerticalAlignment="Center" />
-                            <NumericUpDown Value="{Binding Configuration.Pockets}"
-                                                    Minimum="10"
-                                                    Maximum="1000000000"
-                                                    Margin="3" />
-                        </DockPanel>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{local:Localize CommonParameters}" />
-                    <StackPanel Grid.Row="1">
-                        <DockPanel>
-                            <TextBlock Text="{local:Localize Probability}" VerticalAlignment="Center" />
-                            <NumericUpDown Value="{Binding Configuration.Probability}"
-                                                    Minimum="0"
-                                                    Increment="0.1"
-                                                    FormatString="0.000"
-                                                    Maximum="1"
-                                                    Margin="3" />
-                        </DockPanel>
-                        <DockPanel>
-                            <TextBlock Text="{local:Localize ChartPoints}" VerticalAlignment="Center" />
-                            <NumericUpDown Value="{Binding Configuration.ChartPoints}"
-                                                    Minimum="10"
-                                                    Maximum="10000"
-                                                    Margin="3" />
-                        </DockPanel>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Column="3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{local:Localize Warnings}" />
-                    <ListBox Grid.Row="1" Items="{Binding Results.Warnings}" />
-                </Grid>
-            </Grid>
+          <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition />
+              <ColumnDefinition />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Panel Height="28" Background="{StaticResource LinearGradientNormal}">
+                  <CheckBox IsChecked="{Binding Configuration.EvaluateRandomAlgebra}" Margin="3">
+                    <TextBlock Text="{local:Localize RandomAlgebra}" />
+                  </CheckBox>
+                </Panel>
+                <StackPanel Grid.Row="1">
+                  <DockPanel>
+                    <TextBlock Text="{local:Localize Samples}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Configuration.Samples}"
+                                   Minimum="1"
+                                   Maximum="10000000"
+                                   Margin="3" />
+                  </DockPanel>
+                </StackPanel>
+              </Grid>
+            </Border>
+            <Border Grid.Column="1">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Panel Height="28" Background="{StaticResource LinearGradientNormal}">
+                  <CheckBox IsChecked="{Binding Configuration.EvaluateMonteCarlo}" Margin="3">
+                    <TextBlock Text="{local:Localize MonteCarlo}" />
+                  </CheckBox>
+                </Panel>
+                <StackPanel Grid.Row="1">
+                  <DockPanel>
+                    <TextBlock Text="{local:Localize Experiments}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Configuration.Experiments}"
+                                            Minimum="10"
+                                            Maximum="1000000000"
+                                            Margin="3" />
+                  </DockPanel>
+                  <DockPanel>
+                    <TextBlock Text="{local:Localize Pockets}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Configuration.Pockets}"
+                                            Minimum="10"
+                                            Maximum="1000000000"
+                                            Margin="3" />
+                  </DockPanel>
+                </StackPanel>
+              </Grid>
+            </Border>
+            <Border Grid.Column="2">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Panel Height="28" Background="{StaticResource LinearGradientNormal}">
+                  <TextBlock Text="{local:Localize CommonParameters}" Margin="3" />
+                </Panel>
+                <StackPanel Grid.Row="1">
+                  <DockPanel>
+                    <TextBlock Text="{local:Localize Probability}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Configuration.Probability}"
+                                            Minimum="0"
+                                            Increment="0.1"
+                                            FormatString="0.000"
+                                            Maximum="1"
+                                            Margin="3" />
+                  </DockPanel>
+                  <DockPanel>
+                    <TextBlock Text="{local:Localize ChartPoints}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Configuration.ChartPoints}"
+                                            Minimum="10"
+                                            Maximum="10000"
+                                            Margin="3" />
+                  </DockPanel>
+                </StackPanel>
+              </Grid>
+            </Border>
+            <Border Grid.Column="3">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Panel Height="28" Background="{StaticResource LinearGradientNormal}">
+                  <TextBlock Text="{local:Localize Warnings}" Margin="3" />
+                </Panel>
+                <ListBox Grid.Row="1" Items="{Binding Results.Warnings}" />
+              </Grid>
+            </Border>
+          </Grid>
         </Grid>
         <GridSplitter Grid.Column="1" Width="3" />
         <Grid Grid.Column="2">
@@ -178,7 +195,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                              <ComboBox Height="40"
+                              <ComboBox
                                   Items="{Binding SettingTypes}"
                                   SelectedItem="{Binding SettingsType}">
                                 <ComboBox.ItemTemplate>

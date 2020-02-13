@@ -1,0 +1,46 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StyleInclude Source="/Resources/Colors.xaml" />
+  <Style Selector="Button">
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="100%,0%" EndPoint="100%,100%">
+          <GradientStop Offset="0" Color="{StaticResource ColorAccent1}" />
+          <GradientStop Offset="1" Color="{StaticResource ColorAccent2}" />
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Height" Value="30" />
+    <Setter Property="BorderBrush" Value="{StaticResource ColorAccent3Brush}" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button:pointerover">
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="100%,0%" EndPoint="100%,100%">
+          <GradientStop Offset="0" Color="{StaticResource ColorAccent2}" />
+          <GradientStop Offset="1" Color="{StaticResource ColorAccent1}" />
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="Button:pointerover/template/ContentPresenter">
+    <Setter Property="BorderBrush" Value="{StaticResource ColorAccent3Brush}" />
+  </Style>
+  <Style Selector="Border">
+    <Setter Property="BorderBrush" Value="#8c8c8c" />
+    <Setter Property="CornerRadius" Value="1" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Margin" Value="2" />
+  </Style>
+  <Style Selector="Button/template/ContentPresenter">
+    <Setter Property="CornerRadius" Value="1" />
+  </Style>
+  <Style Selector="CheckBox">
+    <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+  </Style>
+  <Style Selector="NumericUpDown/template/ButtonSpinner/template/Border">
+    <Setter Property="CornerRadius" Value="1" />
+  </Style>
+</Styles>
