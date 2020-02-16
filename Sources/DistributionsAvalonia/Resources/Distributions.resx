@@ -120,6 +120,9 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AnalyticalConvolution" xml:space="preserve">
+    <value>Analytical Convolution</value>
+  </data>
   <data name="ArcsineDistributionSettings" xml:space="preserve">
     <value>Arcsine</value>
   </data>
@@ -165,6 +168,9 @@
   <data name="Evaluate" xml:space="preserve">
     <value>Evaluate</value>
   </data>
+  <data name="EvaluationSettings" xml:space="preserve">
+    <value>Evaluation Settings</value>
+  </data>
   <data name="Exception" xml:space="preserve">
     <value>Exception</value>
   </data>
@@ -174,11 +180,17 @@
   <data name="ExponentialDistributionSettings" xml:space="preserve">
     <value>Exponential</value>
   </data>
+  <data name="FftConvolution" xml:space="preserve">
+    <value>FFT Convolution</value>
+  </data>
   <data name="GammaDistributionSettings" xml:space="preserve">
     <value>Gamma</value>
   </data>
   <data name="GeneralizedNormalDistributionSettings" xml:space="preserve">
     <value>Generalized normal</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="LognormalDistributionSettings" xml:space="preserve">
     <value>Lognormal</value>
@@ -212,6 +224,9 @@
   </data>
   <data name="NormalDistributionSettings" xml:space="preserve">
     <value>Normal</value>
+  </data>
+  <data name="Optimizations" xml:space="preserve">
+    <value>Optimizations</value>
   </data>
   <data name="Parameter" xml:space="preserve">
     <value>Parameter</value>
@@ -248,6 +263,9 @@
   </data>
   <data name="ScaleParameter" xml:space="preserve">
     <value>Scale parameter</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="ShapeParameter" xml:space="preserve">
     <value>Shape parameter</value>

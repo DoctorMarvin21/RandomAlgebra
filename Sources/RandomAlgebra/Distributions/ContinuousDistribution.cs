@@ -242,7 +242,7 @@ namespace RandomAlgebra.Distributions
                     {
                         var right = (ContinuousDistribution)value;
 
-                        if (Optimizations.UseContinuousConvolution)
+                        if (Optimizations.UseAnalyticalConvolution)
                         {
                             if (BaseDistribution is NormalDistribution && right.BaseDistribution is NormalDistribution)
                             {
@@ -278,7 +278,7 @@ namespace RandomAlgebra.Distributions
                             }
                             else
                             {
-                                if (Optimizations.UseFFTConvolution)
+                                if (Optimizations.UseFftConvolution)
                                 {
                                     return FFT.Convolute(this, right);
                                 }
@@ -290,7 +290,7 @@ namespace RandomAlgebra.Distributions
                         }
                         else
                         {
-                            if (Optimizations.UseFFTConvolution)
+                            if (Optimizations.UseFftConvolution)
                             {
                                 return FFT.Convolute(this, right);
                             }
@@ -302,7 +302,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Discrete:
                     {
-                        if (Optimizations.UseFFTConvolution)
+                        if (Optimizations.UseFftConvolution)
                         {
                             return FFT.Convolute((DiscreteDistribution)value, this);
                         }
@@ -330,7 +330,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Discrete:
                     {
-                        if (Optimizations.UseFFTConvolution)
+                        if (Optimizations.UseFftConvolution)
                         {
                             return FFT.Convolute((DiscreteDistribution)(value * -1), this);
                         }

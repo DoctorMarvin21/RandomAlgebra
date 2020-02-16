@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using RandomAlgebra.Distributions.Settings;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public class DistributionSettingsBindingCollection : ObservableCollection<DistributionSettingsBinding>
     {

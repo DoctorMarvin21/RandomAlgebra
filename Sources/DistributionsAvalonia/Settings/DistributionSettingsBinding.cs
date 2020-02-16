@@ -3,9 +3,9 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
-    public class DistributionSettingsBinding : INotifyPropertyChanged
+    public class DistributionSettingsBinding
     {
         private readonly ExpressionArgument _owner;
         private readonly DistributionSettings _instance;
@@ -19,8 +19,6 @@ namespace DistributionsWpf
 
             Name = TranslationSource.Instance[_propertyInfo.Name];
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public TranslationData Name { get; private set; }
 

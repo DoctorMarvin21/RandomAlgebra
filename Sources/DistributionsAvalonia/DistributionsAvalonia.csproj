@@ -1,19 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\oxyplot-avalonia\Source\OxyPlot.Avalonia\OxyPlot.Avalonia.csproj" />
     <ProjectReference Include="..\RandomAlgebra\RandomAlgebra.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Distributions.resx">
-      <CustomToolNamespace>WPF</CustomToolNamespace>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="**\*.xaml">

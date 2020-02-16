@@ -22,8 +22,8 @@ namespace Distributions
             results.Columns.Add(new DataColumn("Vmc", typeof(double)));
             results.Columns.Add(new DataColumn("Vgum", typeof(double)));
 
-            Optimizations.UseContinuousConvolution = false;
-            Optimizations.UseFFTConvolution = false;
+            Optimizations.UseAnalyticalConvolution = false;
+            Optimizations.UseFftConvolution = false;
 
             int experiments = 10;
             int samples = 1000;

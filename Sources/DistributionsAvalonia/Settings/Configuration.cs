@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public class Configuration
     {
@@ -38,5 +38,29 @@ namespace DistributionsWpf
         public int ChartPoints { get; set; } = 1000;
 
         public double Probability { get; set; } = 0.95;
+
+        public bool AnalyticalConvolution
+        {
+            get
+            {
+                return Optimizations.UseAnalyticalConvolution;
+            }
+            set
+            {
+                Optimizations.UseAnalyticalConvolution = value;
+            }
+        }
+
+        public bool FftConvolution
+        {
+            get
+            {
+                return Optimizations.UseFftConvolution;
+            }
+            set
+            {
+                Optimizations.UseFftConvolution = value;
+            }
+        }
     }
 }

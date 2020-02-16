@@ -1,0 +1,125 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:local="clr-namespace:DistributionsAvalonia"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        Width="400"
+        x:Class="DistributionsAvalonia.EvaluationSettings"
+        Title="{local:Localize EvaluationSettings}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Border Grid.Column="0" Classes="rounded">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+          <TextBlock Text="{local:Localize Optimizations}"
+                     VerticalAlignment="Center"
+                     Margin="3" Classes="header" />
+        </Panel>
+        <StackPanel Grid.Row="1">
+          <CheckBox Content="{local:Localize AnalyticalConvolution}"
+                    IsChecked="{Binding AnalyticalConvolution}"
+                    Margin="3" />
+          <CheckBox Content="{local:Localize FftConvolution}"
+                    IsChecked="{Binding FftConvolution}"
+                    Margin="3" />
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Column="1" Classes="rounded">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+          <TextBlock Text="{local:Localize CommonParameters}"
+                     VerticalAlignment="Center"
+                     Margin="3" Classes="header" />
+        </Panel>
+        <StackPanel Grid.Row="1">
+          <DockPanel>
+            <TextBlock Text="{local:Localize Probability}" VerticalAlignment="Center" />
+            <NumericUpDown Value="{Binding Probability}"
+                        Minimum="0"
+                        Increment="0.1"
+                        FormatString="0.000"
+                        Maximum="1"
+                        Margin="3" />
+          </DockPanel>
+          <DockPanel>
+            <TextBlock Text="{local:Localize ChartPoints}" VerticalAlignment="Center" />
+            <NumericUpDown Value="{Binding ChartPoints}"
+                        Minimum="10"
+                        Maximum="10000"
+                        Margin="3" />
+          </DockPanel>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Row="1" Grid.Column="0" Classes="rounded">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+          <CheckBox IsChecked="{Binding EvaluateRandomAlgebra}" Margin="3">
+            <TextBlock Text="{local:Localize RandomAlgebra}" Classes="header" />
+          </CheckBox>
+        </Panel>
+        <StackPanel Grid.Row="1">
+          <DockPanel>
+            <TextBlock Text="{local:Localize Samples}" VerticalAlignment="Center" />
+            <NumericUpDown Value="{Binding Samples}"
+               Minimum="1"
+               Maximum="10000000"
+               Margin="3" />
+          </DockPanel>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Row="1" Grid.Column="1" Classes="rounded">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+          <CheckBox IsChecked="{Binding EvaluateMonteCarlo}" Margin="3">
+            <TextBlock Text="{local:Localize MonteCarlo}" Classes="header" />
+          </CheckBox>
+        </Panel>
+        <StackPanel Grid.Row="1">
+          <DockPanel>
+            <TextBlock Text="{local:Localize Experiments}" VerticalAlignment="Center" />
+            <NumericUpDown Value="{Binding Experiments}"
+                        Minimum="10"
+                        Maximum="1000000000"
+                        Margin="3" />
+          </DockPanel>
+          <DockPanel>
+            <TextBlock Text="{local:Localize Pockets}" VerticalAlignment="Center" />
+            <NumericUpDown Value="{Binding Pockets}"
+                        Minimum="10"
+                        Maximum="1000000000"
+                        Margin="3" />
+          </DockPanel>
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

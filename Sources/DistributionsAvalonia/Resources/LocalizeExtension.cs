@@ -2,7 +2,7 @@
 using Avalonia.Markup.Xaml;
 using System;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public class LocalizeExtension : MarkupExtension
     {

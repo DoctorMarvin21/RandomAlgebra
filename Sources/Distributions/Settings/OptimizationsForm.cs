@@ -23,15 +23,15 @@ namespace Distributions
             btnCancel.Text = Languages.GetText("ButtonCancel");
 
 
-            checkContinuousConvolution.Checked = Optimizations.UseContinuousConvolution;
-            checkFFTConvolution.Checked = Optimizations.UseFFTConvolution;
+            checkContinuousConvolution.Checked = Optimizations.UseAnalyticalConvolution;
+            checkFFTConvolution.Checked = Optimizations.UseFftConvolution;
 
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            Optimizations.UseContinuousConvolution = checkContinuousConvolution.Checked;
-            Optimizations.UseFFTConvolution = checkFFTConvolution.Checked;
+            Optimizations.UseAnalyticalConvolution = checkContinuousConvolution.Checked;
+            Optimizations.UseFftConvolution = checkFFTConvolution.Checked;
 
             DialogResult = DialogResult.OK;
         }

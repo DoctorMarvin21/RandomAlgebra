@@ -315,7 +315,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        if (Optimizations.UseFFTConvolution)
+                        if (Optimizations.UseFftConvolution)
                         {
                             return FFT.Convolute(this, (ContinuousDistribution)value);
                         }
@@ -345,7 +345,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        if (Optimizations.UseFFTConvolution)
+                        if (Optimizations.UseFftConvolution)
                         {
                             return FFT.Convolute(this, (ContinuousDistribution)(value * -1));
                         }

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distributions", "Distributions\Distributions.csproj", "{FB324014-D718-4215-9BE4-CADC4C844E0C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributionsWpf", "DistributionsWpf\DistributionsWpf.csproj", "{D466896A-0AA7-4E49-840C-D5B869DA4735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributionsAvalonia", "DistributionsAvalonia\DistributionsAvalonia.csproj", "{D466896A-0AA7-4E49-840C-D5B869DA4735}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomAlgebra", "RandomAlgebra\RandomAlgebra.csproj", "{E47C1011-62F9-4865-B280-7527A17A49BC}"
 EndProject

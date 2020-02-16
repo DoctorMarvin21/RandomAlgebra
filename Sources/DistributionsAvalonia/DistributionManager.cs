@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public static class DistributionManager
     {

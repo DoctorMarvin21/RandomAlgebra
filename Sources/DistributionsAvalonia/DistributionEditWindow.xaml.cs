@@ -2,11 +2,8 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
-    /// <summary>
-    /// Логика взаимодействия для EditDistributionWindow.xaml
-    /// </summary>
     public partial class DistributionEditWindow : Window
     {
         public DistributionEditWindow()

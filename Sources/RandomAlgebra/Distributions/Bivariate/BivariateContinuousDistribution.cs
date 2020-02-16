@@ -213,7 +213,7 @@ namespace RandomAlgebra.Distributions
 
         public override BaseDistribution GetSum()
         {
-            if (Settings.Optimizations.UseContinuousConvolution)
+            if (Settings.Optimizations.UseAnalyticalConvolution)
             {
                 return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation)
                     .GetDistribution(Samples);
@@ -226,7 +226,7 @@ namespace RandomAlgebra.Distributions
 
         public override BaseDistribution GetDifference()
         {
-            if (Settings.Optimizations.UseContinuousConvolution)
+            if (Settings.Optimizations.UseAnalyticalConvolution)
             {
                 return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation)
                     .GetDistribution(Samples);

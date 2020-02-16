@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public class ExpressionArgument : INotifyPropertyChanged
     {

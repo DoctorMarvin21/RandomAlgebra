@@ -1,0 +1,63 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StyleInclude Source="/Resources/Colors.xaml" />
+  <Style Selector="Button">
+    <Setter Property="Background" Value="{StaticResource AccentLinearGradientBrush}" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="BorderBrush" Value="{StaticResource ColorAccent3Brush}" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+  </Style>
+  <Style Selector="Button:pointerover">
+    <Setter Property="Background" Value="{StaticResource AccentLinearGradientBrushInverted}" />
+  </Style>
+  <Style Selector="Border.rounded">
+    <Setter Property="BorderBrush" Value="#8c8c8c" />
+    <Setter Property="CornerRadius" Value="1" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Margin" Value="2" />
+  </Style>
+  <Style Selector="Button:pointerover/template/ContentPresenter">
+    <Setter Property="BorderBrush" Value="{StaticResource ColorAccent3Brush}" />
+  </Style>
+  <Style Selector="Button/template/ContentPresenter">
+    <Setter Property="CornerRadius" Value="1" />
+  </Style>
+  <Style Selector="ComboBox">
+    <Setter Property="BorderBrush" Value="{StaticResource ColorAccent3Brush}" />
+    <Setter Property="Background" Value="{StaticResource AccentLinearGradientBrush}" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+  </Style>
+  <Style Selector="ComboBox/template/Border">
+    <Setter Property="CornerRadius" Value="1" />
+  </Style>
+  <Style Selector="ComboBoxItem">
+    <Setter Property="Foreground" Value="Black" />
+    <Setter Property="Background" Value="White" />
+    <Setter Property="FontWeight" Value="Normal" />
+  </Style>
+  <Style Selector="ComboBoxItem:pointerover/template/ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected/template/ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource AccentLinearGradientBrush}"/>
+  </Style>
+  <Style Selector="ComboBoxItem:selected">
+    <Setter Property="Background" Value="{StaticResource HighlightBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+  </Style>
+  <Style Selector="CheckBox">
+    <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+  </Style>
+  <Style Selector="TextBlock.header">
+    <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+    <Setter Property="FontWeight" Value="Bold" />
+  </Style>
+  <Style Selector="DataGridRow:pointerover/template/Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{StaticResource BackgroundBrush}" />
+  </Style>
+  <Style Selector="DataGridRow:selected/template/Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{StaticResource BackgroundBrush}" />
+  </Style>
+</Styles>

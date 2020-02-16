@@ -218,7 +218,7 @@ namespace RandomAlgebra.Distributions
 
         /// <summary>
         /// Sum (convolution) of distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseContinuousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>.
+        /// <see cref="Optimizations.UseAnalyticalConvolution"/> and <see cref="Optimizations.UseFftConvolution"/>.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Sum result.</returns>
@@ -226,7 +226,7 @@ namespace RandomAlgebra.Distributions
 
         /// <summary>
         /// Difference between distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseContinuousConvolution"/> and <see cref="Optimizations.UseFFTConvolution"/>.
+        /// <see cref="Optimizations.UseAnalyticalConvolution"/> and <see cref="Optimizations.UseFftConvolution"/>.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Difference result.</returns>

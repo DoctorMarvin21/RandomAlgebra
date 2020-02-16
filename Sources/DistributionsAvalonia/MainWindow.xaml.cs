@@ -3,14 +3,22 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using System.ComponentModel;
+using Avalonia;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public static readonly AvaloniaProperty<bool> CanProcessProperty =
+            AvaloniaProperty.Register<MainWindow, bool>(nameof(CanProcess), true, false);
+
+        public static readonly AvaloniaProperty<string> EvaluationErrorProperty =
+            AvaloniaProperty.Register<MainWindow, string>(nameof(EvaluationError));
+
         public MainWindow()
         {
             Configuration = new Configuration();
@@ -36,28 +44,42 @@ namespace DistributionsWpf
         {
             try
             {
+                CanProcess = false;
+                EvaluationError = null;
+
                 await Results.ProcessAsync(Configuration);
 
                 PdfChart.Update(Results, Configuration.ChartPoints);
                 CdfChart.Update(Results, Configuration.ChartPoints);
 
-                //this.FindControl<ContentControl>("PdfPlot").
+                //var p = this.FindControl<ContentControl>("PdfPlot");
 
                 //PdfPlot.FindChild<Plot>().ResetAllAxes();
                 //CdfPlot.FindChild<Plot>().ResetAllAxes();
             }
             catch (Exception ex)
             {
-                //await this.ShowMessageAsync(TranslationSource.Instance.GetTranslation("Exception"), ex.Message);
+                EvaluationError = ex.Message;
+            }
+            finally
+            {
+                CanProcess = true;
             }
         }
 
-        private void Process(object sender, RoutedEventArgs e)
+        public bool CanProcess
         {
-            Process();
+            get { return GetValue(CanProcessProperty); }
+            set { SetValue(CanProcessProperty, value); }
         }
 
-        private void LanguageTest(object sender, RoutedEventArgs e)
+        public string EvaluationError
+        {
+            get { return GetValue(EvaluationErrorProperty); }
+            set { SetValue(EvaluationErrorProperty, value); }
+        }
+
+        private void LanguageTest()
         {
             TranslationSource.Instance.CurrentCulture = new CultureInfo("en-US");
         }
@@ -71,13 +93,13 @@ namespace DistributionsWpf
             await editWindow.ShowDialog(this);
         }
 
-        private void AddExpressionArgument(object sender, RoutedEventArgs e)
+        private void AddExpressionArgument()
         {
             Configuration.ExpressionArguments.Add(new ExpressionArgument(null,
                 new RandomAlgebra.Distributions.Settings.UniformDistributionSettings()));
         }
 
-        private void RemoveExpressionArgument(object sender, RoutedEventArgs e)
+        private void RemoveExpressionArgument()
         {
             if (Configuration.SelectedArgument != null)
             {
@@ -87,6 +109,12 @@ namespace DistributionsWpf
             {
                 Configuration.ExpressionArguments.RemoveAt(Configuration.ExpressionArguments.Count - 1);
             }
+        }
+
+        private void EvaluationSettings()
+        {
+            EvaluationSettings evaluationSettings = new EvaluationSettings(Configuration);
+            evaluationSettings.ShowDialog(this);
         }
     }
 }

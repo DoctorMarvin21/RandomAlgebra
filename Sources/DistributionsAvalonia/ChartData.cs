@@ -5,7 +5,7 @@ using OxyPlot;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace DistributionsWpf
+namespace DistributionsAvalonia
 {
     public enum ChartDataType
     {
