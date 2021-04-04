@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\oxyplot-avalonia\Source\OxyPlot.Avalonia\OxyPlot.Avalonia.csproj" />
     <ProjectReference Include="..\RandomAlgebra\RandomAlgebra.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -13,9 +12,11 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.3" />
-    <PackageReference Include="Avalonia" Version="0.9.3" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.3" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.3" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0" />
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="Material.Avalonia" Version="2.0.0" />
+    <PackageReference Include="OxyPlot.Avalonia" Version="2.1.0-20201211.2" />
   </ItemGroup>
 </Project>

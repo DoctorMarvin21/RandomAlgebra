@@ -5,6 +5,9 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.ComponentModel;
 using Avalonia;
+using OxyPlot.Avalonia;
+using Avalonia.VisualTree;
+using System.Linq;
 
 namespace DistributionsAvalonia
 {
@@ -52,10 +55,18 @@ namespace DistributionsAvalonia
                 PdfChart.Update(Results, Configuration.ChartPoints);
                 CdfChart.Update(Results, Configuration.ChartPoints);
 
-                //var p = this.FindControl<ContentControl>("PdfPlot");
+                var b = this.FindControl<ContentControl>("PdfPlot").FindControl<Plot>("DDF");
 
-                //PdfPlot.FindChild<Plot>().ResetAllAxes();
-                //CdfPlot.FindChild<Plot>().ResetAllAxes();
+
+                this.FindControl<ContentControl>("PdfPlot")
+                    .GetVisualChildren()
+                    .OfType<Plot>()
+                    .Single().ResetAllAxes();
+
+                this.FindControl<ContentControl>("CdfPlot")
+                    .GetVisualChildren()
+                    .OfType<Plot>()
+                    .Single().ResetAllAxes();
             }
             catch (Exception ex)
             {
@@ -69,13 +80,13 @@ namespace DistributionsAvalonia
 
         public bool CanProcess
         {
-            get { return GetValue(CanProcessProperty); }
+            get { return (bool)GetValue(CanProcessProperty); }
             set { SetValue(CanProcessProperty, value); }
         }
 
         public string EvaluationError
         {
-            get { return GetValue(EvaluationErrorProperty); }
+            get { return (string)GetValue(EvaluationErrorProperty); }
             set { SetValue(EvaluationErrorProperty, value); }
         }
 

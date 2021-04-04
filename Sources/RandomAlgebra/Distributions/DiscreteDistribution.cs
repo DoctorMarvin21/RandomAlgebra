@@ -315,14 +315,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        if (Optimizations.UseFftConvolution)
-                        {
-                            return FFT.Convolute(this, (ContinuousDistribution)value);
-                        }
-                        else
-                        {
-                            return DiscreteRandomMath.Add(this, (DiscreteDistribution)(ContinuousDistribution)value);
-                        }
+                        return DiscreteRandomMath.Add(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     {
@@ -345,14 +338,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Continious:
                     {
-                        if (Optimizations.UseFftConvolution)
-                        {
-                            return FFT.Convolute(this, (ContinuousDistribution)(value * -1));
-                        }
-                        else
-                        {
-                            return DiscreteRandomMath.Sub(this, (DiscreteDistribution)(ContinuousDistribution)value);
-                        }
+                        return DiscreteRandomMath.Sub(this, (DiscreteDistribution)(ContinuousDistribution)value);
                     }
                 default:
                     {

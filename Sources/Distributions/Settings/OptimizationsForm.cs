@@ -21,18 +21,10 @@ namespace Distributions
             checkFFTConvolution.Text = Languages.GetText("CheckFFT");
             btnOk.Text = Languages.GetText("ButtonOk");
             btnCancel.Text = Languages.GetText("ButtonCancel");
-
-
-            checkContinuousConvolution.Checked = Optimizations.UseAnalyticalConvolution;
-            checkFFTConvolution.Checked = Optimizations.UseFftConvolution;
-
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            Optimizations.UseAnalyticalConvolution = checkContinuousConvolution.Checked;
-            Optimizations.UseFftConvolution = checkFFTConvolution.Checked;
-
             DialogResult = DialogResult.OK;
         }
 

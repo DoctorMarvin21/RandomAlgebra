@@ -38,29 +38,5 @@ namespace DistributionsAvalonia
         public int ChartPoints { get; set; } = 1000;
 
         public double Probability { get; set; } = 0.95;
-
-        public bool AnalyticalConvolution
-        {
-            get
-            {
-                return Optimizations.UseAnalyticalConvolution;
-            }
-            set
-            {
-                Optimizations.UseAnalyticalConvolution = value;
-            }
-        }
-
-        public bool FftConvolution
-        {
-            get
-            {
-                return Optimizations.UseFftConvolution;
-            }
-            set
-            {
-                Optimizations.UseFftConvolution = value;
-            }
-        }
     }
 }

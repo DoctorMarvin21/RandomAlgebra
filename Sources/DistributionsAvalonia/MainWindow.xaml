@@ -7,7 +7,6 @@
         xmlns:charts="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
         mc:Ignorable="d" Height="600" Width="1200"
         d:DesignHeight="600" d:DesignWidth="600"
-        Background="{StaticResource BackgroundBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{local:Localize Distributions}">
   <Window.Resources>
@@ -101,7 +100,6 @@
         <RowDefinition />
       </Grid.RowDefinitions>
       <DataGrid AutoGenerateColumns="False"
-                RowBackground="{StaticResource ForegroundBrush}"
                 AlternatingRowBackground="{x:Null}"
                 CanUserResizeColumns="True"
                 Items="{Binding Configuration.ExpressionArguments}"

@@ -68,26 +68,12 @@ namespace RandomAlgebra.Distributions
 
         public static DiscreteDistribution Add(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
         {
-            if (Optimizations.UseFftConvolution && dpdfLeft.Step / dpdfRight.Step < FFT.MaxStepRate && dpdfRight.Step / dpdfLeft.Step < FFT.MaxStepRate)
-            {
-                return FFT.Convolute(dpdfLeft, dpdfRight, dpdfLeft.InnerSamples);
-            }
-            else
-            {
-                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Add);
-            }
+            return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Add);
         }
 
         public static DiscreteDistribution Sub(DiscreteDistribution dpdfLeft, DiscreteDistribution dpdfRight)
         {
-            if (Optimizations.UseFftConvolution)
-            {
-                return FFT.Convolute(dpdfLeft, Multiply(dpdfRight, -1), dpdfLeft.InnerSamples);
-            }
-            else
-            {
-                return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Sub);
-            }
+            return TwoDiscreteDistributions(dpdfLeft, dpdfRight, DistributionsOperation.Sub);
         }
 
         public static DiscreteDistribution Multiply(DiscreteDistribution dpdfX, DiscreteDistribution dpdfY)

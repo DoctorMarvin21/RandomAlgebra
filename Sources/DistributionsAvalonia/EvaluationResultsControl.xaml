@@ -8,7 +8,6 @@
   <DataGrid Grid.Row="2"
             CanUserResizeColumns="True"
             AutoGenerateColumns="False"
-            RowBackground="{StaticResource ForegroundBrush}"
             AlternatingRowBackground="{x:Null}"
             IsReadOnly="True"
             Items="{Binding DistributionParameters}">

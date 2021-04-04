@@ -13,42 +13,21 @@
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition />
+      <RowDefinition />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition />
-      <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <Border Grid.Column="0" Classes="rounded">
+    <Border>
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
         </Grid.RowDefinitions>
-        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
-          <TextBlock Text="{local:Localize Optimizations}"
-                     VerticalAlignment="Center"
-                     Margin="3" Classes="header" />
-        </Panel>
-        <StackPanel Grid.Row="1">
-          <CheckBox Content="{local:Localize AnalyticalConvolution}"
-                    IsChecked="{Binding AnalyticalConvolution}"
-                    Margin="3" />
-          <CheckBox Content="{local:Localize FftConvolution}"
-                    IsChecked="{Binding FftConvolution}"
-                    Margin="3" />
-        </StackPanel>
-      </Grid>
-    </Border>
-    <Border Grid.Column="1" Classes="rounded">
-      <Grid>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition />
-        </Grid.RowDefinitions>
-        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+        <Panel Height="28">
           <TextBlock Text="{local:Localize CommonParameters}"
                      VerticalAlignment="Center"
-                     Margin="3" Classes="header" />
+                     Margin="3" FontSize="16" FontWeight="Bold" />
         </Panel>
         <StackPanel Grid.Row="1">
           <DockPanel>
@@ -70,15 +49,15 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1" Grid.Column="0" Classes="rounded">
+    <Border Grid.Row="1">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
         </Grid.RowDefinitions>
-        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+        <Panel Height="28">
           <CheckBox IsChecked="{Binding EvaluateRandomAlgebra}" Margin="3">
-            <TextBlock Text="{local:Localize RandomAlgebra}" Classes="header" />
+            <TextBlock Text="{local:Localize RandomAlgebra}" FontSize="16" FontWeight="Bold" />
           </CheckBox>
         </Panel>
         <StackPanel Grid.Row="1">
@@ -92,15 +71,15 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1" Grid.Column="1" Classes="rounded">
+    <Border Grid.Row="2">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
         </Grid.RowDefinitions>
-        <Panel Height="28" Background="{StaticResource AccentLinearGradientBrush}">
+        <Panel Height="28">
           <CheckBox IsChecked="{Binding EvaluateMonteCarlo}" Margin="3">
-            <TextBlock Text="{local:Localize MonteCarlo}" Classes="header" />
+            <TextBlock Text="{local:Localize MonteCarlo}" FontSize="16" FontWeight="Bold" />
           </CheckBox>
         </Panel>
         <StackPanel Grid.Row="1">

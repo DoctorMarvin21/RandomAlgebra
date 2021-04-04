@@ -242,74 +242,46 @@ namespace RandomAlgebra.Distributions
                     {
                         var right = (ContinuousDistribution)value;
 
-                        if (Optimizations.UseAnalyticalConvolution)
+                        if (BaseDistribution is NormalDistribution && right.BaseDistribution is NormalDistribution)
                         {
-                            if (BaseDistribution is NormalDistribution && right.BaseDistribution is NormalDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfNormalAndNormal(this, right);
-                            }
-                            else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is UniformContinuousDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfUniformAndUniform(this, right);
-                            }
-                            else if (BaseDistribution is NormalDistribution && right.BaseDistribution is UniformContinuousDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfNormalAndUniform(this, right);
-                            }
-                            else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is NormalDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfNormalAndUniform(right, this);
-                            }
-                            else if (BaseDistribution is NormalDistribution && right.BaseDistribution is BhattacharjeeDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(this, right);
-                            }
-                            else if (BaseDistribution is BhattacharjeeDistribution && right.BaseDistribution is NormalDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(right, this);
-                            }
-                            else if (BaseDistribution is StudentGeneralizedDistribution && right.BaseDistribution is UniformContinuousDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfStudentAndUniform(this, right);
-                            }
-                            else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is StudentGeneralizedDistribution)
-                            {
-                                return ContinuousRandomMath.ConvolutionOfStudentAndUniform(right, this);
-                            }
-                            else
-                            {
-                                if (Optimizations.UseFftConvolution)
-                                {
-                                    return FFT.Convolute(this, right);
-                                }
-                                else
-                                {
-                                    return Discretize() + right.Discretize();
-                                }
-                            }
+                            return ContinuousRandomMath.ConvolutionOfNormalAndNormal(this, right);
+                        }
+                        else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is UniformContinuousDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfUniformAndUniform(this, right);
+                        }
+                        else if (BaseDistribution is NormalDistribution && right.BaseDistribution is UniformContinuousDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfNormalAndUniform(this, right);
+                        }
+                        else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is NormalDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfNormalAndUniform(right, this);
+                        }
+                        else if (BaseDistribution is NormalDistribution && right.BaseDistribution is BhattacharjeeDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(this, right);
+                        }
+                        else if (BaseDistribution is BhattacharjeeDistribution && right.BaseDistribution is NormalDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfNormalAndBhattacharjee(right, this);
+                        }
+                        else if (BaseDistribution is StudentGeneralizedDistribution && right.BaseDistribution is UniformContinuousDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfStudentAndUniform(this, right);
+                        }
+                        else if (BaseDistribution is UniformContinuousDistribution && right.BaseDistribution is StudentGeneralizedDistribution)
+                        {
+                            return ContinuousRandomMath.ConvolutionOfStudentAndUniform(right, this);
                         }
                         else
                         {
-                            if (Optimizations.UseFftConvolution)
-                            {
-                                return FFT.Convolute(this, right);
-                            }
-                            else
-                            {
-                                return Discretize() + right.Discretize();
-                            }
+                            return Discretize() + right.Discretize();
                         }
                     }
                 case DistributionType.Discrete:
                     {
-                        if (Optimizations.UseFftConvolution)
-                        {
-                            return FFT.Convolute((DiscreteDistribution)value, this);
-                        }
-                        else
-                        {
-                            return Discretize() + value;
-                        }
+                        return Discretize() + value;
                     }
                 case DistributionType.Number:
                     {
@@ -330,14 +302,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Discrete:
                     {
-                        if (Optimizations.UseFftConvolution)
-                        {
-                            return FFT.Convolute((DiscreteDistribution)(value * -1), this);
-                        }
-                        else
-                        {
-                            return Discretize() - value;
-                        }
+                        return Discretize() - value;
                     }
                 case DistributionType.Number:
                     {

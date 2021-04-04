@@ -213,28 +213,12 @@ namespace RandomAlgebra.Distributions
 
         public override BaseDistribution GetSum()
         {
-            if (Settings.Optimizations.UseAnalyticalConvolution)
-            {
-                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation)
-                    .GetDistribution(Samples);
-            }
-            else
-            {
-                return base.GetSum();
-            }
+            return new Settings.BivariateBasedNormalDistributionSettings(Mean1, Mean2, Sigma1, Sigma2, Correlation).GetDistribution(Samples);
         }
 
         public override BaseDistribution GetDifference()
         {
-            if (Settings.Optimizations.UseAnalyticalConvolution)
-            {
-                return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation)
-                    .GetDistribution(Samples);
-            }
-            else
-            {
-                return base.GetDifference();
-            }
+            return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation).GetDistribution(Samples);
         }
 
         protected override double InnerProbabilityDensityFunction(double x, double y)
