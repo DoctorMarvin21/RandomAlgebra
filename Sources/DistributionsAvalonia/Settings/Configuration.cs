@@ -1,8 +1,5 @@
-﻿using RandomAlgebra.Distributions.Settings;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
+using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsAvalonia
 {

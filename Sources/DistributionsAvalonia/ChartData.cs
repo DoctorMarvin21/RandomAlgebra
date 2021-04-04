@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using OxyPlot;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace DistributionsAvalonia
 {
