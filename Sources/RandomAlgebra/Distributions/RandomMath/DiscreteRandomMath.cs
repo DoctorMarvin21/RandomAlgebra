@@ -87,7 +87,7 @@ namespace RandomAlgebra.Distributions
 
         private static DiscreteDistribution DiscreteDistributionAndValue(DiscreteDistribution dpdf, double value, DistributionsOperation action)
         {
-            int length = dpdf.InnerSamples;
+            int length = dpdf.Samples;
             double[] leftX = dpdf.XCoordinatesInternal;
             double[] leftY = dpdf.YCoordinatesInternal;
 
@@ -191,8 +191,8 @@ namespace RandomAlgebra.Distributions
             dpdfLeft = exchange[0];
             dpdfRight = exchange[1];
 
-            int lengthLeft = dpdfLeft.InnerSamples;
-            int lengthRight = dpdfRight.InnerSamples;
+            int lengthLeft = dpdfLeft.Samples;
+            int lengthRight = dpdfRight.Samples;
 
             double stepRight = dpdfRight.Step;
             double stepLeft = dpdfLeft.Step;
@@ -208,7 +208,7 @@ namespace RandomAlgebra.Distributions
 
             double[] yCoordinates = new double[lengthRight];
 
-            double[] range = CommonRandomMath.GetRange(dpdfLeft.InnerMinX, dpdfLeft.InnerMaxX, dpdfRight.InnerMinX, dpdfRight.InnerMaxX, action);
+            double[] range = CommonRandomMath.GetRange(dpdfLeft.MinX, dpdfLeft.MaxX, dpdfRight.MinX, dpdfRight.MaxX, action);
 
             double[] xCoordinates = CommonRandomMath.GenerateXAxis(range[0], range[1], lengthRight, out double stepX0);
 

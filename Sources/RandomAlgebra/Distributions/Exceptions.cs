@@ -4,9 +4,6 @@ namespace RandomAlgebra.Distributions
 {
     internal enum DistributionsInvalidOperationExceptionType
     {
-        ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce,
-        ExpressionOpreatorsInconsistent,
-        CorrelationParamtersIgnored,
         ForCorrelationPairMultivariateDistributionMustBeTwoDimensional,
         DivisionByZero,
         MultiplyRandomByZero,
@@ -48,7 +45,6 @@ namespace RandomAlgebra.Distributions
         NumberOfPocketsMustBeGreaterThenTwo,
         ParameterValueIsMissing,
         ArgumentSpecifiedSeveralTimes,
-        UnknownSymbolInExpression,
         NegativeStep,
         ProbabilityMustBeInRangeFromZeroToOne,
         CovarianceMatrixMustBeSquare,
@@ -57,7 +53,6 @@ namespace RandomAlgebra.Distributions
         LengthOfArgumentsMustBeGreaterThenTwo,
         LengthOfValuesMustBeGreaterThenTwo,
         LengthOfArgumentsMustBeEqualToLengthOfValues,
-        LengthOfArgumentsMustBeEqualToLengthOfParameters,
         VectorOfMeansMustBeEqualToDimension,
         VectorOfCoeffitientsMustBeEqualToDimension,
         ForCorrelationPairBothOfDistributionsMustBeContinuous

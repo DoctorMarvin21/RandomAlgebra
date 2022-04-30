@@ -77,7 +77,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
         public static BaseDistribution DistributionUnary(BaseDistribution value, NodeOperationType operationType)
         {
-            if (value.InnerDistributionType == DistributionType.Number)
+            if (value.DistributionType == DistributionType.Number)
             {
                 return EvaluateDoubleUnary((double)value, operationType);
             }
@@ -87,23 +87,23 @@ namespace RandomAlgebra.DistributionsEvaluation
                 {
                     case NodeOperationType.Abs:
                         {
-                            return value.InnerGetAbs();
+                            return value.Abs();
                         }
                     case NodeOperationType.Negate:
                         {
-                            return value.InnerGetNegate();
+                            return value.Negate();
                         }
                     case NodeOperationType.Sqrt:
                         {
-                            return value.InnerGetPower(0.5);
+                            return value.Power(0.5);
                         }
                     case NodeOperationType.Ln:
                         {
-                            return value.InnerGetLog(Math.E);
+                            return value.Log(Math.E);
                         }
                     case NodeOperationType.Lg10:
                         {
-                            return value.InnerGetLog(10);
+                            return value.Log(10);
                         }
                     case NodeOperationType.Sin:
                         {
@@ -127,7 +127,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
         public static BaseDistribution DistributionBinary(BaseDistribution left, BaseDistribution right, NodeOperationType operationType)
         {
-            if (left.InnerDistributionType == DistributionType.Number && right.InnerDistributionType == DistributionType.Number)
+            if (left.DistributionType == DistributionType.Number && right.DistributionType == DistributionType.Number)
             {
                 return EvaluateDoubleBinary((double)left, (double)right, operationType);
             }
@@ -153,11 +153,11 @@ namespace RandomAlgebra.DistributionsEvaluation
                         }
                     case NodeOperationType.Power:
                         {
-                            return left.InnerGetPower(right);
+                            return left.Power(right);
                         }
                     case NodeOperationType.Log:
                         {
-                            return left.InnerGetLog(right);
+                            return left.Log(right);
                         }
                     default:
                         {

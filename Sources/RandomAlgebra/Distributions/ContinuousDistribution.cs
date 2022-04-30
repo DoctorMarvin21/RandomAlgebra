@@ -1,8 +1,8 @@
 ﻿using System;
 using Accord.Math.Integration;
 using Accord.Statistics.Distributions.Univariate;
-using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.Distributions.CustomDistributions;
+using RandomAlgebra.Distributions.Settings;
 
 namespace RandomAlgebra.Distributions
 {
@@ -65,27 +65,11 @@ namespace RandomAlgebra.Distributions
 
         #endregion
 
-        #region Settings
-
-        internal UnivariateContinuousDistribution BaseDistribution { get; }
-
-        internal double Coefficient { get; } = 1;
-
-        internal double Offset { get; }
-
-        #endregion
-
         #region Overrides properties
 
-        internal override DistributionType InnerDistributionType
-        {
-            get
-            {
-                return DistributionType.Continious;
-            }
-        }
+        public override DistributionType DistributionType => DistributionType.Continious;
 
-        internal override double InnerMinX
+        public override double MinX
         {
             get
             {
@@ -93,11 +77,12 @@ namespace RandomAlgebra.Distributions
                 {
                     support = GetDiscretizationSupport();
                 }
+
                 return support[0];
             }
         }
 
-        internal override double InnerMaxX
+        public override double MaxX
         {
             get
             {
@@ -105,11 +90,12 @@ namespace RandomAlgebra.Distributions
                 {
                     support = GetDiscretizationSupport();
                 }
+
                 return support[1];
             }
         }
 
-        internal override int InnerSamples
+        public override int Samples
         {
             get
             {
@@ -117,7 +103,7 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerMean
+        public override double Mean
         {
             get
             {
@@ -125,7 +111,7 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerVariance
+        public override double Variance
         {
             get
             {
@@ -133,7 +119,7 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerSkewness
+        public override double Skewness
         {
             get
             {
@@ -146,6 +132,16 @@ namespace RandomAlgebra.Distributions
                 return skewness.Value;
             }
         }
+
+        #endregion
+
+        #region Settings
+
+        internal UnivariateContinuousDistribution BaseDistribution { get; }
+
+        internal double Coefficient { get; } = 1;
+
+        internal double Offset { get; }
 
         #endregion
 
@@ -179,11 +175,11 @@ namespace RandomAlgebra.Distributions
 
         #region Overrides functions
 
-        internal override double InnerGetPDFYbyX(double x)
+        public override double ProbabilityDensityFunction(double x)
         {
             try
             {
-                if (x < InnerMinX || x > InnerMaxX)
+                if (x < MinX || x > MaxX)
                 {
                     return 0;
                 }
@@ -206,11 +202,11 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerGetCDFYbyX(double x)
+        public override double DistributionFunction(double x)
         {
             try
             {
-                if (x < InnerMinX || x > InnerMaxX)
+                if (x < MinX || x > MaxX)
                 {
                     return 0;
                 }
@@ -225,8 +221,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerQuantile(double p)
+        public override double Quantile(double p)
         {
+            if (p < 0 || p > 1)
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ProbabilityMustBeInRangeFromZeroToOne);
+            }
+
             return (BaseDistribution.InverseDistributionFunction(p) * Coefficient) + Offset;
         }
 
@@ -234,9 +235,9 @@ namespace RandomAlgebra.Distributions
 
         #region Random algebra
 
-        internal override BaseDistribution InnerGetSumm(BaseDistribution value)
+        public override BaseDistribution Sum(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Continious:
                     {
@@ -292,9 +293,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetDifference(BaseDistribution value)
+        public override BaseDistribution Difference(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Continious:
                     {
@@ -313,9 +314,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetProduct(BaseDistribution value)
+        public override BaseDistribution Product(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Continious:
                 case DistributionType.Discrete:
@@ -324,7 +325,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Number:
                     {
-                        if (value.InnerMean == 0)
+                        if (value.Mean == 0)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.MultiplyRandomByZero);
                         }
@@ -336,9 +337,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetRatio(BaseDistribution value)
+        public override BaseDistribution Ratio(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Continious:
                 case DistributionType.Discrete:
@@ -347,7 +348,7 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionType.Number:
                     {
-                        if (value.InnerMean == 0)
+                        if (value.Mean == 0)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZero);
                         }
@@ -359,9 +360,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetPower(BaseDistribution value)
+        public override BaseDistribution Power(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -382,9 +383,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetLog(BaseDistribution nBase)
+        public override BaseDistribution Log(BaseDistribution nBase)
         {
-            switch (nBase.InnerDistributionType)
+            switch (nBase.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -405,12 +406,12 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetAbs()
+        public override BaseDistribution Abs()
         {
             return CommonRandomMath.Abs(this);
         }
 
-        internal override BaseDistribution InnerGetNegate()
+        public override BaseDistribution Negate()
         {
             return ContinuousRandomMath.Negate(this);
         }
@@ -421,7 +422,7 @@ namespace RandomAlgebra.Distributions
 
         private double ThirdMoment(double x)
         {
-            return Math.Pow(x - Mean, 3) * InnerGetPDFYbyX(x);
+            return Math.Pow(x - Mean, 3) * ProbabilityDensityFunction(x);
         }
 
         private double[] GetDiscretizationSupport()
@@ -429,7 +430,7 @@ namespace RandomAlgebra.Distributions
             bool minInfinite = double.IsInfinity(BaseDistribution.Support.Min);
             bool maxInfinite = double.IsInfinity(BaseDistribution.Support.Max);
 
-            double tolerance = CommonRandomMath.GetTolerance(InnerSamples);
+            double tolerance = CommonRandomMath.GetTolerance(Samples);
             double min = minInfinite ? GetSupport(true, tolerance) : BaseDistribution.Support.Min;
             double max = maxInfinite ? GetSupport(false, tolerance) : BaseDistribution.Support.Max;
 

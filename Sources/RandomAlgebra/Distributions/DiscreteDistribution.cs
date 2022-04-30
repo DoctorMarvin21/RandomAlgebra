@@ -30,7 +30,7 @@ namespace RandomAlgebra.Distributions
         /// </summary>
         /// <param name="continiousDistribution">Sampled <see cref="ContinuousDistribution"/>.</param>
         public DiscreteDistribution(ContinuousDistribution continiousDistribution)
-            : this(continiousDistribution, continiousDistribution.InnerSamples)
+            : this(continiousDistribution, continiousDistribution.Samples)
         {
         }
 
@@ -149,15 +149,66 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal double[] XCoordinatesInternal
+        #endregion
+
+        #region Override settings
+
+        public override double MinX => min;
+
+        public override double MaxX => max;
+
+        public override double Mean
         {
-            get;
+            get
+            {
+                if (mean == null)
+                {
+                    mean = GetMoment(1, 0);
+                }
+
+                return mean.Value;
+            }
         }
 
-        internal double[] YCoordinatesInternal
+        public override double Variance
         {
-            get;
+            get
+            {
+                if (variance == null)
+                {
+                    variance = GetMoment(2, Mean);
+                }
+
+                return variance.Value;
+            }
         }
+
+        public override double Skewness
+        {
+            get
+            {
+                if (skewness == null)
+                {
+                    double m3 = GetMoment(3, Mean);
+                    double s3 = Math.Pow(Variance, 3d / 2d);
+                    skewness = m3 / s3;
+                }
+
+                return skewness.Value;
+            }
+        }
+
+        public override DistributionType DistributionType => DistributionType.Discrete;
+
+        public override int Samples => length;
+
+        #endregion
+
+        #region Coordinates internal
+
+        internal double[] XCoordinatesInternal { get; }
+
+        internal double[] YCoordinatesInternal { get; }
 
         internal double[] CDFCoordinatesInternal
         {
@@ -174,97 +225,25 @@ namespace RandomAlgebra.Distributions
 
         #endregion
 
-        #region Override settings
-
-        internal override double InnerMinX
-        {
-            get
-            {
-                return min;
-            }
-        }
-
-        internal override double InnerMaxX
-        {
-            get
-            {
-                return max;
-            }
-        }
-
-        internal override double InnerMean
-        {
-            get
-            {
-                if (mean == null)
-                {
-                    mean = GetMoment(1, 0);
-                }
-
-                return mean.Value;
-            }
-        }
-
-        internal override double InnerVariance
-        {
-            get
-            {
-                if (variance == null)
-                {
-                    variance = GetMoment(2, InnerMean);
-                }
-
-                return variance.Value;
-            }
-        }
-
-        internal override double InnerSkewness
-        {
-            get
-            {
-                if (skewness == null)
-                {
-                    double m3 = GetMoment(3, InnerMean);
-                    double s3 = Math.Pow(Variance, 3d / 2d);
-                    skewness = m3 / s3;
-                }
-
-                return skewness.Value;
-            }
-        }
-
-        internal override DistributionType InnerDistributionType
-        {
-            get
-            {
-                return DistributionType.Discrete;
-            }
-        }
-
-        internal override int InnerSamples
-        {
-            get
-            {
-                return length;
-            }
-        }
-
-        #endregion
-
         #region Override functions
 
-        internal override double InnerGetPDFYbyX(double x)
+        public override double ProbabilityDensityFunction(double x)
         {
             return GetYByX(x, YCoordinatesInternal);
         }
 
-        internal override double InnerGetCDFYbyX(double x)
+        public override double DistributionFunction(double x)
         {
             return GetYByX(x, CDFCoordinatesInternal);
         }
 
-        internal override double InnerQuantile(double p)
+        public override double Quantile(double p)
         {
+            if (p < 0 || p > 1)
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ProbabilityMustBeInRangeFromZeroToOne);
+            }
+
             double[] cdf = CDFCoordinatesInternal;
             double[] xCoordinates = XCoordinatesInternal;
 
@@ -300,9 +279,9 @@ namespace RandomAlgebra.Distributions
 
         #region Random algebra
 
-        internal override BaseDistribution InnerGetSumm(BaseDistribution value)
+        public override BaseDistribution Sum(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -323,9 +302,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetDifference(BaseDistribution value)
+        public override BaseDistribution Difference(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -346,9 +325,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetProduct(BaseDistribution value)
+        public override BaseDistribution Product(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -369,9 +348,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetRatio(BaseDistribution value)
+        public override BaseDistribution Ratio(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -392,9 +371,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetPower(BaseDistribution value)
+        public override BaseDistribution Power(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -415,9 +394,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetLog(BaseDistribution nBase)
+        public override BaseDistribution Log(BaseDistribution nBase)
         {
-            switch (nBase.InnerDistributionType)
+            switch (nBase.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -438,12 +417,12 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetAbs()
+        public override BaseDistribution Abs()
         {
             return CommonRandomMath.Abs(this);
         }
 
-        internal override BaseDistribution InnerGetNegate()
+        public override BaseDistribution Negate()
         {
             return DiscreteRandomMath.Negate(this);
         }
@@ -670,14 +649,14 @@ namespace RandomAlgebra.Distributions
                 throw new ArgumentNullException(nameof(continiousDistribution));
             }
 
-            double[] xAxis = CommonRandomMath.GenerateXAxis(continiousDistribution.InnerMinX, continiousDistribution.InnerMaxX, samples, out _);
+            double[] xAxis = CommonRandomMath.GenerateXAxis(continiousDistribution.MinX, continiousDistribution.MaxX, samples, out _);
 
             double[] pdf = new double[samples];
 
             for (int i = 0; i < samples; i++)
             {
                 double x = xAxis[i];
-                pdf[i] = continiousDistribution.InnerGetPDFYbyX(x);
+                pdf[i] = continiousDistribution.ProbabilityDensityFunction(x);
             }
 
             return new PrivateCoordinates { XCoordinates = xAxis, PDFCoordinates = pdf, FromContinuous = true };

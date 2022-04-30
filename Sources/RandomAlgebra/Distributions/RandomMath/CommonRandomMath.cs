@@ -285,7 +285,7 @@ namespace RandomAlgebra.Distributions
 
         private static DiscreteDistribution Operation(BaseDistribution dpdf, double value, DistributionsOperation action)
         {
-            int length = dpdf.InnerSamples;
+            int length = dpdf.Samples;
 
             double[] yCoordinates = new double[length];
             double[] xCoordinates;
@@ -299,13 +299,13 @@ namespace RandomAlgebra.Distributions
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionOfZero);
                         }
 
-                        if ((dpdf.InnerMinX < 0 && dpdf.InnerMaxX > 0) || dpdf.InnerMinX == 0 || dpdf.InnerMaxX == 0)
+                        if ((dpdf.MinX < 0 && dpdf.MaxX > 0) || dpdf.MinX == 0 || dpdf.MaxX == 0)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.DivisionByZeroCrossingRandom);
                         }
 
-                        double r1 = value / dpdf.InnerMinX;
-                        double r2 = value / dpdf.InnerMaxX;
+                        double r1 = value / dpdf.MinX;
+                        double r2 = value / dpdf.MaxX;
                         xCoordinates = GenerateXAxis(r1, r2, length, out _);
 
                         for (int i = 0; i < length; i++)
@@ -314,7 +314,7 @@ namespace RandomAlgebra.Distributions
                             double d = value / z;
                             double k = Math.Abs(value) / Math.Pow(z, 2);
 
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(d) * k;
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(d) * k;
                         }
 
                         break;
@@ -326,7 +326,7 @@ namespace RandomAlgebra.Distributions
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfRandomInZeroPower);
                         }
 
-                        if (value < 0 && ((dpdf.InnerMinX < 0 && dpdf.InnerMaxX > 0) || dpdf.InnerMinX == 0 || dpdf.InnerMaxX == 0))
+                        if (value < 0 && ((dpdf.MinX < 0 && dpdf.MaxX > 0) || dpdf.MinX == 0 || dpdf.MaxX == 0))
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfZeroCrossingRandomInNegativePower);
                         }
@@ -334,15 +334,15 @@ namespace RandomAlgebra.Distributions
                         bool evenPower = Math.Abs(value % 2) == 0;
                         bool naturalPower = value - (int)value == 0;
 
-                        if (dpdf.InnerMinX < 0 && !naturalPower)
+                        if (dpdf.MinX < 0 && !naturalPower)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfNotPositiveRandomInIrrationalPower);
                         }
 
-                        double r1 = Math.Pow(dpdf.InnerMinX, value);
-                        double r2 = Math.Pow(dpdf.InnerMaxX, value);
+                        double r1 = Math.Pow(dpdf.MinX, value);
+                        double r2 = Math.Pow(dpdf.MaxX, value);
 
-                        if (dpdf.InnerMinX < 0 && dpdf.InnerMaxX > 0 && evenPower)
+                        if (dpdf.MinX < 0 && dpdf.MaxX > 0 && evenPower)
                         {
                             r2 = Math.Max(r1, r2);
                             r1 = 0;
@@ -355,11 +355,11 @@ namespace RandomAlgebra.Distributions
                             double d = Math.Sign(xCoordinates[i]) * Math.Pow(Math.Abs(xCoordinates[i]), 1d / value);
                             double k = Math.Abs(Math.Pow(Math.Abs(xCoordinates[i]), (1d - value) / value) / value);
 
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(d) * k;
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(d) * k;
 
                             if (evenPower)
                             {
-                                yCoordinates[i] += dpdf.InnerGetPDFYbyX(-d) * k;
+                                yCoordinates[i] += dpdf.ProbabilityDensityFunction(-d) * k;
                             }
                         }
 
@@ -380,8 +380,8 @@ namespace RandomAlgebra.Distributions
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExponentialOfOneInRandomPower);
                         }
 
-                        double r1 = Math.Pow(value, dpdf.InnerMinX);
-                        double r2 = Math.Pow(value, dpdf.InnerMaxX);
+                        double r1 = Math.Pow(value, dpdf.MinX);
+                        double r2 = Math.Pow(value, dpdf.MaxX);
 
                         xCoordinates = GenerateXAxis(r1, r2, length, out _);
 
@@ -390,7 +390,7 @@ namespace RandomAlgebra.Distributions
                             double d = Math.Log(xCoordinates[i], value);
                             double k = Math.Abs(Math.Log(value) * xCoordinates[i]);
 
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(d) / k;
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(d) / k;
                         }
 
                         break;
@@ -410,13 +410,13 @@ namespace RandomAlgebra.Distributions
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithOneBase);
                         }
 
-                        if (dpdf.InnerMinX <= 0)
+                        if (dpdf.MinX <= 0)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfNotPositiveRandom);
                         }
 
-                        double r1 = Math.Log(dpdf.InnerMinX, value);
-                        double r2 = Math.Log(dpdf.InnerMaxX, value);
+                        double r1 = Math.Log(dpdf.MinX, value);
+                        double r2 = Math.Log(dpdf.MaxX, value);
 
                         xCoordinates = GenerateXAxis(r1, r2, length, out _);
 
@@ -425,18 +425,18 @@ namespace RandomAlgebra.Distributions
                             double d = Math.Pow(value, xCoordinates[i]);
                             double k = Math.Abs(Math.Log(value) * d);
 
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(d) * k;
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(d) * k;
                         }
                         break;
                     }
                 case DistributionsOperation.LogInv:
                     {
-                        if (dpdf.InnerMinX <= 0)
+                        if (dpdf.MinX <= 0)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithNotPositiveRandomBase);
                         }
 
-                        if ((dpdf.InnerMinX < 1 && dpdf.InnerMaxX > 1) || dpdf.InnerMinX == 1 || dpdf.InnerMaxX == 1)
+                        if ((dpdf.MinX < 1 && dpdf.MaxX > 1) || dpdf.MinX == 1 || dpdf.MaxX == 1)
                         {
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmWithOneCrossingRandomBase);
                         }
@@ -451,8 +451,8 @@ namespace RandomAlgebra.Distributions
                             throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.LogarithmOfNegativeValue);
                         }
 
-                        double r1 = Math.Log(value, dpdf.InnerMaxX);
-                        double r2 = Math.Log(value, dpdf.InnerMinX);
+                        double r1 = Math.Log(value, dpdf.MaxX);
+                        double r2 = Math.Log(value, dpdf.MinX);
 
                         xCoordinates = GenerateXAxis(r1, r2, length, out _);
 
@@ -461,17 +461,17 @@ namespace RandomAlgebra.Distributions
                             double d = Math.Pow(value, 1d / xCoordinates[i]);
 
                             double k = Math.Abs((d * Math.Log(value)) / Math.Pow(xCoordinates[i], 2));
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(d) * k;
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(d) * k;
                         }
 
                         break;
                     }
                 case DistributionsOperation.Abs:
                     {
-                        double r1 = Math.Abs(dpdf.InnerMinX);
-                        double r2 = Math.Abs(dpdf.InnerMaxX);
+                        double r1 = Math.Abs(dpdf.MinX);
+                        double r2 = Math.Abs(dpdf.MaxX);
 
-                        if (dpdf.InnerMinX <= 0 && dpdf.InnerMaxX >= 0)
+                        if (dpdf.MinX <= 0 && dpdf.MaxX >= 0)
                         {
                             r2 = Math.Max(r1, r2);
                             r1 = 0;
@@ -483,7 +483,7 @@ namespace RandomAlgebra.Distributions
                         {
                             double zPow = xCoordinates[i];
 
-                            yCoordinates[i] = dpdf.InnerGetPDFYbyX(zPow) + dpdf.InnerGetPDFYbyX(-zPow);
+                            yCoordinates[i] = dpdf.ProbabilityDensityFunction(zPow) + dpdf.ProbabilityDensityFunction(-zPow);
                         }
 
                         break;
@@ -508,8 +508,8 @@ namespace RandomAlgebra.Distributions
 
                             for (double j = minJ; j <= maxJ; j++)
                             {
-                                double v = dpdf.InnerGetPDFYbyX((Math.PI * 2 * j) - (Math.PI + arcsin)) +
-                                    dpdf.InnerGetPDFYbyX((Math.PI * 2 * j) + arcsin);
+                                double v = dpdf.ProbabilityDensityFunction((Math.PI * 2 * j) - (Math.PI + arcsin)) +
+                                    dpdf.ProbabilityDensityFunction((Math.PI * 2 * j) + arcsin);
 
                                 if (v != 0)
                                 {
@@ -544,8 +544,8 @@ namespace RandomAlgebra.Distributions
 
                             for (double j = minJ; j <= maxJ; j++)
                             {
-                                double v = dpdf.InnerGetPDFYbyX((2 * (j + 1) * Math.PI) - acos) +
-                                    dpdf.InnerGetPDFYbyX((2 * j * Math.PI) + acos);
+                                double v = dpdf.ProbabilityDensityFunction((2 * (j + 1) * Math.PI) - acos) +
+                                    dpdf.ProbabilityDensityFunction((2 * j * Math.PI) + acos);
 
                                 if (v != 0)
                                 {
@@ -579,8 +579,8 @@ namespace RandomAlgebra.Distributions
                             double atan = Math.Atan(z);
                             double k = 1d / (Math.Pow(z, 2) + 1);
 
-                            double v = dpdf.InnerGetPDFYbyX((-Math.PI / 2d) + (Math.PI * j)) +
-                                dpdf.InnerGetPDFYbyX(atan + (j * Math.PI));
+                            double v = dpdf.ProbabilityDensityFunction((-Math.PI / 2d) + (Math.PI * j)) +
+                                dpdf.ProbabilityDensityFunction(atan + (j * Math.PI));
 
                             if (v != 0)
                             {

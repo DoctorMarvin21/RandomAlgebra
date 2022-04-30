@@ -55,7 +55,7 @@ namespace RandomAlgebra.Distributions
 
         #region Overrides
 
-        internal override double InnerMean
+        public override double Mean
         {
             get
             {
@@ -74,13 +74,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerVariance
+        public override double Variance
         {
             get
             {
                 if (variance == null)
                 {
-                    double mean = InnerMean;
+                    double mean = Mean;
 
                     double sum = 0;
 
@@ -95,13 +95,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerSkewness
+        public override double Skewness
         {
             get
             {
                 if (skewness == null)
                 {
-                    double mean = InnerMean;
+                    double mean = Mean;
 
                     double sum = 0;
 
@@ -112,7 +112,7 @@ namespace RandomAlgebra.Distributions
 
                     double m = sum / (randomSorted.Length - 1);
 
-                    double s = Math.Pow(InnerVariance, 3.0 / 2.0);
+                    double s = Math.Pow(Variance, 3.0 / 2.0);
 
                     skewness = m / s;
                 }
@@ -120,7 +120,7 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerQuantile(double p)
+        public override double Quantile(double p)
         {
             double len = randomSorted.Length;
             double c = (len - 1) * p;

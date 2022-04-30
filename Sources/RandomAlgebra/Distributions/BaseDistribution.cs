@@ -32,17 +32,17 @@ namespace RandomAlgebra.Distributions
         /// <summary>
         /// Minimum of random.
         /// </summary>
-        public double MinX { get { return InnerMinX; } }
+        public abstract double MinX { get; }
 
         /// <summary>
         /// Maximum of random.
         /// </summary>
-        public double MaxX { get { return InnerMaxX; } }
+        public abstract double MaxX { get; }
 
         /// <summary>
         /// Samples count.
         /// </summary>
-        public int Samples { get { return InnerSamples; } }
+        public abstract int Samples { get; }
 
         /// <summary>
         /// Step of sampling.
@@ -53,7 +53,7 @@ namespace RandomAlgebra.Distributions
             {
                 if (step == null)
                 {
-                    step = (InnerMaxX - InnerMinX) / (InnerSamples - 1);
+                    step = (MaxX - MinX) / (Samples - 1);
 
                     if (step < 0)
                     {
@@ -68,46 +68,28 @@ namespace RandomAlgebra.Distributions
         /// <summary>
         /// Valiance, the second moment.
         /// </summary>
-        public double Variance { get { return InnerVariance; } }
+        public abstract double Variance { get; }
 
         /// <summary>
         /// Skewness, the third moment.
         /// </summary>
-        public double Skewness { get { return InnerSkewness; } }
+        public abstract double Skewness { get; }
 
         /// <summary>
         /// Expected value.
         /// </summary>
-        public double Mean { get { return InnerMean; } }
+        public abstract double Mean { get; }
 
         /// <summary>
         /// Standard deviation, root of variance.
         /// </summary>
-        public double StandardDeviation { get { return Math.Sqrt(InnerVariance); } }
+        public double StandardDeviation => Math.Sqrt(Variance);
 
         /// <summary>
         /// DistributionType: continuous (<see cref="ContinuousDistribution"/>),
         /// discrete (<see cref="DiscreteDistribution"/>) of number with zero variance (<see cref="ConstantDistribution"/>).
         /// </summary>
-        public DistributionType DistributionType { get { return InnerDistributionType; } }
-
-        #endregion
-
-        #region Abstract properties
-
-        internal abstract double InnerMinX { get; }
-
-        internal abstract double InnerMaxX { get; }
-
-        internal abstract double InnerMean { get; }
-
-        internal abstract double InnerVariance { get; }
-
-        internal abstract double InnerSkewness { get; }
-
-        internal abstract int InnerSamples { get; }
-
-        internal abstract DistributionType InnerDistributionType { get; }
+        public abstract DistributionType DistributionType { get; }
 
         #endregion
 
@@ -125,22 +107,22 @@ namespace RandomAlgebra.Distributions
 
         public static BaseDistribution operator +(BaseDistribution left, BaseDistribution right)
         {
-            return left.InnerGetSumm(right);
+            return left.Sum(right);
         }
 
         public static BaseDistribution operator -(BaseDistribution left, BaseDistribution right)
         {
-            return left.InnerGetDifference(right);
+            return left.Difference(right);
         }
 
         public static BaseDistribution operator *(BaseDistribution left, BaseDistribution right)
         {
-            return left.InnerGetProduct(right);
+            return left.Product(right);
         }
 
         public static BaseDistribution operator /(BaseDistribution left, BaseDistribution right)
         {
-            return left.InnerGetRatio(right);
+            return left.Ratio(right);
         }
 
         #endregion
@@ -187,15 +169,7 @@ namespace RandomAlgebra.Distributions
         /// </summary>
         /// <param name="p">Probability in range [0, 1].</param>
         /// <returns>One-sided quantile.</returns>
-        public double Quantile(double p)
-        {
-            if (p < 0 || p > 1)
-            {
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ProbabilityMustBeInRangeFromZeroToOne);
-            }
-
-            return InnerQuantile(p);
-        }
+        public abstract double Quantile(double p);
 
         /// <summary>
         /// Returns value of probability density function in point x,
@@ -204,7 +178,7 @@ namespace RandomAlgebra.Distributions
         /// </summary>
         /// <param name="x">Argument of probability density function.</param>
         /// <returns>Probability density.</returns>
-        public double ProbabilityDensityFunction(double x) { return InnerGetPDFYbyX(x); }
+        public abstract double ProbabilityDensityFunction(double x);
 
         /// <summary>
         /// Returns value of distribution function in point x,
@@ -213,89 +187,61 @@ namespace RandomAlgebra.Distributions
         /// </summary>
         /// <param name="x">Argument of distribution function.</param>
         /// <returns>Distribution.</returns>
-        public double DistributionFunction(double x) { return InnerGetCDFYbyX(x); }
+        public abstract double DistributionFunction(double x);
 
         /// <summary>
-        /// Sum (convolution) of distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseAnalyticalConvolution"/> and <see cref="Optimizations.UseFftConvolution"/>.
+        /// Sum (convolution) of distributions.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Sum result.</returns>
-        public BaseDistribution Sum(BaseDistribution value) { return InnerGetSumm(value); }
+        public abstract BaseDistribution Sum(BaseDistribution value);
 
         /// <summary>
-        /// Difference between distributions, result of function depends on parameters of optimization
-        /// <see cref="Optimizations.UseAnalyticalConvolution"/> and <see cref="Optimizations.UseFftConvolution"/>.
+        /// Difference between distributions.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Difference result.</returns>
-        public BaseDistribution Difference(BaseDistribution value) { return InnerGetDifference(value); }
+        public abstract BaseDistribution Difference(BaseDistribution value);
 
         /// <summary>
         /// Distributions product.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Product result.</returns>
-        public BaseDistribution Product(BaseDistribution value) { return InnerGetProduct(value); }
+        public abstract BaseDistribution Product(BaseDistribution value);
 
         /// <summary>
         /// Distributions ratio.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Ratio result.</returns>
-        public BaseDistribution Ratio(BaseDistribution value) { return InnerGetRatio(value); }
+        public abstract BaseDistribution Ratio(BaseDistribution value);
 
         /// <summary>
         /// Returns distribution in power of <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Value.</param>
         /// <returns>Power result.</returns>
-        public BaseDistribution Power(BaseDistribution value) { return InnerGetPower(value); }
+        public abstract BaseDistribution Power(BaseDistribution value);
 
         /// <summary>
         /// Logarithm with base <paramref name="nBase"/>.
         /// </summary>
         /// <param name="nBase">Base of logarithm.</param>
         /// <returns>Log result.</returns>
-        public BaseDistribution Log(BaseDistribution nBase) { return InnerGetLog(nBase); }
+        public abstract BaseDistribution Log(BaseDistribution nBase);
 
         /// <summary>
         /// Absolute value of distribution.
         /// </summary>
         /// <returns>Absolute value.</returns>
-        public BaseDistribution Abs() { return InnerGetAbs(); }
+        public abstract BaseDistribution Abs();
 
         /// <summary>
         /// Product of distribution and -1.
         /// </summary>
         /// <returns>Product result.</returns>
-        public BaseDistribution Negate() { return InnerGetNegate(); }
-
-        #endregion
-
-        #region Abstract functions
-
-        internal abstract double InnerGetPDFYbyX(double x);
-
-        internal abstract double InnerGetCDFYbyX(double x);
-
-        internal abstract double InnerQuantile(double p);
-
-        internal abstract BaseDistribution InnerGetSumm(BaseDistribution value);
-
-        internal abstract BaseDistribution InnerGetDifference(BaseDistribution value);
-
-        internal abstract BaseDistribution InnerGetProduct(BaseDistribution value);
-
-        internal abstract BaseDistribution InnerGetRatio(BaseDistribution value);
-
-        internal abstract BaseDistribution InnerGetPower(BaseDistribution value);
-
-        internal abstract BaseDistribution InnerGetLog(BaseDistribution nBase);
-
-        internal abstract BaseDistribution InnerGetAbs();
-
-        internal abstract BaseDistribution InnerGetNegate();
+        public abstract BaseDistribution Negate();
 
         #endregion
     }

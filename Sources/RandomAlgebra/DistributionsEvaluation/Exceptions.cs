@@ -6,62 +6,15 @@ namespace RandomAlgebra.DistributionsEvaluation
     {
         ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce,
         ExpressionOpreatorsInconsistent,
-        CorrelationParamtersIgnored,
-        ForCorrelationPairMultivariateDistributionMustBeTwoDimensional,
-        DivisionByZero,
-        MultiplyRandomByZero,
-        ExponentialOfRandomInZeroPower,
-        ExponentialOfNotPositiveRandomInIrrationalPower,
-        ExponentialOfZeroCrossingRandomInNegativePower,
-        ExponentialOfZeroInRandomPower,
-        ExponentialOfOneInRandomPower,
-        ExponentialOfNegativeInRandomPower,
-        DivisionOfZero,
-        DivisionByZeroCrossingRandom,
-        LogarithmWithZeroBase,
-        LogarithmWithOneBase,
-        LogarithmWithNegativeBase,
-        LogarithmOfNotPositiveRandom,
-        LogarithmWithNotPositiveRandomBase,
-        LogarithmWithOneCrossingRandomBase,
-        LogarithmOfZeroValue,
-        LogarithmOfNegativeValue,
-        TangentOfValueCrossingAsymptote
+        CorrelationParamtersIgnored
     }
 
     internal enum DistributionsEvaluatorArgumentExceptionType
     {
-        SamplesNumberMustBeGreaterThenTwo,
-        LowerBoundIsGreaterThenUpperBound,
-        StandardDeviationMustBeGreaterThenZero,
-        StandardDeviationOfFirstDistributionMustBeGreaterThenZero,
-        StandardDeviationOfSecondDistributionMustBeGreaterThenZero,
-        ShapeParameterMustBeGreaterThenZero,
-        ShapeParameterAMustBeGreaterThenZero,
-        ShapeParameterBMustBeGreaterThenZero,
-        ScaleParameterMustBeGreaterThenZero,
-        RateParameterMustBeGreaterThenZero,
-        CorrelationMustBeInRangeFromMinusOneToOne,
-        DegreesOfFreedomMustNotBeLessThenOne,
-        DegreesOfFreedomMustBeGreaterThenZero,
-        NumberOfExperimentsMustBeGreaterThenTwo,
-        NumberOfPocketsMustBeGreaterThenTwo,
         ParameterValueIsMissing,
-        ArgumentSpecifiedSeveralTimes,
         MissingExpression,
         UnknownSymbolInExpression,
-        NegativeStep,
-        ProbabilityMustBeInRangeFromZeroToOne,
-        CovarianceMatrixMustBeSquare,
-        CovarianceMatrixMustBeSymmetric,
-        CovarianceMatrixMustBePositiveDefined,
-        LengthOfArgumentsMustBeGreaterThenTwo,
-        LengthOfValuesMustBeGreaterThenTwo,
-        LengthOfArgumentsMustBeEqualToLengthOfValues,
-        LengthOfArgumentsMustBeEqualToLengthOfParameters,
-        VectorOfMeansMustBeEqualToDimension,
-        VectorOfCoeffitientsMustBeEqualToDimension,
-        ForCorrelationPairBothOfDistributionsMustBeContinuous
+        LengthOfArgumentsMustBeEqualToLengthOfParameters
     }
 
     /// <summary>
@@ -69,10 +22,6 @@ namespace RandomAlgebra.DistributionsEvaluation
     /// </summary>
     public class DistributionsEvaluatorInvalidOperationException : InvalidOperationException
     {
-        internal DistributionsEvaluatorInvalidOperationException()
-        {
-        }
-
         internal DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType exceptionType)
             : base(Resources.GetMessage(exceptionType.ToString()))
         {
@@ -86,11 +35,6 @@ namespace RandomAlgebra.DistributionsEvaluation
     {
         internal DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType exceptionType)
             : base(Resources.GetMessage(exceptionType.ToString()))
-        {
-        }
-
-        internal DistributionsEvaluatorArgumentException(string message)
-            : base(message)
         {
         }
 

@@ -21,20 +21,20 @@ namespace RandomAlgebra.Distributions
 
         #region Overriding parameters
 
-        internal override double InnerVariance { get { return 0; } }
+        public override double Variance => 0;
 
-        internal override double InnerSkewness { get { return 0; } }
+        public override double Skewness => 0;
 
-        internal override double InnerMean { get { return value; } }
+        public override double Mean => value;
 
-        internal override double InnerMaxX { get { return value; } }
+        public override double MaxX => value;
 
-        internal override double InnerMinX { get { return value; } }
+        public override double MinX => value;
 
-        internal override DistributionType InnerDistributionType { get { return DistributionType.Number; } }
+        public override DistributionType DistributionType => DistributionType.Number;
 
         // Just for correct step
-        internal override int InnerSamples { get { return 1; } }
+        public override int Samples => 1;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RandomAlgebra.Distributions
 
         #region Overriding functions
 
-        internal override double InnerGetPDFYbyX(double x)
+        public override double ProbabilityDensityFunction(double x)
         {
             if (x == value)
             {
@@ -66,13 +66,18 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override double InnerGetCDFYbyX(double x)
+        public override double DistributionFunction(double x)
         {
-            return InnerGetPDFYbyX(x);
+            return ProbabilityDensityFunction(x);
         }
 
-        internal override double InnerQuantile(double p)
+        public override double Quantile(double p)
         {
+            if (p < 0 || p > 1)
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ProbabilityMustBeInRangeFromZeroToOne);
+            }
+
             return value;
         }
 
@@ -80,13 +85,13 @@ namespace RandomAlgebra.Distributions
 
         #region Random algebra
 
-        internal override BaseDistribution InnerGetSumm(BaseDistribution value)
+        public override BaseDistribution Sum(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
-                        return Mean + value.InnerMean;
+                        return Mean + value.Mean;
                     }
                 case DistributionType.Continious:
                     {
@@ -103,13 +108,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetDifference(BaseDistribution value)
+        public override BaseDistribution Difference(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
-                        return Mean - value.InnerMean;
+                        return Mean - value.Mean;
                     }
                 case DistributionType.Continious:
                     {
@@ -126,13 +131,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetProduct(BaseDistribution value)
+        public override BaseDistribution Product(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
-                        return Mean * value.InnerMean;
+                        return Mean * value.Mean;
                     }
                 case DistributionType.Continious:
                     {
@@ -149,13 +154,13 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetRatio(BaseDistribution value)
+        public override BaseDistribution Ratio(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
-                        return Mean / value.InnerMean;
+                        return Mean / value.Mean;
                     }
                 case DistributionType.Continious:
                 case DistributionType.Discrete:
@@ -169,9 +174,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetPower(BaseDistribution value)
+        public override BaseDistribution Power(BaseDistribution value)
         {
-            switch (value.InnerDistributionType)
+            switch (value.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -189,9 +194,9 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetLog(BaseDistribution nBase)
+        public override BaseDistribution Log(BaseDistribution nBase)
         {
-            switch (nBase.InnerDistributionType)
+            switch (nBase.DistributionType)
             {
                 case DistributionType.Number:
                     {
@@ -209,12 +214,12 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        internal override BaseDistribution InnerGetAbs()
+        public override BaseDistribution Abs()
         {
             return Math.Abs(Mean);
         }
 
-        internal override BaseDistribution InnerGetNegate()
+        public override BaseDistribution Negate()
         {
             return -Mean;
         }
