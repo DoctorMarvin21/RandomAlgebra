@@ -50,7 +50,7 @@ namespace RandomAlgebra.Test
         }
     }
 
-        [TestClass]
+    [TestClass]
     public class RuResourcesTests
     {
         [TestInitialize]

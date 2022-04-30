@@ -29,7 +29,7 @@ namespace DistributionsAvalonia
             = new ObservableCollection<DataPoint>();
 
         public ObservableCollection<DataPoint> MonteCarlo { get; }
-            = new ObservableCollection<DataPoint> ();
+            = new ObservableCollection<DataPoint>();
 
         public void Update(DistributionsPair distributionsPair, int length)
         {

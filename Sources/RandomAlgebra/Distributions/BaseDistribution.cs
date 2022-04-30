@@ -1,5 +1,4 @@
 ﻿using System;
-using RandomAlgebra.Distributions.Settings;
 
 namespace RandomAlgebra.Distributions
 {

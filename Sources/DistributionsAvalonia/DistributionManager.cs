@@ -17,7 +17,7 @@ namespace DistributionsAvalonia
             Dictionary<string, BaseDistribution> arguments = new Dictionary<string, BaseDistribution>();
             List<CorrelatedPair> correlations = new List<CorrelatedPair>();
 
-            foreach(var distr in univariate)
+            foreach (var distr in univariate)
             {
                 arguments.Add(distr.Key, distr.Value.GetDistribution(samples));
             }

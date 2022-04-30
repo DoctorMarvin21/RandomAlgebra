@@ -1,6 +1,5 @@
 ﻿using RandomAlgebra.Distributions.Settings;
 using System;
-using System.ComponentModel;
 using System.Reflection;
 
 namespace DistributionsAvalonia
