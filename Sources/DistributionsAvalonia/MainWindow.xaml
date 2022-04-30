@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DistributionsAvalonia"
         xmlns:charts="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         mc:Ignorable="d" Height="600" Width="1200"
         d:DesignHeight="600" d:DesignWidth="600"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -57,13 +58,13 @@
           <Button Content="{local:Localize Evaluate}"
                   Command="{Binding Process}"
                   IsEnabled="{Binding CanProcess}"
-                  Width="100" Margin="5" />
+                  Width="120" Margin="5" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
           <TextBlock Text="{local:Localize Language}" VerticalAlignment="Center" />
           <ComboBox Items="{Binding TranslationSource.AvailableCultures}"
                     SelectedItem="{Binding TranslationSource.CurrentCulture}"
-                    Width="100"
+                    Width="120"
                     Margin="5">
             <ComboBox.ItemTemplate>
               <DataTemplate>
@@ -73,7 +74,7 @@
           </ComboBox>
           <Button Content="{local:Localize Settings}"
                   Command="{Binding EvaluationSettings}"
-                  Width="100"
+                  Width="120"
                   Margin="5" />
         </StackPanel>
       </DockPanel>
@@ -118,7 +119,7 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridTemplateColumn>
+          <DataGridTemplateColumn MinWidth="200">
             <DataGridTemplateColumn.Header>
               <TextBlock Text="{local:Localize Distribution}" />
             </DataGridTemplateColumn.Header>
@@ -149,9 +150,9 @@
         </DataGrid.Columns>
       </DataGrid>
       <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button Content="{local:Localize Add}" Margin="5" Width="70"
+        <Button Content="{local:Localize Add}" Margin="5" Width="100"
                 Command="{Binding AddExpressionArgument}" />
-        <Button Content="{local:Localize Remove}" Margin="5" Width="70" Command="{Binding RemoveExpressionArgument}" />
+        <Button Content="{local:Localize Remove}" Margin="5" Width="100" Command="{Binding RemoveExpressionArgument}" />
       </StackPanel>
       <local:EvaluationResultsControl Grid.Row="2" DataContext="{Binding Results}" />
     </Grid>

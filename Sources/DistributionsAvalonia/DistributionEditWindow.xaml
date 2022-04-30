@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{Binding ExpressionArgument.SettingsType.Name.Value}"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         SizeToContent="Height"
         Width="400">
     <Grid>
