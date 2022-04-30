@@ -4,7 +4,7 @@ using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions
 {
-    namespace SpecialDistributions
+    namespace CustomDistributions
     {
         internal class StudentGeneralizedDistribution : UnivariateContinuousDistribution
         {
@@ -39,44 +39,17 @@ namespace RandomAlgebra.Distributions
                 }
             }
 
-            public double DegreesOfFreedom
-            {
-                get;
-            }
+            public double DegreesOfFreedom { get; }
 
-            public override double Mean
-            {
-                get
-                {
-                    return mean;
-                }
-            }
+            public override double Mean => mean;
 
             public double ScaleCoefficient { get; }
 
-            public override double Variance
-            {
-                get
-                {
-                    return variance;
-                }
-            }
+            public override double Variance => variance;
 
-            public override double Entropy
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public override double Entropy => throw new NotImplementedException();
 
-            public override DoubleRange Support
-            {
-                get
-                {
-                    return range;
-                }
-            }
+            public override DoubleRange Support => range;
 
             public override double Generate(Random source)
             {
@@ -87,7 +60,7 @@ namespace RandomAlgebra.Distributions
 
             public override object Clone()
             {
-                return new StudentGeneralizedDistribution(Mean, ScaleCoefficient, DegreesOfFreedom);
+                throw new NotImplementedException();
             }
 
             public override string ToString(string format, IFormatProvider formatProvider)

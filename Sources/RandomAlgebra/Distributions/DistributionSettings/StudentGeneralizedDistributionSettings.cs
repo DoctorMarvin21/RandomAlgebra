@@ -1,5 +1,5 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
-using RandomAlgebra.Distributions.SpecialDistributions;
+using RandomAlgebra.Distributions.CustomDistributions;
 
 namespace RandomAlgebra.Distributions.Settings
 {

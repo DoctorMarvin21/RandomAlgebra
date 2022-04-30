@@ -4,7 +4,7 @@ using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions
 {
-    namespace SpecialDistributions
+    namespace CustomDistributions
     {
         internal class BhattacharjeeDistribution : UnivariateContinuousDistribution
         {
@@ -40,69 +40,21 @@ namespace RandomAlgebra.Distributions
                 variance = Math.Pow(ns, 2d) + (Math.Pow(a, 2) / 3d);
             }
 
-            public override double Mean
-            {
-                get
-                {
-                    return mean;
-                }
-            }
+            public override double Mean => mean;
 
-            public override double Variance
-            {
-                get
-                {
-                    return variance;
-                }
-            }
+            public override double Variance => variance;
 
-            public override double Entropy
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public override double Entropy => throw new NotImplementedException();
 
-            public override DoubleRange Support
-            {
-                get
-                {
-                    return range;
-                }
-            }
+            public override DoubleRange Support => range;
 
-            public double UniformMin
-            {
-                get
-                {
-                    return ua;
-                }
-            }
+            public double UniformMin => ua;
 
-            public double UniformMax
-            {
-                get
-                {
-                    return ub;
-                }
-            }
+            public double UniformMax => ub;
 
-            public double NormalMean
-            {
-                get
-                {
-                    return nm;
-                }
-            }
+            public double NormalMean => nm;
 
-            public double NormalSigma
-            {
-                get
-                {
-                    return ns;
-                }
-            }
+            public double NormalSigma => ns;
 
             public override object Clone()
             {

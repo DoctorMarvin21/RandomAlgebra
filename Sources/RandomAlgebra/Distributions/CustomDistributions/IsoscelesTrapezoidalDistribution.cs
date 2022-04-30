@@ -4,7 +4,7 @@ using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions
 {
-    namespace SpecialDistributions
+    namespace CustomDistributions
     {
         internal class IsoscelesTrapezoidalDistribution : UnivariateContinuousDistribution
         {
@@ -23,37 +23,13 @@ namespace RandomAlgebra.Distributions
                 support = new DoubleRange(this.a, this.b);
             }
 
-            public override double Mean
-            {
-                get
-                {
-                    return (a + b) / 2d;
-                }
-            }
+            public override double Mean => (a + b) / 2d;
 
-            public override double Variance
-            {
-                get
-                {
-                    return ((2 * Math.Pow(r, 2)) + (2 * r * s) + Math.Pow(s, 2)) / 12;
-                }
-            }
+            public override double Variance => ((2 * Math.Pow(r, 2)) + (2 * r * s) + Math.Pow(s, 2)) / 12;
 
-            public override double Entropy
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public override double Entropy => throw new NotImplementedException();
 
-            public override DoubleRange Support
-            {
-                get
-                {
-                    return support;
-                }
-            }
+            public override DoubleRange Support => support;
 
             public override object Clone()
             {

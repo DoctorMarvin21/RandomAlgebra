@@ -2,7 +2,7 @@
 using Accord.Math.Integration;
 using Accord.Statistics.Distributions.Univariate;
 using RandomAlgebra.Distributions.Settings;
-using RandomAlgebra.Distributions.SpecialDistributions;
+using RandomAlgebra.Distributions.CustomDistributions;
 
 namespace RandomAlgebra.Distributions
 {

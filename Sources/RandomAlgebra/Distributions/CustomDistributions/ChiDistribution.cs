@@ -4,7 +4,7 @@ using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions
 {
-    namespace SpecialDistributions
+    namespace CustomDistributions
     {
         internal class ChiDistribution : UnivariateContinuousDistribution
         {
@@ -20,46 +20,19 @@ namespace RandomAlgebra.Distributions
                 variance = DegreesOfFreedom - Math.Pow(mean, 2);
             }
 
-            public override double Mean
-            {
-                get
-                {
-                    return mean;
-                }
-            }
+            public override double Mean => mean;
 
-            public override double Variance
-            {
-                get
-                {
-                    return variance;
-                }
-            }
+            public override double Variance => variance;
 
-            public int DegreesOfFreedom
-            {
-                get;
-            }
+            public int DegreesOfFreedom { get; }
 
-            public override double Entropy
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public override double Entropy => throw new NotImplementedException();
 
-            public override DoubleRange Support
-            {
-                get
-                {
-                    return support;
-                }
-            }
+            public override DoubleRange Support => support;
 
             public override object Clone()
             {
-                return new ChiDistribution(DegreesOfFreedom);
+                throw new NotImplementedException();
             }
 
             public override string ToString(string format, IFormatProvider formatProvider)

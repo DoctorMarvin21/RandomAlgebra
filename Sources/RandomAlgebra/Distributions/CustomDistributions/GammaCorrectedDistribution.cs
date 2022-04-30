@@ -5,7 +5,7 @@ using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions
 {
-    namespace SpecialDistributions
+    namespace CustomDistributions
     {
         internal class GammaCorrectedDistribution : UnivariateContinuousDistribution
         {
@@ -21,37 +21,13 @@ namespace RandomAlgebra.Distributions
                 this.k = k;
             }
 
-            public override double Mean
-            {
-                get
-                {
-                    return baseGamma.Mean;
-                }
-            }
+            public override double Mean => baseGamma.Mean;
 
-            public override double Variance
-            {
-                get
-                {
-                    return baseGamma.Variance;
-                }
-            }
+            public override double Variance => baseGamma.Variance;
 
-            public override double Entropy
-            {
-                get
-                {
-                    return baseGamma.Entropy;
-                }
-            }
+            public override double Entropy => baseGamma.Entropy;
 
-            public override DoubleRange Support
-            {
-                get
-                {
-                    return range;
-                }
-            }
+            public override DoubleRange Support => range;
 
             public override object Clone()
             {
