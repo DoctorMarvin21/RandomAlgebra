@@ -559,12 +559,6 @@ namespace RandomAlgebra.Distributions
             }
             scale *= step;
 
-            if (trianglesCount > 0)
-            {
-                gotInfinities = true;
-                CalculationProgress.InvokeWarning(WarningType.InifinityEliminated, infIndexes.Count);
-            }
-
             if (scale < 1)
             {
                 double area = (1 - scale) / trianglesCount;

@@ -180,9 +180,6 @@
   <data name="ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce" xml:space="preserve">
     <value>It is impossible to perform the propagation by the method of algebra of random variables, since the parameter "{0}" occurs more than once</value>
   </data>
-  <data name="InifinityEliminated" xml:space="preserve">
-    <value>{0} infinite value(s) is eliminated, accuracy loss is expected</value>
-  </data>
   <data name="LengthOfArgumentsMustBeEqualToLengthOfParameters" xml:space="preserve">
     <value>The number of arguments {0} does not match the number of parameters {1}</value>
   </data>

@@ -12,10 +12,13 @@
   <Window.Resources>
     <ControlTemplate x:Key="ChartControl">
       <charts:Plot
-          Title="{Binding Title.Value}"
-          LegendPlacement="Outside"
-          LegendPosition="BottomLeft"
-          LegendOrientation="Horizontal">
+          Title="{Binding Title.Value}">
+        <charts:Plot.Legends>
+            <charts:Legend
+                LegendPlacement="Outside"
+                LegendPosition="BottomLeft"
+                LegendOrientation="Horizontal" />
+        </charts:Plot.Legends>
         <charts:Plot.Axes>
           <charts:LinearAxis Position="Left" IsZoomEnabled="True" />
           <charts:LinearAxis Position="Bottom" IsZoomEnabled="True" />

@@ -99,15 +99,6 @@ namespace DistributionsAvalonia
 
         public DistributionsPair()
         {
-            CalculationProgress.Warning += CalculationProgressWarning;
-        }
-
-        private void CalculationProgressWarning(object sender, WarningEventArgs e)
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Warnings.Add(e.Message);
-            });
         }
 
         public BaseDistribution RandomAlgebra { get; set; }

@@ -180,9 +180,6 @@
   <data name="ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce" xml:space="preserve">
     <value>Невозможно выполнить транформацию методом алгебры случайных величин, так как параметр "{0}" встречается более одного раза</value>
   </data>
-  <data name="InifinityEliminated" xml:space="preserve">
-    <value>{0} значение бесконечности устранено, возможна потеря точности</value>
-  </data>
   <data name="LengthOfArgumentsMustBeEqualToLengthOfParameters" xml:space="preserve">
     <value>Число аргументов {0} не соответствует числу параметров {1}</value>
   </data>
