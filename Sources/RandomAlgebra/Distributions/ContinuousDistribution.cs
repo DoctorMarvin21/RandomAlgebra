@@ -25,7 +25,7 @@ namespace RandomAlgebra.Distributions
         /// </summary>
         /// <param name="distributionSettings">Distribution settings.</param>
         public ContinuousDistribution(DistributionSettings distributionSettings)
-            : this(distributionSettings?.GetUnivariateContinuoisDistribution())
+            : this(distributionSettings?.GetUnivariateContinuousDistribution())
         {
         }
 
@@ -36,7 +36,7 @@ namespace RandomAlgebra.Distributions
         /// <param name="distributionSettings">Distribution settings.</param>
         /// <param name="samples">Samples count used in method <see cref="Discretize"/>.</param>
         public ContinuousDistribution(DistributionSettings distributionSettings, int samples)
-            : this(distributionSettings?.GetUnivariateContinuoisDistribution(), samples)
+            : this(distributionSettings?.GetUnivariateContinuousDistribution(), samples)
         {
         }
 

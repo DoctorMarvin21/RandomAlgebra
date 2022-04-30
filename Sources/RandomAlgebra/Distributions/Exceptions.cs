@@ -90,6 +90,11 @@ namespace RandomAlgebra
         {
         }
 
+        internal DistributionsArgumentException(string message)
+            : base(message)
+        {
+        }
+
         internal DistributionsArgumentException(DistributionsArgumentExceptionType exceptionType, params object[] arguments)
             : base(string.Format(Resources.GetMessage(exceptionType.ToString()), arguments))
         {

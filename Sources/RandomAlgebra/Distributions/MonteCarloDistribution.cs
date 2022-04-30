@@ -197,7 +197,7 @@ namespace RandomAlgebra.Distributions
 
                 if (randomSource.TryGetValue(arg, out DistributionSettings value))
                 {
-                    orderedDistributions[i] = value.GetUnivariateContinuoisDistribution();
+                    orderedDistributions[i] = value.GetUnivariateContinuousDistribution();
                 }
                 else
                 {

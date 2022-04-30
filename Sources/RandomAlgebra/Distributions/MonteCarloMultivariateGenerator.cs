@@ -43,7 +43,7 @@ namespace RandomAlgebra.Distributions
                 }
             }
 
-            univariate = univariateDistributions.Select(x => x.Value.GetUnivariateContinuoisDistribution()).ToArray();
+            univariate = univariateDistributions.Select(x => x.Value.GetUnivariateContinuousDistribution()).ToArray();
             multivariate = multivariateDistributions.Select(x => x.Value).ToArray();
 
             indexesUnivariate = GenerateIndexesUnivariate(orderedArguments, univariateDistributions);
