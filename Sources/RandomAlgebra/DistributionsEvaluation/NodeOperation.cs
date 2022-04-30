@@ -252,7 +252,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             if (Value == null)
             {
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, Parameter);
+                throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.ParameterValueIsMissing, Parameter);
             }
 
             return Value;
@@ -267,7 +267,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             if (Value == null)
             {
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, Parameter);
+                throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.ParameterValueIsMissing, Parameter);
             }
 
             return (double)Value;

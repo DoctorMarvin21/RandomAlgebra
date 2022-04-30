@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace RandomAlgebra.Distributions
+namespace RandomAlgebra.DistributionsEvaluation
 {
-    internal enum DistributionsInvalidOperationExceptionType
+    internal enum DistributionsEvaluatorInvalidOperationExceptionType
     {
         ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce,
         ExpressionOpreatorsInconsistent,
@@ -29,7 +29,7 @@ namespace RandomAlgebra.Distributions
         TangentOfValueCrossingAsymptote
     }
 
-    internal enum DistributionsArgumentExceptionType
+    internal enum DistributionsEvaluatorArgumentExceptionType
     {
         SamplesNumberMustBeGreaterThenTwo,
         LowerBoundIsGreaterThenUpperBound,
@@ -48,6 +48,7 @@ namespace RandomAlgebra.Distributions
         NumberOfPocketsMustBeGreaterThenTwo,
         ParameterValueIsMissing,
         ArgumentSpecifiedSeveralTimes,
+        MissingExpression,
         UnknownSymbolInExpression,
         NegativeStep,
         ProbabilityMustBeInRangeFromZeroToOne,
@@ -64,36 +65,36 @@ namespace RandomAlgebra.Distributions
     }
 
     /// <summary>
-    /// Invalid operation exception for distributions.
+    /// Invalid operation exception for expression evaluator.
     /// </summary>
-    public class DistributionsInvalidOperationException : InvalidOperationException
+    public class DistributionsEvaluatorInvalidOperationException : InvalidOperationException
     {
-        internal DistributionsInvalidOperationException()
+        internal DistributionsEvaluatorInvalidOperationException()
         {
         }
 
-        internal DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType exceptionType)
+        internal DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType exceptionType)
             : base(Resources.GetMessage(exceptionType.ToString()))
         {
         }
     }
 
     /// <summary>
-    /// Argument exception for distributions.
+    /// Argument exception for expression evaluator.
     /// </summary>
-    public class DistributionsArgumentException : ArgumentException
+    public class DistributionsEvaluatorArgumentException : ArgumentException
     {
-        internal DistributionsArgumentException(DistributionsArgumentExceptionType exceptionType)
+        internal DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType exceptionType)
             : base(Resources.GetMessage(exceptionType.ToString()))
         {
         }
 
-        internal DistributionsArgumentException(string message)
+        internal DistributionsEvaluatorArgumentException(string message)
             : base(message)
         {
         }
 
-        internal DistributionsArgumentException(DistributionsArgumentExceptionType exceptionType, params object[] arguments)
+        internal DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType exceptionType, params object[] arguments)
             : base(string.Format(Resources.GetMessage(exceptionType.ToString()), arguments))
         {
         }

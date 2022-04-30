@@ -36,7 +36,7 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             if (string.IsNullOrWhiteSpace(modelExpression))
             {
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.MissingExpression);
+                throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.MissingExpression);
             }
 
             ExpressionText = modelExpression;
@@ -87,7 +87,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
                 if (parameter.Count > 1)
                 {
-                    throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce);
+                    throw new DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce);
                 }
 
                 if (arguments.TryGetValue(arg, out BaseDistribution value))
@@ -96,7 +96,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
+                    throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
             }
 
@@ -104,7 +104,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
             if (correlations.Any(x => !x.Used))
             {
-                throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.CorrelationParamtersIgnored);
+                throw new DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType.CorrelationParamtersIgnored);
             }
 
             return result;
@@ -129,7 +129,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                 }
                 else
                 {
-                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
+                    throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.ParameterValueIsMissing, arg);
                 }
             }
 
@@ -140,8 +140,8 @@ namespace RandomAlgebra.DistributionsEvaluation
         {
             if (arguments.Length != nodeParameters.Count)
             {
-                throw new DistributionsArgumentException(
-                    DistributionsArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfParameters,
+                throw new DistributionsEvaluatorArgumentException(
+                    DistributionsEvaluatorArgumentExceptionType.LengthOfArgumentsMustBeEqualToLengthOfParameters,
                     arguments.Length,
                     nodeParameters.Count);
             }
@@ -224,7 +224,7 @@ namespace RandomAlgebra.DistributionsEvaluation
                         continue;
                     }
 
-                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.UnknownSymbolInExpression, next, expression);
+                    throw new DistributionsEvaluatorArgumentException(DistributionsEvaluatorArgumentExceptionType.UnknownSymbolInExpression, next, expression);
                 }
             }
 
@@ -252,7 +252,7 @@ namespace RandomAlgebra.DistributionsEvaluation
             }
             catch
             {
-                throw new DistributionsInvalidOperationException(DistributionsInvalidOperationExceptionType.ExpressionOpreatorsInconsistent);
+                throw new DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType.ExpressionOpreatorsInconsistent);
             }
         }
 
