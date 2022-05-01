@@ -1,10 +1,10 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace DistributionsAvalonia
+namespace DistributionsAvalonia.Desktop
 {
-    public class App : Application
+    public partial class App : Application
     {
         public override void Initialize()
         {
@@ -16,10 +16,6 @@ namespace DistributionsAvalonia
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
-            }
-            else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewLifetime)
-            {
-                singleViewLifetime.MainView = new MainView();
             }
 
             base.OnFrameworkInitializationCompleted();

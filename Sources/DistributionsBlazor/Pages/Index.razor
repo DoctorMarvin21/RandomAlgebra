@@ -1,0 +1,115 @@
+﻿@page "/"
+@inherits MainComponent
+@using Plotly.Blazor
+@using Plotly.Blazor.LayoutLib
+@using Plotly.Blazor.Traces
+
+<MBCard style="margin:10px" AutoStyled="true" CardStyle="MBCardStyle.Outlined">
+    <Primary>
+        <div style="display:flex;margin:10px">
+
+            <div style="min-width:200px;">
+                <MBTextField Label="Expression"
+                    Density="@MBDensity.Minus4"
+                    style="margin-right:10px;"
+                    TextInputStyle="MBTextInputStyle.Outlined"
+                    @bind-Value="Configuration.Expression" />
+            </div>
+
+            <div style="width:100px;">
+                <MBButton ButtonStyle="@MBButtonStyle.ContainedRaised"
+                    Density="@MBDensity.Default"
+                    Label="Evaluate"
+                    style="margin:0px;height:100%;"
+                    Disabled="@IsInProgress"
+                    @onclick="Process" />
+            </div>
+
+            @if (EvaluationError != null)
+            {
+                <p>@EvaluationError</p>
+            }
+        </div>
+    </Primary>
+</MBCard>
+
+<MBCard style="margin:10px" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
+    <Primary>
+        <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Distributions</h2>
+        <MBDataTable class="my-data-table"
+            Context="item"
+            Items="@Configuration.ExpressionArguments">
+            <TableHeader>
+                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Argument</th>
+                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Distribution</th>
+                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Parameters</th>
+                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col"></th>
+            </TableHeader>
+            <TableRow>
+                <td class="mdc-data-table__cell">@item.Argument</td>
+                <td class="mdc-data-table__cell">@item.SettingsType.Name</td>
+                <td class="mdc-data-table__cell">@item.DistributionSettings</td>
+                <td class="mdc-data-table__cell">
+                    <MBIconButton Icon="edit" @onclick="() => EditExpressionArgument(item)" />
+                </td>
+            </TableRow>
+        </MBDataTable>
+    </Primary>
+</MBCard>
+
+<div style="display:@(IsCalculated ? "block" : "none");">
+    <MBCard style="margin:10px;" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
+        <Primary>
+            <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Probability Density Function</h2>
+            <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="PdfView" style="margin:2px" />
+        </Primary>
+    </MBCard>
+
+    <MBCard style="margin:10px;" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
+        <Primary>
+            <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Cumulative Distribution Function</h2>
+            <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="CdfView" style="margin:2px" />
+        </Primary>
+    </MBCard>
+</div>
+
+<MBDialog @ref="@ExpressionArgumentDialog"
+            Title="Edit Distribution">
+    <Body>
+        <div>
+            <MBTextField Label="Argument"
+                style="margin:6px;width:100%;"
+                TextInputStyle="MBTextInputStyle.Outlined"
+                @bind-Value="EditedExpressionArgument.Argument" />
+        </div>
+        <div>
+            <MBSelect @bind-Value="@EditedExpressionArgument.SettingsType"
+                style="margin:6px;width:100%;"
+                Items="EditedExpressionArgument.SettingTypes"
+                MenuSurfacePositioning="@MBMenuSurfacePositioning.Fixed"
+                SelectInputStyle="MBSelectInputStyle.Outlined"
+                Label="Distribution" />
+        </div>
+        @foreach (var item in EditedExpressionArgument.DistributionSettingsBindings)
+        {
+            <MBTextField Label="@item.Name"
+                style="margin:6px;width:100%;"
+                TextInputStyle="MBTextInputStyle.Outlined"
+                @bind-Value="item.Value" />
+        }
+    </Body>
+    <Buttons>
+        <MBButton DialogAction="ok"
+            Label="OK" />
+    </Buttons>
+</MBDialog>
+
+@code {
+    Config config = new Config { Responsive = true };
+
+    Layout layout = new Layout
+    {
+        Margin = new Plotly.Blazor.LayoutLib.Margin { L = 30, R = 6, B = 6, T = 6 },
+        Legend = new Plotly.Blazor.LayoutLib.Legend { Orientation = Plotly.Blazor.LayoutLib.LegendLib.OrientationEnum.H }
+    };
+}

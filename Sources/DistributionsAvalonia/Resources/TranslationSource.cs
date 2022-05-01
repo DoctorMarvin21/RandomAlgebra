@@ -14,7 +14,7 @@ namespace DistributionsAvalonia
 
         private TranslationSource()
         {
-            CultureInfo invariantEnglish = CultureInfo.GetCultureInfo("en");
+            CultureInfo invariantEnglish = CultureInfo.InvariantCulture;
 
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
             List<CultureInfo> availableCultures = new List<CultureInfo>();

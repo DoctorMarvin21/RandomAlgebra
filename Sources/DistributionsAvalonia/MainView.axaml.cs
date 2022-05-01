@@ -1,18 +1,14 @@
-﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using System.ComponentModel;
-using Avalonia;
-using OxyPlot.Avalonia;
 using Avalonia.VisualTree;
+using OxyPlot.Avalonia;
+using System;
 using System.Linq;
 
 namespace DistributionsAvalonia
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml.
-    /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainView : UserControl
     {
         public static readonly AvaloniaProperty<bool> CanProcessProperty =
             AvaloniaProperty.Register<MainWindow, bool>(nameof(CanProcess), true, false);
@@ -20,7 +16,7 @@ namespace DistributionsAvalonia
         public static readonly AvaloniaProperty<string> EvaluationErrorProperty =
             AvaloniaProperty.Register<MainWindow, string>(nameof(EvaluationError));
 
-        public MainWindow()
+        public MainView()
         {
             Configuration = new Configuration();
             InitializeComponent();
