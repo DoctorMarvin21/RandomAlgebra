@@ -90,20 +90,6 @@ namespace DistributionsAvalonia
             set { SetValue(EvaluationErrorProperty, value); }
         }
 
-        private void LanguageTest()
-        {
-            TranslationSource.Instance.CurrentCulture = new CultureInfo("en-US");
-        }
-
-
-        public async void OnDistributionSettingsDoubleTapped(object sender, RoutedEventArgs e)
-        {
-            var argument = ((TextBlock)sender).DataContext as ExpressionArgument;
-
-            DistributionEditWindow editWindow = new DistributionEditWindow(this, argument);
-            await editWindow.ShowDialog(this);
-        }
-
         private void AddExpressionArgument()
         {
             Configuration.ExpressionArguments.Add(new ExpressionArgument(null,
@@ -120,12 +106,6 @@ namespace DistributionsAvalonia
             {
                 Configuration.ExpressionArguments.RemoveAt(Configuration.ExpressionArguments.Count - 1);
             }
-        }
-
-        private void EvaluationSettings()
-        {
-            EvaluationSettings evaluationSettings = new EvaluationSettings(Configuration);
-            evaluationSettings.ShowDialog(this);
         }
     }
 }

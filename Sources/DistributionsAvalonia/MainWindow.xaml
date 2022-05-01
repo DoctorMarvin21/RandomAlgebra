@@ -7,7 +7,7 @@
         xmlns:charts="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         mc:Ignorable="d" Height="600" Width="1200"
-        d:DesignHeight="600" d:DesignWidth="600"
+        d:DesignHeight="600" d:DesignWidth="1200"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{local:Localize Distributions}">
   <Window.Resources>
@@ -16,9 +16,9 @@
           Title="{Binding Title.Value}">
         <charts:Plot.Legends>
             <charts:Legend
-                LegendPlacement="Outside"
-                LegendPosition="BottomLeft"
-                LegendOrientation="Horizontal" />
+              LegendPlacement="Outside"
+              LegendPosition="BottomLeft"
+              LegendOrientation="Horizontal" />
         </charts:Plot.Legends>
         <charts:Plot.Axes>
           <charts:LinearAxis Position="Left" IsZoomEnabled="True" />
@@ -26,15 +26,15 @@
         </charts:Plot.Axes>
         <charts:Plot.Series>
           <charts:LineSeries
-              Title="{local:Localize RandomAlgebra}"
-              Color="Red"
-              StrokeThickness="0.5"
-              Items="{Binding RandomAlgebra}" />
+            Title="{local:Localize RandomAlgebra}"
+            Color="Red"
+            StrokeThickness="0.5"
+            Items="{Binding RandomAlgebra}" />
           <charts:LineSeries
-              Title="{local:Localize MonteCarlo}"
-              Color="Blue"
-              StrokeThickness="0.5"
-              Items="{Binding MonteCarlo}" />
+            Title="{local:Localize MonteCarlo}"
+            Color="Blue"
+            StrokeThickness="0.5"
+            Items="{Binding MonteCarlo}" />
         </charts:Plot.Series>
       </charts:Plot>
     </ControlTemplate>
@@ -49,6 +49,7 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition />
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <DockPanel>
@@ -72,10 +73,6 @@
               </DataTemplate>
             </ComboBox.ItemTemplate>
           </ComboBox>
-          <Button Content="{local:Localize Settings}"
-                  Command="{Binding EvaluationSettings}"
-                  Width="120"
-                  Margin="5" />
         </StackPanel>
       </DockPanel>
       <Grid Grid.Row="1">
@@ -91,7 +88,10 @@
                         Template="{StaticResource ChartControl}"
                         DataContext="{Binding CdfChart}" />
       </Grid>
-      <StackPanel Grid.Row="2">
+      <Expander Grid.Row="2" Header="{local:Localize EvaluationSettings}">
+        <local:EvaluationSettingsControl DataContext="{Binding Configuration}" />
+      </Expander>
+      <StackPanel Grid.Row="3">
         <TextBlock Text="{Binding EvaluationError}" Foreground="Red" FontWeight="Bold" />
         <ItemsControl Items="{Binding Results.Warnings}" Foreground="Orange" FontWeight="Bold" />
       </StackPanel>
@@ -104,8 +104,8 @@
         <RowDefinition />
       </Grid.RowDefinitions>
       <DataGrid AutoGenerateColumns="False"
-                AlternatingRowBackground="{x:Null}"
                 CanUserResizeColumns="True"
+                RowDetailsVisibilityMode="VisibleWhenSelected"
                 Items="{Binding Configuration.ExpressionArguments}"
                 SelectedItem="{Binding Configuration.SelectedArgument}">
         <DataGrid.Columns>
@@ -115,7 +115,7 @@
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding Argument}" />
+                <TextBox Text="{Binding Argument}" VerticalAlignment="Center" />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
@@ -126,8 +126,9 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <ComboBox
-                    Items="{Binding SettingTypes}"
-                    SelectedItem="{Binding SettingsType}">
+                  Items="{Binding SettingTypes}"
+                  SelectedItem="{Binding SettingsType}"
+                  VerticalAlignment="Center" >
                   <ComboBox.ItemTemplate>
                     <DataTemplate>
                       <TextBlock Text="{Binding Name.Value}" />
@@ -143,11 +144,16 @@
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding DistributionSettings}" DoubleTapped="OnDistributionSettingsDoubleTapped" VerticalAlignment="Center" Margin="3" />
+                <TextBlock Text="{Binding DistributionSettings}" />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
         </DataGrid.Columns>
+        <DataGrid.RowDetailsTemplate>
+          <DataTemplate>
+            <local:DistributionEditControl />
+          </DataTemplate>
+        </DataGrid.RowDetailsTemplate>
       </DataGrid>
       <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
         <Button Content="{local:Localize Add}" Margin="5" Width="100"

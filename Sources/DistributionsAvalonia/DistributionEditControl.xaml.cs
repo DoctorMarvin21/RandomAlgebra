@@ -3,18 +3,10 @@ using Avalonia.Markup.Xaml;
 
 namespace DistributionsAvalonia
 {
-    public class EvaluationSettings : Window
+    public partial class DistributionEditControl : UserControl
     {
-        public EvaluationSettings()
+        public DistributionEditControl()
         {
-            InitializeComponent();
-        }
-
-        public EvaluationSettings(Configuration configuration)
-            : this()
-        {
-            DataContext = configuration;
-
             InitializeComponent();
         }
 

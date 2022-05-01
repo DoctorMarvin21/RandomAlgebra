@@ -1,22 +1,14 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        xmlns:local="clr-namespace:DistributionsAvalonia"
-        SizeToContent="Height"
-        WindowStartupLocation="CenterOwner"
-        Width="400"
-        x:Class="DistributionsAvalonia.EvaluationSettings"
-        Title="{local:Localize EvaluationSettings}">
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:local="clr-namespace:DistributionsAvalonia"
+             x:Class="DistributionsAvalonia.EvaluationSettingsControl">
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
     <Border>
@@ -50,7 +42,7 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="1">
+    <Border Grid.Column="1" Margin="5">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
@@ -72,7 +64,7 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border Grid.Row="2">
+    <Border Grid.Column="2" Margin="5">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
@@ -102,4 +94,4 @@
       </Grid>
     </Border>
   </Grid>
-</Window>
+</UserControl>
