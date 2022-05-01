@@ -25,11 +25,14 @@
                     @onclick="Process" />
             </div>
 
-            @if (EvaluationError != null)
-            {
-                <p>@EvaluationError</p>
-            }
         </div>
+
+        @if (EvaluationError != null)
+        {
+            <div>
+                <p style="font-family:Arial;color:var(--mdc-theme-error)">@EvaluationError</p>
+            </div>
+        }
     </Primary>
 </MBCard>
 
