@@ -522,10 +522,6 @@ namespace RandomAlgebra.Distributions
                     }
                 case DistributionsOperation.Cos:
                     {
-                        // https://mathoverflow.net/questions/35260/resultant-probability-distribution-when-taking-the-cosine-of-gaussian-distribute
-                        // TODO: Verify for trigonometric functions work properly. And remove range?
-                        _ = GetTrigonometricRange(-1, 1, dpdf);
-
                         double r1 = -1;
                         double r2 = 1;
 
@@ -597,30 +593,6 @@ namespace RandomAlgebra.Distributions
             }
 
             return new DiscreteDistribution(xCoordinates, yCoordinates);
-        }
-
-        private static double[] GetTrigonometricRange(double min, double max, BaseDistribution dpdf)
-        {
-            double[] range = new double[2];
-            if (dpdf.MinX >= min && dpdf.MinX <= max)
-            {
-                range[0] = dpdf.MinX;
-            }
-            else
-            {
-                range[0] = min;
-            }
-
-            if (dpdf.MaxX >= min && dpdf.MaxX <= max)
-            {
-                range[1] = dpdf.MaxX;
-            }
-            else
-            {
-                range[1] = max;
-            }
-
-            return range;
         }
     }
 }

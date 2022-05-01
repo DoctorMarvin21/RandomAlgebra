@@ -26,6 +26,11 @@ namespace RandomAlgebra.DistributionsEvaluation
             : base(Resources.GetMessage(exceptionType.ToString()))
         {
         }
+
+        internal DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType exceptionType, params object[] arguments)
+            : base(string.Format(Resources.GetMessage(exceptionType.ToString()), arguments))
+        {
+        }
     }
 
     /// <summary>

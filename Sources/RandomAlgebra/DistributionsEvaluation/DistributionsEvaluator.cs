@@ -87,7 +87,7 @@ namespace RandomAlgebra.DistributionsEvaluation
 
                 if (parameter.Count > 1)
                 {
-                    throw new DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce);
+                    throw new DistributionsEvaluatorInvalidOperationException(DistributionsEvaluatorInvalidOperationExceptionType.ImpossibeToUseRandomAlgebraParameterSetMoreThenOnce, arg);
                 }
 
                 if (arguments.TryGetValue(arg, out BaseDistribution value))
