@@ -1,11 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
 <PageTitle>Distribution Propagation</PageTitle>
 
-<div>
-    <main>
-        <article>
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudAppBar>
+        <MudText Typo="Typo.h6">Distribution Propagation</MudText>
+    </MudAppBar>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

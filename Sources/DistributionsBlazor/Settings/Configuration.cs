@@ -15,8 +15,6 @@ namespace DistributionsBlazor
         public IList<ExpressionArgument> ExpressionArguments { get; }
             = new List<ExpressionArgument>();
 
-        public ExpressionArgument SelectedArgument { get; set; }
-
         public IList<MultivariateExpressionArgument> MultivariateExpressionArguments { get; }
             = new List<MultivariateExpressionArgument>();
 

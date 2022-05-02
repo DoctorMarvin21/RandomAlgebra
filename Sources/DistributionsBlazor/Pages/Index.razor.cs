@@ -9,7 +9,10 @@ namespace DistributionsBlazor
         private const string RandomAlgebra = "Random Algebra";
         private const string MonteCarlo = "Monte Carlo";
 
-        public ExpressionArgument EditedExpressionArgument { get; set; }
+        public MainComponent()
+        {
+            DistributionsDialogProvider = new DistributionsDialogProvider(Configuration.ExpressionArguments);
+        }
 
         public PlotlyChart PdfView { get; set; }
 
@@ -19,9 +22,11 @@ namespace DistributionsBlazor
 
         public DistributionsPair Results { get; } = new DistributionsPair();
 
-        public bool IsDistributionEditDialogOpen { get; set; }
+        public DistributionsDialogProvider DistributionsDialogProvider { get; }
 
         public bool IsInProgress { get; set; }
+
+        public string ProgressVisibility => IsInProgress ? "visible" : "invisible";
 
         public bool IsCalculated { get; set; }
 
@@ -103,21 +108,5 @@ namespace DistributionsBlazor
         public ChartData PdfChart { get; set; } = new ChartData(ChartDataType.PDF);
 
         public ChartData CdfChart { get; set; } = new ChartData(ChartDataType.CDF);
-
-        public void EditExpressionArgument(ExpressionArgument item)
-        {
-            EditedExpressionArgument = item;
-            IsDistributionEditDialogOpen = true;
-        }
-
-        public void DeleteExpressionArgument(ExpressionArgument item)
-        {
-            Configuration.ExpressionArguments.Remove(item);
-        }
-
-        public async Task AddExpressionArgument()
-        {
-            await Task.CompletedTask;
-        }
     }
 }

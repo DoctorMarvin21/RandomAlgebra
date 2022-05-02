@@ -4,131 +4,127 @@
 @using Plotly.Blazor.LayoutLib
 @using Plotly.Blazor.Traces
 
-<MatPaper Elevation="5" style="margin:10px;padding:10px;">
-    <MatHeadline6 Style="margin:0px;">
-        Expression
-    </MatHeadline6>
-
-    <div style="display:flex;margin-top:10px;">
-
-        <div style="min-width:200px;">
-            <MatTextField style="margin-right:10px;height:36px" Outlined=true
+<MudTabs Elevation="5" Rounded="true" ApplyEffectsToContainer="true" Class="ma-4">
+    <MudTabPanel Text="Evaluation">
+        <MudPaper Square="true" Elevation="0" Class="d-flex flex-column gap-4 pa-4">
+            <MudTextField Label="Model"
+                Margin="MudBlazor.Margin.Dense" Variant="Variant.Outlined"
                 @bind-Value="Configuration.Expression" />
-        </div>
+            <MudTable Items="Configuration.ExpressionArguments" Style="width:min-content;" Dense="true" Hover="false">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Distributions</MudText>
+                    <MudSpacer />
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" DisableElevation="true" Size="Size.Small"
+                        OnClick="DistributionsDialogProvider.AddArgument"/>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Argument</MudTh>
+                    <MudTh>Distribution</MudTh>
+                    <MudTh>Parameters</MudTh>
+                    <MudTh>Action</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Argument</MudTd>
+                    <MudTd>@context.SettingsType.Name</MudTd>
+                    <MudTd>@context.DistributionSettings</MudTd>
+                    <MudTd>
+                        <div class="d-flex gap-2">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small"
+                                OnClick="() => DistributionsDialogProvider.EditArgument(context)"></MudIconButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small"
+                                OnClick="() => DistributionsDialogProvider.DeleteExpressionArgument(context)"></MudIconButton>
+                        </div>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+            <MudButton Disabled="IsInProgress"
+                Style="width:100px;"
+                Variant="Variant.Filled" DisableElevation=true Color="Color.Primary"
+                OnClick="Process">Evaluate</MudButton>
 
-        <div style="width:100px;">
-            <MatButton Label="Evaluate" Disabled="IsInProgress" Unelevated="true"
-                style="margin:0px;height:100%;" OnClick="Process" />
-        </div>
+            @if (EvaluationError != null)
+            {
+                <MudAlert Severity="Severity.Error">@EvaluationError</MudAlert>
+            }
 
-    </div>
-
-    @if (EvaluationError != null)
-    {
-        <div>
-            <p style="font-family:Arial;color:var(--mdc-theme-error)">@EvaluationError</p>
-        </div>
-    }
-</MatPaper>
-
-<MatPaper Elevation="5" style="margin:10px;">
-    <div style="padding:10px;">
-        <MatHeadline6 Style="margin:0px;">
-            Evaluation Settings
-        </MatHeadline6>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;">
-        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-            <div>
-                <MatSubtitle2 Style="margin:0px;">
-                    Common Parameters
-                </MatSubtitle2>
+            <MudProgressLinear Color="Color.Primary" class="@ProgressVisibility" Indeterminate="true" />
+        </MudPaper>
+    </MudTabPanel>
+    <MudTabPanel Text="Settings">
+        <MatPaper Elevation="5" style="margin:10px;">
+            <div style="padding:10px;">
+                <MatHeadline6 Style="margin:0px;">
+                    Evaluation Settings
+                </MatHeadline6>
             </div>
-            <div style="margin-top:10px;">
-                <MatNumericUpDownField Label="Probability"
-                    @bind-Value=Configuration.Probability
-                    DecimalPlaces=3
-                    Minimum=0 Maximum=1>
-                </MatNumericUpDownField>
-            </div>
-            <div style="margin-top:10px;">
-                <MatNumericUpDownField Label="Chart Points"
-                    @bind-Value=Configuration.ChartPoints
-                    DecimalPlaces=0
-                    Minimum=1 Maximum=100000>
-                </MatNumericUpDownField>
+            <div style="display:flex;flex-wrap:wrap;">
+                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+                    <div>
+                        <MatSubtitle2 Style="margin:0px;">
+                            Common Parameters
+                        </MatSubtitle2>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <MatNumericUpDownField Label="Probability"
+                            @bind-Value=Configuration.Probability
+                            DecimalPlaces=3
+                            Minimum=0 Maximum=1>
+                        </MatNumericUpDownField>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <MatNumericUpDownField Label="Chart Points"
+                            @bind-Value=Configuration.ChartPoints
+                            DecimalPlaces=0
+                            Minimum=1 Maximum=100000>
+                        </MatNumericUpDownField>
+                    </div>
+                </MatPaper>
+                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+                    <div>
+                        <MatCheckbox @bind-Value="Configuration.EvaluateRandomAlgebra">
+                            <MatSubtitle2 Style="margin:0px;">
+                                Random Algebra
+                            </MatSubtitle2>
+                        </MatCheckbox>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <MatNumericUpDownField Label="Samples"
+                            Disabled=@(!Configuration.EvaluateRandomAlgebra)
+                            @bind-Value=Configuration.Samples
+                            DecimalPlaces=0
+                            Minimum=1 Maximum=100000>
+                        </MatNumericUpDownField>
+                    </div>
+                </MatPaper>
+                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+                    <div>
+                        <MatCheckbox @bind-Value="Configuration.EvaluateMonteCarlo">
+                            <MatSubtitle2 Style="margin:0px;">
+                                Monte Carlo
+                            </MatSubtitle2>
+                        </MatCheckbox>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <MatNumericUpDownField Label="Experiments"
+                            Disabled=@(!Configuration.EvaluateMonteCarlo)
+                            @bind-Value=Configuration.Experiments
+                            DecimalPlaces=0
+                            Minimum=1 Maximum=100000000>
+                        </MatNumericUpDownField>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <MatNumericUpDownField Label="Pockets"
+                            Disabled=@(!Configuration.EvaluateMonteCarlo)
+                            @bind-Value=Configuration.Pockets
+                            DecimalPlaces=0
+                            Minimum=1 Maximum=100000>
+                        </MatNumericUpDownField>
+                    </div>
+                </MatPaper>
             </div>
         </MatPaper>
-        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-            <div>
-                <MatCheckbox @bind-Value="Configuration.EvaluateRandomAlgebra">
-                    <MatSubtitle2 Style="margin:0px;">
-                        Random Algebra
-                    </MatSubtitle2>
-                </MatCheckbox>
-            </div>
-            <div style="margin-top:10px;">
-                <MatNumericUpDownField Label="Samples"
-                    Disabled=@(!Configuration.EvaluateRandomAlgebra)
-                    @bind-Value=Configuration.Samples
-                    DecimalPlaces=0
-                    Minimum=1 Maximum=100000>
-                </MatNumericUpDownField>
-            </div>
-        </MatPaper>
-        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-            <div>
-                <MatCheckbox @bind-Value="Configuration.EvaluateMonteCarlo">
-                    <MatSubtitle2 Style="margin:0px;">
-                        Monte Carlo
-                    </MatSubtitle2>
-                </MatCheckbox>
-            </div>
-            <div style="margin-top:10px;">
-                <MatNumericUpDownField Label="Experiments"
-                    Disabled=@(!Configuration.EvaluateMonteCarlo)
-                    @bind-Value=Configuration.Experiments
-                    DecimalPlaces=0
-                    Minimum=1 Maximum=100000000>
-                </MatNumericUpDownField>
-            </div>
-            <div style="margin-top:10px;">
-                <MatNumericUpDownField Label="Pockets"
-                    Disabled=@(!Configuration.EvaluateMonteCarlo)
-                    @bind-Value=Configuration.Pockets
-                    DecimalPlaces=0
-                    Minimum=1 Maximum=100000>
-                </MatNumericUpDownField>
-            </div>
-        </MatPaper>
-    </div>
-</MatPaper>
-
-<MatPaper Elevation="5" style="margin:10px;padding:10px;">
-    <MatHeadline6 Style="margin:0px;">
-        Distributions
-    </MatHeadline6>
-    <MatTable Items="Configuration.ExpressionArguments" ShowPaging="false"
-        Style="font-family:sans-serif;width:min-content;" class="mat-elevation-z5">
-        <MatTableHeader>
-            <th>Argument</th>
-            <th>Distribution</th>
-            <th>Parameters</th>
-            <th></th>
-        </MatTableHeader>
-        <MatTableRow>
-            <td>@context.Argument</td>
-            <td>@context.SettingsType.Name</td>
-            <td>@context.DistributionSettings</td>
-            <td style="padding:0px;">
-                <div style="display:flex;">
-                    <MatIconButton Icon="edit" Style="margin:2px;" OnClick="() => EditExpressionArgument(context)"></MatIconButton>
-                    <MatIconButton Icon="delete" Style="margin:2px;" OnClick="() => DeleteExpressionArgument(context)"></MatIconButton>
-                </div>
-            </td>
-        </MatTableRow>
-    </MatTable>
-</MatPaper>
+    </MudTabPanel>
+</MudTabs>
 
 <div style="display:@(IsCalculated ? "block" : "none");">
     <MatPaper Elevation="5" style="margin:10px;padding:10px;">
@@ -165,38 +161,50 @@
     </MatPaper>
 </div>
 
-<MatDialog @bind-IsOpen="IsDistributionEditDialogOpen">
-    <MatDialogTitle>Edit Distribution</MatDialogTitle>
-    <MatDialogContent>
-        @if (EditedExpressionArgument != null)
-        {
+<MudDialog @bind-IsVisible="DistributionsDialogProvider.IsDialogOpen" Options="@editDialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Edit Distribution
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <div class="d-flex flex-column gap-4">
+            <MudTextField Variant="Variant.Outlined"
+                @bind-Value="@DistributionsDialogProvider.ExpressionArgument.Argument" />
             <div>
-                <MatTextField style="margin:6px;width:100%;" Outlined=true
-                    @bind-Value="@EditedExpressionArgument.Argument" />
-            </div>
-            <div>
-                <MatSelectItem @bind-Value="@EditedExpressionArgument.SettingsType"
-                    style="margin:6px;width:100%;"
-                    Items="EditedExpressionArgument.SettingTypes"
-                    Outlined=true
-                    Label="Distribution" />
+                <MudSelect @bind-Value="@DistributionsDialogProvider.ExpressionArgument.SettingsType"
+                    Variant="Variant.Outlined"
+                    Label="Distribution">
+                    @foreach (var item in DistributionsDialogProvider.ExpressionArgument.SettingTypes)
+                    {
+                        <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
             </div>
 
-            @foreach (var item in EditedExpressionArgument.DistributionSettingsBindings)
+            @foreach (var item in DistributionsDialogProvider.ExpressionArgument.DistributionSettingsBindings)
             {
-                <MatTextField Label="@item.Name"
-                    Outlined=true
-                    style="margin:6px;width:100%;"
+                <MudTextField Label="@item.Name" Variant="Variant.Outlined"
                     @bind-Value="item.Value" />
             }
-        }
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton OnClick="@(e => IsDistributionEditDialogOpen = false)">OK</MatButton>
-    </MatDialogActions>
-</MatDialog>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <div class="d-flex gap-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation=true
+                OnClick="DistributionsDialogProvider.DialogOK">OK</MudButton>
+
+            @if (DistributionsDialogProvider.DialogMode == DialogMode.Add)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation=true
+                    OnClick="DistributionsDialogProvider.DialogCancel">Cancel</MudButton>
+            }
+        </div>
+    </DialogActions>
+</MudDialog>
 
 @code {
+    DialogOptions editDialogOptions = new() { FullWidth = true };
     Config config = new Config { Responsive = true };
 
     Layout layout = new Layout
