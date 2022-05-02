@@ -143,6 +143,26 @@
         </MatHeadline6>
         <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="CdfView" style="margin:5px" />
     </MatPaper>
+    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
+        <MatHeadline6 Style="margin:0px;">
+            Results
+        </MatHeadline6>
+        <MatTable Items="Results.DistributionParameters" ShowPaging="false"
+            Style="font-family:sans-serif;width:min-content;" class="mat-elevation-z5">
+            <MatTableHeader>
+                <th>Parameter</th>
+                <th>Random Algebra</th>
+                <th>Monte Carlo</th>
+                <th>Ratio, %</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>@context.Name</td>
+                <td>@context.RandomsAlgebra</td>
+                <td>@context.MonteCarlo</td>
+                <td>@context.PersentRatio</td>
+            </MatTableRow>
+        </MatTable>
+    </MatPaper>
 </div>
 
 <MatDialog @bind-IsOpen="IsDistributionEditDialogOpen">

@@ -1,6 +1,6 @@
 ﻿using RandomAlgebra.Distributions;
 
-namespace DistributionsAvalonia
+namespace DistributionsBlazor
 {
     public enum ChartDataType
     {

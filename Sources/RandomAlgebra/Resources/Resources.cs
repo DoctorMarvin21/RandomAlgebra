@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 using System.Resources;
 
 namespace RandomAlgebra
@@ -12,7 +13,7 @@ namespace RandomAlgebra
 
         public static string GetMessage(string resourceKey)
         {
-            return ResourceManager.GetString(resourceKey);
+            return ResourceManager.GetString(resourceKey, CultureInfo.CurrentCulture);
         }
     }
 }

@@ -1,5 +1,7 @@
 using MatBlazor;
+using System.Globalization;
 
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

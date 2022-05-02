@@ -1,14 +1,10 @@
-﻿using DistributionsBlazor;
-using RandomAlgebra.Distributions;
+﻿using RandomAlgebra.Distributions;
 using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.DistributionsEvaluation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace DistributionsAvalonia
+namespace DistributionsBlazor
 {
     public static class DistributionManager
     {
@@ -109,11 +105,9 @@ namespace DistributionsAvalonia
 
         public TimeSpan? MonteCarloTime { get; set; }
 
-        public ObservableCollection<DistributionParameter> DistributionParameters { get; } = new ObservableCollection<DistributionParameter>();
+        public IList<DistributionParameter> DistributionParameters { get; } = new List<DistributionParameter>();
 
         public ObservableCollection<string> Warnings { get; } = new ObservableCollection<string>();
-
-
 
         public async Task ProcessAsync(Configuration configuration)
         {

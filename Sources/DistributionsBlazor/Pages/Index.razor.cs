@@ -1,5 +1,4 @@
-﻿using DistributionsAvalonia;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Plotly.Blazor;
 using Plotly.Blazor.Traces;
 

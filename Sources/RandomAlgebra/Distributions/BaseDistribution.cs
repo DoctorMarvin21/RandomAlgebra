@@ -2,6 +2,7 @@
 
 namespace RandomAlgebra.Distributions
 {
+    // TODO: add warnings collecion
     public enum DistributionType
     {
         /// <summary>

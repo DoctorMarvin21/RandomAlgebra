@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using RandomAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsBlazor
 {
@@ -13,13 +12,13 @@ namespace DistributionsBlazor
 
         public string Expression { get; set; } = "A+B*3+1";
 
-        public ObservableCollection<ExpressionArgument> ExpressionArguments { get; }
-            = new ObservableCollection<ExpressionArgument>();
+        public IList<ExpressionArgument> ExpressionArguments { get; }
+            = new List<ExpressionArgument>();
 
         public ExpressionArgument SelectedArgument { get; set; }
 
-        public ObservableCollection<MultivariateExpressionArgument> MultivariateExpressionArguments { get; }
-            = new ObservableCollection<MultivariateExpressionArgument>();
+        public IList<MultivariateExpressionArgument> MultivariateExpressionArguments { get; }
+            = new List<MultivariateExpressionArgument>();
 
 
         public bool EvaluateRandomAlgebra { get; set; } = true;
