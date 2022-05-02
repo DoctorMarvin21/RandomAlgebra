@@ -31,6 +31,79 @@
     }
 </MatPaper>
 
+<MatPaper Elevation="5" style="margin:10px;">
+    <div style="padding:10px;">
+        <MatHeadline6 Style="margin:0px;">
+            Evaluation Settings
+        </MatHeadline6>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;">
+        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+            <div>
+                <MatSubtitle2 Style="margin:0px;">
+                    Common Parameters
+                </MatSubtitle2>
+            </div>
+            <div style="margin-top:10px;">
+                <MatNumericUpDownField Label="Probability"
+                    @bind-Value=Configuration.Probability
+                    DecimalPlaces=3
+                    Minimum=0 Maximum=1>
+                </MatNumericUpDownField>
+            </div>
+            <div style="margin-top:10px;">
+                <MatNumericUpDownField Label="Chart Points"
+                    @bind-Value=Configuration.ChartPoints
+                    DecimalPlaces=0
+                    Minimum=1 Maximum=100000>
+                </MatNumericUpDownField>
+            </div>
+        </MatPaper>
+        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+            <div>
+                <MatCheckbox @bind-Value="Configuration.EvaluateRandomAlgebra">
+                    <MatSubtitle2 Style="margin:0px;">
+                        Random Algebra
+                    </MatSubtitle2>
+                </MatCheckbox>
+            </div>
+            <div style="margin-top:10px;">
+                <MatNumericUpDownField Label="Samples"
+                    Disabled=@(!Configuration.EvaluateRandomAlgebra)
+                    @bind-Value=Configuration.Samples
+                    DecimalPlaces=0
+                    Minimum=1 Maximum=100000>
+                </MatNumericUpDownField>
+            </div>
+        </MatPaper>
+        <MatPaper Elevation="3" style="margin:10px;padding:10px;">
+            <div>
+                <MatCheckbox @bind-Value="Configuration.EvaluateMonteCarlo">
+                    <MatSubtitle2 Style="margin:0px;">
+                        Monte Carlo
+                    </MatSubtitle2>
+                </MatCheckbox>
+            </div>
+            <div style="margin-top:10px;">
+                <MatNumericUpDownField Label="Experiments"
+                    Disabled=@(!Configuration.EvaluateMonteCarlo)
+                    @bind-Value=Configuration.Experiments
+                    DecimalPlaces=0
+                    Minimum=1 Maximum=100000000>
+                </MatNumericUpDownField>
+            </div>
+            <div style="margin-top:10px;">
+                <MatNumericUpDownField Label="Pockets"
+                    Disabled=@(!Configuration.EvaluateMonteCarlo)
+                    @bind-Value=Configuration.Pockets
+                    DecimalPlaces=0
+                    Minimum=1 Maximum=100000>
+                </MatNumericUpDownField>
+            </div>
+        </MatPaper>
+    </div>
+</MatPaper>
+
 <MatPaper Elevation="5" style="margin:10px;padding:10px;">
     <MatHeadline6 Style="margin:0px;">
         Distributions
