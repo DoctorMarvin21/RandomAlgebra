@@ -1,5 +1,4 @@
 ﻿using DistributionsAvalonia;
-using Material.Blazor;
 using Microsoft.AspNetCore.Components;
 using Plotly.Blazor;
 using Plotly.Blazor.Traces;
@@ -11,8 +10,6 @@ namespace DistributionsBlazor
         private const string RandomAlgebra = "Random Algebra";
         private const string MonteCarlo = "Monte Carlo";
 
-        public MBDialog ExpressionArgumentDialog { get; set; }
-
         public ExpressionArgument EditedExpressionArgument { get; set; }
 
         public PlotlyChart PdfView { get; set; }
@@ -22,6 +19,8 @@ namespace DistributionsBlazor
         public Configuration Configuration { get; } = new Configuration();
 
         public DistributionsPair Results { get; } = new DistributionsPair();
+
+        public bool IsDistributionEditDialogOpen { get; set; }
 
         public bool IsInProgress { get; set; }
 
@@ -106,14 +105,20 @@ namespace DistributionsBlazor
 
         public ChartData CdfChart { get; set; } = new ChartData(ChartDataType.CDF);
 
-        public async Task EditExpressionArgument(ExpressionArgument item)
+        public void EditExpressionArgument(ExpressionArgument item)
         {
             EditedExpressionArgument = item;
-            await ExpressionArgumentDialog.ShowAsync();
+            IsDistributionEditDialogOpen = true;
+        }
+
+        public void DeleteExpressionArgument(ExpressionArgument item)
+        {
+            Configuration.ExpressionArguments.Remove(item);
         }
 
         public async Task AddExpressionArgument()
         {
+            await Task.CompletedTask;
         }
     }
 }

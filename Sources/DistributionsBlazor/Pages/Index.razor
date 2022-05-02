@@ -4,115 +4,110 @@
 @using Plotly.Blazor.LayoutLib
 @using Plotly.Blazor.Traces
 
-<MBCard style="margin:10px" AutoStyled="true" CardStyle="MBCardStyle.Outlined">
-    <Primary>
-        <div style="display:flex;margin:10px">
+<MatPaper Elevation="5" style="margin:10px;padding:10px;">
+    <MatHeadline6 Style="margin:0px;">
+        Expression
+    </MatHeadline6>
 
-            <div style="min-width:200px;">
-                <MBTextField Label="Expression"
-                    Density="@MBDensity.Minus4"
-                    style="margin-right:10px;"
-                    TextInputStyle="MBTextInputStyle.Outlined"
-                    @bind-Value="Configuration.Expression" />
-            </div>
+    <div style="display:flex;margin-top:10px;">
 
-            <div style="width:100px;">
-                <MBButton ButtonStyle="@MBButtonStyle.ContainedRaised"
-                    Density="@MBDensity.Default"
-                    Label="Evaluate"
-                    style="margin:0px;height:100%;"
-                    Disabled="@IsInProgress"
-                    @onclick="Process" />
-            </div>
-
+        <div style="min-width:200px;">
+            <MatTextField style="margin-right:10px;height:36px" Outlined=true
+                @bind-Value="Configuration.Expression" />
         </div>
 
-        @if (EvaluationError != null)
-        {
-            <div>
-                <p style="font-family:Arial;color:var(--mdc-theme-error)">@EvaluationError</p>
-            </div>
-        }
-    </Primary>
-</MBCard>
+        <div style="width:100px;">
+            <MatButton Label="Evaluate" Disabled="IsInProgress" Unelevated="true"
+                style="margin:0px;height:100%;" OnClick="Process" />
+        </div>
 
-<MBCard style="margin:10px" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
-    <Primary>
-        <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Distributions</h2>
-        <MBDataTable class="my-data-table"
-            Context="item"
-            Items="@Configuration.ExpressionArguments">
-            <TableHeader>
-                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Argument</th>
-                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Distribution</th>
-                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col">Parameters</th>
-                <th class="mdc-data-table__header-cell header-bold" role="columnheader" scope="col"></th>
-            </TableHeader>
-            <TableRow>
-                <td class="mdc-data-table__cell">@item.Argument</td>
-                <td class="mdc-data-table__cell">@item.SettingsType.Name</td>
-                <td class="mdc-data-table__cell">@item.DistributionSettings</td>
-                <td class="mdc-data-table__cell">
-                    <MBIconButton Icon="edit" @onclick="() => EditExpressionArgument(item)" />
-                </td>
-            </TableRow>
-        </MBDataTable>
-    </Primary>
-</MBCard>
+    </div>
+
+    @if (EvaluationError != null)
+    {
+        <div>
+            <p style="font-family:Arial;color:var(--mdc-theme-error)">@EvaluationError</p>
+        </div>
+    }
+</MatPaper>
+
+<MatPaper Elevation="5" style="margin:10px;padding:10px;">
+    <MatHeadline6 Style="margin:0px;">
+        Distributions
+    </MatHeadline6>
+    <MatTable Items="Configuration.ExpressionArguments" ShowPaging="false"
+        Style="font-family:sans-serif;width:min-content;" class="mat-elevation-z5">
+        <MatTableHeader>
+            <th>Argument</th>
+            <th>Distribution</th>
+            <th>Parameters</th>
+            <th></th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@context.Argument</td>
+            <td>@context.SettingsType.Name</td>
+            <td>@context.DistributionSettings</td>
+            <td style="padding:0px;">
+                <div style="display:flex;">
+                    <MatIconButton Icon="edit" Style="margin:2px;" OnClick="() => EditExpressionArgument(context)"></MatIconButton>
+                    <MatIconButton Icon="delete" Style="margin:2px;" OnClick="() => DeleteExpressionArgument(context)"></MatIconButton>
+                </div>
+            </td>
+        </MatTableRow>
+    </MatTable>
+</MatPaper>
 
 <div style="display:@(IsCalculated ? "block" : "none");">
-    <MBCard style="margin:10px;" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
-        <Primary>
-            <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Probability Density Function</h2>
-            <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="PdfView" style="margin:2px" />
-        </Primary>
-    </MBCard>
-
-    <MBCard style="margin:10px;" AutoStyled="true" CardStyle="MBCardStyle.Outlined" class="mb-basic-with-header">
-        <Primary>
-            <h2 class="mb-card__title mdc-typography mdc-typography--headline6">Cumulative Distribution Function</h2>
-            <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="CdfView" style="margin:2px" />
-        </Primary>
-    </MBCard>
+    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
+        <MatHeadline6 Style="margin:0px;">
+            Probability Density Function
+        </MatHeadline6>
+        <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="PdfView" style="margin:5px" />
+    </MatPaper>
+    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
+        <MatHeadline6 Style="margin:0px;">
+            Cumulative Distribution Function
+        </MatHeadline6>
+        <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="CdfView" style="margin:5px" />
+    </MatPaper>
 </div>
 
-<MBDialog @ref="@ExpressionArgumentDialog"
-            Title="Edit Distribution">
-    <Body>
-        <div>
-            <MBTextField Label="Argument"
-                style="margin:6px;width:100%;"
-                TextInputStyle="MBTextInputStyle.Outlined"
-                @bind-Value="EditedExpressionArgument.Argument" />
-        </div>
-        <div>
-            <MBSelect @bind-Value="@EditedExpressionArgument.SettingsType"
-                style="margin:6px;width:100%;"
-                Items="EditedExpressionArgument.SettingTypes"
-                MenuSurfacePositioning="@MBMenuSurfacePositioning.Fixed"
-                SelectInputStyle="MBSelectInputStyle.Outlined"
-                Label="Distribution" />
-        </div>
-        @foreach (var item in EditedExpressionArgument.DistributionSettingsBindings)
+<MatDialog @bind-IsOpen="IsDistributionEditDialogOpen">
+    <MatDialogTitle>Edit Distribution</MatDialogTitle>
+    <MatDialogContent>
+        @if (EditedExpressionArgument != null)
         {
-            <MBTextField Label="@item.Name"
-                style="margin:6px;width:100%;"
-                TextInputStyle="MBTextInputStyle.Outlined"
-                @bind-Value="item.Value" />
+            <div>
+                <MatTextField style="margin:6px;width:100%;" Outlined=true
+                    @bind-Value="@EditedExpressionArgument.Argument" />
+            </div>
+            <div>
+                <MatSelectItem @bind-Value="@EditedExpressionArgument.SettingsType"
+                    style="margin:6px;width:100%;"
+                    Items="EditedExpressionArgument.SettingTypes"
+                    Outlined=true
+                    Label="Distribution" />
+            </div>
+
+            @foreach (var item in EditedExpressionArgument.DistributionSettingsBindings)
+            {
+                <MatTextField Label="@item.Name"
+                    Outlined=true
+                    style="margin:6px;width:100%;"
+                    @bind-Value="item.Value" />
+            }
         }
-    </Body>
-    <Buttons>
-        <MBButton DialogAction="ok"
-            Label="OK" />
-    </Buttons>
-</MBDialog>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => IsDistributionEditDialogOpen = false)">OK</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 @code {
     Config config = new Config { Responsive = true };
 
     Layout layout = new Layout
     {
-        Margin = new Plotly.Blazor.LayoutLib.Margin { L = 30, R = 6, B = 6, T = 6 },
         Legend = new Plotly.Blazor.LayoutLib.Legend { Orientation = Plotly.Blazor.LayoutLib.LegendLib.OrientationEnum.H }
     };
 }

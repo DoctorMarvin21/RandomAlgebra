@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Material.Blazor" Version="2.4.1" />
+    <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Plotly.Blazor" Version="2.9.0" />
   </ItemGroup>
 

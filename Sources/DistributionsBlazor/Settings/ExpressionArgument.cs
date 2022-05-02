@@ -1,5 +1,4 @@
-﻿using Material.Blazor;
-using RandomAlgebra.Distributions.Settings;
+﻿using RandomAlgebra.Distributions.Settings;
 using System.ComponentModel;
 
 namespace DistributionsBlazor
@@ -13,7 +12,7 @@ namespace DistributionsBlazor
         public ExpressionArgument(string arg, Type settingsType)
         {
             Argument = arg;
-            SettingsType = SettingTypes.FirstOrDefault(x => x.SelectedValue.SettingsType == settingsType)?.SelectedValue;
+            SettingsType = SettingTypes.FirstOrDefault(x => x.SettingsType == settingsType);
         }
 
         public ExpressionArgument(string arg, DistributionSettings settings)
@@ -67,11 +66,11 @@ namespace DistributionsBlazor
             }
         }
 
-        public MBSelectElement<DisplayNameAndSettingType>[] SettingTypes
+        public DisplayNameAndSettingType[] SettingTypes
         {
             get
             {
-                return DisplayNameAndSettingType.DisplayNames.Select(x => new MBSelectElement<DisplayNameAndSettingType> { SelectedValue = x, Label = x.Name }).ToArray();
+                return DisplayNameAndSettingType.DisplayNames;
             }
         }
 
