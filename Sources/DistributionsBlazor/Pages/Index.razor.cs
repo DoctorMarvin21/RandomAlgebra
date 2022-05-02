@@ -14,13 +14,13 @@ namespace DistributionsBlazor
             DistributionsDialogProvider = new DistributionsDialogProvider(Configuration.ExpressionArguments);
         }
 
-        public PlotlyChart PdfView { get; set; }
-
-        public PlotlyChart CdfView { get; set; }
-
         public Configuration Configuration { get; } = new Configuration();
 
         public DistributionsPair Results { get; } = new DistributionsPair();
+
+        public IList<ITrace> PdfData { get; set; }
+
+        public IList<ITrace> CdfData { get; set; }
 
         public DistributionsDialogProvider DistributionsDialogProvider { get; }
 
@@ -34,6 +34,7 @@ namespace DistributionsBlazor
 
         public async Task Process()
         {
+            IsCalculated = false;
             IsInProgress = true;
             EvaluationError = null;
 
@@ -44,53 +45,8 @@ namespace DistributionsBlazor
                 PdfChart.Update(Results, Configuration.ChartPoints);
                 CdfChart.Update(Results, Configuration.ChartPoints);
 
-                foreach (var trace in PdfView.Data.ToArray())
-                {
-                    await PdfView.DeleteTrace(trace);
-                }
-
-                foreach (var trace in CdfView.Data.ToArray())
-                {
-                    await CdfView.DeleteTrace(trace);
-                }
-
-                var randomAlgebraScatterPdf = new Scatter
-                {
-                    Name = RandomAlgebra,
-                    Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
-                    X = PdfChart.RandomAlgebraX,
-                    Y = PdfChart.RandomAlgebraY
-                };
-
-                var monteCarloScatterPdf = new Scatter
-                {
-                    Name = MonteCarlo,
-                    Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
-                    X = PdfChart.MonteCarloX,
-                    Y = PdfChart.MonteCarloY
-                };
-
-                await PdfView.AddTrace(randomAlgebraScatterPdf);
-                await PdfView.AddTrace(monteCarloScatterPdf);
-
-                var randomAlgebraScatterCdf = new Scatter
-                {
-                    Name = RandomAlgebra,
-                    Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
-                    X = CdfChart.RandomAlgebraX,
-                    Y = CdfChart.RandomAlgebraY
-                };
-
-                var monteCarloScatterCdf = new Scatter
-                {
-                    Name = MonteCarlo,
-                    Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
-                    X = CdfChart.MonteCarloX,
-                    Y = CdfChart.MonteCarloY
-                };
-
-                await CdfView.AddTrace(randomAlgebraScatterCdf);
-                await CdfView.AddTrace(monteCarloScatterCdf);
+                UpdatePdfTrace();
+                UpdateCdfTrace();
 
                 IsCalculated = true;
             }
@@ -103,6 +59,57 @@ namespace DistributionsBlazor
             {
                 IsInProgress = false;
             }
+        }
+
+        private void UpdatePdfTrace()
+        {
+            var randomAlgebraScatterPdf = new Scatter
+            {
+                Name = RandomAlgebra,
+                Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
+                X = PdfChart.RandomAlgebraX,
+                Y = PdfChart.RandomAlgebraY
+            };
+
+            var monteCarloScatterPdf = new Scatter
+            {
+                Name = MonteCarlo,
+                Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
+                X = PdfChart.MonteCarloX,
+                Y = PdfChart.MonteCarloY
+            };
+
+            PdfData = new List<ITrace>
+            {
+                randomAlgebraScatterPdf,
+                monteCarloScatterPdf
+            };
+        }
+
+        private void UpdateCdfTrace()
+        {
+            var randomAlgebraScatterCdf = new Scatter
+            {
+                Name = RandomAlgebra,
+                Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
+                X = CdfChart.RandomAlgebraX,
+                Y = CdfChart.RandomAlgebraY
+            };
+
+
+            var monteCarloScatterCdf = new Scatter
+            {
+                Name = MonteCarlo,
+                Mode = Plotly.Blazor.Traces.ScatterLib.ModeFlag.Lines,
+                X = CdfChart.MonteCarloX,
+                Y = CdfChart.MonteCarloY
+            };
+
+            CdfData = new List<ITrace>
+            {
+                randomAlgebraScatterCdf,
+                monteCarloScatterCdf
+            };
         }
 
         public ChartData PdfChart { get; set; } = new ChartData(ChartDataType.PDF);

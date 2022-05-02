@@ -51,115 +51,84 @@
         </MudPaper>
     </MudTabPanel>
     <MudTabPanel Text="Settings">
-        <MatPaper Elevation="5" style="margin:10px;">
-            <div style="padding:10px;">
-                <MatHeadline6 Style="margin:0px;">
-                    Evaluation Settings
-                </MatHeadline6>
-            </div>
-            <div style="display:flex;flex-wrap:wrap;">
-                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-                    <div>
-                        <MatSubtitle2 Style="margin:0px;">
-                            Common Parameters
-                        </MatSubtitle2>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <MatNumericUpDownField Label="Probability"
-                            @bind-Value=Configuration.Probability
-                            DecimalPlaces=3
-                            Minimum=0 Maximum=1>
-                        </MatNumericUpDownField>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <MatNumericUpDownField Label="Chart Points"
-                            @bind-Value=Configuration.ChartPoints
-                            DecimalPlaces=0
-                            Minimum=1 Maximum=100000>
-                        </MatNumericUpDownField>
-                    </div>
-                </MatPaper>
-                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-                    <div>
-                        <MatCheckbox @bind-Value="Configuration.EvaluateRandomAlgebra">
-                            <MatSubtitle2 Style="margin:0px;">
-                                Random Algebra
-                            </MatSubtitle2>
-                        </MatCheckbox>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <MatNumericUpDownField Label="Samples"
-                            Disabled=@(!Configuration.EvaluateRandomAlgebra)
-                            @bind-Value=Configuration.Samples
-                            DecimalPlaces=0
-                            Minimum=1 Maximum=100000>
-                        </MatNumericUpDownField>
-                    </div>
-                </MatPaper>
-                <MatPaper Elevation="3" style="margin:10px;padding:10px;">
-                    <div>
-                        <MatCheckbox @bind-Value="Configuration.EvaluateMonteCarlo">
-                            <MatSubtitle2 Style="margin:0px;">
-                                Monte Carlo
-                            </MatSubtitle2>
-                        </MatCheckbox>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <MatNumericUpDownField Label="Experiments"
-                            Disabled=@(!Configuration.EvaluateMonteCarlo)
-                            @bind-Value=Configuration.Experiments
-                            DecimalPlaces=0
-                            Minimum=1 Maximum=100000000>
-                        </MatNumericUpDownField>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <MatNumericUpDownField Label="Pockets"
-                            Disabled=@(!Configuration.EvaluateMonteCarlo)
-                            @bind-Value=Configuration.Pockets
-                            DecimalPlaces=0
-                            Minimum=1 Maximum=100000>
-                        </MatNumericUpDownField>
-                    </div>
-                </MatPaper>
-            </div>
-        </MatPaper>
+        <MudPaper Square="true" Elevation="0" Class="d-flex flex-wrap gap-4 pa-4">
+            <MudPaper Elevation="3" Class="d-flex flex-column gap-4 pa-4">
+                <MudText Typo="Typo.subtitle2">
+                    Common Parameters
+                </MudText>
+                <MudNumericField Label="Probability" Step=".1" Format="F3" Min=0 Max=1
+                    @bind-Value=Configuration.Probability>
+                </MudNumericField>
+                <MudNumericField Label="Chart Points" Min=1 Max=100000
+                    @bind-Value=Configuration.ChartPoints>
+                </MudNumericField>
+            </MudPaper>
+            <MudPaper Elevation="3" Class="d-flex flex-column gap-4 pa-4">
+                <MudCheckBox Dense="true" Color="Color.Primary" Size="Size.Small"
+                    @bind-Checked="Configuration.EvaluateRandomAlgebra">
+                    <MudText Typo="Typo.subtitle2">
+                        Random Algebra
+                    </MudText>
+                </MudCheckBox>
+                <MudNumericField Label="Samples" Min=1 Max=100000
+                    Disabled=@(!Configuration.EvaluateRandomAlgebra)
+                    @bind-Value=Configuration.Samples>
+                </MudNumericField>
+            </MudPaper>
+            <MudPaper Elevation="3" Class="d-flex flex-column gap-4 pa-4">
+                <MudCheckBox Dense="true" Color="Color.Primary" Size="Size.Small"
+                    @bind-Checked="Configuration.EvaluateMonteCarlo">
+                    <MudText Typo="Typo.subtitle2">
+                        Monte Carlo
+                    </MudText>
+                </MudCheckBox>
+                <MudNumericField Label="Experiments" Min=1 Max=100000000
+                    Disabled=@(!Configuration.EvaluateMonteCarlo)
+                    @bind-Value=Configuration.Experiments>
+                </MudNumericField>
+                <MudNumericField Label="Pockets" Min=1 Max=100000
+                    Disabled=@(!Configuration.EvaluateMonteCarlo)
+                    @bind-Value=Configuration.Pockets>
+                </MudNumericField>
+            </MudPaper>
+        </MudPaper>
     </MudTabPanel>
 </MudTabs>
 
-<div style="display:@(IsCalculated ? "block" : "none");">
-    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
-        <MatHeadline6 Style="margin:0px;">
-            Probability Density Function
-        </MatHeadline6>
-        <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="PdfView" style="margin:5px" />
-    </MatPaper>
-    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
-        <MatHeadline6 Style="margin:0px;">
-            Cumulative Distribution Function
-        </MatHeadline6>
-        <PlotlyChart @bind-Config="config" @bind-Layout="layout" @ref="CdfView" style="margin:5px" />
-    </MatPaper>
-    <MatPaper Elevation="5" style="margin:10px;padding:10px;">
-        <MatHeadline6 Style="margin:0px;">
-            Results
-        </MatHeadline6>
-        <MatTable Items="Results.DistributionParameters" ShowPaging="false"
-            Style="font-family:sans-serif;width:min-content;" class="mat-elevation-z5">
-            <MatTableHeader>
-                <th>Parameter</th>
-                <th>Random Algebra</th>
-                <th>Monte Carlo</th>
-                <th>Ratio, %</th>
-            </MatTableHeader>
-            <MatTableRow>
-                <td>@context.Name</td>
-                <td>@context.RandomsAlgebra</td>
-                <td>@context.MonteCarlo</td>
-                <td>@context.PersentRatio</td>
-            </MatTableRow>
-        </MatTable>
-    </MatPaper>
-</div>
+@if (IsCalculated)
+{
+    <MudTabs Elevation="5" Rounded="true" ApplyEffectsToContainer="true" Class="ma-4">
+        <MudTabPanel Text="Probability Density Function">
+            <MudPaper Square="true" Elevation="0" Class="pa-2">
+                <PlotlyChart @bind-Config="config" @bind-Layout="layout" @bind-Data="PdfData" />
+            </MudPaper>
+        </MudTabPanel>
+        <MudTabPanel Text="Cumulative Distribution Function">
+            <MudPaper Square="true" Elevation="0" Class="pa-2">
+                <PlotlyChart @bind-Config="config" @bind-Layout="layout" @bind-Data="CdfData" />
+            </MudPaper>
+            
+        </MudTabPanel>
+        <MudTabPanel Text="Results">
+            <MudPaper Square="true" Elevation="0" Class="pa-4">
+                <MudTable Items="Results.DistributionParameters" Dense="true" Hover="false">
+                    <HeaderContent>
+                        <MudTh>Parameter</MudTh>
+                        <MudTh>Random Algebra</MudTh>
+                        <MudTh>Monte Carlo</MudTh>
+                        <MudTh>Ratio, %</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.Name</MudTd>
+                        <MudTd>@context.RandomsAlgebra</MudTd>
+                        <MudTd>@context.MonteCarlo</MudTd>
+                        <MudTd>@context.PersentRatio</MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudPaper>
+        </MudTabPanel>
+    </MudTabs>
+}
 
 <MudDialog @bind-IsVisible="DistributionsDialogProvider.IsDialogOpen" Options="@editDialogOptions">
     <TitleContent>
