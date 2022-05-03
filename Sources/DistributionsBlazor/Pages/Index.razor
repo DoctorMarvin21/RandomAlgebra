@@ -3,6 +3,34 @@
 @using Plotly.Blazor
 @using Plotly.Blazor.LayoutLib
 @using Plotly.Blazor.Traces
+@using RandomAlgebra.Distributions.Settings
+
+    <MudTable Items="Test" hidden="true" Dense="true" Hover="false" cane>
+        <HeaderContent>
+@for (int i = 0; i < ColumnsCount; i++)
+{
+    var localVariable = i;
+    <MudTh>D@(localVariable)</MudTh>
+}
+        </HeaderContent>
+        <RowTemplate>
+@for (int i = 0; i < @context.Length; i++)
+{
+    var localVariable = context[i];
+    <MudTd>@localVariable.Value</MudTd>
+}
+        </RowTemplate>
+        <RowEditingTemplate>
+@for (int i = 0; i < @context.Length; i++)
+{
+    var localVariable = context[i];
+    <MudTd>
+        <MudTextField @bind-Value="@localVariable.Value" Required />
+    </MudTd>
+}
+
+        </RowEditingTemplate>
+    </MudTable>
 
 <MudTabs Elevation="5" Rounded="true" ApplyEffectsToContainer="true" Class="ma-4">
     <MudTabPanel Text="Evaluation">
@@ -143,21 +171,53 @@
         <div class="d-flex flex-column gap-4">
             <MudTextField Variant="Variant.Outlined"
                 @bind-Value="@DistributionsDialogProvider.ExpressionArgument.Argument" />
-            <div>
-                <MudSelect @bind-Value="@DistributionsDialogProvider.ExpressionArgument.SettingsType"
-                    Variant="Variant.Outlined"
-                    Label="Distribution">
-                    @foreach (var item in DistributionsDialogProvider.ExpressionArgument.SettingTypes)
-                    {
-                        <MudSelectItem Value="@item">@item.Name</MudSelectItem>
-                    }
-                </MudSelect>
-            </div>
+            <MudSelect @bind-Value="@DistributionsDialogProvider.ExpressionArgument.SettingsType"
+                Variant="Variant.Outlined"
+                Label="Distribution">
+                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.SettingTypes)
+                {
+                    <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
 
-            @foreach (var item in DistributionsDialogProvider.ExpressionArgument.DistributionSettingsBindings)
+            @if (DistributionsDialogProvider.ExpressionArgument.DistributionSettings is MultivariateBasedNormalDistributionSettings multivariateBased)
             {
-                <MudTextField Label="@item.Name" Variant="Variant.Outlined"
-                    @bind-Value="item.Value" />
+                <MudNumericField @ref=dimensionsFiled Label="Dimensions" Min=1 Max=100
+                    Value=multivariateBased.Coefficients.Length>
+                </MudNumericField>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation=true
+                    OnClick="() => UpdateDimensions(dimensionsFiled.Value, multivariateBased)">Update Matrix</MudButton>
+
+@code {
+    private MudNumericField<int> dimensionsFiled;
+
+    public void UpdateDimensions(int dimension, MultivariateBasedNormalDistributionSettings settings)
+    {
+        var coeffitients = new double[dimension];
+
+        var means = new double[dimension];
+        var covarianceMatrix = new double[dimension, dimension];
+
+        for (int i = 0; i < dimension; i++)
+        {
+            coeffitients[i] = 1;
+            means[i] = 1;
+            covarianceMatrix[i, i] = 1;
+        }
+
+        settings.Coefficients = coeffitients;
+        settings.MultivariateNormalDistributionSettings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
+    }
+}
+            }
+            else
+            {
+                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.DistributionSettingsBindings)
+                {
+                    <MudTextField Label="@item.Name" Variant="Variant.Outlined"
+                        @bind-Value="item.Value" />
+                }   
             }
         </div>
     </DialogContent>

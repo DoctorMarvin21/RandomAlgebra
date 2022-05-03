@@ -44,7 +44,6 @@ namespace RandomAlgebra.Distributions.Settings
             set
             {
                 coefficients = value;
-
                 CheckParameters();
             }
         }
@@ -65,9 +64,15 @@ namespace RandomAlgebra.Distributions.Settings
 
         public override string ToString()
         {
-            var settings = GetSettings();
-
-            return $"D = {multivariateNormalDistributionSettings.Dimension}; μ = {settings.Mean}; σ = {settings.StandardDeviation}";
+            try
+            {
+                var settings = GetSettings();
+                return $"D = {multivariateNormalDistributionSettings.Dimension}; μ = {settings.Mean}; σ = {settings.StandardDeviation}";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         internal override UnivariateContinuousDistribution GetUnivariateContinuousDistribution()

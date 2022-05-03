@@ -56,12 +56,15 @@ namespace DistributionsBlazor
         {
             DistributionSettingsBindings.Clear();
 
-            var properties = settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => x.CanWrite && x.CanRead);
-
-            foreach (var property in properties)
+            if (settings is not MultivariateBasedNormalDistributionSettings)
             {
-                DistributionSettingsBindings.Add(new DistributionSettingsBinding(settings, property));
+                var properties = settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(x => x.CanWrite && x.CanRead);
+
+                foreach (var property in properties)
+                {
+                    DistributionSettingsBindings.Add(new DistributionSettingsBinding(settings, property));
+                }
             }
         }
 

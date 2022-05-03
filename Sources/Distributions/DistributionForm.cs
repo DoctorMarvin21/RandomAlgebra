@@ -282,9 +282,7 @@ namespace Distributions
 
         private void Process()
         {
-#if !DEBUG
             try
-#endif
             {
                 _warningsSource.Clear();
 
@@ -343,12 +341,10 @@ namespace Distributions
                 FillResults();
                 FillCharts();
             }
-#if !DEBUG
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Languages.GetText("Exception"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-#endif
         }
 
         private void FillResults()
