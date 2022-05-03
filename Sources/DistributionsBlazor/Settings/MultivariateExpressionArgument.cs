@@ -2,13 +2,20 @@
 
 namespace DistributionsBlazor
 {
-    // TODO: refactor
+    public enum MultivariateType
+    {
+        Normal,
+        TDistribution
+    }
+
     public class MultivariateExpressionArgument
     {
-        public MultivariateExpressionArgument(string[] arguments, MultivariateDistributionSettings settings)
+        private int dimensions;
+
+        public MultivariateExpressionArgument(string[] arguments, MultivariateType type)
         {
             Arguments = arguments;
-            MultivariateDistributionSettings = settings;
+            //MultivariateDistributionSettings = settings;
         }
 
         public string JoinedArguments
@@ -39,11 +46,7 @@ namespace DistributionsBlazor
             }
         }
 
-        public MultivariateDistributionSettings MultivariateDistributionSettings
-        {
-            get;
-            set;
-        }
+        public MultivariateDistributionSettings MultivariateDistributionSettings { get; set; }
 
         public static Dictionary<string[], MultivariateDistributionSettings> CreateDictionary(ICollection<MultivariateExpressionArgument> functionArguments)
         {
@@ -53,6 +56,19 @@ namespace DistributionsBlazor
                 keyValuePairs.Add(arg.Arguments, arg.MultivariateDistributionSettings);
             }
             return keyValuePairs;
+        }
+
+        private static MultivariateDistributionSettings GetDistributionSettingsType(MultivariateType type)
+        {
+            throw new NotImplementedException();
+            switch (type)
+            {
+                case MultivariateType.Normal:
+                    {
+                        return null;
+                        //return new MultivariateNormalDistributionSettings(double[] )
+                    }
+            }
         }
     }
 }

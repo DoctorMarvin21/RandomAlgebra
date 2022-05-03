@@ -53,17 +53,9 @@ namespace Distributions
             _warningsSource.DataSource = _warnings;
             listWarnings.DataSource = _warningsSource;
 
-            CalculationProgress.Warning += CalculationProgress_Warning;
-
             //dataGridResults.AutoGenerateColumns = true;
             //dataGridResults.Columns.Clear();
             //dataGridResults.DataSource = Test.TestData();
-        }
-
-        private void CalculationProgress_Warning(object sender, WarningEventArgs e)
-        {
-            _warningsSource.Add(e.Message);
-            _warningsSource.MoveLast();
         }
 
         private void SetLanguage()
