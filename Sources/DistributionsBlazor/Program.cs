@@ -21,3 +21,6 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+// TODO: find way to set min width in percents
+// TODO: add dialog on removing
