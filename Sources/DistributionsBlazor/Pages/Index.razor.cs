@@ -4,11 +4,6 @@ using Plotly.Blazor.Traces;
 
 namespace DistributionsBlazor
 {
-    public class DoubleBinding
-    {
-        public double Value { get; set; }
-    }
-
     public partial class MainComponent : ComponentBase
     {
         private const string RandomAlgebra = "Random Algebra";

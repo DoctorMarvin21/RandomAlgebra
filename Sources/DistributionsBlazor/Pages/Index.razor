@@ -187,29 +187,11 @@
                 </MudNumericField>
 
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation=true
-                    OnClick="() => UpdateDimensions(dimensionsFiled.Value, multivariateBased)">Update Matrix</MudButton>
+                    OnClick="() => MultivariateHelper.UpdateDimensions(dimensionsFiled.Value, multivariateBased)">Update Matrix</MudButton>
 
-@code {
-    private MudNumericField<int> dimensionsFiled;
-
-    public void UpdateDimensions(int dimension, MultivariateBasedNormalDistributionSettings settings)
-    {
-        var coeffitients = new double[dimension];
-
-        var means = new double[dimension];
-        var covarianceMatrix = new double[dimension, dimension];
-
-        for (int i = 0; i < dimension; i++)
-        {
-            coeffitients[i] = 1;
-            means[i] = 1;
-            covarianceMatrix[i, i] = 1;
-        }
-
-        settings.Coefficients = coeffitients;
-        settings.MultivariateNormalDistributionSettings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
-    }
-}
+                @code {
+                    private MudNumericField<int> dimensionsFiled;
+                }
             }
             else
             {
@@ -217,7 +199,7 @@
                 {
                     <MudTextField Label="@item.Name" Variant="Variant.Outlined"
                         @bind-Value="item.Value" />
-                }   
+                }
             }
         </div>
     </DialogContent>
