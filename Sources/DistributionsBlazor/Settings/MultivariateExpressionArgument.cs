@@ -1,8 +1,8 @@
 ﻿using RandomAlgebra.Distributions.Settings;
-using System.Collections.Generic;
 
 namespace DistributionsBlazor
 {
+    // TODO: refactor
     public class MultivariateExpressionArgument
     {
         public MultivariateExpressionArgument(string[] arguments, MultivariateDistributionSettings settings)

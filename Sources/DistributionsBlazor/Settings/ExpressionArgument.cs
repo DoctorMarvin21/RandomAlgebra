@@ -1,13 +1,12 @@
 ﻿using RandomAlgebra.Distributions.Settings;
-using System.ComponentModel;
+using System.Reflection;
 
 namespace DistributionsBlazor
 {
-    public class ExpressionArgument : INotifyPropertyChanged
+    public class ExpressionArgument
     {
-        private DisplayNameAndSettingType _settingsType;
-        private DistributionSettings _distributionSettings;
-        private string _argument;
+        private NameAndSettingType settingsType;
+        private DistributionSettings distributionSettings;
 
         public ExpressionArgument(string arg, Type settingsType)
         {
@@ -21,75 +20,49 @@ namespace DistributionsBlazor
             DistributionSettings = settings;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Argument
-        {
-            get
-            {
-                return _argument;
-            }
-            set
-            {
-                _argument = value;
-                OnPropertyChanged(nameof(Argument));
-            }
-        }
+        public string Argument { get; set; }
 
         public DistributionSettings DistributionSettings
         {
-            get
-            {
-                return _distributionSettings;
-            }
+            get => distributionSettings;
             set
             {
-                _distributionSettings = value;
-                OnPropertyChanged(nameof(DistributionSettings));
-
-                DistributionSettingsBindings.Update(this, DistributionSettings);
+                distributionSettings = value;
+                UpdateSettingsBindings(DistributionSettings);
             }
         }
 
-        public DisplayNameAndSettingType SettingsType
+        public NameAndSettingType SettingsType
         {
-            get
-            {
-                return _settingsType;
-            }
+            get => settingsType;
             set
             {
-                _settingsType = value;
-                OnPropertyChanged(nameof(SettingsType));
-
+                settingsType = value;
                 GenerateSettings();
             }
         }
 
-        public DisplayNameAndSettingType[] SettingTypes
-        {
-            get
-            {
-                return DisplayNameAndSettingType.DisplayNames;
-            }
-        }
+        public NameAndSettingType[] SettingTypes => NameAndSettingType.DisplayNames;
 
-        public DistributionSettingsBindingCollection DistributionSettingsBindings { get; }
-            = new DistributionSettingsBindingCollection();
+        public IList<DistributionSettingsBinding> DistributionSettingsBindings { get; }
+            = new List<DistributionSettingsBinding>();
 
         private void GenerateSettings()
         {
             DistributionSettings = (DistributionSettings)Activator.CreateInstance(SettingsType.SettingsType);
         }
 
-        public void DistributionSettingsChanged()
+        private void UpdateSettingsBindings(DistributionSettings settings)
         {
-            OnPropertyChanged(nameof(DistributionSettings));
-        }
+            DistributionSettingsBindings.Clear();
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var properties = settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(x => x.CanWrite && x.CanRead);
+
+            foreach (var property in properties)
+            {
+                DistributionSettingsBindings.Add(new DistributionSettingsBinding(settings, property));
+            }
         }
 
         public static Dictionary<string, DistributionSettings> CreateDictionary(ICollection<ExpressionArgument> functionArguments)
@@ -100,49 +73,6 @@ namespace DistributionsBlazor
                 keyValuePairs.Add(arg.Argument, arg.DistributionSettings);
             }
             return keyValuePairs;
-        }
-    }
-
-    public class DisplayNameAndSettingType
-    {
-
-        public DisplayNameAndSettingType(Type settingType)
-        {
-            Name = settingType.Name;
-            //Name = TranslationSource.Instance[settingType.Name];
-            SettingsType = settingType;
-        }
-
-        static DisplayNameAndSettingType()
-        {
-            DisplayNames = new DisplayNameAndSettingType[]
-                {
-                    new DisplayNameAndSettingType(typeof(NormalDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(UniformDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(StudentGeneralizedDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(ArcsineDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(ExponentialDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(BetaDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(GammaDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(LognormalDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(GeneralizedNormalDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(BivariateBasedNormalDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(MultivariateBasedNormalDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(ChiDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(ChiSquaredDistributionSettings)),
-                    new DisplayNameAndSettingType(typeof(RayleighDistributionSettings))
-            };
-        }
-
-        public Type SettingsType { get; set; }
-
-        public string Name { get; private set; }
-
-        public static DisplayNameAndSettingType[] DisplayNames { get; private set; }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

@@ -47,7 +47,10 @@
                 <MudAlert Severity="Severity.Error">@EvaluationError</MudAlert>
             }
 
-            <MudProgressLinear Color="Color.Primary" class="@ProgressVisibility" Indeterminate="true" />
+            @if (IsInProgress)
+            {
+                <MudProgressLinear Color="Color.Primary" Indeterminate="true" />   
+            }
         </MudPaper>
     </MudTabPanel>
     <MudTabPanel Text="Settings">

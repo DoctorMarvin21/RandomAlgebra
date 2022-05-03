@@ -1,94 +1,8 @@
 ﻿using RandomAlgebra.Distributions;
-using RandomAlgebra.Distributions.Settings;
-using RandomAlgebra.DistributionsEvaluation;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace DistributionsBlazor
 {
-    public static class DistributionManager
-    {
-        public static BaseDistribution RandomsAlgebraDistribution(string expression, Dictionary<string, DistributionSettings> univariate, Dictionary<string[], MultivariateDistributionSettings> multivariate, int samples)
-        {
-            Dictionary<string, BaseDistribution> arguments = new Dictionary<string, BaseDistribution>();
-            List<CorrelatedPair> correlations = new List<CorrelatedPair>();
-
-            foreach (var distr in univariate)
-            {
-                arguments.Add(distr.Key, distr.Value.GetDistribution(samples));
-            }
-
-            if (multivariate != null)
-            {
-                foreach (var distr in multivariate)
-                {
-                    var bivariate = distr.Value.GetBivariatePair(samples);
-
-                    arguments.Add(distr.Key[0], bivariate.BaseLeft);
-                    arguments.Add(distr.Key[1], bivariate.BaseRight);
-                    correlations.Add(bivariate);
-                }
-            }
-
-            return new DistributionsEvaluator(expression).EvaluateDistributions(arguments, correlations);
-        }
-
-        public static BaseDistribution MonteCarloDistribution(string expression, Dictionary<string, DistributionSettings> univariate, Dictionary<string[], MultivariateDistributionSettings> multivariate, int experiments, int pockets)
-        {
-            return new MonteCarloDistribution(expression, univariate, multivariate, experiments, pockets);
-        }
-    }
-
-    public class DistributionParameter
-    {
-        public DistributionParameter(string name, double? randomsAlgebra, double? monteCarlo)
-        {
-            Name = name;
-            RandomsAlgebra = randomsAlgebra;
-            MonteCarlo = monteCarlo;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public double? RandomsAlgebra
-        {
-            get;
-            set;
-        }
-
-        public double? MonteCarlo
-        {
-            get;
-            set;
-        }
-
-        public double? PersentRatio
-        {
-            get
-            {
-                return GetPersentRatio(RandomsAlgebra, MonteCarlo);
-            }
-        }
-
-        private double? GetPersentRatio(double? v1, double? v2)
-        {
-            if (v1.HasValue && v2.HasValue)
-            {
-                double v1V = v1.Value;
-                double v2V = v2.Value;
-                return ((v1V - v2V) / v1V * 100d);
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
-
     public class DistributionsPair
     {
         private readonly object processLocker = new object();
@@ -107,8 +21,6 @@ namespace DistributionsBlazor
 
         public IList<DistributionParameter> DistributionParameters { get; } = new List<DistributionParameter>();
 
-        public ObservableCollection<string> Warnings { get; } = new ObservableCollection<string>();
-
         public async Task ProcessAsync(Configuration configuration)
         {
             await Task.Run(() => Process(configuration));
@@ -118,8 +30,6 @@ namespace DistributionsBlazor
         {
             lock (processLocker)
             {
-                Warnings.Clear();
-
                 var univariate = ExpressionArgument.CreateDictionary(configuration.ExpressionArguments);
                 var multivariate = MultivariateExpressionArgument.CreateDictionary(configuration.MultivariateExpressionArguments);
 

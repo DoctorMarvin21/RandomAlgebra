@@ -26,8 +26,6 @@ namespace DistributionsBlazor
 
         public bool IsInProgress { get; set; }
 
-        public string ProgressVisibility => IsInProgress ? "visible" : "invisible";
-
         public bool IsCalculated { get; set; }
 
         public string EvaluationError { get; set; }

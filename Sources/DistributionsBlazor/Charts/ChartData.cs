@@ -13,13 +13,12 @@ namespace DistributionsBlazor
         public ChartData(ChartDataType dataType)
         {
             DataType = dataType;
-
             Title = DataType.ToString();
         }
 
         public ChartDataType DataType { get; }
 
-        public string Title { get; private set; }
+        public string Title { get; }
 
         public List<object> RandomAlgebraX { get; }
             = new List<object>();

@@ -1,23 +1,44 @@
 ﻿using RandomAlgebra.Distributions.Settings;
-using System;
 using System.Reflection;
 
 namespace DistributionsBlazor
 {
     public class DistributionSettingsBinding
     {
-        private readonly ExpressionArgument _owner;
-        private readonly DistributionSettings _instance;
-        private readonly PropertyInfo _propertyInfo;
-
-        public DistributionSettingsBinding(ExpressionArgument owner, DistributionSettings instance, PropertyInfo propertyInfo)
+        private static readonly Dictionary<string, string> propertiesNames = new Dictionary<string, string>
         {
-            _owner = owner;
-            _instance = instance;
-            _propertyInfo = propertyInfo;
+            { "DegreesOfFreedom", "Degrees of freedom" },
+            { "LowerBound", "Lower bound" },
+            { "Mean", "Expected value" },
+            { "Mean1", "Expected value 1" },
+            { "Mean2", "Expected value 2" },
+            { "Rate", "Rate λ" },
+            { "ScaleParameter", "Scale parameter" },
+            { "ShapeParameter", "Shape parameter" },
+            { "ShapeParameterA", "Shape parameter α" },
+            { "ShapeParameterB", "Shape parameter β" },
+            { "StandardDeviation", "Standard deviation" },
+            { "StandardDeviation1", "Standard deviation 1" },
+            { "StandardDeviation2", "Standard deviation 2" },
+            { "UpperBound", "Upper bound" }
+        };
 
-            Name = _propertyInfo.Name;
-            //Name = TranslationSource.Instance[_propertyInfo.Name];
+        private readonly DistributionSettings instance;
+        private readonly PropertyInfo propertyInfo;
+
+        public DistributionSettingsBinding(DistributionSettings instance, PropertyInfo propertyInfo)
+        {
+            this.instance = instance;
+            this.propertyInfo = propertyInfo;
+
+            if (propertiesNames.TryGetValue(propertyInfo.Name, out string name))
+            {
+                Name = name;
+            }
+            else
+            {
+                Name = propertyInfo.Name;
+            }
         }
 
         public string Name { get; private set; }
@@ -26,13 +47,12 @@ namespace DistributionsBlazor
         {
             get
             {
-                return _propertyInfo.GetValue(_instance).ToString();
+                return propertyInfo.GetValue(instance).ToString();
             }
             set
             {
-                object newValue = Convert.ChangeType(value, _propertyInfo.PropertyType);
-                _propertyInfo.SetValue(_instance, newValue);
-                _owner.DistributionSettingsChanged();
+                object newValue = Convert.ChangeType(value, propertyInfo.PropertyType);
+                propertyInfo.SetValue(instance, newValue);
             }
         }
     }
