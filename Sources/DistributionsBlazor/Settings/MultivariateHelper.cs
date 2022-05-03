@@ -52,7 +52,6 @@ namespace DistributionsBlazor
             for (int i = 0; i < dimension; i++)
             {
                 coeffitients[i] = 1;
-                means[i] = 1;
                 covarianceMatrix[i, i] = 1;
             }
 
@@ -72,7 +71,7 @@ namespace DistributionsBlazor
             return new List<Double1DArrayBinding[]> { item };
         }
 
-        public static IList<Double1DArrayBinding[]> GetArrayBindings(double[,] source)
+        public static IList<Double2DArrayBinding[]> GetArrayBindings(double[,] source)
         {
             List<Double2DArrayBinding[]> result = new List<Double2DArrayBinding[]>();
 

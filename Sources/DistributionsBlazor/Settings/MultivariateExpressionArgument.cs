@@ -10,8 +10,6 @@ namespace DistributionsBlazor
 
     public class MultivariateExpressionArgument
     {
-        private int dimensions;
-
         public MultivariateExpressionArgument(string[] arguments, MultivariateType type)
         {
             Arguments = arguments;
@@ -61,14 +59,6 @@ namespace DistributionsBlazor
         private static MultivariateDistributionSettings GetDistributionSettingsType(MultivariateType type)
         {
             throw new NotImplementedException();
-            switch (type)
-            {
-                case MultivariateType.Normal:
-                    {
-                        return null;
-                        //return new MultivariateNormalDistributionSettings(double[] )
-                    }
-            }
         }
     }
 }

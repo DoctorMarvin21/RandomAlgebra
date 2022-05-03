@@ -14,14 +14,6 @@ namespace DistributionsBlazor
             DistributionsDialogProvider = new DistributionsDialogProvider(Configuration.ExpressionArguments);
         }
 
-        public int ColumnsCount { get; set; } = 2;
-
-        public List<DoubleBinding[]> Test { get; } = new List<DoubleBinding[]>()
-        {
-            new DoubleBinding[] { new DoubleBinding { Value = 1 }, new DoubleBinding { Value = 2 } },
-            new DoubleBinding[] { new DoubleBinding { Value = 3 }, new DoubleBinding { Value = 4 } }
-        };
-
         public Configuration Configuration { get; } = new Configuration();
 
         public DistributionsPair Results { get; } = new DistributionsPair();
