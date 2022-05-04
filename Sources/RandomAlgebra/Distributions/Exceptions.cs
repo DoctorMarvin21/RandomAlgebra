@@ -55,7 +55,8 @@ namespace RandomAlgebra.Distributions
         LengthOfArgumentsMustBeEqualToLengthOfValues,
         VectorOfMeansMustBeEqualToDimension,
         VectorOfCoeffitientsMustBeEqualToDimension,
-        ForCorrelationPairBothOfDistributionsMustBeContinuous
+        ForCorrelationPairBothOfDistributionsMustBeContinuous,
+        BivariateTDistributionMustHaveSameDegreesOfFreedom
     }
 
     /// <summary>

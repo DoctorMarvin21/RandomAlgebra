@@ -4,8 +4,17 @@ using RandomAlgebra.Distributions.CustomDistributions;
 
 namespace RandomAlgebra.Distributions
 {
+    /// <summary>
+    /// Pair of multivariate distribution random variables and correlation between them.
+    /// </summary>
     public class CorrelatedPair
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CorrelatedPair"/> class by distributions and correlation between them.
+        /// </summary>
+        /// <param name="left">1-st distribution.</param>
+        /// <param name="right">2-nd distribution.</param>
+        /// <param name="rho">Correlation coefficient.</param>
         public CorrelatedPair(BaseDistribution left, BaseDistribution right, double rho)
         {
             if (left == null)
@@ -28,81 +37,53 @@ namespace RandomAlgebra.Distributions
             Correlation = rho;
         }
 
-        public ContinuousDistribution BaseLeft
-        {
-            get;
-        }
+        /// <summary>
+        /// 1-st distribution.
+        /// </summary>
+        public ContinuousDistribution BaseLeft { get; }
 
-        public ContinuousDistribution BaseRight
-        {
-            get;
-        }
+        /// <summary>
+        /// 2-nd distribution.
+        /// </summary>
+        public ContinuousDistribution BaseRight { get; }
 
-        public double Correlation
-        {
-            get;
-        }
+        /// <summary>
+        /// Correlation coefficient.
+        /// </summary>
+        public double Correlation { get; }
 
-        internal bool Used
-        {
-            get;
-            set;
-        }
+        internal bool Used { get; set; }
 
-        internal bool CheckDistributions(BaseDistribution left, BaseDistribution right)
+        /// <summary>
+        /// Creates <see cref="BivariateContinuousDistribution"/> instance.
+        /// </summary>
+        /// <returns><see cref="BivariateContinuousDistribution"/> instance.</returns>
+        public BivariateContinuousDistribution GetBivariate()
         {
-            var leftCont = left as ContinuousDistribution;
-            var rightCont = right as ContinuousDistribution;
+            var contLeft = BaseLeft;
+            var contRight = BaseRight;
 
-            if (BaseLeft.BaseDistribution == leftCont?.BaseDistribution && BaseRight.BaseDistribution == rightCont?.BaseDistribution)
+            var samples = Math.Max(contLeft.Samples, contRight.Samples);
+
+            if (contLeft.BaseDistribution is NormalDistribution && contRight.BaseDistribution is NormalDistribution)
             {
-                return true;
+                return new BivariateNormalDistribution(contLeft.Mean, contRight.Mean, contLeft.StandardDeviation, contRight.StandardDeviation, Correlation * Math.Sign(contRight.Coefficient), samples);
             }
-            else if (BaseLeft.BaseDistribution == rightCont?.BaseDistribution && BaseRight.BaseDistribution == leftCont?.BaseDistribution)
+            else if (contLeft.BaseDistribution is StudentGeneralizedDistribution && contRight.BaseDistribution is StudentGeneralizedDistribution)
             {
-                return true;
+                var leftT = (StudentGeneralizedDistribution)contLeft.BaseDistribution;
+                var rightT = (StudentGeneralizedDistribution)contRight.BaseDistribution;
+
+                if (leftT.DegreesOfFreedom != rightT.DegreesOfFreedom)
+                {
+                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.BivariateTDistributionMustHaveSameDegreesOfFreedom);
+                }
+
+                return new BivariateTDistribution(contLeft.Mean, contRight.Mean, leftT.ScaleCoefficient * contLeft.Coefficient, rightT.ScaleCoefficient * contRight.Coefficient, Correlation * Math.Sign(contRight.Coefficient), leftT.DegreesOfFreedom, samples);
             }
             else
             {
-                return false;
-            }
-        }
-
-        internal BivariateContinuousDistribution GetBivariate(BaseDistribution left, BaseDistribution right)
-        {
-            if (CheckDistributions(left, right))
-            {
-                Used = true;
-
-                var contLeft = (ContinuousDistribution)left;
-                var contRight = (ContinuousDistribution)right;
-
-                var samples = Math.Max(contLeft.Samples, contRight.Samples);
-
-                if (contLeft.BaseDistribution is NormalDistribution && contRight.BaseDistribution is NormalDistribution)
-                {
-                    return new BivariateNormalDistribution(left.Mean, right.Mean, left.StandardDeviation, right.StandardDeviation, Correlation * Math.Sign(contRight.Coefficient), samples);
-                }
-                else if (contLeft.BaseDistribution is StudentGeneralizedDistribution && contRight.BaseDistribution is StudentGeneralizedDistribution)
-                {
-                    var leftT = (StudentGeneralizedDistribution)contLeft.BaseDistribution;
-                    var rightT = (StudentGeneralizedDistribution)contRight.BaseDistribution;
-
-                    if (leftT.DegreesOfFreedom != rightT.DegreesOfFreedom)
-                    {
-                        throw new ArgumentException();
-                    }
-
-                    return new BivariateTDistribution(left.Mean, right.Mean, leftT.ScaleCoefficient * contLeft.Coefficient, rightT.ScaleCoefficient * contRight.Coefficient, Correlation * Math.Sign(contRight.Coefficient), leftT.DegreesOfFreedom, samples);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-            else
-            {
-                throw new DistributionsInvalidOperationException();
+                throw new NotImplementedException();
             }
         }
     }

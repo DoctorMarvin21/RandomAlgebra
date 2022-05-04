@@ -120,6 +120,9 @@
   <data name="ArgumentSpecifiedSeveralTimes" xml:space="preserve">
     <value>"{0}" задан несколько раз</value>
   </data>
+  <data name="BivariateTDistributionMustHaveSameDegreesOfFreedom" xml:space="preserve">
+    <value />
+  </data>
   <data name="CorrelationMustBeInRangeFromMinusOneToOne" xml:space="preserve">
     <value>Коэффициент корреляции должен лежать в диапазоне (-1, 1)</value>
   </data>

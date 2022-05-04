@@ -11,7 +11,6 @@ namespace RandomAlgebra.Distributions.Settings
     {
         private static readonly NormalDistribution BaseNormal = new NormalDistribution();
         private readonly GammaDistribution baseGamma;
-        private readonly ChiSquareDistribution baseChi;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultivariateTDistributionSettings"/> class
@@ -34,7 +33,6 @@ namespace RandomAlgebra.Distributions.Settings
         {
             DegreesOfFreedom = degreesOfFreedom;
             baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
-            baseChi = new ChiSquareDistribution((int)degreesOfFreedom);
         }
 
         /// <summary>
@@ -49,16 +47,12 @@ namespace RandomAlgebra.Distributions.Settings
         {
             DegreesOfFreedom = degreesOfFreedom;
             baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
-            baseChi = new ChiSquareDistribution((int)degreesOfFreedom);
         }
 
         /// <summary>
         /// Degrees of freedom applied to every dimension.
         /// </summary>
-        public double DegreesOfFreedom
-        {
-            get;
-        }
+        public double DegreesOfFreedom { get; }
 
         protected override double[] GenerateRandomInternal(Random rnd)
         {
@@ -66,25 +60,15 @@ namespace RandomAlgebra.Distributions.Settings
             double[] result = new double[Dimension];
             double[] u = Means;
 
-            // TODO: I Don't remember, what happens here. I should check it out.
-            // OK. I checked, it doesn't work properly...
             for (int i = 0; i < Dimension; i++)
             {
                 result[i] = BaseNormal.Generate(rnd);
-
-                // result[i] = _baseNormal.Generate(rnd) / Math.Sqrt(_baseGamma.Generate(rnd) / DegreesOfFreedom);
             }
 
             result = Matrix.Dot(ltf, result);
-
             double[] gammaSqrt = baseGamma.Generate(Dimension, rnd).Divide(DegreesOfFreedom).Sqrt();
 
-            // from MATHlab function MVTRND(C,DF,N).
             result = Elementwise.Divide(result, gammaSqrt);
-
-            // double[] chiSqrt = _baseChi.Generate(Dimension, rnd).Divide(DegreesOfFreedom).Sqrt();
-
-            // result = Elementwise.Divide(result, chiSqrt); //from R func R/rmvt.R
             result = Elementwise.Add(result, u);
 
             return result;

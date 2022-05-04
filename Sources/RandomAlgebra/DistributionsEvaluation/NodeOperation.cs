@@ -96,11 +96,14 @@ namespace RandomAlgebra.DistributionsEvaluation
                 var left = Left.EvaluateExtended(correlations);
                 var right = Right.EvaluateExtended(correlations);
 
-                var corr = correlations?.Find(x => x.CheckDistributions(left, right));
+                var baseCorrelation = correlations?.Find(x => x.BaseLeft.BaseDistribution == (left as ContinuousDistribution)?.BaseDistribution
+                && x.BaseRight.BaseDistribution == (right as ContinuousDistribution)?.BaseDistribution);
 
-                if (corr != null)
+                if (baseCorrelation != null)
                 {
-                    return Evaluation.DistributionBinaryCorrelated(corr.GetBivariate(left, right), OperationType);
+                    baseCorrelation.Used = true;
+                    var correlation = new CorrelatedPair(left, right, baseCorrelation.Correlation);
+                    return Evaluation.DistributionBinaryCorrelated(correlation.GetBivariate(), OperationType);
                 }
                 else
                 {
