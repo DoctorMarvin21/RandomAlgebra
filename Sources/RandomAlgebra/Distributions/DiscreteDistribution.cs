@@ -521,7 +521,6 @@ namespace RandomAlgebra.Distributions
 
                 if (double.IsNaN(value))
                 {
-                    // TODO: interpolation?
                     yCoordinates[i] = 0;
                 }
                 else if (double.IsInfinity(value))

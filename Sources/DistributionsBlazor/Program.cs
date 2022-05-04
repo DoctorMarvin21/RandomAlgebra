@@ -21,6 +21,5 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-
-// TODO: find way to set min width in percents
+// Cleanup index, auto-update mulitvariate sum
 // TODO: add dialog on removing

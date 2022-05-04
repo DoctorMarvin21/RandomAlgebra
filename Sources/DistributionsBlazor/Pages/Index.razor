@@ -134,8 +134,10 @@
     </MudTabs>
 }
 
-<MudOverlay @bind-Visible="DistributionsDialogProvider.IsDialogOpen" DarkBackground="true">
-    <MudPaper Class="pl-6 pt-6" Style="min-width:400px;">
+<MudOverlay @bind-Visible="DistributionsDialogProvider.IsDialogOpen" DarkBackground="true"
+    Style="display:flex;justify-content:center;align-items:stretch;flex-direction:column;">
+    <div>
+    <MudPaper Class="pl-6 pt-6" Style="margin:0 auto;width:90%;max-width:600px;">
         <MudText Typo="Typo.h6">
             Edit Distribution
         </MudText>
@@ -270,6 +272,7 @@
             }
         </MudStack>
     </MudPaper>
+    </div>
 </MudOverlay>
 
 @code {

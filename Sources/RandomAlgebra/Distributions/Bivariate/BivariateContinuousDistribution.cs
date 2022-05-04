@@ -34,65 +34,29 @@ namespace RandomAlgebra.Distributions
             Samples = samples;
         }
 
-        public double Mean1
-        {
-            get;
-        }
+        public double Mean1 { get; }
 
-        public double Mean2
-        {
-            get;
-        }
+        public double Mean2 { get; }
 
-        public double Sigma1
-        {
-            get;
-        }
+        public double Sigma1 { get; }
 
-        public double Sigma2
-        {
-            get;
-        }
+        public double Sigma2 { get; }
 
-        public double Variance1
-        {
-            get;
-        }
+        public double Variance1 { get; }
 
-        public double Variance2
-        {
-            get;
-        }
+        public double Variance2 { get; }
 
-        public double Correlation
-        {
-            get;
-        }
+        public double Correlation { get; }
 
-        public int Samples
-        {
-            get;
-        }
+        public int Samples { get; }
 
-        public abstract double SupportMinLeft
-        {
-            get;
-        }
+        public abstract double SupportMinLeft { get; }
 
-        public abstract double SupportMaxLeft
-        {
-            get;
-        }
+        public abstract double SupportMaxLeft { get; }
 
-        public abstract double SupportMinRight
-        {
-            get;
-        }
+        public abstract double SupportMinRight { get; }
 
-        public abstract double SupportMaxRight
-        {
-            get;
-        }
+        public abstract double SupportMaxRight { get; }
 
         public abstract BivariateContinuousDistribution Rotate();
 
@@ -174,37 +138,13 @@ namespace RandomAlgebra.Distributions
             sProdInv = 1d / (Sigma1 * Sigma2);
         }
 
-        public override double SupportMinLeft
-        {
-            get
-            {
-                return supportMinLeft;
-            }
-        }
+        public override double SupportMinLeft => supportMinLeft;
 
-        public override double SupportMaxLeft
-        {
-            get
-            {
-                return supportMaxLeft;
-            }
-        }
+        public override double SupportMaxLeft => supportMaxLeft;
 
-        public override double SupportMinRight
-        {
-            get
-            {
-                return supportMinRight;
-            }
-        }
+        public override double SupportMinRight => supportMinRight;
 
-        public override double SupportMaxRight
-        {
-            get
-            {
-                return supportMaxRight;
-            }
-        }
+        public override double SupportMaxRight => supportMaxRight;
 
         public override BivariateContinuousDistribution Rotate()
         {
@@ -272,13 +212,7 @@ namespace RandomAlgebra.Distributions
             sProdInv = 1d / (Sigma1 * Sigma2);
         }
 
-        public override double SupportMinLeft
-        {
-            get
-            {
-                return supportMinLeft;
-            }
-        }
+        public override double SupportMinLeft => supportMinLeft;
 
         public override double SupportMaxLeft
         {
@@ -288,26 +222,11 @@ namespace RandomAlgebra.Distributions
             }
         }
 
-        public override double SupportMinRight
-        {
-            get
-            {
-                return supportMinRight;
-            }
-        }
+        public override double SupportMinRight => supportMinRight;
 
-        public override double SupportMaxRight
-        {
-            get
-            {
-                return supportMaxRight;
-            }
-        }
+        public override double SupportMaxRight => supportMaxRight;
 
-        public double DegressOfFreedom
-        {
-            get;
-        }
+        public double DegressOfFreedom { get; }
 
         public override BivariateContinuousDistribution Rotate()
         {
