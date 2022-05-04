@@ -1,4 +1,5 @@
-﻿using RandomAlgebra.Distributions.Settings;
+﻿using MudBlazor;
+using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsBlazor
 {
@@ -24,6 +25,12 @@ namespace DistributionsBlazor
                 }
             }
         }
+
+        public MudTable<Double1DArrayBinding[]> CoefficientsTable { get; set; }
+
+        public MudTable<Double1DArrayBinding[]> MeansTable { get; set; }
+
+        public MudTable<Double2DArrayBinding[]> CovarianceTable { get; set; }
 
         public IList<Double1DArrayBinding[]> MeanBindings { get; set; }
 
@@ -61,6 +68,17 @@ namespace DistributionsBlazor
 
             settings.Coefficients = coefficients;
             settings.MultivariateNormalDistributionSettings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
+
+            // Cancelling editing
+            try
+            {
+                CoefficientsTable?.SetEditingItem(null);
+                MeansTable?.SetEditingItem(null);
+                CovarianceTable?.SetEditingItem(null);
+            }
+            catch
+            {
+            }
 
             UpdateBindings();
         }

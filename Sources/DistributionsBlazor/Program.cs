@@ -21,5 +21,4 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-// TODO: fix exception on commiting edit
 // TODO: add dialog on removing
