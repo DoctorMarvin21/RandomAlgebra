@@ -27,14 +27,14 @@
                 <RowTemplate>
                     <MudTd>@context.Argument</MudTd>
                     <MudTd>@context.SettingsType.Name</MudTd>
-                    <MudTd>@context.DistributionSettings</MudTd>
+                    <MudTd>@context.Settings.Settings</MudTd>
                     <MudTd>
-                        <div class="d-flex gap-2">
+                        <MudStack Row="true" Spacing="2">
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small"
                                 OnClick="() => DistributionsDialogProvider.EditArgument(context)"></MudIconButton>
                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small"
                                 OnClick="() => DistributionsDialogProvider.DeleteExpressionArgument(context)"></MudIconButton>
-                        </div>
+                        </MudStack>
                     </MudTd>
                 </RowTemplate>
             </MudTable>
@@ -136,7 +136,6 @@
 
 <MudOverlay @bind-Visible="DistributionsDialogProvider.IsDialogOpen" DarkBackground="true"
     Style="display:flex;justify-content:center;align-items:stretch;flex-direction:column;">
-    <div>
     <MudPaper Class="pl-6 pt-6" Style="margin:0 auto;width:90%;max-width:600px;">
         <MudText Typo="Typo.h6">
             Edit Distribution
@@ -152,26 +151,18 @@
                     <MudSelectItem Value="@item">@item.Name</MudSelectItem>
                 }
             </MudSelect>
-            @if (DistributionsDialogProvider.ExpressionArgument.DistributionSettings is MultivariateBasedNormalDistributionSettings multivariateBased)
+            @if (DistributionsDialogProvider.ExpressionArgument.Settings is MultivariateSettingsSource multivariateBased)
             {
-                <MudNumericField @ref=dimensionsFiled Label="Dimensions" Min=1 Max=100
-                    Value=multivariateBased.Coefficients.Length>
+                <MudNumericField Label="Dimensions" Min=1 Max=100
+                    @bind-Value=multivariateBased.Dimension>
                 </MudNumericField>
 
-                <MudStack Row="true" Justify="Justify.FlexEnd">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation=true
-                        OnClick="() => MultivariateHelper.UpdateDimensions(dimensionsFiled.Value, multivariateBased)">Update</MudButton>
-                </MudStack>
-
-                var columns = multivariateBased.MultivariateNormalDistributionSettings.Dimension;
-                var coefficientsSource = MultivariateHelper.GetArrayBindings(multivariateBased.Coefficients);
-
-                <MudTable Items="coefficientsSource" Dense="true" Hover="false">
+                <MudTable Items="multivariateBased.CoefficientBindings" Dense="true" Hover="false">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Coefficients</MudText>
                     </ToolBarContent>
                     <HeaderContent>
-                        @for (int i = 0; i < columns; i++)
+                        @for (int i = 0; i < multivariateBased.Dimension; i++)
                         {
                             string header = $"c{i + 1}";
                             <MudTh>@header</MudTh>
@@ -195,14 +186,12 @@
                     </RowEditingTemplate>
                 </MudTable>
 
-                var meansSource = MultivariateHelper.GetArrayBindings(multivariateBased.MultivariateNormalDistributionSettings.Means);
-
-                <MudTable Items="meansSource" Dense="true" Hover="false">
+                <MudTable Items="multivariateBased.MeanBindings" Dense="true" Hover="false">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Means</MudText>
                     </ToolBarContent>
                     <HeaderContent>
-                        @for (int i = 0; i < columns; i++)
+                        @for (int i = 0; i < multivariateBased.Dimension; i++)
                         {
                             string header = $"μ{i + 1}";
                             <MudTh>@header</MudTh>
@@ -226,9 +215,7 @@
                     </RowEditingTemplate>
                 </MudTable>
 
-                var covarianceSource = MultivariateHelper.GetArrayBindings(multivariateBased.MultivariateNormalDistributionSettings.CovarianceMatrix);
-
-                <MudTable Items="covarianceSource" ReadOnly=false Dense="true" Hover="true">
+                <MudTable Items="multivariateBased.CovarianceBindings" Dense="true" Hover="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Covariance Matrix</MudText>
                     </ToolBarContent>
@@ -249,14 +236,10 @@
                         }
                     </RowEditingTemplate>
                 </MudTable>
-
-                @code {
-                    private MudNumericField<int> dimensionsFiled;
-                }
             }
             else
             {
-                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.DistributionSettingsBindings)
+                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.Settings.Bindings)
                 {
                     <MudTextField Label="@item.Name" Variant="Variant.Outlined"
                         @bind-Value="item.Value" />
@@ -272,7 +255,6 @@
             }
         </MudStack>
     </MudPaper>
-    </div>
 </MudOverlay>
 
 @code {

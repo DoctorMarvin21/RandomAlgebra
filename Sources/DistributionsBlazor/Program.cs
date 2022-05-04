@@ -21,5 +21,5 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-// Cleanup index, auto-update mulitvariate sum
+// TODO: fix exception on commiting edit
 // TODO: add dialog on removing

@@ -1,6 +1,4 @@
-﻿using RandomAlgebra.Distributions.Settings;
-
-namespace DistributionsBlazor
+﻿namespace DistributionsBlazor
 {
     public class Double1DArrayBinding
     {
@@ -17,6 +15,18 @@ namespace DistributionsBlazor
         {
             get => source[index];
             set => source[index] = value;
+        }
+
+        public static IList<Double1DArrayBinding[]> GetArrayBindings(double[] source)
+        {
+            Double1DArrayBinding[] item = new Double1DArrayBinding[source.Length];
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                item[i] = new Double1DArrayBinding(source, i);
+            }
+
+            return new List<Double1DArrayBinding[]> { item };
         }
     }
 
@@ -37,38 +47,6 @@ namespace DistributionsBlazor
         {
             get => source[x, y];
             set => source[x, y] = value;
-        }
-    }
-
-    public static class MultivariateHelper
-    {
-        public static void UpdateDimensions(int dimension, MultivariateBasedNormalDistributionSettings settings)
-        {
-            var coeffitients = new double[dimension];
-
-            var means = new double[dimension];
-            var covarianceMatrix = new double[dimension, dimension];
-
-            for (int i = 0; i < dimension; i++)
-            {
-                coeffitients[i] = 1;
-                covarianceMatrix[i, i] = 1;
-            }
-
-            settings.Coefficients = coeffitients;
-            settings.MultivariateNormalDistributionSettings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
-        }
-
-        public static IList<Double1DArrayBinding[]> GetArrayBindings(double[] source)
-        {
-            Double1DArrayBinding[] item = new Double1DArrayBinding[source.Length];
-
-            for (int i = 0; i < source.Length; i++)
-            {
-                item[i] = new Double1DArrayBinding(source, i);
-            }
-
-            return new List<Double1DArrayBinding[]> { item };
         }
 
         public static IList<Double2DArrayBinding[]> GetArrayBindings(double[,] source)

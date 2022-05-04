@@ -1,12 +1,10 @@
 ﻿using RandomAlgebra.Distributions.Settings;
-using System.Reflection;
 
 namespace DistributionsBlazor
 {
     public class ExpressionArgument
     {
         private NameAndSettingType settingsType;
-        private DistributionSettings distributionSettings;
 
         public ExpressionArgument(string arg, Type settingsType)
         {
@@ -17,20 +15,10 @@ namespace DistributionsBlazor
         public ExpressionArgument(string arg, DistributionSettings settings)
             : this(arg, settings.GetType())
         {
-            DistributionSettings = settings;
+            Settings = GetSettingsSource(settings);
         }
 
         public string Argument { get; set; }
-
-        public DistributionSettings DistributionSettings
-        {
-            get => distributionSettings;
-            set
-            {
-                distributionSettings = value;
-                UpdateSettingsBindings(DistributionSettings);
-            }
-        }
 
         public NameAndSettingType SettingsType
         {
@@ -38,43 +26,47 @@ namespace DistributionsBlazor
             set
             {
                 settingsType = value;
-                GenerateSettings();
+                UpdateSettings();
             }
         }
 
+        public DistributionSettingsSource Settings { get; set; }
+
         public NameAndSettingType[] SettingTypes => NameAndSettingType.DisplayNames;
 
-        public IList<DistributionSettingsBinding> DistributionSettingsBindings { get; }
-            = new List<DistributionSettingsBinding>();
-
-        private void GenerateSettings()
+        private DistributionSettingsSource GetSettingsSource(DistributionSettings settings)
         {
-            DistributionSettings = (DistributionSettings)Activator.CreateInstance(SettingsType.SettingsType);
+            if (settings.GetType() == typeof(MultivariateBasedNormalDistributionSettings))
+            {
+                return new MultivariateSettingsSource(new MultivariateBasedNormalDistributionSettings());
+            }
+            else
+            {
+                return new DistributionSettingsSource(settings);
+            }
         }
 
-        private void UpdateSettingsBindings(DistributionSettings settings)
+        private void UpdateSettings()
         {
-            DistributionSettingsBindings.Clear();
-
-            if (settings is not MultivariateBasedNormalDistributionSettings)
+            if (SettingsType.SettingsType == typeof(MultivariateBasedNormalDistributionSettings))
             {
-                var properties = settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(x => x.CanWrite && x.CanRead);
-
-                foreach (var property in properties)
-                {
-                    DistributionSettingsBindings.Add(new DistributionSettingsBinding(settings, property));
-                }
+                Settings = GetSettingsSource(new MultivariateBasedNormalDistributionSettings());
+            }
+            else
+            {
+                Settings = GetSettingsSource((DistributionSettings)Activator.CreateInstance(SettingsType.SettingsType));
             }
         }
 
         public static Dictionary<string, DistributionSettings> CreateDictionary(ICollection<ExpressionArgument> functionArguments)
         {
-            Dictionary<string, DistributionSettings> keyValuePairs = new Dictionary<string, DistributionSettings>();
+            var keyValuePairs = new Dictionary<string, DistributionSettings>();
+
             foreach (ExpressionArgument arg in functionArguments)
             {
-                keyValuePairs.Add(arg.Argument, arg.DistributionSettings);
+                keyValuePairs.Add(arg.Argument, arg.Settings.Settings);
             }
+
             return keyValuePairs;
         }
     }
