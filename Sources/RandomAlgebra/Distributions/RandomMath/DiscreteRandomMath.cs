@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -216,8 +215,6 @@ namespace RandomAlgebra.Distributions
             {
                 case DistributionsOperation.Add:
                     {
-                        List<int> operations = new List<int>();
-
                         Parallel.For(0, lengthRight, i =>
                         {
                             double m = 0;

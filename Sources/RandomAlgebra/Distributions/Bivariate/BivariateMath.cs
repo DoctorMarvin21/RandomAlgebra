@@ -60,6 +60,7 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double sum = 0;
 
+                            // TODO: there is some bug here, we also need to find reason why can't I swap distributions on bivariate math
                             // Trap rule is useless because both normal and t-distributions are smoooth.
                             for (int j = 1; j < samples; j++)
                             {
