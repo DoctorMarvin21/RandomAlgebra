@@ -21,4 +21,5 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+// Set theme colors
 // Use OOP in models
