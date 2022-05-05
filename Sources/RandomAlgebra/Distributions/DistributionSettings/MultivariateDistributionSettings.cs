@@ -9,6 +9,15 @@ namespace RandomAlgebra.Distributions.Settings
     /// </summary>
     public abstract class MultivariateDistributionSettings
     {
+        protected MultivariateDistributionSettings(int dimension)
+            : this(new InternalParameters { Means = new double[dimension], CovarianceMatrix = new double[dimension, dimension] })
+        {
+            for (int i = 0; i < dimension; i++)
+            {
+                CovarianceMatrix[i, i] = 1;
+            }
+        }
+
         protected MultivariateDistributionSettings(double[,] input)
             : this(ProcessInput(input))
         {

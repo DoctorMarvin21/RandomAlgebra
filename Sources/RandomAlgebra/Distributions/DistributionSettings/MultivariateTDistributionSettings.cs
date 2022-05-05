@@ -13,6 +13,17 @@ namespace RandomAlgebra.Distributions.Settings
         private readonly GammaDistribution baseGamma;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MultivariateTDistributionSettings"/> class with 2 dimensions,
+        /// zero means, covariance matrix is [{1,0}, {0, 1}] and degrees of freedom is 10.
+        /// </summary>
+        public MultivariateTDistributionSettings()
+            : base(2)
+        {
+            DegreesOfFreedom = 10;
+            baseGamma = new GammaDistribution(2.0, 0.5 * DegreesOfFreedom);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MultivariateTDistributionSettings"/> class
         /// by measured value with degrees of freedom N-1.
         /// </summary>

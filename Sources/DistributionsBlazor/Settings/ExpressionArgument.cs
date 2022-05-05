@@ -34,9 +34,9 @@ namespace DistributionsBlazor
 
         private static DistributionSettingsSource GetSettingsSource(DistributionSettings settings)
         {
-            if (settings.GetType() == typeof(MultivariateBasedNormalDistributionSettings))
+            if (settings is MultivariateBasedNormalDistributionSettings multivariate)
             {
-                return new MultivariateSettingsSource(new MultivariateBasedNormalDistributionSettings());
+                return new MultivariateBasedNormalSettingsSource(multivariate);
             }
             else
             {

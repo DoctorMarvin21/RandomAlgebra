@@ -13,6 +13,15 @@ namespace RandomAlgebra.Distributions.Settings
         private static readonly NormalDistribution BaseNormal = new NormalDistribution();
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MultivariateNormalDistributionSettings"/> class with 2 dimensions,
+        /// zero means and covariance matrix is [{1,0}, {0, 1}].
+        /// </summary>
+        public MultivariateNormalDistributionSettings()
+            : base(2)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MultivariateNormalDistributionSettings"/> class by measured values.
         /// </summary>
         /// <param name="input">Matrix of measured values.</param>

@@ -3,30 +3,28 @@ using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsBlazor
 {
-    public class MultivariateSettingsSource : DistributionSettingsSource
+    public abstract class MultivariateSettingsSource
     {
-        private readonly MultivariateBasedNormalDistributionSettings multivariateSettings;
-
-        public MultivariateSettingsSource(MultivariateBasedNormalDistributionSettings settings)
-                    : base(settings)
+        protected MultivariateSettingsSource(MultivariateDistributionSettings settings)
         {
-            multivariateSettings = settings;
+            Settings = settings;
             UpdateBindings();
         }
 
+
+        public MultivariateDistributionSettings Settings { get; set; }
+
         public int Dimension
         {
-            get => multivariateSettings.MultivariateNormalDistributionSettings.Dimension;
+            get => Settings.Dimension;
             set
             {
-                if (value != multivariateSettings.MultivariateNormalDistributionSettings.Dimension)
+                if (value != Settings.Dimension)
                 {
-                    UpdateDimensions(value, multivariateSettings);
+                    UpdateDimensions(value);
                 }
             }
         }
-
-        public MudTable<OneDimensionalArrayBinding<double>[]> CoefficientsTable { get; set; }
 
         public MudTable<OneDimensionalArrayBinding<double>[]> MeansTable { get; set; }
 
@@ -34,45 +32,38 @@ namespace DistributionsBlazor
 
         public IList<OneDimensionalArrayBinding<double>[]> MeanBindings { get; set; }
 
-        public IList<OneDimensionalArrayBinding<double>[]> CoefficientBindings { get; set; }
-
         public IList<TwoDimesionalArrayBinding<double>[]> CovarianceBindings { get; set; }
 
-        private void UpdateDimensions(int dimension, MultivariateBasedNormalDistributionSettings settings)
+        protected void UpdateDimensions(int dimension)
         {
-            int splitDimension = Math.Min(dimension, settings.MultivariateNormalDistributionSettings.Dimension);
+            int splitDimension = Math.Min(dimension, Settings.Dimension);
 
-            var coefficients = new double[dimension];
             var means = new double[dimension];
             var covarianceMatrix = new double[dimension, dimension];
 
             for (int i = 0; i < splitDimension; i++)
             {
-                coefficients[i] = settings.Coefficients[i];
-                means[i] = settings.MultivariateNormalDistributionSettings.Means[i];
+                means[i] = Settings.Means[i];
             }
 
             for (int i = 0; i < splitDimension; i++)
             {
                 for (int j = 0; j < splitDimension; j++)
                 {
-                    covarianceMatrix[i, j] = settings.MultivariateNormalDistributionSettings.CovarianceMatrix[i, j];
+                    covarianceMatrix[i, j] = Settings.CovarianceMatrix[i, j];
                 }
             }
 
             for (int i = splitDimension; i < dimension; i++)
             {
-                coefficients[i] = 1;
                 covarianceMatrix[i, i] = 1;
             }
 
-            settings.Coefficients = coefficients;
-            settings.MultivariateNormalDistributionSettings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
+            UpdateSettings(means, covarianceMatrix);
 
-            // Cancelling editing
+            // Canceling editing
             try
             {
-                CoefficientsTable?.SetEditingItem(null);
                 MeansTable?.SetEditingItem(null);
                 CovarianceTable?.SetEditingItem(null);
             }
@@ -83,14 +74,51 @@ namespace DistributionsBlazor
             UpdateBindings();
         }
 
-        protected override void UpdateBindings()
+        public void UpdateBindings()
         {
-            if (multivariateSettings != null)
+            MeanBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(Settings.Means);
+            CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(Settings.CovarianceMatrix);
+        }
+
+        protected abstract void UpdateSettings(double[] means, double[,] covarianceMatrix);
+    }
+
+    public class MultivariateNormalSettingsSource : MultivariateSettingsSource
+    {
+        public MultivariateNormalSettingsSource(MultivariateNormalDistributionSettings settings)
+            : base(settings)
+        {
+        }
+
+        protected override void UpdateSettings(double[] means, double[,] covarianceMatrix)
+        {
+            Settings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
+        }
+    }
+
+    public class MultivariateTSettingsSource : MultivariateSettingsSource
+    {
+        // TODO: make it neat
+        private int degreesOfFreedom;
+
+        public MultivariateTSettingsSource(MultivariateTDistributionSettings settings)
+            : base(settings)
+        {
+        }
+
+        public int DegreesOfFreedom
+        {
+            get => degreesOfFreedom;
+            set
             {
-                CoefficientBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(multivariateSettings.Coefficients);
-                MeanBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.Means);
-                CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.CovarianceMatrix);
+                degreesOfFreedom = value;
+                UpdateDimensions(Dimension);
             }
+        }
+
+        protected override void UpdateSettings(double[] means, double[,] covarianceMatrix)
+        {
+            Settings = new MultivariateTDistributionSettings(means, covarianceMatrix, DegreesOfFreedom);
         }
     }
 }

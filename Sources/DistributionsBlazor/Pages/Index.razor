@@ -151,7 +151,7 @@
                     <MudSelectItem Value="@item">@item.Name</MudSelectItem>
                 }
             </MudSelect>
-            @if (DistributionsDialogProvider.ExpressionArgument.Settings is MultivariateSettingsSource multivariateBased)
+            @if (DistributionsDialogProvider.ExpressionArgument.Settings is MultivariateBasedNormalSettingsSource multivariateBased)
             {
                 <MudNumericField Label="Dimensions" Min=1 Max=100
                     @bind-Value=multivariateBased.Dimension>
@@ -186,7 +186,7 @@
                     </RowEditingTemplate>
                 </MudTable>
 
-                <MudTable @ref="@multivariateBased.MeansTable" Items="multivariateBased.MeanBindings" Dense="true" Hover="false">
+                <MudTable @ref="@multivariateBased.MultivariateSettingsSource.MeansTable" Items="multivariateBased.MultivariateSettingsSource.MeanBindings" Dense="true" Hover="false">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Means</MudText>
                     </ToolBarContent>
@@ -215,7 +215,7 @@
                     </RowEditingTemplate>
                 </MudTable>
 
-                <MudTable @ref="@multivariateBased.CovarianceTable" Items="multivariateBased.CovarianceBindings" Dense="true" Hover="true">
+                <MudTable @ref="@multivariateBased.MultivariateSettingsSource.CovarianceTable" Items="multivariateBased.MultivariateSettingsSource.CovarianceBindings" Dense="true" Hover="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Covariance Matrix</MudText>
                     </ToolBarContent>
