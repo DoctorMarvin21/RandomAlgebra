@@ -10,12 +10,8 @@ namespace RandomAlgebra.Distributions.Settings
     public abstract class MultivariateDistributionSettings
     {
         protected MultivariateDistributionSettings(int dimension)
-            : this(new InternalParameters { Means = new double[dimension], CovarianceMatrix = new double[dimension, dimension] })
+            : this(new InternalParameters { Means = new double[dimension], CovarianceMatrix = GetDefaultCovarianceMatrix(dimension) })
         {
-            for (int i = 0; i < dimension; i++)
-            {
-                CovarianceMatrix[i, i] = 1;
-            }
         }
 
         protected MultivariateDistributionSettings(double[,] input)
@@ -84,6 +80,18 @@ namespace RandomAlgebra.Distributions.Settings
         public int Dimension { get; }
 
         protected CholeskyDecomposition Chol { get; }
+
+        private static double[,] GetDefaultCovarianceMatrix(int dimension)
+        {
+            var covarianceMatrix = new double[dimension, dimension];
+
+            for (int i = 0; i < dimension; i++)
+            {
+                covarianceMatrix[i, i] = 1;
+            }
+
+            return covarianceMatrix;
+        }
 
         /// <summary>
         /// Generates dimension sized vector of random variables.
