@@ -6,6 +6,11 @@ namespace DistributionsBlazor
     {
         private NameAndSettingType settingsType;
 
+        public ExpressionArgument()
+            : this("A", new NormalDistributionSettings())
+        {
+        }
+
         public ExpressionArgument(string arg, Type settingsType)
         {
             Argument = arg;

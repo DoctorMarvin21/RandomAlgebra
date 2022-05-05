@@ -13,10 +13,10 @@
                 @bind-Value="Configuration.Expression" />
             <MudTable Items="Configuration.ExpressionArguments" Style="width:min-content;" Dense="true" Hover="false">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h6">Distributions</MudText>
+                    <MudText Typo="Typo.h6">Univariate Distributions</MudText>
                     <MudSpacer />
                     <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" DisableElevation="true" Size="Size.Small"
-                        OnClick="DistributionsDialogProvider.AddArgument"/>
+                        OnClick="DistributionsDialogProvider.AddItem"/>
                 </ToolBarContent>
                 <HeaderContent>
                     <MudTh>Argument</MudTh>
@@ -31,9 +31,34 @@
                     <MudTd>
                         <MudStack Row="true" Spacing="2">
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small"
-                                OnClick="() => DistributionsDialogProvider.EditArgument(context)"></MudIconButton>
+                                OnClick="() => DistributionsDialogProvider.EditItem(context)"></MudIconButton>
                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small"
-                                OnClick="() => DistributionsDialogProvider.DeleteExpressionArgument(context)"></MudIconButton>
+                                OnClick="() => DistributionsDialogProvider.DeleteItem(context)"></MudIconButton>
+                        </MudStack>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+            <MudTable Items="Configuration.MultivariateExpressionArguments" Style="width:min-content;" Dense="true" Hover="false">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Multivariate Distributions</MudText>
+                    <MudSpacer />
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" DisableElevation="true" Size="Size.Small"
+                        OnClick="MultivariateDistributionsDialogProvider.AddItem"/>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Arguments</MudTh>
+                    <MudTh>Distribution Type</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.JoinedArguments</MudTd>
+                    <MudTd>@context.SettingsType.Name</MudTd>
+                    <MudTd>
+                        <MudStack Row="true" Spacing="2">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small"
+                                OnClick="() => MultivariateDistributionsDialogProvider.EditItem(context)"></MudIconButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small"
+                                OnClick="() => MultivariateDistributionsDialogProvider.DeleteItem(context)"></MudIconButton>
                         </MudStack>
                     </MudTd>
                 </RowTemplate>
@@ -142,8 +167,8 @@
         </MudText>
         <MudStack Spacing="2" Class="pt-2 pr-5 pb-2" Style="max-height:400px;overflow-y:scroll;">
             <MudTextField Variant="Variant.Outlined" Label="Argument"
-                @bind-Value="@DistributionsDialogProvider.ExpressionArgument.Argument" />
-            <MudSelect @bind-Value="@DistributionsDialogProvider.ExpressionArgument.SettingsType"
+                @bind-Value="@DistributionsDialogProvider.Item.Argument" />
+            <MudSelect @bind-Value="@DistributionsDialogProvider.Item.SettingsType"
                 Variant="Variant.Outlined"
                 Label="Distribution">
                 @foreach (var item in NameAndSettingType.UnvariateSettingTypes)
@@ -151,7 +176,7 @@
                     <MudSelectItem Value="@item">@item.Name</MudSelectItem>
                 }
             </MudSelect>
-            @if (DistributionsDialogProvider.ExpressionArgument.Settings is MultivariateBasedNormalSettingsSource multivariateBased)
+            @if (DistributionsDialogProvider.Item.Settings is MultivariateBasedNormalSettingsSource multivariateBased)
             {
                 <MudNumericField Label="Dimensions" Min=1 Max=100
                     @bind-Value=multivariateBased.Dimension>
@@ -239,7 +264,7 @@
             }
             else
             {
-                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.Settings.Bindings)
+                @foreach (var item in DistributionsDialogProvider.Item.Settings.Bindings)
                 {
                     <MudTextField Label="@item.Name" Variant="Variant.Outlined"
                         @bind-Value="item.Value" />
@@ -247,18 +272,164 @@
             }
         </MudStack>
         <MudStack Spacing="2" Row="true" Justify="Justify.FlexEnd" Class="pl-6 pr-6 pb-6">
-            <MudButton OnClick="DistributionsDialogProvider.DialogOK">OK</MudButton>
-
             @if (DistributionsDialogProvider.DialogMode == DialogMode.Add)
             {
                 <MudButton OnClick="DistributionsDialogProvider.DialogCancel">Cancel</MudButton>
             }
+            <MudButton Color="Color.Primary" OnClick="DistributionsDialogProvider.DialogOK">OK</MudButton>
         </MudStack>
     </MudPaper>
 </MudOverlay>
 
+<MudOverlay @bind-Visible="MultivariateDistributionsDialogProvider.IsDialogOpen" DarkBackground="true"
+    Style="display:flex;justify-content:center;align-items:stretch;flex-direction:column;">
+    <MudPaper Class="pl-6 pt-6" Style="margin:0 auto;width:90%;max-width:600px;">
+        <MudText Typo="Typo.h6">
+            Edit Distribution
+        </MudText>
+        <MudStack Spacing="2" Class="pt-2 pr-5 pb-2" Style="max-height:400px;overflow-y:scroll;">
+            <MudSelect @bind-Value="@MultivariateDistributionsDialogProvider.Item.SettingsType"
+                Variant="Variant.Outlined"
+                Label="Distribution">
+                @foreach (var item in NameAndSettingType.MultivariateSettingTypes)
+                {
+                    <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+
+            @if (MultivariateDistributionsDialogProvider.Item.Settings is MultivariateTSettingsSource tSource)
+            {
+                <MudNumericField Label="Degrees of freedom"
+                    @bind-Value=tSource.DegreesOfFreedom>
+                </MudNumericField>
+            }
+
+            <MudNumericField Label="Dimensions" Min=1 Max=100
+                @bind-Value=MultivariateDistributionsDialogProvider.Item.Dimension>
+            </MudNumericField>
+
+            <MudTable @ref="@MultivariateDistributionsDialogProvider.Item.ArgumentsTable" Items="MultivariateDistributionsDialogProvider.Item.ArgumentsBindings" Dense="true" Hover="false">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Arguments</MudText>
+                </ToolBarContent>
+                <HeaderContent>
+                    @for (int i = 0; i < MultivariateDistributionsDialogProvider.Item.Dimension; i++)
+                    {
+                        string header = $"D{i + 1}";
+                        <MudTh>@header</MudTh>
+                    }
+                </HeaderContent>
+                <RowTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>@localVariable.Value</MudTd>
+                    }
+                </RowTemplate>
+                <RowEditingTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>
+                            <MudTextField @bind-Value="@localVariable.Value" Margin="MudBlazor.Margin.Dense" />
+                        </MudTd>
+                    }
+                </RowEditingTemplate>
+            </MudTable>
+
+            <MudTable @ref="@MultivariateDistributionsDialogProvider.Item.Settings.MeansTable" Items="MultivariateDistributionsDialogProvider.Item.Settings.MeanBindings" Dense="true" Hover="false">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Means</MudText>
+                </ToolBarContent>
+                <HeaderContent>
+                    @for (int i = 0; i < MultivariateDistributionsDialogProvider.Item.Dimension; i++)
+                    {
+                        string header = $"μ{i + 1}";
+                        <MudTh>@header</MudTh>
+                    }
+                </HeaderContent>
+                <RowTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>@localVariable.Value</MudTd>
+                    }
+                </RowTemplate>
+                <RowEditingTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>
+                            <MudTextField @bind-Value="@localVariable.Value" Margin="MudBlazor.Margin.Dense" />
+                        </MudTd>
+                    }
+                </RowEditingTemplate>
+            </MudTable>
+
+            <MudTable @ref="@MultivariateDistributionsDialogProvider.Item.Settings.CovarianceTable" Items="MultivariateDistributionsDialogProvider.Item.Settings.CovarianceBindings" Dense="true" Hover="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Covariance Matrix</MudText>
+                </ToolBarContent>
+                <RowTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>@localVariable.Value</MudTd>
+                    }
+                </RowTemplate>
+                <RowEditingTemplate>
+                    @for (int i = 0; i < @context.Length; i++)
+                    {
+                        var localVariable = context[i];
+                        <MudTd>
+                            <MudTextField @bind-Value="@localVariable.Value" Margin="MudBlazor.Margin.Dense" />
+                        </MudTd>
+                    }
+                </RowEditingTemplate>
+            </MudTable>
+        </MudStack>
+        <MudStack Spacing="2" Row="true" Justify="Justify.FlexEnd" Class="pl-6 pr-6 pb-6">
+            @if (MultivariateDistributionsDialogProvider.DialogMode == DialogMode.Add)
+            {
+                <MudButton OnClick="MultivariateDistributionsDialogProvider.DialogCancel">Cancel</MudButton>
+            }
+            <MudButton Color="Color.Primary" OnClick="MultivariateDistributionsDialogProvider.DialogOK">OK</MudButton>
+        </MudStack>
+    </MudPaper>
+</MudOverlay>
+
+<MudDialog IsVisible=@DistributionsDialogProvider.IsDeleteDialogOpen>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Remove Distribution
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        Do you really want to delete distribution with argument "@(DistributionsDialogProvider.Item.Argument)"?
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="DistributionsDialogProvider.CancelDelete">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DistributionsDialogProvider.CommitDelete">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog IsVisible=@MultivariateDistributionsDialogProvider.IsDeleteDialogOpen>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Remove Distribution
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        Do you really want to delete distribution with arguments "@(MultivariateDistributionsDialogProvider.Item.JoinedArguments)"?
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="MultivariateDistributionsDialogProvider.CancelDelete">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="MultivariateDistributionsDialogProvider.CommitDelete">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
 @code {
-    DialogOptions editDialogOptions = new() { FullWidth = true, CloseOnEscapeKey = false, DisableBackdropClick = true };
+    DialogOptions editDialogOptions = new() { CloseOnEscapeKey = false };
     Config config = new Config { Responsive = true };
 
     Layout layout = new Layout

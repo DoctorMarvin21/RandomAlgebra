@@ -11,17 +11,18 @@ namespace DistributionsBlazor
         public MultivariateExpressionArgument()
         {
             Settings = new MultivariateNormalSettingsSource(new MultivariateNormalDistributionSettings());
+            type = NameAndSettingType.MultivariateSettingTypes.First(x => x.SettingsType == typeof(MultivariateNormalDistributionSettings));
         }
 
         public string[] Arguments { get; set; }
 
         public string JoinedArguments => string.Join("; ", Arguments);
 
-        public MudTable<OneDimensionalArrayBinding<string>[]> MeansTable { get; set; }
+        public MudTable<OneDimensionalArrayBinding<string>[]> ArgumentsTable { get; set; }
 
         public IList<OneDimensionalArrayBinding<string>[]> ArgumentsBindings { get; set; }
 
-        public NameAndSettingType Type
+        public NameAndSettingType SettingsType
         {
             get => type;
             set
@@ -36,14 +37,17 @@ namespace DistributionsBlazor
             get => settings;
             set
             {
-                if (settings != null)
-                {
-                    settings.DimensionUpdated -= SettingsDimensionUpdated;
-                }
-
                 settings = value;
-                settings.DimensionUpdated += SettingsDimensionUpdated;
+                UpdateArguments();
+            }
+        }
 
+        public int Dimension
+        {
+            get => Settings.Dimension;
+            set
+            {
+                Settings.Dimension = value;
                 UpdateArguments();
             }
         }
@@ -75,31 +79,29 @@ namespace DistributionsBlazor
             }
         }
 
-        private void SettingsDimensionUpdated(object sender, EventArgs e)
-        {
-            UpdateArguments();
-        }
-
         private void UpdateArguments()
         {
             var splitDimension = Math.Min(Arguments?.Length ?? 0, Settings.Dimension);
 
             var arguments = new string[Settings.Dimension];
 
-            for (int i = 0; i < splitDimension; i++)
+            if (Arguments != null)
             {
-
+                for (int i = 0; i < splitDimension; i++)
+                {
+                    arguments[i] = Arguments[i];
+                }
             }
 
             char lastChar;
 
-            if (splitDimension > 0 && Arguments[splitDimension - 1].Length > 0)
+            if (splitDimension > 0 && Arguments?[splitDimension - 1]?.Length > 0)
             {
                 lastChar = Arguments[splitDimension - 1][0];
             }
             else
             {
-                lastChar = 'A';
+                lastChar = (char)('A' - 1);
             }
 
             for (int i = splitDimension; i < Settings.Dimension; i++)
@@ -111,7 +113,7 @@ namespace DistributionsBlazor
 
             try
             {
-                MeansTable?.SetEditingItem(null);
+                ArgumentsTable?.SetEditingItem(null);
             }
             catch
             {

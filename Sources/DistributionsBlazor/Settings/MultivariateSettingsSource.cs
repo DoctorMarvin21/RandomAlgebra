@@ -15,8 +15,6 @@ namespace DistributionsBlazor
             UpdateBindings();
         }
 
-        public event EventHandler DimensionUpdated;
-
         public int Dimension
         {
             get => dimension;
@@ -25,7 +23,6 @@ namespace DistributionsBlazor
                 if (value != dimension)
                 {
                     UpdateDimensions(value);
-                    DimensionUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

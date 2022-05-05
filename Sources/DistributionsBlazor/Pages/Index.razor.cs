@@ -11,7 +11,8 @@ namespace DistributionsBlazor
 
         public MainComponent()
         {
-            DistributionsDialogProvider = new DistributionsDialogProvider(Configuration.ExpressionArguments);
+            DistributionsDialogProvider = new CollectionDialogProvider<ExpressionArgument>(Configuration.ExpressionArguments);
+            MultivariateDistributionsDialogProvider = new CollectionDialogProvider<MultivariateExpressionArgument>(Configuration.MultivariateExpressionArguments);
         }
 
         public Configuration Configuration { get; } = new Configuration();
@@ -22,7 +23,9 @@ namespace DistributionsBlazor
 
         public IList<ITrace> CdfData { get; set; }
 
-        public DistributionsDialogProvider DistributionsDialogProvider { get; }
+        public CollectionDialogProvider<ExpressionArgument> DistributionsDialogProvider { get; }
+
+        public CollectionDialogProvider<MultivariateExpressionArgument> MultivariateDistributionsDialogProvider { get; }
 
         public bool IsInProgress { get; set; }
 

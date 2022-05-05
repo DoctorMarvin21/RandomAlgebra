@@ -67,6 +67,7 @@ namespace RandomAlgebra.Distributions.Settings
 
         protected override double[] GenerateRandomInternal(Random rnd)
         {
+            // TODO: We got different results from random algebra and this random number generator. We should understand, why.
             double[,] ltf = Chol.LeftTriangularFactor;
             double[] result = new double[Dimension];
             double[] u = Means;

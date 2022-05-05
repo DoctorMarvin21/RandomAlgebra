@@ -81,18 +81,6 @@ namespace RandomAlgebra.Distributions.Settings
 
         protected CholeskyDecomposition Chol { get; }
 
-        private static double[,] GetDefaultCovarianceMatrix(int dimension)
-        {
-            var covarianceMatrix = new double[dimension, dimension];
-
-            for (int i = 0; i < dimension; i++)
-            {
-                covarianceMatrix[i, i] = 1;
-            }
-
-            return covarianceMatrix;
-        }
-
         /// <summary>
         /// Generates dimension sized vector of random variables.
         /// </summary>
@@ -153,6 +141,18 @@ namespace RandomAlgebra.Distributions.Settings
         protected abstract double[] GenerateRandomInternal(Random rnd);
 
         protected abstract CorrelatedPair GetBivariatePairInternal(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples);
+
+        private static double[,] GetDefaultCovarianceMatrix(int dimension)
+        {
+            var covarianceMatrix = new double[dimension, dimension];
+
+            for (int i = 0; i < dimension; i++)
+            {
+                covarianceMatrix[i, i] = 1;
+            }
+
+            return covarianceMatrix;
+        }
 
         protected class InternalParameters
         {

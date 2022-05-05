@@ -21,4 +21,4 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-// TODO: add dialog on removing
+// Use OOP in models
