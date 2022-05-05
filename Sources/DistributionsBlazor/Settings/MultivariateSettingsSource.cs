@@ -5,21 +5,22 @@ namespace DistributionsBlazor
 {
     public abstract class MultivariateSettingsSource
     {
+        private int dimension;
         protected MultivariateSettingsSource(MultivariateDistributionSettings settings)
         {
-            Settings = settings;
+            dimension = settings.Dimension;
+            Means = settings.Means;
+            CovarianceMatrix = settings.CovarianceMatrix;
+
             UpdateBindings();
         }
 
-
-        public MultivariateDistributionSettings Settings { get; set; }
-
         public int Dimension
         {
-            get => Settings.Dimension;
+            get => dimension;
             set
             {
-                if (value != Settings.Dimension)
+                if (value != dimension)
                 {
                     UpdateDimensions(value);
                 }
@@ -34,32 +35,38 @@ namespace DistributionsBlazor
 
         public IList<TwoDimesionalArrayBinding<double>[]> CovarianceBindings { get; set; }
 
-        protected void UpdateDimensions(int dimension)
+        public double[] Means { get; set; }
+
+        public double[,] CovarianceMatrix { get; set; }
+
+        private void UpdateDimensions(int dimension)
         {
-            int splitDimension = Math.Min(dimension, Settings.Dimension);
+            int splitDimension = Math.Min(dimension, this.dimension);
 
             var means = new double[dimension];
-            var covarianceMatrix = new double[dimension, dimension];
+            var covariance = new double[dimension, dimension];
 
             for (int i = 0; i < splitDimension; i++)
             {
-                means[i] = Settings.Means[i];
+                means[i] = Means[i];
             }
 
             for (int i = 0; i < splitDimension; i++)
             {
                 for (int j = 0; j < splitDimension; j++)
                 {
-                    covarianceMatrix[i, j] = Settings.CovarianceMatrix[i, j];
+                    covariance[i, j] = CovarianceMatrix[i, j];
                 }
             }
 
             for (int i = splitDimension; i < dimension; i++)
             {
-                covarianceMatrix[i, i] = 1;
+                covariance[i, i] = 1;
             }
 
-            UpdateSettings(means, covarianceMatrix);
+            this.dimension = dimension;
+            Means = means;
+            CovarianceMatrix = covariance;
 
             // Canceling editing
             try
@@ -74,13 +81,13 @@ namespace DistributionsBlazor
             UpdateBindings();
         }
 
-        public void UpdateBindings()
+        protected void UpdateBindings()
         {
-            MeanBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(Settings.Means);
-            CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(Settings.CovarianceMatrix);
+            MeanBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(Means);
+            CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(CovarianceMatrix);
         }
 
-        protected abstract void UpdateSettings(double[] means, double[,] covarianceMatrix);
+        public abstract MultivariateDistributionSettings GetSettings();
     }
 
     public class MultivariateNormalSettingsSource : MultivariateSettingsSource
@@ -90,35 +97,25 @@ namespace DistributionsBlazor
         {
         }
 
-        protected override void UpdateSettings(double[] means, double[,] covarianceMatrix)
+        public override MultivariateDistributionSettings GetSettings()
         {
-            Settings = new MultivariateNormalDistributionSettings(means, covarianceMatrix);
+            return new MultivariateNormalDistributionSettings(Means, CovarianceMatrix);
         }
     }
 
     public class MultivariateTSettingsSource : MultivariateSettingsSource
     {
-        // TODO: make it neat
-        private int degreesOfFreedom;
-
         public MultivariateTSettingsSource(MultivariateTDistributionSettings settings)
             : base(settings)
         {
+            DegreesOfFreedom = settings.DegreesOfFreedom;
         }
 
-        public int DegreesOfFreedom
-        {
-            get => degreesOfFreedom;
-            set
-            {
-                degreesOfFreedom = value;
-                UpdateDimensions(Dimension);
-            }
-        }
+        public double DegreesOfFreedom { get; set; }
 
-        protected override void UpdateSettings(double[] means, double[,] covarianceMatrix)
+        public override MultivariateDistributionSettings GetSettings()
         {
-            Settings = new MultivariateTDistributionSettings(means, covarianceMatrix, DegreesOfFreedom);
+            return new MultivariateTDistributionSettings(Means, CovarianceMatrix, DegreesOfFreedom);
         }
     }
 }
