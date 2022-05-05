@@ -77,6 +77,7 @@ namespace RandomAlgebra.Distributions
 
         protected override double InnerProbabilityDensityFunction(double x, double y)
         {
+            // TODO: This is not really precise version, we might want to find more advanced way to do this.
             double p1 = Math.Pow(x - Mean1, 2) * vInv1;
             double p2 = Math.Pow(y - Mean2, 2) * vInv2;
             double p3 = 2 * Correlation * (x - Mean1) * (y - Mean2) * sProdInv;
