@@ -146,7 +146,7 @@
             <MudSelect @bind-Value="@DistributionsDialogProvider.ExpressionArgument.SettingsType"
                 Variant="Variant.Outlined"
                 Label="Distribution">
-                @foreach (var item in DistributionsDialogProvider.ExpressionArgument.SettingTypes)
+                @foreach (var item in NameAndSettingType.UnvariateSettingTypes)
                 {
                     <MudSelectItem Value="@item">@item.Name</MudSelectItem>
                 }

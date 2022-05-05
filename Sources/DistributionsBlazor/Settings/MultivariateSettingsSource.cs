@@ -26,17 +26,17 @@ namespace DistributionsBlazor
             }
         }
 
-        public MudTable<Double1DArrayBinding[]> CoefficientsTable { get; set; }
+        public MudTable<OneDimensionalArrayBinding<double>[]> CoefficientsTable { get; set; }
 
-        public MudTable<Double1DArrayBinding[]> MeansTable { get; set; }
+        public MudTable<OneDimensionalArrayBinding<double>[]> MeansTable { get; set; }
 
-        public MudTable<Double2DArrayBinding[]> CovarianceTable { get; set; }
+        public MudTable<TwoDimesionalArrayBinding<double>[]> CovarianceTable { get; set; }
 
-        public IList<Double1DArrayBinding[]> MeanBindings { get; set; }
+        public IList<OneDimensionalArrayBinding<double>[]> MeanBindings { get; set; }
 
-        public IList<Double1DArrayBinding[]> CoefficientBindings { get; set; }
+        public IList<OneDimensionalArrayBinding<double>[]> CoefficientBindings { get; set; }
 
-        public IList<Double2DArrayBinding[]> CovarianceBindings { get; set; }
+        public IList<TwoDimesionalArrayBinding<double>[]> CovarianceBindings { get; set; }
 
         private void UpdateDimensions(int dimension, MultivariateBasedNormalDistributionSettings settings)
         {
@@ -87,9 +87,9 @@ namespace DistributionsBlazor
         {
             if (multivariateSettings != null)
             {
-                CoefficientBindings = Double1DArrayBinding.GetArrayBindings(multivariateSettings.Coefficients);
-                MeanBindings = Double1DArrayBinding.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.Means);
-                CovarianceBindings = Double2DArrayBinding.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.CovarianceMatrix);
+                CoefficientBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(multivariateSettings.Coefficients);
+                MeanBindings = OneDimensionalArrayBinding<double>.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.Means);
+                CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(multivariateSettings.MultivariateNormalDistributionSettings.CovarianceMatrix);
             }
         }
     }

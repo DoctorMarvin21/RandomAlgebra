@@ -9,7 +9,7 @@ namespace DistributionsBlazor
         public ExpressionArgument(string arg, Type settingsType)
         {
             Argument = arg;
-            SettingsType = SettingTypes.FirstOrDefault(x => x.SettingsType == settingsType);
+            SettingsType = NameAndSettingType.UnvariateSettingTypes.FirstOrDefault(x => x.SettingsType == settingsType);
         }
 
         public ExpressionArgument(string arg, DistributionSettings settings)
@@ -32,9 +32,7 @@ namespace DistributionsBlazor
 
         public DistributionSettingsSource Settings { get; set; }
 
-        public NameAndSettingType[] SettingTypes => NameAndSettingType.DisplayNames;
-
-        private DistributionSettingsSource GetSettingsSource(DistributionSettings settings)
+        private static DistributionSettingsSource GetSettingsSource(DistributionSettings settings)
         {
             if (settings.GetType() == typeof(MultivariateBasedNormalDistributionSettings))
             {

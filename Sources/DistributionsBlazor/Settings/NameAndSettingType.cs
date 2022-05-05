@@ -6,22 +6,22 @@ namespace DistributionsBlazor
     {
         private static readonly Dictionary<string, string> settingsNames = new Dictionary<string, string>
         {
-            { "ArcsineDistributionSettings", "Arcsine" },
-            { "BetaDistributionSettings", "Beta" },
-            { "BivariateBasedNormalDistributionSettings", "Two dimensional normal" },
-            { "ChiDistributionSettings", "Chi" },
-            { "ChiSquaredDistributionSettings", "Chi-squared" },
-            { "ExponentialDistributionSettings", "Exponential" },
-            { "GammaDistributionSettings", "Gamma" },
-            { "GeneralizedNormalDistributionSettings", "Generalized normal" },
-            { "LognormalDistributionSettings", "Lognormal" },
-            { "MultivariateBasedNormalDistributionSettings", "Sum of correlated normal" },
-            { "MultivariateNormalDistributionSettings", "Normal" },
-            { "MultivariateTDistributionSettings", "t-distribution" },
-            { "NormalDistributionSettings", "Normal" },
-            { "RayleighDistributionSettings", "Rayleigh" },
-            { "StudentGeneralizedDistributionSettings", "t-distribution" },
-            { "UniformDistributionSettings", "Uniform" }
+            { nameof(ArcsineDistributionSettings), "Arcsine" },
+            { nameof(BetaDistributionSettings), "Beta" },
+            { nameof(BivariateBasedNormalDistributionSettings), "Two dimensional normal" },
+            { nameof(ChiDistributionSettings), "Chi" },
+            { nameof(ChiSquaredDistributionSettings), "Chi-squared" },
+            { nameof(ExponentialDistributionSettings), "Exponential" },
+            { nameof(GammaDistributionSettings), "Gamma" },
+            { nameof(GeneralizedNormalDistributionSettings), "Generalized normal" },
+            { nameof(LognormalDistributionSettings), "Lognormal" },
+            { nameof(MultivariateBasedNormalDistributionSettings), "Sum of correlated normal" },
+            { nameof(MultivariateNormalDistributionSettings), "Normal" },
+            { nameof(MultivariateTDistributionSettings), "t-distribution" },
+            { nameof(NormalDistributionSettings), "Normal" },
+            { nameof(RayleighDistributionSettings), "Rayleigh" },
+            { nameof(StudentGeneralizedDistributionSettings), "t-distribution" },
+            { nameof(UniformDistributionSettings), "Uniform" }
         };
 
         public NameAndSettingType(Type settingType)
@@ -40,26 +40,34 @@ namespace DistributionsBlazor
 
         static NameAndSettingType()
         {
-            DisplayNames = new NameAndSettingType[]
-                {
-                    new NameAndSettingType(typeof(NormalDistributionSettings)),
-                    new NameAndSettingType(typeof(UniformDistributionSettings)),
-                    new NameAndSettingType(typeof(StudentGeneralizedDistributionSettings)),
-                    new NameAndSettingType(typeof(ArcsineDistributionSettings)),
-                    new NameAndSettingType(typeof(ExponentialDistributionSettings)),
-                    new NameAndSettingType(typeof(BetaDistributionSettings)),
-                    new NameAndSettingType(typeof(GammaDistributionSettings)),
-                    new NameAndSettingType(typeof(LognormalDistributionSettings)),
-                    new NameAndSettingType(typeof(GeneralizedNormalDistributionSettings)),
-                    new NameAndSettingType(typeof(BivariateBasedNormalDistributionSettings)),
-                    new NameAndSettingType(typeof(MultivariateBasedNormalDistributionSettings)),
-                    new NameAndSettingType(typeof(ChiDistributionSettings)),
-                    new NameAndSettingType(typeof(ChiSquaredDistributionSettings)),
-                    new NameAndSettingType(typeof(RayleighDistributionSettings))
+            UnvariateSettingTypes = new NameAndSettingType[]
+            {
+                new NameAndSettingType(typeof(NormalDistributionSettings)),
+                new NameAndSettingType(typeof(UniformDistributionSettings)),
+                new NameAndSettingType(typeof(StudentGeneralizedDistributionSettings)),
+                new NameAndSettingType(typeof(ArcsineDistributionSettings)),
+                new NameAndSettingType(typeof(ExponentialDistributionSettings)),
+                new NameAndSettingType(typeof(BetaDistributionSettings)),
+                new NameAndSettingType(typeof(GammaDistributionSettings)),
+                new NameAndSettingType(typeof(LognormalDistributionSettings)),
+                new NameAndSettingType(typeof(GeneralizedNormalDistributionSettings)),
+                new NameAndSettingType(typeof(BivariateBasedNormalDistributionSettings)),
+                new NameAndSettingType(typeof(MultivariateBasedNormalDistributionSettings)),
+                new NameAndSettingType(typeof(ChiDistributionSettings)),
+                new NameAndSettingType(typeof(ChiSquaredDistributionSettings)),
+                new NameAndSettingType(typeof(RayleighDistributionSettings))
+            };
+
+            MultivariateSettingTypes = new NameAndSettingType[]
+            {
+                new NameAndSettingType(typeof(MultivariateNormalDistributionSettings)),
+                new NameAndSettingType(typeof(MultivariateTDistributionSettings))
             };
         }
 
-        public static NameAndSettingType[] DisplayNames { get; }
+        public static NameAndSettingType[] UnvariateSettingTypes { get; }
+
+        public static NameAndSettingType[] MultivariateSettingTypes { get; }
 
         public Type SettingsType { get; }
 

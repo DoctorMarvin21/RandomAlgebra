@@ -2,45 +2,27 @@
 
 namespace DistributionsBlazor
 {
-    public enum MultivariateType
-    {
-        Normal,
-        TDistribution
-    }
-
     public class MultivariateExpressionArgument
     {
-        public MultivariateExpressionArgument(string[] arguments, MultivariateType type)
+        private NameAndSettingType type;
+
+        public MultivariateExpressionArgument(MultivariateDistributionSettings settings)
         {
-            Arguments = arguments;
-            //MultivariateDistributionSettings = settings;
+            MultivariateDistributionSettings = settings;
         }
 
-        public string JoinedArguments
+        public string[] Arguments { get; set; }
+
+        public string JoinedArguments => string.Join("; ", Arguments);
+
+        public IList<OneDimensionalArrayBinding<string>[]> ArgumentsBindings { get; set; }
+
+        public NameAndSettingType Type
         {
-            get
+            get => type;
+            set
             {
-                if (Arguments == null)
-                    return string.Empty;
-                else
-                {
-                    return string.Join("; ", Arguments);
-                }
-            }
-        }
-
-        public string[] Arguments
-        {
-            get;
-            set;
-        }
-
-        public string DistributionName
-        {
-            get
-            {
-                //Languages.GetText(MultivariateDistributionSettings.GetType().Name);
-                return null;
+                type = value;
             }
         }
 
@@ -56,7 +38,7 @@ namespace DistributionsBlazor
             return keyValuePairs;
         }
 
-        private static MultivariateDistributionSettings GetDistributionSettingsType(MultivariateType type)
+        private static MultivariateDistributionSettings GetDistributionSettingsType()
         {
             throw new NotImplementedException();
         }
