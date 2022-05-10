@@ -70,7 +70,7 @@ namespace RandomAlgebra.Distributions
             return new Settings.BivariateBasedNormalDistributionSettings(Mean1, -Mean2, Sigma1, Sigma2, -Correlation).GetDistribution(Samples);
         }
 
-        protected override double InnerProbabilityDensityFunction(double x, double y)
+        public override double ProbabilityDensityFunction(double x, double y)
         {
             double p1 = Math.Pow(x - Mean1, 2) * vInv1;
             double p2 = Math.Pow(y - Mean2, 2) * vInv2;

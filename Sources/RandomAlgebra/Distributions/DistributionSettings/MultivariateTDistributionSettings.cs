@@ -1,6 +1,7 @@
 ﻿using System;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
+using RandomAlgebra.Distributions.CustomDistributions;
 
 namespace RandomAlgebra.Distributions.Settings
 {
@@ -9,8 +10,7 @@ namespace RandomAlgebra.Distributions.Settings
     /// </summary>
     public class MultivariateTDistributionSettings : MultivariateDistributionSettings
     {
-        private static readonly NormalDistribution BaseNormal = new NormalDistribution();
-        private readonly GammaDistribution baseGamma;
+        private readonly StudentGeneralizedDistribution baseDistribution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultivariateTDistributionSettings"/> class with 2 dimensions,
@@ -20,7 +20,7 @@ namespace RandomAlgebra.Distributions.Settings
             : base(2)
         {
             DegreesOfFreedom = 10;
-            baseGamma = new GammaDistribution(2.0, 0.5 * DegreesOfFreedom);
+            baseDistribution = new StudentGeneralizedDistribution(DegreesOfFreedom);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace RandomAlgebra.Distributions.Settings
             : base(input)
         {
             DegreesOfFreedom = degreesOfFreedom;
-            baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
+            baseDistribution = new StudentGeneralizedDistribution(DegreesOfFreedom);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace RandomAlgebra.Distributions.Settings
             : base(means, covarianceMatrix)
         {
             DegreesOfFreedom = degreesOfFreedom;
-            baseGamma = new GammaDistribution(2.0, 0.5 * degreesOfFreedom);
+            baseDistribution = new StudentGeneralizedDistribution(DegreesOfFreedom);
         }
 
         /// <summary>
@@ -67,20 +67,16 @@ namespace RandomAlgebra.Distributions.Settings
 
         protected override double[] GenerateRandomInternal(Random rnd)
         {
-            double[,] ltf = Chol.LeftTriangularFactor;
+            // TODO: any distribution could be generated this way!
             double[] result = new double[Dimension];
-            double[] u = Means;
 
             for (int i = 0; i < Dimension; i++)
             {
-                result[i] = BaseNormal.Generate(rnd);
+                result[i] = baseDistribution.Generate(rnd);
             }
 
-            result = Matrix.Dot(ltf, result);
-            double[] gammaSqrt = baseGamma.Generate(Dimension, rnd).Divide(DegreesOfFreedom).Sqrt();
-
-            result = Elementwise.Divide(result, gammaSqrt);
-            result = Elementwise.Add(result, u);
+            result = Matrix.Dot(Chol.LeftTriangularFactor, result);
+            result = Elementwise.Add(result, Means);
 
             return result;
         }

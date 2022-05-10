@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
 namespace RandomAlgebra.Distributions
 {
+    // TODO: rewrite all this to multivariate distribution from Accord.NET
+
     /// <summary>
     /// Base class of bivariate continuous distributions.
     /// </summary>
@@ -106,17 +107,7 @@ namespace RandomAlgebra.Distributions
         /// <param name="x">Coordinate of 1-st dimension.</param>
         /// <param name="y">Coordinate of 2-nd dimension.</param>
         /// <returns>Probability density.</returns>
-        public double ProbabilityDensityFunction(double x, double y)
-        {
-            if (x < SupportMinLeft || x > SupportMaxLeft || y < SupportMinRight || y > SupportMaxRight)
-            {
-                return 0;
-            }
-            else
-            {
-                return InnerProbabilityDensityFunction(x, y);
-            }
-        }
+        public abstract double ProbabilityDensityFunction(double x, double y);
 
         /// <summary>
         /// Sum (convolution) of correlated distributions.
@@ -177,8 +168,5 @@ namespace RandomAlgebra.Distributions
         {
             return BivariateMath.GetLog(this);
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract double InnerProbabilityDensityFunction(double x, double y);
     }
 }

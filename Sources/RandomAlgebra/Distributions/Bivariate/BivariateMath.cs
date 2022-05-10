@@ -60,12 +60,9 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double sum = 0;
 
-                            // TODO: there is some bug here, we also need to find reason why can't I swap distributions on bivariate math
-                            // Trap rule is useless because both normal and t-distributions are smoooth.
-                            for (int j = 1; j < samples; j++)
+                            for (int j = 0; j < samples; j++)
                             {
                                 double m = rightAxis[j];
-
                                 sum += distribution.ProbabilityDensityFunction(x - m, m);
                             }
 
@@ -81,7 +78,7 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double sum = 0;
 
-                            for (int j = 1; j < samples; j++)
+                            for (int j = 0; j < samples; j++)
                             {
                                 double m = rightAxis[j];
                                 sum += distribution.ProbabilityDensityFunction(x + m, m);
@@ -99,7 +96,7 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double sum = 0;
 
-                            for (int j = 1; j < samples; j++)
+                            for (int j = 0; j < samples; j++)
                             {
                                 double m = rightAxis[j];
 
@@ -121,7 +118,7 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double sum = 0;
 
-                            for (int j = 1; j < samples; j++)
+                            for (int j = 0; j < samples; j++)
                             {
                                 double m = rightAxis[j];
 
@@ -145,7 +142,8 @@ namespace RandomAlgebra.Distributions
                             double x = xAxis[i];
                             double d = 0;
                             double k = 0;
-                            for (int j = 1; j < samples; j++)
+
+                            for (int j = 0; j < samples; j++)
                             {
                                 m = rightAxis[j];
 
@@ -170,7 +168,7 @@ namespace RandomAlgebra.Distributions
                             double d = 0;
                             double k = 0;
 
-                            for (int j = 1; j < samples; j++)
+                            for (int j = 0; j < samples; j++)
                             {
                                 m = rightAxis[j];
 

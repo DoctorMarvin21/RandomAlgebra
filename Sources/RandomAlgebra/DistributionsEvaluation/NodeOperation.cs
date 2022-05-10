@@ -96,8 +96,10 @@ namespace RandomAlgebra.DistributionsEvaluation
                 var left = Left.EvaluateExtended(correlations);
                 var right = Right.EvaluateExtended(correlations);
 
-                var baseCorrelation = correlations?.Find(x => x.BaseLeft.BaseDistribution == (left as ContinuousDistribution)?.BaseDistribution
-                && x.BaseRight.BaseDistribution == (right as ContinuousDistribution)?.BaseDistribution);
+                var baseCorrelation = correlations?.Find(x => (x.BaseLeft.BaseDistribution == (left as ContinuousDistribution)?.BaseDistribution
+                    && x.BaseRight.BaseDistribution == (right as ContinuousDistribution)?.BaseDistribution) ||
+                    (x.BaseLeft.BaseDistribution == (right as ContinuousDistribution)?.BaseDistribution
+                    && x.BaseRight.BaseDistribution == (left as ContinuousDistribution)?.BaseDistribution));
 
                 if (baseCorrelation != null)
                 {
