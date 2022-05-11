@@ -397,7 +397,7 @@
     </MudPaper>
 </MudOverlay>
 
-<MudDialog IsVisible=@DistributionsDialogProvider.IsDeleteDialogOpen>
+<MudDialog @bind-IsVisible=@DistributionsDialogProvider.IsDeleteDialogOpen>
     <TitleContent>
         <MudText Typo="Typo.h6">
             Remove Distribution
@@ -412,7 +412,7 @@
     </DialogActions>
 </MudDialog>
 
-<MudDialog IsVisible=@MultivariateDistributionsDialogProvider.IsDeleteDialogOpen>
+<MudDialog @bind-IsVisible=@MultivariateDistributionsDialogProvider.IsDeleteDialogOpen>
     <TitleContent>
         <MudText Typo="Typo.h6">
             Remove Distribution
@@ -428,7 +428,6 @@
 </MudDialog>
 
 @code {
-    DialogOptions editDialogOptions = new() { CloseOnEscapeKey = false };
     Config config = new Config { Responsive = true };
 
     Layout layout = new Layout

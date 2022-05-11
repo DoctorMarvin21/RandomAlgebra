@@ -1,13 +1,14 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor.Utilities
+@inherits LayoutComponentBase
 
-<MudThemeProvider/>
+<MudThemeProvider Theme="theme" />
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
 <PageTitle>Distribution Propagation</PageTitle>
 
 <MudLayout>
-    <MudAppBar>
+    <MudAppBar Color="Color.Primary">
         <MudButton Variant="Variant.Text" Class="shades-text text-white" Href="/DoctorMarvin/">
             <MudText Typo="Typo.h6">Distribution Propagation</MudText>
         </MudButton>
@@ -20,3 +21,13 @@
         @Body
     </MudMainContent>
 </MudLayout>
+
+@code {
+    MudTheme theme = new MudTheme
+    {
+        Palette = new Palette
+        {
+            Primary = new MudColor("#1976d2")
+        }
+    };
+}
