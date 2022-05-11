@@ -3,12 +3,16 @@ using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsBlazor
 {
-    // TODO: simplify this
-    public abstract class MultivariateSettingsSource
+    public class MultivariateSettingsSource
     {
         private int dimension;
-        protected MultivariateSettingsSource(MultivariateDistributionSettings settings)
+
+        public MultivariateSettingsSource(MultivariateDistributionSettings settings)
         {
+            Func<string, bool> filter = (name) => name != nameof(NormalDistributionSettings.StandardDeviation) &&
+                name != nameof(NormalDistributionSettings.Mean);
+
+            BaseSettings = new DistributionSettingsSource(settings.BaseSettings, filter);
             dimension = settings.Dimension;
             Means = settings.Means;
             CovarianceMatrix = settings.CovarianceMatrix;
@@ -16,6 +20,9 @@ namespace DistributionsBlazor
             UpdateBindings();
         }
 
+        public DistributionSettingsSource BaseSettings { get; }
+
+     
         public int Dimension
         {
             get => dimension;
@@ -88,35 +95,9 @@ namespace DistributionsBlazor
             CovarianceBindings = TwoDimesionalArrayBinding<double>.GetArrayBindings(CovarianceMatrix);
         }
 
-        public abstract MultivariateDistributionSettings GetSettings();
-    }
-
-    public class MultivariateNormalSettingsSource : MultivariateSettingsSource
-    {
-        public MultivariateNormalSettingsSource(MultivariateDistributionSettings settings)
-            : base(settings)
+        public MultivariateDistributionSettings GetSettings()
         {
-        }
-
-        public override MultivariateDistributionSettings GetSettings()
-        {
-            return new MultivariateDistributionSettings(Means, CovarianceMatrix, new NormalDistributionSettings());
-        }
-    }
-
-    public class MultivariateTSettingsSource : MultivariateSettingsSource
-    {
-        public MultivariateTSettingsSource(MultivariateDistributionSettings settings)
-            : base(settings)
-        {
-            DegreesOfFreedom = ((StudentGeneralizedDistributionSettings)settings.BaseSettings).DegreesOfFreedom;
-        }
-
-        public double DegreesOfFreedom { get; set; }
-
-        public override MultivariateDistributionSettings GetSettings()
-        {
-            return new MultivariateDistributionSettings(Means, CovarianceMatrix, new StudentGeneralizedDistributionSettings(DegreesOfFreedom));
+            return new MultivariateDistributionSettings(Means, CovarianceMatrix, BaseSettings.Settings);
         }
     }
 }

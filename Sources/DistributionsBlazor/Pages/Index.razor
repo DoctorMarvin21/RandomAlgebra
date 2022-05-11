@@ -178,7 +178,7 @@
             </MudSelect>
             @if (DistributionsDialogProvider.Item.Settings is MultivariateBasedNormalSettingsSource multivariateBased)
             {
-                <MudNumericField Label="Dimensions" Min=1 Max=100
+                <MudNumericField Label="Dimensions" Min=2 Max=100
                     @bind-Value=multivariateBased.Dimension>
                 </MudNumericField>
 
@@ -267,7 +267,7 @@
                 @foreach (var item in DistributionsDialogProvider.Item.Settings.Bindings)
                 {
                     <MudTextField Label="@item.Name" Variant="Variant.Outlined"
-                        @bind-Value="item.Value" />
+                        @bind-Value="item.Value" For="@(() => item.Value)" />
                 }
             }
         </MudStack>
@@ -297,14 +297,13 @@
                 }
             </MudSelect>
 
-            @if (MultivariateDistributionsDialogProvider.Item.Settings is MultivariateTSettingsSource tSource)
+            @foreach (var item in MultivariateDistributionsDialogProvider.Item.Settings.BaseSettings.Bindings)
             {
-                <MudNumericField Label="Degrees of freedom"
-                    @bind-Value=tSource.DegreesOfFreedom>
-                </MudNumericField>
+                <MudTextField Label="@item.Name" Variant="Variant.Outlined"
+                    @bind-Value="item.Value" For="@(() => item.Value)" />
             }
 
-            <MudNumericField Label="Dimensions" Min=1 Max=100
+            <MudNumericField Label="Dimensions" Min=2 Max=100
                 @bind-Value=MultivariateDistributionsDialogProvider.Item.Dimension>
             </MudNumericField>
 

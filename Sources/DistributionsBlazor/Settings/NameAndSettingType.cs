@@ -59,7 +59,17 @@ namespace DistributionsBlazor
             MultivariateSettingTypes = new NameAndSettingType[]
             {
                 new NameAndSettingType(typeof(NormalDistributionSettings)),
-                new NameAndSettingType(typeof(StudentGeneralizedDistributionSettings))
+                new NameAndSettingType(typeof(UniformDistributionSettings)),
+                new NameAndSettingType(typeof(StudentGeneralizedDistributionSettings)),
+                new NameAndSettingType(typeof(ArcsineDistributionSettings)),
+                new NameAndSettingType(typeof(ExponentialDistributionSettings)),
+                new NameAndSettingType(typeof(BetaDistributionSettings)),
+                new NameAndSettingType(typeof(GammaDistributionSettings)),
+                new NameAndSettingType(typeof(LognormalDistributionSettings)),
+                new NameAndSettingType(typeof(GeneralizedNormalDistributionSettings)),
+                new NameAndSettingType(typeof(ChiDistributionSettings)),
+                new NameAndSettingType(typeof(ChiSquaredDistributionSettings)),
+                new NameAndSettingType(typeof(RayleighDistributionSettings))
             };
         }
 

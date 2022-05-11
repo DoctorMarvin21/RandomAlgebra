@@ -5,8 +5,11 @@ namespace DistributionsBlazor
 {
     public class DistributionSettingsSource
     {
-        public DistributionSettingsSource(DistributionSettings settings)
+        private readonly Func<string, bool> filter;
+
+        public DistributionSettingsSource(DistributionSettings settings, Func<string, bool> filter = null)
         {
+            this.filter = filter;
             Settings = settings;
             UpdateBindings();
         }
@@ -20,7 +23,7 @@ namespace DistributionsBlazor
             var bindings = new List<DistributionSettingsBinding>();
 
             var properties = Settings.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(x => x.CanWrite && x.CanRead);
+                .Where(x => x.CanWrite && x.CanRead && filter?.Invoke(x.Name) != false);
 
             foreach (var property in properties)
             {

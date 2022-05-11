@@ -1,4 +1,6 @@
 ﻿using RandomAlgebra.Distributions.Settings;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Reflection;
 
 namespace DistributionsBlazor
@@ -26,10 +28,13 @@ namespace DistributionsBlazor
         private readonly DistributionSettings instance;
         private readonly PropertyInfo propertyInfo;
 
+        private string value;
+
         public DistributionSettingsBinding(DistributionSettings instance, PropertyInfo propertyInfo)
         {
             this.instance = instance;
             this.propertyInfo = propertyInfo;
+            value = propertyInfo.GetValue(instance).ToString();
 
             if (propertiesNames.TryGetValue(propertyInfo.Name, out string name))
             {
@@ -41,18 +46,55 @@ namespace DistributionsBlazor
             }
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
+        [NumericValudation]
         public string Value
         {
-            get
-            {
-                return propertyInfo.GetValue(instance).ToString();
-            }
+            get => value;
             set
             {
-                object newValue = Convert.ChangeType(value, propertyInfo.PropertyType);
-                propertyInfo.SetValue(instance, newValue);
+                this.value = value;
+
+                try
+                {
+                    var updatedValue = value?.Replace(",", ".");
+                    object newValue = Convert.ChangeType(updatedValue, propertyInfo.PropertyType, CultureInfo.InvariantCulture);
+                    propertyInfo.SetValue(instance, newValue);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private class NumericValudationAttribute : ValidationAttribute
+        {
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                var updatedValue = (value as string).Replace(",", ".");
+
+                if (updatedValue is not null && double.TryParse(updatedValue, NumberStyles.Any, CultureInfo.InvariantCulture, out _))
+                {
+                    return null;
+                }
+                else if (updatedValue is null)
+                {
+                    return new ValidationResult("Value can't be null");
+                }
+                else if (updatedValue.Length == 0)
+                {
+                    return new ValidationResult("Value can't be empty");
+                }
+                else
+                {
+                    return new ValidationResult("Value has invalid format");
+                }
+            }
+
+            public override string FormatErrorMessage(string name)
+            {
+                return base.FormatErrorMessage(name);
             }
         }
     }

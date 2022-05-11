@@ -11,11 +11,11 @@ namespace DistributionsBlazor
             : base(settings)
         {
             multivariateSettings = settings;
-            MultivariateSettingsSource = new MultivariateNormalSettingsSource(settings.MultivariateNormalDistributionSettings);
+            MultivariateSettingsSource = new MultivariateSettingsSource(settings.MultivariateNormalDistributionSettings);
             UpdateBindings();
         }
 
-        public MultivariateNormalSettingsSource MultivariateSettingsSource { get; set; }
+        public MultivariateSettingsSource MultivariateSettingsSource { get; set; }
 
         public int Dimension
         {
