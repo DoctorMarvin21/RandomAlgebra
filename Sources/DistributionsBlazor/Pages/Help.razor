@@ -1,8 +1,177 @@
 ﻿@page "/help"
 <PageTitle>Help</PageTitle>
 
-<h3>Help</h3>
+<MudPaper Class="ma-4 pa-4">
+    <MudText Typo="Typo.h6">Random Algebra</MudText>
+    <MudText Typo="Typo.subtitle2">Brief description</MudText>
+    <p>
+        Random Algebra is a method that allows to propagate distribution by model. It performs the following general steps:
+    </p>
 
-@code {
+    <li>Discretization of probability density function(s)</li>
+    <li>Performs required by model operations on distributions numerically (ex. distribution + distribution is convolution)</li>
+    <li>Generates cumulative distribution function and evaluates moments</li>
 
-}
+    <br>
+
+    <p>
+            Developed algorithm also considers various operations on distribution itself as taking it into power, trigonometric functions, logarithms etc...
+    </p>
+
+    <br>
+
+    <MudText Typo="Typo.subtitle2">Limitations</MudText>
+    Unlike Monte Carlo simulation we have various limitations on method:
+
+    <li>We can't use the same distribution twice in model</li>
+    <li>Division, logarithms are prohibited on distributions that takes negative values</li>
+    <li>Multivariate operations are limited by 2 dimensions of Normal and Student distributions</li>
+
+    <br>
+
+    <p>
+            All of enlisted limitations are not applied to Monte Carlo simulation
+    </p>
+
+    <br>
+
+    <MudText Typo="Typo.h6">Monte Carlo</MudText>
+    <MudText Typo="Typo.subtitle2">Brief description</MudText>
+    <p>
+        Monte Carlo is a universal method that relies on repeated random sampling to obtain numerical results. It performs the following general steps:
+    </p>
+
+    <li>Generates multiple randoms with corresponding distributions</li>
+    <li>Performs required by model operations on sampled randoms</li>
+    <li>Generates probability density function, cumulative distribution function and evaluates moments</li>
+
+    <br>
+
+    <p>
+            This method is implemented to compare to developed Random Algebra method. It's much slower, provides less accurate results but it still much more flexible.
+    </p>
+
+    <br>
+
+    <MudText Typo="Typo.h6">How to use</MudText>
+    <MudText Typo="Typo.subtitle2">Univariate distributions</MudText>
+
+    <p>
+        Enter model and use aliases instead of distributions, ex:
+    </p>
+
+    <p>
+        A + B * 3 + 1
+    </p>
+
+    <p>
+        Add univariate distributions, use arguments as aliases. For instance, for model above add 2 distributions, one with argument "A" and other with argument "B".
+        You can reconfigure model arguments any time by clicking "Edit" button.
+    </p>
+
+    <br>
+
+    <MudText Typo="Typo.subtitle2">Multivariate distributions</MudText>
+
+    <p>
+        Enter model and use aliases instead of distributions, ex:
+    </p>
+
+    <p>
+        A + B * 3 + 1
+    </p>
+
+    <p>
+        Add multivariate distributions, use arguments as aliases. Note that each dimension of multivariate distribution has it's own argument.
+        For instance, for model above add 1 distribution with 2 dimensions, one with argument "A" and other with argument "B".
+        You can combine univariate distribution with multivariate distribution. Please, note that Random Algebra has limited support on multivariate distributions.
+        You can use only Normal and Student distributions with 2 dimension and simple operations (A + B, A - B, A * B, A / B, A ^ B, A _ B).
+    </p>
+
+    <br>
+
+    <MudText Typo="Typo.h6">Supported operations</MudText>
+
+    <MudSimpleTable Dense="true" Style="width:min-content;">
+        <thead>
+            <tr>
+                <th style="min-width:120px;">Operation / Function</th>
+                <th style="min-width:200px;">Description</th>
+                <th style="min-width:100px;">Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>+</td>
+                <td>Addition</td>
+                <td>A + B</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>Substitution</td>
+                <td>A - B</td>
+            </tr>
+            <tr>
+                <td>*</td>
+                <td>Multiplication</td>
+                <td>A * B</td>
+            </tr>
+            <tr>
+                <td>/</td>
+                <td>Division</td>
+                <td>A / B</td>
+            </tr>
+            <tr>
+                <td>^</td>
+                <td>Rising to the power</td>
+                <td>A ^ B</td>
+            </tr>
+            <tr>
+                <td>_</td>
+                <td>Logarithm to base</td>
+                <td>A _ B</td>
+            </tr>
+            <tr>
+                <td>sqrt()</td>
+                <td>Square root</td>
+                <td>sqrt(A)</td>
+            </tr>
+            <tr>
+                <td>abs()</td>
+                <td>Absolute value</td>
+                <td>abs(A)</td>
+            </tr>
+            <tr>
+                <td>ln()</td>
+                <td>Natural logarithm</td>
+                <td>ln(A)</td>
+            </tr>
+            <tr>
+                <td>lg()</td>
+                <td>Common logarithm</td>
+                <td>lg(A)</td>
+            </tr>
+            <tr>
+                <td>lg(,)</td>
+                <td>Logarithm to base</td>
+                <td>lg(B, A)</td>
+            </tr>
+            <tr>
+                <td>sin()</td>
+                <td>Sine function (radians)</td>
+                <td>sin(A)</td>
+            </tr>
+            <tr>
+                <td>cos()</td>
+                <td>Cosine function (radians)</td>
+                <td>cos(A)</td>
+            </tr>
+            <tr>
+                <td>tg()</td>
+                <td>Tangent function (radians)</td>
+                <td>tg(A)</td>
+            </tr>
+        </tbody>
+    </MudSimpleTable>
+
+</MudPaper>
