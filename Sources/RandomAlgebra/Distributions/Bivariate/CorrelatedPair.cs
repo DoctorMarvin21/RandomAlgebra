@@ -5,7 +5,7 @@ using RandomAlgebra.Distributions.CustomDistributions;
 namespace RandomAlgebra.Distributions
 {
     /// <summary>
-    /// Pair of multivariate distribution random variables and correlation between them.
+    /// Pair of random variables and correlation between them.
     /// </summary>
     public class CorrelatedPair
     {

@@ -1,31 +1,51 @@
 ﻿using System;
 using Accord.Math;
-using Accord.Math.Decompositions;
 
 namespace RandomAlgebra.Distributions.Settings
 {
     /// <summary>
     /// Base class for multivariate distribution settings.
     /// </summary>
-    public abstract class MultivariateDistributionSettings
+    public class MultivariateDistributionSettings
     {
-        protected MultivariateDistributionSettings(int dimension)
-            : this(new InternalParameters { Means = new double[dimension], CovarianceMatrix = GetDefaultCovarianceMatrix(dimension) })
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultivariateDistributionSettings"/> class with <paramref name="dimension"/>
+        /// dimensions, zero means and identity covariance matrix.
+        /// </summary>
+        /// <param name="dimension">Number of dimensions.</param>
+        /// <param name="settings">Base settings.</param>
+        public MultivariateDistributionSettings(int dimension, DistributionSettings settings)
+            : this(new InternalParameters { Means = new double[dimension], CovarianceMatrix = GetDefaultCovarianceMatrix(dimension) }, settings)
         {
         }
 
-        protected MultivariateDistributionSettings(double[,] input)
-            : this(ProcessInput(input))
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultivariateDistributionSettings"/> class by measured values.
+        /// </summary>
+        /// <param name="input">Matrix of measured values.</param>
+        /// <param name="settings">Base settings.</param>
+        public MultivariateDistributionSettings(double[,] input, DistributionSettings settings)
+            : this(ProcessInput(input), settings)
         {
         }
 
-        protected MultivariateDistributionSettings(double[] means, double[,] covarianceMatrix)
-            : this(new InternalParameters { Means = means, CovarianceMatrix = covarianceMatrix })
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultivariateDistributionSettings"/> class
+        /// by means vector and covariance matrix.
+        /// </summary>
+        /// <param name="means">Means vector.</param>
+        /// <param name="covarianceMatrix">Covariance matrix.</param>
+        /// <param name="settings">Base settings.</param>
+        public MultivariateDistributionSettings(double[] means, double[,] covarianceMatrix, DistributionSettings settings)
+            : this(new InternalParameters { Means = means, CovarianceMatrix = covarianceMatrix }, settings)
         {
+            BaseSettings = settings;
         }
 
-        protected MultivariateDistributionSettings(InternalParameters parameters)
+        protected MultivariateDistributionSettings(InternalParameters parameters, DistributionSettings settings)
         {
+            BaseSettings = settings;
+
             if (parameters.CovarianceMatrix == null)
             {
                 throw new ArgumentNullException(nameof(parameters.CovarianceMatrix));
@@ -55,13 +75,6 @@ namespace RandomAlgebra.Distributions.Settings
 
             CovarianceMatrix = parameters.CovarianceMatrix;
             Means = parameters.Means;
-
-            Chol = new CholeskyDecomposition(CovarianceMatrix);
-
-            if (!Chol.IsPositiveDefinite)
-            {
-                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.CovarianceMatrixMustBePositiveDefined);
-            }
         }
 
         /// <summary>
@@ -79,17 +92,10 @@ namespace RandomAlgebra.Distributions.Settings
         /// </summary>
         public int Dimension { get; }
 
-        protected CholeskyDecomposition Chol { get; }
-
         /// <summary>
-        /// Generates dimension sized vector of random variables.
+        /// Settings of base univariate distribution.
         /// </summary>
-        /// <param name="rnd">Randoms source.</param>
-        /// <returns>Vector of random variables.</returns>
-        public double[] GenerateRandom(Random rnd)
-        {
-            return GenerateRandomInternal(rnd);
-        }
+        public DistributionSettings BaseSettings { get; }
 
         /// <summary>
         /// Returns bivariate pair based on current distribution settings if dimension = 2.
@@ -110,7 +116,10 @@ namespace RandomAlgebra.Distributions.Settings
             double s2 = Math.Sqrt(CovarianceMatrix[1, 1]);
             double rho = CovarianceMatrix[0, 1] / (s1 * s2);
 
-            return GetBivariatePairInternal(m1, m2, s1, s2, rho, samples);
+            var left = m1 + (BaseSettings.GetDistribution(samples) * s1);
+            var right = m2 + (BaseSettings.GetDistribution(samples) * s2);
+
+            return new CorrelatedPair(left, right, rho);
         }
 
         protected static InternalParameters ProcessInput(double[,] input)
@@ -137,10 +146,6 @@ namespace RandomAlgebra.Distributions.Settings
 
             return new InternalParameters { Means = means, CovarianceMatrix = covarianceMatrix };
         }
-
-        protected abstract double[] GenerateRandomInternal(Random rnd);
-
-        protected abstract CorrelatedPair GetBivariatePairInternal(double mean1, double mean2, double sigma1, double sigma2, double rho, int samples);
 
         private static double[,] GetDefaultCovarianceMatrix(int dimension)
         {

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using Accord.Math;
+using Accord.Math.Decompositions;
 using Accord.Statistics.Distributions.Univariate;
 
 namespace RandomAlgebra.Distributions.Settings
@@ -8,8 +11,7 @@ namespace RandomAlgebra.Distributions.Settings
     /// </summary>
     public class MultivariateBasedNormalDistributionSettings : DistributionSettings
     {
-        private MultivariateNormalDistributionSettings multivariateNormalDistributionSettings
-            = new MultivariateNormalDistributionSettings(new double[] { 0, 0 }, new double[,] { { 1, 0 }, { 0, 1 } });
+        private MultivariateDistributionSettings multivariateNormalDistributionSettings;
 
         private double[] coefficients = new double[] { 1, 1 };
 
@@ -19,6 +21,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// </summary>
         public MultivariateBasedNormalDistributionSettings()
         {
+            multivariateNormalDistributionSettings = new MultivariateDistributionSettings(2, new NormalDistributionSettings());
         }
 
         /// <summary>
@@ -27,8 +30,9 @@ namespace RandomAlgebra.Distributions.Settings
         /// </summary>
         /// <param name="coeff">Coefficients.</param>
         /// <param name="distributionSettings">Parameters of multivariate normal distribution.</param>
-        public MultivariateBasedNormalDistributionSettings(double[] coeff, MultivariateNormalDistributionSettings distributionSettings)
+        public MultivariateBasedNormalDistributionSettings(double[] coeff, MultivariateDistributionSettings distributionSettings)
         {
+            // TODO: check for normality
             coefficients = coeff;
             multivariateNormalDistributionSettings = distributionSettings;
 
@@ -51,7 +55,7 @@ namespace RandomAlgebra.Distributions.Settings
         /// <summary>
         /// Parameters of multivariate normal.
         /// </summary>
-        public MultivariateNormalDistributionSettings MultivariateNormalDistributionSettings
+        public MultivariateDistributionSettings MultivariateNormalDistributionSettings
         {
             get => multivariateNormalDistributionSettings;
             set
@@ -95,7 +99,28 @@ namespace RandomAlgebra.Distributions.Settings
 
         private NormalDistributionSettings GetSettings()
         {
-            return multivariateNormalDistributionSettings.GetUnivariateDistributionSettings(Coefficients);
+            if (Coefficients.Length != MultivariateNormalDistributionSettings.Dimension)
+            {
+                throw new DistributionsArgumentException(DistributionsArgumentExceptionType.VectorOfCoeffitientsMustBeEqualToDimension);
+            }
+
+            if (Coefficients.All(x => x == 1))
+            {
+                return new NormalDistributionSettings(MultivariateNormalDistributionSettings.Means.Sum(), Math.Sqrt(MultivariateNormalDistributionSettings.CovarianceMatrix.Sum()));
+            }
+
+            var chol = new CholeskyDecomposition(MultivariateNormalDistributionSettings.CovarianceMatrix);
+
+            double[,] ltf = chol.LeftTriangularFactor;
+
+            var weighted = Matrix.Diagonal(Coefficients).Dot(ltf);
+            var colSumPow = weighted.Transpose().Dot(Vector.Ones(MultivariateNormalDistributionSettings.Dimension)).Pow(2);
+
+            double variance = colSumPow.Sum();
+
+            double mean = Elementwise.Multiply(Coefficients, MultivariateNormalDistributionSettings.Means).Sum();
+
+            return new NormalDistributionSettings(mean, Math.Sqrt(variance));
         }
     }
 }

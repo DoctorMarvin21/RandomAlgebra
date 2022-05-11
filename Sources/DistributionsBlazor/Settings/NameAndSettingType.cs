@@ -16,8 +16,6 @@ namespace DistributionsBlazor
             { nameof(GeneralizedNormalDistributionSettings), "Generalized normal" },
             { nameof(LognormalDistributionSettings), "Lognormal" },
             { nameof(MultivariateBasedNormalDistributionSettings), "Sum of correlated normal" },
-            { nameof(MultivariateNormalDistributionSettings), "Normal" },
-            { nameof(MultivariateTDistributionSettings), "t-distribution" },
             { nameof(NormalDistributionSettings), "Normal" },
             { nameof(RayleighDistributionSettings), "Rayleigh" },
             { nameof(StudentGeneralizedDistributionSettings), "t-distribution" },
@@ -60,8 +58,8 @@ namespace DistributionsBlazor
 
             MultivariateSettingTypes = new NameAndSettingType[]
             {
-                new NameAndSettingType(typeof(MultivariateNormalDistributionSettings)),
-                new NameAndSettingType(typeof(MultivariateTDistributionSettings))
+                new NameAndSettingType(typeof(NormalDistributionSettings)),
+                new NameAndSettingType(typeof(StudentGeneralizedDistributionSettings))
             };
         }
 

@@ -10,8 +10,8 @@ namespace DistributionsBlazor
 
         public MultivariateExpressionArgument()
         {
-            Settings = new MultivariateNormalSettingsSource(new MultivariateNormalDistributionSettings());
-            type = NameAndSettingType.MultivariateSettingTypes.First(x => x.SettingsType == typeof(MultivariateNormalDistributionSettings));
+            Settings = new MultivariateNormalSettingsSource(new MultivariateDistributionSettings(2, new NormalDistributionSettings()));
+            type = NameAndSettingType.MultivariateSettingTypes.First(x => x.SettingsType == typeof(NormalDistributionSettings));
         }
 
         public string[] Arguments { get; set; }
@@ -66,14 +66,14 @@ namespace DistributionsBlazor
         {
             switch (type.SettingsType.Name)
             {
-                case nameof(MultivariateNormalDistributionSettings):
+                case nameof(NormalDistributionSettings):
                     {
-                        Settings = new MultivariateNormalSettingsSource(new MultivariateNormalDistributionSettings(Settings.Means, Settings.CovarianceMatrix));
+                        Settings = new MultivariateNormalSettingsSource(new MultivariateDistributionSettings(Settings.Means, Settings.CovarianceMatrix, new NormalDistributionSettings()));
                         break;
                     }
-                case nameof(MultivariateTDistributionSettings):
+                case nameof(StudentGeneralizedDistributionSettings):
                     {
-                        Settings = new MultivariateTSettingsSource(new MultivariateTDistributionSettings(Settings.Means, Settings.CovarianceMatrix, 10));
+                        Settings = new MultivariateTSettingsSource(new MultivariateDistributionSettings(Settings.Means, Settings.CovarianceMatrix, new StudentGeneralizedDistributionSettings(10)));
                         break;
                     }
             }

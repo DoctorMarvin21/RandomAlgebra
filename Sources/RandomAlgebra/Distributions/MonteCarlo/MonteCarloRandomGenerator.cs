@@ -7,15 +7,15 @@ using RandomAlgebra.Distributions.Settings;
 
 namespace RandomAlgebra.Distributions
 {
-    internal class MultivariateGenerator
+    internal class MonteCarloRandomGenerator
     {
         private readonly int length = 0;
         private readonly int[] indexesUnivariate;
         private readonly int[] indexesMultivariate;
         private readonly UnivariateContinuousDistribution[] univariate;
-        private readonly MultivariateDistributionSettings[] multivariate;
+        private readonly MultivariateDistributionRandomSource[] multivariate;
 
-        public MultivariateGenerator(string[] orderedArguments, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions)
+        public MonteCarloRandomGenerator(string[] orderedArguments, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions)
         {
             length = orderedArguments.Length;
 
@@ -44,7 +44,7 @@ namespace RandomAlgebra.Distributions
             }
 
             univariate = univariateDistributions.Select(x => x.Value.GetUnivariateContinuousDistribution()).ToArray();
-            multivariate = multivariateDistributions.Select(x => x.Value).ToArray();
+            multivariate = multivariateDistributions.Select(x => new MultivariateDistributionRandomSource(x.Value)).ToArray();
 
             indexesUnivariate = GenerateIndexesUnivariate(orderedArguments, univariateDistributions);
             indexesMultivariate = GenerateIndexesMultivariate(orderedArguments, multivariateDistributions);
@@ -63,6 +63,7 @@ namespace RandomAlgebra.Distributions
         public double[] Generate(Random rnd)
         {
             double[] generated = new double[length];
+
             for (int i = 0; i < univariate.Length; i++)
             {
                 generated[indexesUnivariate[i]] = univariate[i].Generate(rnd);

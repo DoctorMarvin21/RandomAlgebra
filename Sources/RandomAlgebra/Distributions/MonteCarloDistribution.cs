@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Accord.Statistics.Distributions.Univariate;
 using RandomAlgebra.Distributions.Settings;
 using RandomAlgebra.DistributionsEvaluation;
 
@@ -155,16 +154,7 @@ namespace RandomAlgebra.Distributions
 
             BasicDistributionData data = new BasicDistributionData();
 
-            double[] random;
-
-            if (multivariateDistributions == null)
-            {
-                random = GenerateRandom(evaluator, univariateDistributions, samples);
-            }
-            else
-            {
-                random = GenerateRandom(evaluator, univariateDistributions, multivariateDistributions, samples);
-            }
+            double[] random = GenerateRandom(evaluator, univariateDistributions, multivariateDistributions, samples);
 
             Array.Sort(random);
 
@@ -180,53 +170,12 @@ namespace RandomAlgebra.Distributions
             return data;
         }
 
-        private static double[] GenerateRandom(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> randomSource, int samples)
-        {
-            double[] random = new double[samples];
-            var order = evaluator.Parameters;
-
-            int argsCount = order.Length;
-
-            UnivariateContinuousDistribution[] orderedDistributions = new UnivariateContinuousDistribution[argsCount];
-
-            ThreadLocal<double[]> argsLocal = new ThreadLocal<double[]>(() => new double[argsCount]);
-
-            for (int i = 0; i < argsCount; i++)
-            {
-                string arg = order[i];
-
-                if (randomSource.TryGetValue(arg, out DistributionSettings value))
-                {
-                    orderedDistributions[i] = value.GetUnivariateContinuousDistribution();
-                }
-                else
-                {
-                    throw new DistributionsArgumentException(DistributionsArgumentExceptionType.ParameterValueIsMissing, arg);
-                }
-            }
-
-            Parallel.For(0, samples, i =>
-            {
-                double[] args = argsLocal.Value;
-                Random rnd = Rnd.Value;
-
-                for (int j = 0; j < argsCount; j++)
-                {
-                    args[j] = orderedDistributions[j].Generate(rnd);
-                }
-
-                random[i] = evaluator.EvaluateCompiled(args);
-            });
-
-            return random;
-        }
-
         private static double[] GenerateRandom(DistributionsEvaluator evaluator, Dictionary<string, DistributionSettings> univariateDistributions, Dictionary<string[], MultivariateDistributionSettings> multivariateDistributions, int samples)
         {
             double[] random = new double[samples];
             var order = evaluator.Parameters;
 
-            MultivariateGenerator generator = new MultivariateGenerator(order, univariateDistributions, multivariateDistributions);
+            MonteCarloRandomGenerator generator = new MonteCarloRandomGenerator(order, univariateDistributions, multivariateDistributions ?? new Dictionary<string[], MultivariateDistributionSettings>());
 
             Parallel.For(0, samples, i =>
             {

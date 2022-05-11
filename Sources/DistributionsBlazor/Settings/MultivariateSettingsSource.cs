@@ -3,6 +3,7 @@ using RandomAlgebra.Distributions.Settings;
 
 namespace DistributionsBlazor
 {
+    // TODO: simplify this
     public abstract class MultivariateSettingsSource
     {
         private int dimension;
@@ -92,30 +93,30 @@ namespace DistributionsBlazor
 
     public class MultivariateNormalSettingsSource : MultivariateSettingsSource
     {
-        public MultivariateNormalSettingsSource(MultivariateNormalDistributionSettings settings)
+        public MultivariateNormalSettingsSource(MultivariateDistributionSettings settings)
             : base(settings)
         {
         }
 
         public override MultivariateDistributionSettings GetSettings()
         {
-            return new MultivariateNormalDistributionSettings(Means, CovarianceMatrix);
+            return new MultivariateDistributionSettings(Means, CovarianceMatrix, new NormalDistributionSettings());
         }
     }
 
     public class MultivariateTSettingsSource : MultivariateSettingsSource
     {
-        public MultivariateTSettingsSource(MultivariateTDistributionSettings settings)
+        public MultivariateTSettingsSource(MultivariateDistributionSettings settings)
             : base(settings)
         {
-            DegreesOfFreedom = settings.DegreesOfFreedom;
+            DegreesOfFreedom = ((StudentGeneralizedDistributionSettings)settings.BaseSettings).DegreesOfFreedom;
         }
 
         public double DegreesOfFreedom { get; set; }
 
         public override MultivariateDistributionSettings GetSettings()
         {
-            return new MultivariateTDistributionSettings(Means, CovarianceMatrix, DegreesOfFreedom);
+            return new MultivariateDistributionSettings(Means, CovarianceMatrix, new StudentGeneralizedDistributionSettings(DegreesOfFreedom));
         }
     }
 }

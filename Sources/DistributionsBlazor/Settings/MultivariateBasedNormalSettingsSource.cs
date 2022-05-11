@@ -51,7 +51,7 @@ namespace DistributionsBlazor
             settings.Coefficients = coefficients;
             MultivariateSettingsSource.Dimension = dimension;
 
-            settings.MultivariateNormalDistributionSettings = (MultivariateNormalDistributionSettings)MultivariateSettingsSource.GetSettings();
+            settings.MultivariateNormalDistributionSettings = MultivariateSettingsSource.GetSettings();
 
             // Canceling editing
             try
